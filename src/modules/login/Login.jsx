@@ -1,44 +1,45 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { loginUser, clearErrors } from './authReducer'
-import { Row, Col, Button } from 'react-bootstrap'
-import { withRouter } from 'react-router-dom'
-import { Campo } from '../../utils/Campo'
-import { CustomAlert } from '../../utils/CustomAlert'
-import { GoogleLogin } from 'react-google-login';
+import React from 'react';
+import { connect } from 'react-redux';
+import { loginWithGoogle, loginUser, clearErrors } from './authReducer';
+import { Row, Col } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import { CustomAlert } from '../../utils/CustomAlert';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 
-const responseGoogle = (response) => {
+const logout = (response) => {
   console.log(response);
-}
+};
 
 export class Login extends React.Component {
   constructor() {
-    super()
+    super();
+    this.responseGoogle = this.responseGoogle.bind(this);
+  }
+
+  responseGoogle(response) {
+    this.props.loginWithGoogle(response);
   }
 
   componentDidMount() {
-    this.props.clearErrors()
+    this.props.clearErrors();
   }
 
   getErroresRender() {
-    let render = []
+    let render = [];
     if (this.props.errorMessage) {
-      render.push(<CustomAlert key={'alert'} rowKey={'rowkey'} bsStyle="danger" message={this.props.errorMessage} />)
+      render.push(<CustomAlert key={'alert'} rowKey={'rowkey'} bsStyle="danger" message={this.props.errorMessage} />);
     }
-    return render
+    return render;
   }
 
   render() {
-    return (<form onSubmit={event => {
-      event.preventDefault() // Previene el submit default del form
-      this.props.login(event.target.usuario.value, event.target.password.value)
-    }}>
+    return (
       <Row>
         <br />
         <Col md={6} mdOffset={3}>
           <Row>
             <Col md={12}>
-              <h4>Completá tus datos para ingresar al sistema</h4>
+              <h4>Registrarse con google para ingresar al sistema</h4>
             </Col>
           </Row>
           {this.getErroresRender()}
@@ -59,33 +60,41 @@ export class Login extends React.Component {
           </Row> */}
           <Row>
             <GoogleLogin
-              clientId="636655126926-250fpte02kdkjrqmsf78k4nii7ofngmq.apps.googleusercontent.com"
+              //O9-Abf_SAvuo7XobCtpC3_K2
+              clientId="942857236809-n8qa3b9nlijciqlf41eeglnnubb3ukja.apps.googleusercontent.com"
               buttonText="Login"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
+              onSuccess={this.responseGoogle}
+              onFailure={this.responseGoogle}
               cookiePolicy={'single_host_origin'}
-            />
+            >
+              <span> Login with Google</span>
+            </GoogleLogin>
+            {/* <GoogleLogout
+              buttonText="Logout"
+              onLogoutSuccess={logout}
+            >
+            </GoogleLogout> */}
           </Row>
         </Col>
       </Row>
-    </form>)
+    );
   }
 }
 
 const mapDispatch = (dispatch) => ({
-  login: (email, password) => {
-    dispatch(loginUser(email, password))
+  loginWithGoogle: (email, password) => {
+    dispatch(loginWithGoogle(email, password));
   },
   clearErrors: () => {
-    dispatch(clearErrors())
+    dispatch(clearErrors());
   }
-})
+});
 
 const mapStateToProps = (state) => {
   return {
     errorMessage: state.authReducer.error.message,
     isAuthenticated: state.authReducer.isAuthenticated
-  }
-}
+  };
+};
 
-export default withRouter(connect(mapStateToProps, mapDispatch)(Login))
+export default withRouter(connect(mapStateToProps, mapDispatch)(Login));

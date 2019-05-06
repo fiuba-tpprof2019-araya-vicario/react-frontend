@@ -1,5 +1,5 @@
-import React from 'react'
-import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import React from 'react';
+import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 export class Campo extends React.Component {
   render() {
@@ -9,6 +9,6 @@ export class Campo extends React.Component {
         <FormControl key={this.props.controlKey} defaultValue={this.props.defaultValue} bsSize={this.props.size} type={this.props.type}
           readOnly={this.props.readOnly} disabled={this.props.disabled} />
       </FormGroup>
-    )
+    );
   }
 }

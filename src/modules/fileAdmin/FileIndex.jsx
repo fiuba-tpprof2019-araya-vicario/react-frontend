@@ -1,24 +1,24 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { getFiles } from './fileReducer'
-import { Row, Col, Button } from 'react-bootstrap'
-import { withRouter } from 'react-router-dom'
-import FileTable from './FileTable'
-import UploadFileModal from './modals/UploadFileModal'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { getFiles } from './fileReducer';
+import { Row, Col, Button } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import FileTable from './FileTable';
+import UploadFileModal from './modals/UploadFileModal';
 
 export class FileIndex extends React.Component {
   constructor() {
-    super()
+    super();
 
-    this.abrirUploadFileModal = this.abrirUploadFileModal.bind(this)
+    this.abrirUploadFileModal = this.abrirUploadFileModal.bind(this);
   }
 
   componentDidMount() {
-    this.props.getFiles()
+    this.props.getFiles();
   }
 
   abrirUploadFileModal() {
-    this.UploadFileModal.wrappedInstance.abrirModal()
+    this.UploadFileModal.wrappedInstance.abrirModal();
   }
 
   render() {
@@ -37,16 +37,16 @@ export class FileIndex extends React.Component {
             <FileTable />
           </Col>
         </Row>
-        <UploadFileModal ref={(modal) => { this.UploadFileModal = modal }} />
+        <UploadFileModal ref={(modal) => { this.UploadFileModal = modal; }} />
       </Fragment>
-    )
+    );
   }
 }
 
 const mapDispatch = (dispatch) => ({
   getFiles: () => {
-    dispatch(getFiles())
+    dispatch(getFiles());
   }
-})
+});
 
-export default withRouter(connect(null, mapDispatch)(FileIndex))
+export default withRouter(connect(null, mapDispatch)(FileIndex));

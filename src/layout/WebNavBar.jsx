@@ -1,9 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
-import { Navbar, Nav, NavItem, MenuItem, NavDropdown } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
-import { logout } from '../modules/login/authReducer'
+import React from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { Navbar, Nav, NavItem, MenuItem, NavDropdown } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import { logout } from '../modules/login/authReducer';
 
 export class WebNavBar extends React.Component {
 
@@ -42,7 +42,7 @@ export class WebNavBar extends React.Component {
             </div>}
         </Navbar.Collapse>
       </Navbar>
-    )
+    );
   }
 }
 
@@ -50,16 +50,16 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.authReducer.isAuthenticated,
     email: state.authReducer.user.email
-  }
-}
+  };
+};
 
 const mapDispatch = (dispatch) => ({
   logout: () => {
-    dispatch(logout())
+    dispatch(logout());
   },
   home: () => {
-    dispatch(push('/'))
+    dispatch(push('/'));
   }
-})
+});
 
-export default connect(mapStateToProps, mapDispatch)(WebNavBar)
+export default connect(mapStateToProps, mapDispatch)(WebNavBar);
