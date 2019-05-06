@@ -1,8 +1,8 @@
-import React from 'react'
-import 'react-vis/dist/style.css'
-import moment from 'moment'
-import { connect } from 'react-redux'
-import { Label, Row, Col, Alert } from 'react-bootstrap'
+import React from 'react';
+import 'react-vis/dist/style.css';
+import moment from 'moment';
+import { connect } from 'react-redux';
+import { Label, Row, Col, Alert } from 'react-bootstrap';
 
 import {
   FlexibleWidthXYPlot,
@@ -12,23 +12,23 @@ import {
   VerticalGridLines,
   LineSeries,
   Crosshair
-} from 'react-vis'
+} from 'react-vis';
 
 export class RequestsGraph extends React.Component {
   constructor() {
-    super()
-    this.state = { crosshairValues: [] }
+    super();
+    this.state = { crosshairValues: [] };
 
-    this._onMouseLeave = this._onMouseLeave.bind(this)
-    this._onNearestX = this._onNearestX.bind(this)
+    this._onMouseLeave = this._onMouseLeave.bind(this);
+    this._onNearestX = this._onNearestX.bind(this);
   }
 
   _onMouseLeave() {
-    this.setState({ crosshairValues: [] })
+    this.setState({ crosshairValues: [] });
   }
 
   _onNearestX(value) {
-    this.setState({ crosshairValues: [{ x: value.x, y: value.y }] })
+    this.setState({ crosshairValues: [{ x: value.x, y: value.y }] });
   }
 
   render() {
@@ -37,7 +37,7 @@ export class RequestsGraph extends React.Component {
         <Col lg={12}>
           <Alert bsStyle={'danger'}><p>{'El app server especificado no se encuentra accesible en este momento'}</p></Alert>
         </Col>
-      </Row>)
+      </Row>);
     } else {
       return ( 
         <FlexibleWidthXYPlot
@@ -63,14 +63,14 @@ export class RequestsGraph extends React.Component {
             </div>
           </Crosshair >
         </FlexibleWidthXYPlot >
-      )
+      );
     }
   }
 }
 
 const mapStateToProps = (state) => ({
   data: state.appServerReducer.activeMetricsData
-})
+});
 
 
-export default connect(mapStateToProps, null)(RequestsGraph)
+export default connect(mapStateToProps, null)(RequestsGraph);

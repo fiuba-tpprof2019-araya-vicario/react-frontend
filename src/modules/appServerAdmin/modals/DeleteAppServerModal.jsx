@@ -1,33 +1,33 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Row, Col, Button, Modal } from 'react-bootstrap'
-import { deleteAppServer } from '../appServerReducer'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Row, Col, Button, Modal } from 'react-bootstrap';
+import { deleteAppServer } from '../appServerReducer';
 
 export class DeleteAppServerModal extends React.Component {
 
   constructor() {
-    super()
+    super();
     this.state = {
       show: false,
       appServerId: null,
       appServerName: null
-    }
-    this.abrirModal = this.abrirModal.bind(this)
-    this.cerrarModal = this.cerrarModal.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    };
+    this.abrirModal = this.abrirModal.bind(this);
+    this.cerrarModal = this.cerrarModal.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   abrirModal(appServerId, appServerName) {
-    this.setState({ show: true, appServerId: appServerId, appServerName: appServerName })
+    this.setState({ show: true, appServerId: appServerId, appServerName: appServerName });
   }
 
   cerrarModal() {
-    this.setState({ show: false, appServerId: null, appServerName: null })
+    this.setState({ show: false, appServerId: null, appServerName: null });
   }
 
   onSubmit() {
-    this.props.deleteAppServer(this.state.appServerId)
-    this.cerrarModal()
+    this.props.deleteAppServer(this.state.appServerId);
+    this.cerrarModal();
   }
 
 
@@ -52,14 +52,14 @@ export class DeleteAppServerModal extends React.Component {
           <Button key={'deleteButton'} bsSize={'small'} bsStyle={'danger'} onClick={this.onSubmit}>Eliminar</Button>
         </Modal.Footer>
       </Modal>
-    )
+    );
   }
 }
 
 const mapDispatch = (dispatch) => ({
   deleteAppServer: (id) => {
-    dispatch(deleteAppServer(id))
+    dispatch(deleteAppServer(id));
   }
-})
+});
 
-export default connect(null, mapDispatch, null, { withRef: true })(DeleteAppServerModal)
+export default connect(null, mapDispatch, null, { withRef: true })(DeleteAppServerModal);

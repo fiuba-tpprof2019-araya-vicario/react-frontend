@@ -1,24 +1,24 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { getAppServers } from './appServerReducer'
-import { Row, Col, Button } from 'react-bootstrap'
-import { withRouter } from 'react-router-dom'
-import AppServerTable from './AppServerTable'
-import CrearAppServerModal from './modals/CrearAppServerModal'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { getAppServers } from './appServerReducer';
+import { Row, Col, Button } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import AppServerTable from './AppServerTable';
+import CrearAppServerModal from './modals/CrearAppServerModal';
 
 export class AppServerIndex extends React.Component {
   constructor() {
-    super()
+    super();
 
-    this.abrirCrearAppServerModal = this.abrirCrearAppServerModal.bind(this)
+    this.abrirCrearAppServerModal = this.abrirCrearAppServerModal.bind(this);
   }
 
   componentDidMount() {
-    this.props.getAppServers()
+    this.props.getAppServers();
   }
 
   abrirCrearAppServerModal() {
-    this.crearAppServerModal.wrappedInstance.abrirModal()
+    this.crearAppServerModal.wrappedInstance.abrirModal();
   }
 
   render() {
@@ -37,16 +37,16 @@ export class AppServerIndex extends React.Component {
             <AppServerTable />
           </Col>
         </Row>
-        <CrearAppServerModal ref={(modal) => { this.crearAppServerModal = modal }} />
+        <CrearAppServerModal ref={(modal) => { this.crearAppServerModal = modal; }} />
       </Fragment>
-    )
+    );
   }
 }
 
 const mapDispatch = (dispatch) => ({
   getAppServers: (token) => {
-    dispatch(getAppServers(token))
+    dispatch(getAppServers(token));
   }
-})
+});
 
-export default withRouter(connect(null, mapDispatch)(AppServerIndex))
+export default withRouter(connect(null, mapDispatch)(AppServerIndex));

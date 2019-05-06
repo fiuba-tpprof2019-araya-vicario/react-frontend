@@ -1,33 +1,33 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Row, Col, Button, Modal } from 'react-bootstrap'
-import { deleteFile } from '../fileReducer'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Row, Col, Button, Modal } from 'react-bootstrap';
+import { deleteFile } from '../fileReducer';
 
 export class DeleteFileModal extends React.Component {
 
   constructor() {
-    super()
+    super();
     this.state = {
       show: false,
       fileId: null,
       fileName: null
-    }
-    this.abrirModal = this.abrirModal.bind(this)
-    this.cerrarModal = this.cerrarModal.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    };
+    this.abrirModal = this.abrirModal.bind(this);
+    this.cerrarModal = this.cerrarModal.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   abrirModal(fileId, fileName) {
-    this.setState({ show: true, fileId: fileId, fileName: fileName })
+    this.setState({ show: true, fileId: fileId, fileName: fileName });
   }
 
   cerrarModal() {
-    this.setState({ show: false, fileId: null, fileName: null })
+    this.setState({ show: false, fileId: null, fileName: null });
   }
 
   onSubmit() {
-    this.props.deleteFile(this.state.fileId)
-    this.cerrarModal()
+    this.props.deleteFile(this.state.fileId);
+    this.cerrarModal();
   }
 
 
@@ -52,14 +52,14 @@ export class DeleteFileModal extends React.Component {
           <Button key={'deleteButton'} bsSize={'small'} bsStyle={'danger'} onClick={this.onSubmit}>Eliminar</Button>
         </Modal.Footer>
       </Modal>
-    )
+    );
   }
 }
 
 const mapDispatch = (dispatch) => ({
   deleteFile: (id) => {
-    dispatch(deleteFile(id))
+    dispatch(deleteFile(id));
   }
-})
+});
 
-export default connect(null, mapDispatch, null, { withRef: true })(DeleteFileModal)
+export default connect(null, mapDispatch, null, { withRef: true })(DeleteFileModal);

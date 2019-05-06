@@ -1,5 +1,5 @@
-import React from 'react'
-import { Alert, Col, Row } from 'react-bootstrap'
+import React from 'react';
+import { Alert, Col, Row } from 'react-bootstrap';
 
 export class CustomAlert extends React.Component {
   render() {
@@ -9,6 +9,6 @@ export class CustomAlert extends React.Component {
           <Alert onDismiss={this.props.onDismiss} bsStyle={this.props.bsStyle}><p>{this.props.message}</p></Alert>
         </Col>
       </Row>
-    )
+    );
   }
 }

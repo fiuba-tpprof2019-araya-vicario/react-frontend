@@ -38,7 +38,7 @@
             "single"
         ],
         "semi": [
-            "warn",
+            1,
             "always"
         ],
         "react/jsx-uses-react": "warn",
