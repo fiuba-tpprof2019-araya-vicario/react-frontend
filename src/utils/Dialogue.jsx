@@ -1,22 +1,22 @@
-import React from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import React from 'react';
+import { Modal, Button } from 'react-bootstrap';
 
 
-export class Dialogo extends React.Component {
+export class Dialogue extends React.Component {
 
   constructor(props) {
-    super()
-    this.state = { show: props.show }
-    this.showModal = this.showModal.bind(this)
-    this.hideModal = this.hideModal.bind(this)
+    super();
+    this.state = { show: props.show };
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
 
   showModal() {
-    this.setState({ show: true })
+    this.setState({ show: true });
   }
 
   hideModal() {
-    this.setState({ show: false })
+    this.setState({ show: false });
   }
 
   render() {
@@ -37,6 +37,6 @@ export class Dialogo extends React.Component {
           <Button bsSize={'small'} onClick={this.hideModal}>Cancelar</Button>&nbsp;{this.props.buttons}
         </Modal.Footer>
       </Modal>
-    )
+    );
   }
 }

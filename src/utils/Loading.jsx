@@ -1,10 +1,10 @@
-import React from 'react'
-import { Row, Col } from 'react-bootstrap'
+import React from 'react';
+import { Row, Col } from 'react-bootstrap';
 
-export class Cargando extends React.Component {
+export class Loading extends React.Component {
   render() {
     return (
-      <Row className="cargando">
+      <Row className="loading">
         <Col lg={12} className="text-center">
           <h3>
             <i className="fa fa-spinner fa-lg fa-spin">
@@ -13,6 +13,6 @@ export class Cargando extends React.Component {
             Cargando
           </h3>
         </Col>
-      </Row>)
+      </Row>);
   }
 }

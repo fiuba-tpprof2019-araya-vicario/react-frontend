@@ -1,28 +1,28 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { getAppServerDetail } from './appServerReducer'
-import { Row, Col, Label, Button, Glyphicon } from 'react-bootstrap'
-import { withRouter } from 'react-router-dom'
-import RequestsGraph from './RequestsGraph'
-import { Cargando } from '../../utils/Cargando'
-import history from '../../redux/history'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { getAppServerDetail } from './appServerReducer';
+import { Row, Col, Label, Button, Glyphicon } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import RequestsGraph from './RequestsGraph';
+import { Loading } from '../../utils/Loading';
+import history from '../../redux/history';
 
 export class AppServerIndex extends React.Component {
   constructor() {
-    super()
-    this.recargar = this.recargar.bind(this)
+    super();
+    this.recargar = this.recargar.bind(this);
   }
 
   componentDidMount() {
-    this.props.getAppServerDetail(this.props.match.params.id)
+    this.props.getAppServerDetail(this.props.match.params.id);
   }
 
   abrirCrearAppServerModal() {
-    this.crearAppServerModal.wrappedInstance.abrirModal()
+    this.crearAppServerModal.wrappedInstance.abrirModal();
   }
 
   recargar() {
-    this.props.getAppServerDetail(this.props.match.params.id)
+    this.props.getAppServerDetail(this.props.match.params.id);
   }
 
   render() {
@@ -57,9 +57,9 @@ export class AppServerIndex extends React.Component {
             </Col>
           </Row>
         </Fragment>
-      )
+      );
     } else {
-      return <Cargando />
+      return <Loading />;
     }
   }
 }
@@ -67,12 +67,12 @@ export class AppServerIndex extends React.Component {
 const mapStateToProps = (state) => ({
   active: state.appServerReducer.active,
   data: state.appServerReducer.activeMetricsData
-})
+});
 
 const mapDispatch = (dispatch) => ({
   getAppServerDetail: (id) => {
-    dispatch(getAppServerDetail(id))
+    dispatch(getAppServerDetail(id));
   }
-})
+});
 
-export default withRouter(connect(mapStateToProps, mapDispatch)(AppServerIndex))
+export default withRouter(connect(mapStateToProps, mapDispatch)(AppServerIndex));

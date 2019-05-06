@@ -45,10 +45,10 @@ export class Login extends React.Component {
           {this.getErroresRender()}
           {/* <Row>
             <Col lg={12}>
-              <Campo controlKey="username" controlId="usuario" size="small" type="text" label="Usuario" />
+              <Field controlKey="username" controlId="usuario" size="small" type="text" label="Usuario" />
             </Col>
             <Col lg={12}>
-              <Campo controlKey="userpass" controlId="password" size="small" type="password" label="Contraseña" />
+              <Field controlKey="userpass" controlId="password" size="small" type="password" label="Contraseña" />
             </Col>
           </Row>
           <Row>
