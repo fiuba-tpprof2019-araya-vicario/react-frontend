@@ -2,7 +2,7 @@
 import { BASE } from './api';
 
 // Api routes phrases
-const LOGIN = 'token';
+const LOGIN = 'auth';
 const APPSERVERS = 'servers';
 const FILES = 'files';
 
