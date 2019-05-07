@@ -37,12 +37,12 @@ export class Login extends React.Component {
       <Row>
         <br />
         <Col md={6} mdOffset={3}>
+          {this.getErroresRender()}
           <Row>
             <Col md={12}>
               <h4>Registrarse con google para ingresar al sistema</h4>
             </Col>
           </Row>
-          {this.getErroresRender()}
           {/* <Row>
             <Col lg={12}>
               <Field controlKey="username" controlId="usuario" size="small" type="text" label="Usuario" />
@@ -59,21 +59,26 @@ export class Login extends React.Component {
             </Col>
           </Row> */}
           <Row>
-            <GoogleLogin
-              //O9-Abf_SAvuo7XobCtpC3_K2
-              clientId="942857236809-n8qa3b9nlijciqlf41eeglnnubb3ukja.apps.googleusercontent.com"
-              buttonText="Login"
-              onSuccess={this.responseGoogle}
-              onFailure={this.responseGoogle}
-              cookiePolicy={'single_host_origin'}
-            >
-              <span> Login with Google</span>
-            </GoogleLogin>
-            {/* <GoogleLogout
+            <Col md={12}>
+              <GoogleLogin
+                //O9-Abf_SAvuo7XobCtpC3_K2
+                clientId="942857236809-n8qa3b9nlijciqlf41eeglnnubb3ukja.apps.googleusercontent.com"
+                buttonText='Login'
+                onSuccess={this.responseGoogle}
+                onFailure={this.responseGoogle}
+                autoLoad={false}
+                uxMode='popup'
+                hostedDomain='fi.uba.ar'
+                cookiePolicy={'single_host_origin'}
+              >
+                <span> Login with Google</span>
+              </GoogleLogin>
+              {/* <GoogleLogout
               buttonText="Logout"
               onLogoutSuccess={logout}
             >
             </GoogleLogout> */}
+            </Col>
           </Row>
         </Col>
       </Row>
