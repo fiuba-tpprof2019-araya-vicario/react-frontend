@@ -5,6 +5,9 @@ body {
 }
 
 .navbar {
+  background-color: #00AEE6;
+  border-color: #0196DC;
+  color: #ededed;
   -webkit-border-radius: 0 !important;
   -moz-border-radius: 0 !important;
   border-radius: 0 !important;

@@ -1,6 +1,6 @@
 {
-  "short_name": "Backoffice",
-  "name": "Shared Server Backoffice",
+  "short_name": "BS",
+  "name": "Brain Search",
   "icons": [
     {
       "src": "favicon.ico",

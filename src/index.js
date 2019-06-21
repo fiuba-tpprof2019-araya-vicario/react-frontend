@@ -9,10 +9,10 @@ import store from './redux/store';
 import 'jquery';
 
 /* Css */
-import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-select/dist/react-select.css';
 import 'font-awesome/css/font-awesome.css';
+import './index.css';
 
 ReactDOM.render(
   <Provider store={store} >

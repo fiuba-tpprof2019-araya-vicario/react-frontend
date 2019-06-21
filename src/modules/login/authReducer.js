@@ -44,11 +44,15 @@ export const loginUser = (username, password) => dispatch => {
 };
 
 export const loginWithGoogle = (response) => dispatch => {
-  let body = { 'id_token': response.Zi.id_token, 'email': response.profileObj.email, 'name': response.profileObj.email };
+  let body = { 
+    id_token: response.Zi.id_token, 
+    email: response.profileObj.email,
+    name: response.profileObj.name 
+  };
   axios.post(api.login, body)
     .then(res => res.data)
-    .then(data => {
-      dispatch(login({ token: data.token, user: { email: response.profileObj.email, name: response.profileObj.email} }));
+    .then(({data}) => {
+      dispatch(login({ token: data.token, user: { email: body.email, name: body.name} }));
       dispatch(push('/'));
     })
     .catch(err => {

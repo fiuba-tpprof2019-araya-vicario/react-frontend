@@ -1,14 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loginWithGoogle, loginUser, clearErrors } from './authReducer';
+import { loginWithGoogle, clearErrors } from './authReducer';
 import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { CustomAlert } from '../../utils/CustomAlert';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
-
-const logout = (response) => {
-  console.log(response);
-};
+import { GoogleLogin } from 'react-google-login';
 
 export class Login extends React.Component {
   constructor() {
@@ -87,8 +83,8 @@ export class Login extends React.Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  loginWithGoogle: (email, password) => {
-    dispatch(loginWithGoogle(email, password));
+  loginWithGoogle: (response) => {
+    dispatch(loginWithGoogle(response));
   },
   clearErrors: () => {
     dispatch(clearErrors());

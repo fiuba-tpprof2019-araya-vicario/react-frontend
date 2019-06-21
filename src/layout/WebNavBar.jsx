@@ -32,7 +32,7 @@ export class WebNavBar extends React.Component {
                 </LinkContainer>
               </Nav>
               <Nav pullRight>
-                <NavDropdown title={this.props.email} id="logged-user-dropdown">
+                <NavDropdown title={this.props.name} id="logged-user-dropdown">
                   <MenuItem onClick={this.props.logout}>
                     <i className="fa fa-sign-out"></i>&nbsp;
                     Cerrar sesión
@@ -49,7 +49,7 @@ export class WebNavBar extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.authReducer.isAuthenticated,
-    email: state.authReducer.user.email
+    name: state.authReducer.user.name
   };
 };
 
