@@ -12,7 +12,7 @@ export class WebNavBar extends React.Component {
       <Navbar fluid inverse>
         <Navbar.Header>
           <Navbar.Brand>
-            <a onClick={this.props.home}>FIUBA</a>
+            <a onClick={this.props.home}><span class="glyphicon glyphicon-home"></span> FIUBA</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -40,6 +40,15 @@ export class WebNavBar extends React.Component {
                 </NavDropdown>
               </Nav>
             </div>}
+            {!this.props.isAuthenticated &&
+              <div id='navs'>
+              {/* <Nav pullRight>
+                <MenuItem onClick="http://www.fi.uba.ar/">
+                  <i className="fa fa-sign-out"></i>&nbsp;
+                  Página Oficial
+                </MenuItem>
+              </Nav> */}
+            </div> }
         </Navbar.Collapse>
       </Navbar>
     );

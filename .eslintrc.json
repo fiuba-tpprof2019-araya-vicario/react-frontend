@@ -44,6 +44,10 @@
             1,
             "always"
         ],
+        "max-lens": [
+            2,
+            150
+        ],
         "react/jsx-uses-react": "warn",
         "react/jsx-uses-vars": "warn"
     },
