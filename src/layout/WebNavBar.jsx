@@ -40,15 +40,15 @@ export class WebNavBar extends React.Component {
                 </NavDropdown>
               </Nav>
             </div>}
-            {!this.props.isAuthenticated &&
+          {/* {!this.props.isAuthenticated &&
               <div id='navs'>
-              {/* <Nav pullRight>
+              <Nav pullRight>
                 <MenuItem onClick="http://www.fi.uba.ar/">
                   <i className="fa fa-sign-out"></i>&nbsp;
                   Página Oficial
                 </MenuItem>
-              </Nav> */}
-            </div> }
+              </Nav>
+            </div> } */}
         </Navbar.Collapse>
       </Navbar>
     );
