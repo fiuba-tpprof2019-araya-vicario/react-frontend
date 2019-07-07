@@ -3,3 +3,37 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+/* Starts - Fiuba CSS */
+
+.navbar {
+  background-color: #00AEE6;
+  border-color: #0196DC;
+  color: #ededed;
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
+  margin-bottom: 0px;
+}
+
+.navbar-inverse .navbar-nav > .open > a, 
+.navbar-inverse .navbar-nav > .open > a:hover, 
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background-color: #0196DC;
+}
+
+.navbar-inverse .navbar-brand {
+  color: #ededed;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #ededed; 
+}
+
+/* Ends - Fiuba CSS */
+
+.loading {
+  margin: auto;
+  width: 100%;
+  padding: 100px;
+}
