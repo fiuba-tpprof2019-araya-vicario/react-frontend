@@ -4,15 +4,15 @@ import { routerReducer } from 'react-router-redux';
 
 /* Import Other Reducers */
 import authReducer from '../modules/login/authReducer';
-import appServerReducer from '../modules/appServerAdmin/appServerReducer';
+import contactReducer from '../modules/contact/contactReducer';
 import filesReducer from '../modules/fileAdmin/fileReducer';
 
 
 /* Combine & Export Reducers to Store */
 const appReducer = combineReducers({
-  authReducer: authReducer,
-  appServerReducer: appServerReducer,
-  filesReducer: filesReducer,
+  authReducer,
+  contactReducer,
+  filesReducer,
   routerReducer
 });
 
@@ -28,7 +28,5 @@ const rootReducer = (state, action) => {
   }
   return appReducer(state, action);
 };
-
-
 
 export default rootReducer;

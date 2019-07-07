@@ -16,6 +16,25 @@ body {
   margin-bottom: 0px;
 }
 
+.help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #a94442;
+}
+
+.linkNavbar {
+  color: #ededed;
+  text-align: -webkit-match-parent;
+  text-decoration: none;
+  line-height: 20px;
+  position: relative;
+  display: block;
+  padding: 15px;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
 .navbar-inverse .navbar-nav > .open > a, 
 .navbar-inverse .navbar-nav > .open > a:hover, 
 .navbar-inverse .navbar-nav > .open > a:focus {

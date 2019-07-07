@@ -1,8 +1,8 @@
 import React from 'react';
-import { Row, Col, Image } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import Center from 'react-center';
-import FittedImage from 'react-fitted-image'
-import imagenPortada from "../images/imagen_portada.png"
+import FittedImage from 'react-fitted-image';
+import imagenPortada from '../images/imagen_portada.png';
 
 export const Home = () => {
   return (

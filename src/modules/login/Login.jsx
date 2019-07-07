@@ -57,7 +57,6 @@ export class Login extends React.Component {
           <Row>
             <Col md={12}>
               <GoogleLogin
-                //O9-Abf_SAvuo7XobCtpC3_K2
                 clientId="942857236809-n8qa3b9nlijciqlf41eeglnnubb3ukja.apps.googleusercontent.com"
                 buttonText='Login'
                 onSuccess={this.responseGoogle}
