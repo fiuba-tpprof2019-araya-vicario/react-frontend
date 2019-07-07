@@ -22,8 +22,8 @@ export class ContactIndex extends React.Component {
         <Row>
           <Col md={4} lg={4}></Col>
           <Col md={4} lg={4}>
-            <Title title='Contacto'/>
-            <ContactForm upload={this.uploadForm}/>
+            <Title title='Contacto' subtitle='Ponerse en contacto con la FIUBA'/>
+            <ContactForm uploadForm={this.uploadForm}/>
           </Col>
           <Col md={4} lg={4}></Col>
         </Row>

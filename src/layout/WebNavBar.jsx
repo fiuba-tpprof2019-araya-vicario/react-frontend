@@ -18,11 +18,6 @@ export class WebNavBar extends React.Component {
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav>
-            <LinkContainer to={'/contact'}>
-              <NavItem eventKey={3}>Contacto</NavItem>
-            </LinkContainer>
-          </Nav>
           {this.props.isAuthenticated && (
             <div id="navs">
               <Nav>
@@ -36,19 +31,26 @@ export class WebNavBar extends React.Component {
               <Nav pullRight>
                 <NavDropdown title={this.props.name} id="logged-user-dropdown">
                   <MenuItem onClick={this.props.logout}>
-                    <i class="fa fa-sign-out" />
+                    <i className="fa fa-sign-out" />
                     &nbsp; Cerrar sesión
                   </MenuItem>
                 </NavDropdown>
               </Nav>
             </div>
           )}
-          <Nav pullRight>
-            <a className='linkNavbar' href='http://www.fi.uba.ar/'>
-              <i className="fa fa-sign-out"/>
-              &nbsp; Página oficial FIUBA
-            </a>   
+          <Nav>
+            <LinkContainer to={'/contact'}>
+              <NavItem eventKey={3}>Contacto</NavItem>
+            </LinkContainer>
           </Nav>
+          {!this.props.isAuthenticated && (
+            <Nav pullRight>
+              <NavItem eventKey={10} href='http://www.fi.uba.ar/'>
+                Página oficial FIUBA&nbsp;
+                <i className="fa fa-arrow-circle-right"/>
+              </NavItem>
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Navbar>
     );

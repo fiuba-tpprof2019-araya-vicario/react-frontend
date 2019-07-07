@@ -5,10 +5,12 @@ import { BASE } from './api';
 const LOGIN = 'auth';
 const APPSERVERS = 'servers';
 const FILES = 'files';
+const CONTACT = 'contact';
 
 export const api = {
   base: BASE,
   login: BASE + LOGIN,
+  contact: BASE + CONTACT,
   appServers: BASE + APPSERVERS,
   files: BASE + FILES,
   appServer: (id) => {
@@ -29,10 +31,6 @@ export const getConfig = () => ({
 
 export const getNullConfig = () => ({
   headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': '*',
-    'Access-Control-Allow-Methods': '*',
   }
 });
 

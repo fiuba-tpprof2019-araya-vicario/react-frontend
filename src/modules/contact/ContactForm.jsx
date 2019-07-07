@@ -72,19 +72,17 @@ export default class ContactForm extends React.Component {
 
   onSubmit() {
     let email = ReactDOM.findDOMNode(this.emailInput).value;
-    let nombre = ReactDOM.findDOMNode(this.nameInput).value;
+    let name = ReactDOM.findDOMNode(this.nameInput).value;
     let description = ReactDOM.findDOMNode(this.descriptionInput).value;
-    if (this.validateForm(email, nombre, description)) {
-      this.props.uploadForm(email, nombre, description);
+    if (this.validateForm(email, name, description)) {
+      this.props.uploadForm({email, name, description});
+      this.resetForm();
     }
   }
 
   render() {
     return (
       <React.Fragment>
-        <Row>
-          <h4 id="contained-modal-title-lg">Ponerse en contacto con la FIUBA</h4>
-        </Row>
         <Row>
           <Row key={'uploadFormRow2'}>
             <Col md={12} lg={12}>

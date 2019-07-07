@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
-
+import _ from 'lodash';
 import { Home } from '../layout/Home';
 import Login from '../modules/login/Login';
 import WebNavBar from '../layout/WebNavBar';
@@ -13,6 +13,7 @@ import AppServerDetail from '../modules/appServerAdmin/AppServerDetail';
 import FileIndex from '../modules/fileAdmin/FileIndex';
 import { persistor } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { CustomAlert } from '../utils/CustomAlert';
 import './App.css';
 import { Loading } from '../utils/Loading';
 
@@ -23,10 +24,23 @@ class App extends React.Component {
     this.state = { theme: 'Light' };
   }
 
+  alertRender() {
+    let render = [<br/>];
+    const errorMessage = this.props.errorMessages[0]
+    const successMessage = this.props.successMessages[0]
+    if (errorMessage) {
+      render.push(<CustomAlert key={'alert'} rowKey={'rowkey'} bsStyle="danger" message={errorMessage} />);
+    } else if (successMessage) {
+      render.push(<CustomAlert key={'success'} rowKey={'rowkey'} bsStyle="success" message={successMessage} />);
+    }
+    return render;
+  }
+
   render() {
     return (
       <div>
         <WebNavBar />
+        {this.alertRender()}
         <PersistGate loading={<Loading />} persistor={persistor}>
           <Grid fluid >
             <Switch>
@@ -44,8 +58,12 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = () => {
+const mapStateToProps = (state) => {
   return {
+    errorMessages: _.filter(state, function(reducer) { return reducer && reducer.errorMessage; })
+      .map((reducer)=>reducer && reducer.errorMessage),
+    successMessages: _.filter(state, function(reducer) { return reducer && reducer.successMessage; })
+      .map((reducer)=>reducer && reducer.successMessage)
   };
 };
 
