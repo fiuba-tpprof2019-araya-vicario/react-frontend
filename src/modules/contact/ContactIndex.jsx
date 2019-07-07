@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { upload } from './contactReducer';
+import { upload, clearAlert } from './contactReducer';
 import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import ContactForm from './ContactForm';
@@ -10,6 +10,10 @@ export class ContactIndex extends React.Component {
   constructor() {
     super();
     this.uploadForm = this.uploadForm.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.clearAlert();
   }
 
   uploadForm(form) {
@@ -35,6 +39,9 @@ export class ContactIndex extends React.Component {
 const mapDispatch = (dispatch) => ({
   upload: (form) => {
     dispatch(upload(form));
+  },
+  clearAlert: () => {
+    dispatch(clearAlert());
   }
 });
 

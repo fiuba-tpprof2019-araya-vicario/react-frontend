@@ -1,13 +1,17 @@
 import { getNullConfig, api } from '../../api/apiInterfaceProvider';
 import axios from 'axios';
 
+const CLEAR_ALERT = 'CLEAR_ALERT';
 const UPLOAD_FORM = 'UPLOAD_FORM';
 const QUERY_ERROR = 'QUERY_ERROR';
 const INTERNAL_ERROR = 'INTERNAL_ERROR';
 const initialState = {
-  result: [],
-  alert: {},
+  alert: null,
 };
+
+export const clearAlert = () => ({
+  type: CLEAR_ALERT
+});
 
 export const queryError = err => ({
   type: QUERY_ERROR, err
@@ -44,8 +48,14 @@ export default (state = initialState, action) => {
   case UPLOAD_FORM:
     return {
       ...state,
-      successMessage: 'El requerimiento se ha cargado correctamente. Espera a que personal de FIUBA se contacte con usted',
+      alert: {
+        message: 'El requerimiento se ha cargado correctamente. Espera a que personal de FIUBA se contacte con usted',
+        style: 'success',
+        onDismiss: clearAlert
+      }
     };
+  case CLEAR_ALERT:
+    return { ...state, alert: null };
   default:
     return state;
   }

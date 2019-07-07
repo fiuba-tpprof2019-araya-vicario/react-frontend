@@ -75,7 +75,7 @@ export default (state = initialState, action) => {
   case LOGIN_ERROR:
     return { ...state, user: {}, error: { message: 'Los datos son incorrectos. Verificalos y volvé a intentar.' }, isAuthenticated: false };
   case CLEAR_ERRORS:
-    return { ...state, error: {} };
+    return { ...state, error: {}, alert: null };
   default:
     return state;
   }

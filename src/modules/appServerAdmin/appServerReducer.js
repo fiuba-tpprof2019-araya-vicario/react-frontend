@@ -12,7 +12,7 @@ const SET_UNACTIVE_METRICS = 'SET_UNACTIVE_METRICS';
 
 const initialState = {
   appServers: [],
-  alert: {},
+  alert: null,
   active: null,
   activeMetricsData: []
 };

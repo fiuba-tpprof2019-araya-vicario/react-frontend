@@ -6,7 +6,7 @@ const QUERY_ERROR = 'QUERY_ERROR';
 const INTERNAL_ERROR = 'INTERNAL_ERROR';
 const initialState = {
   result: [],
-  alert: {},
+  alert: null,
 };
 
 export const queryError = err => ({
@@ -81,7 +81,7 @@ export default (state = initialState, action) => {
     return {
       ...state,
       result: fetchFilesTable(action.data.Files),
-      alert: {},
+      alert: null,
     };
   default:
     return state;

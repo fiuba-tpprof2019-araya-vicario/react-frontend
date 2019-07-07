@@ -25,14 +25,17 @@ class App extends React.Component {
   }
 
   alertRender() {
-    let render = [<br/>];
-    const errorMessage = this.props.errorMessages[0]
-    const successMessage = this.props.successMessages[0]
-    if (errorMessage) {
-      render.push(<CustomAlert key={'alert'} rowKey={'rowkey'} bsStyle="danger" message={errorMessage} />);
-    } else if (successMessage) {
-      render.push(<CustomAlert key={'success'} rowKey={'rowkey'} bsStyle="success" message={successMessage} />);
-    }
+    let render = [<div key={'margin'}><br/></div>];
+    const alert = this.props.alerts[0];
+    if (alert) {
+      render.push(<CustomAlert key={'alert'}
+        rowKey={'centralAlert'}
+        bsStyle={alert.style}
+        message={alert.message}
+        onDismiss={() => this.props.execute(alert.onDismiss)}
+      />);
+    } 
+
     return render;
   }
 
@@ -60,11 +63,15 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    errorMessages: _.filter(state, function(reducer) { return reducer && reducer.errorMessage; })
-      .map((reducer)=>reducer && reducer.errorMessage),
-    successMessages: _.filter(state, function(reducer) { return reducer && reducer.successMessage; })
-      .map((reducer)=>reducer && reducer.successMessage)
+    alerts: _.filter(state, function(reducer) { return reducer && reducer.alert; })
+      .map((reducer)=>reducer && reducer.alert),
   };
 };
 
-export default withRouter(connect(mapStateToProps)(App)); 
+const mapDispatch = (dispatch) => ({
+  execute: (f) => {
+    dispatch(f());
+  }
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatch)(App)); 
