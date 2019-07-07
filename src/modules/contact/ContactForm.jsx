@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Row, Col, Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import Center from 'react-center';
-import { validEmail } from '../../utils/functions/funtions';
+import { isValidEmail } from '../../utils/functions/funtions';
+import { Loading } from '../../utils/Loading';
 import MandatoryField from '../../utils/forms/MandatoryField';
 
 export default class ContactForm extends React.Component {
@@ -10,6 +11,7 @@ export default class ContactForm extends React.Component {
   constructor() {
     super();
     this.state = {
+      loading: false,
       file: null,
       form: {
         email: { error: false, mensaje: '' },
@@ -38,7 +40,7 @@ export default class ContactForm extends React.Component {
       description: { error: false, mensaje: '' },
     };
 
-    if (email == null || email == '' || !validEmail(email)) {
+    if (email == null || email == '' || !isValidEmail(email)) {
       form.email.error = true;
       form.email.mensaje = 'Tenés que ingresar un mail de contacto valido';
       formOk = false;
@@ -83,14 +85,19 @@ export default class ContactForm extends React.Component {
   render() {
     return (
       <React.Fragment>
+        {this.state.loading && <Loading/>}
         <Row>
           <Row key={'uploadFormRow2'}>
             <Col md={12} lg={12}>
               <FormGroup validationState={(this.state.form.name.error)? 'error' : null}>
                 <ControlLabel>Nombre de contacto <MandatoryField/></ControlLabel>
-                <FormControl ref={nameInput => { this.nameInput = nameInput; }} key="nameInput" type="text"
-                  placeholder={'Ingrese nombre de contacto'}>
-                </FormControl>
+                <FormControl
+                  disabled={this.props.user && this.props.user.email}
+                  defaultValue={this.props.user ? this.props.user.name : ''}
+                  ref={nameInput => { this.nameInput = nameInput; }} 
+                  key="nameInput" 
+                  type="text"
+                  placeholder={'Ingrese nombre de contacto'}/>
               </FormGroup>
               {this.state.form.email.error &&
                 <HelpBlock bsSize="small" >{this.state.form.name.mensaje}</HelpBlock>}
@@ -100,11 +107,13 @@ export default class ContactForm extends React.Component {
             <Col md={12} lg={12}>
               <FormGroup validationState={(this.state.form.email.error)? 'error' : null}>
                 <ControlLabel>Mail de contacto <MandatoryField/></ControlLabel>
-                <FormControl ref={emailInput => { this.emailInput = emailInput; }}
+                <FormControl
+                  disabled={this.props.user && this.props.user.email}
+                  defaultValue={this.props.user ? this.props.user.email : ''}
+                  ref={emailInput => { this.emailInput = emailInput; }}
                   key="emailInput"
                   type="email"
-                  placeholder={'example@domain.com  '}>
-                </FormControl>
+                  placeholder={'example@domain.com  '}/>
               </FormGroup>
               {this.state.form.email.error &&
                 <HelpBlock bsSize="small" >{this.state.form.email.mensaje}</HelpBlock>}

@@ -8,8 +8,8 @@ export class Loading extends React.Component {
         <Col lg={12} className="text-center">
           <h3>
             <i className="fa fa-spinner fa-lg fa-spin">
-            </i>
             &nbsp;
+            </i>
             Cargando
           </h3>
         </Col>

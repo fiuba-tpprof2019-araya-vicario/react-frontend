@@ -1,10 +1,11 @@
 import { getNullConfig, api } from '../../api/apiInterfaceProvider';
+import { contactMessages, utilsMessages } from '../../utils/messages';
 import axios from 'axios';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const UPLOAD_FORM = 'UPLOAD_FORM';
 const QUERY_ERROR = 'QUERY_ERROR';
-const INTERNAL_ERROR = 'INTERNAL_ERROR';
+
 const initialState = {
   alert: null,
 };
@@ -15,10 +16,6 @@ export const clearAlert = () => ({
 
 export const queryError = err => ({
   type: QUERY_ERROR, err
-});
-
-export const internalError = err => ({
-  type: INTERNAL_ERROR, err
 });
 
 export const formUploaded = data => ({
@@ -39,7 +36,7 @@ export const upload = ({ email, name, description }) => dispatch => {
       dispatch(formUploaded());
     })
     .catch(err => {
-      dispatch(formUploaded(err));
+      dispatch(queryError(err));
     });
 };
 
@@ -49,8 +46,17 @@ export default (state = initialState, action) => {
     return {
       ...state,
       alert: {
-        message: 'El requerimiento se ha cargado correctamente. Espera a que personal de FIUBA se contacte con usted',
+        message: contactMessages.UPLOAD_SUCCESS,
         style: 'success',
+        onDismiss: clearAlert
+      }
+    };
+  case QUERY_ERROR:
+    return { 
+      ...state,
+      alert: {
+        message: utilsMessages.QUERY_ERROR,
+        style: 'danger',
         onDismiss: clearAlert
       }
     };

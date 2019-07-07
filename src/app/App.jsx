@@ -25,9 +25,10 @@ class App extends React.Component {
   }
 
   alertRender() {
-    let render = [<div key={'margin'}><br/></div>];
+    let render = [];
     const alert = this.props.alerts[0];
     if (alert) {
+      render.push(<div key={'margin'}><br/></div>);
       render.push(<CustomAlert key={'alert'}
         rowKey={'centralAlert'}
         bsStyle={alert.style}

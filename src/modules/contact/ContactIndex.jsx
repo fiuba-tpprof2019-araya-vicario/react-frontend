@@ -5,6 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import ContactForm from './ContactForm';
 import Title from '../../utils/Title';
+import { contactMessages } from '../../utils/messages';
 
 export class ContactIndex extends React.Component {
   constructor() {
@@ -26,8 +27,10 @@ export class ContactIndex extends React.Component {
         <Row>
           <Col md={4} lg={4}></Col>
           <Col md={4} lg={4}>
-            <Title title='Contacto' subtitle='Ponerse en contacto con la FIUBA'/>
-            <ContactForm uploadForm={this.uploadForm}/>
+            <Title title={contactMessages.TITLE} subtitle={contactMessages.SUBTITLE}/>
+            <ContactForm 
+              uploadForm={this.uploadForm} 
+              user={this.props.isAuthenticated && this.props.user}/>
           </Col>
           <Col md={4} lg={4}></Col>
         </Row>
@@ -45,4 +48,11 @@ const mapDispatch = (dispatch) => ({
   }
 });
 
-export default withRouter(connect(null, mapDispatch)(ContactIndex));
+const mapStateToProps = (state) => {
+  return {
+    user: state.authReducer.user,
+    isAuthenticated: state.authReducer.isAuthenticated
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatch)(ContactIndex));

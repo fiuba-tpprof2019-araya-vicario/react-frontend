@@ -2,9 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { loginWithGoogle, clearErrors } from './authReducer';
 import { Row, Col } from 'react-bootstrap';
+import Center from 'react-center';
 import { withRouter } from 'react-router-dom';
 import { CustomAlert } from '../../utils/CustomAlert';
 import { GoogleLogin } from 'react-google-login';
+import Title from '../../utils/Title';
+import { loginMessages } from '../../utils/messages';
 
 export class Login extends React.Component {
   constructor() {
@@ -32,30 +35,16 @@ export class Login extends React.Component {
     return (
       <Row>
         <br />
-        <Col md={6} mdOffset={3}>
+        <Col md={4} mdOffset={4}>
           {this.getErroresRender()}
           <Row>
-            <Col md={12}>
-              <h4>Registrarse con google para ingresar al sistema</h4>
-            </Col>
-          </Row>
-          {/* <Row>
-            <Col lg={12}>
-              <Field controlKey="username" controlId="usuario" size="small" type="text" label="Usuario" />
-            </Col>
-            <Col lg={12}>
-              <Field controlKey="userpass" controlId="password" size="small" type="password" label="Contraseña" />
-            </Col>
+            <Title
+              title={loginMessages.TITLE}
+              subtitle={loginMessages.SUBTITLE}
+            />
           </Row>
           <Row>
-            <Col lg={12}>
-              <Button bsStyle="primary" bsSize="small" type="submit">
-                Ingresar
-              </Button>
-            </Col>
-          </Row> */}
-          <Row>
-            <Col md={12}>
+            <Center>
               <GoogleLogin
                 clientId="942857236809-n8qa3b9nlijciqlf41eeglnnubb3ukja.apps.googleusercontent.com"
                 buttonText='Login'
@@ -73,7 +62,7 @@ export class Login extends React.Component {
               onLogoutSuccess={logout}
             >
             </GoogleLogout> */}
-            </Col>
+            </Center>
           </Row>
         </Col>
       </Row>
