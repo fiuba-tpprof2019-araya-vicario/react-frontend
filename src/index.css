@@ -49,6 +49,16 @@ body {
   color: #ededed; 
 }
 
+.loadingModal {
+  width: 200px;
+  margin-top: 250px;
+}
+
+.expandedRow {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 /* Ends - Fiuba CSS */
 
 .loading {

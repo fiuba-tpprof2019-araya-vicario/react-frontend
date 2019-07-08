@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Row, Col, Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import Center from 'react-center';
 import { isValidEmail } from '../../utils/functions/funtions';
-import { Loading } from '../../utils/Loading';
+import LoadingModal from '../../utils/LoadingModal';
 import MandatoryField from '../../utils/forms/MandatoryField';
 
 export default class ContactForm extends React.Component {
@@ -11,7 +11,6 @@ export default class ContactForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      loading: false,
       file: null,
       form: {
         email: { error: false, mensaje: '' },
@@ -85,7 +84,7 @@ export default class ContactForm extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.state.loading && <Loading/>}
+        {this.props.loading && <LoadingModal show={true}/>}
         <Row>
           <Row key={'uploadFormRow2'}>
             <Col md={12} lg={12}>
@@ -113,7 +112,7 @@ export default class ContactForm extends React.Component {
                   ref={emailInput => { this.emailInput = emailInput; }}
                   key="emailInput"
                   type="email"
-                  placeholder={'example@domain.com  '}/>
+                  placeholder={'Ingrese un email (example@domain.com)'}/>
               </FormGroup>
               {this.state.form.email.error &&
                 <HelpBlock bsSize="small" >{this.state.form.email.mensaje}</HelpBlock>}
@@ -122,7 +121,7 @@ export default class ContactForm extends React.Component {
           <Row key={'uploadFormRow3'}>
             <Col md={12} lg={12}>
               <FormGroup validationState={(this.state.form.description.error)? 'error' : null}>
-                <ControlLabel>Descripción <MandatoryField/></ControlLabel>
+                <ControlLabel>Descripción del requerimiento <MandatoryField/></ControlLabel>
                 <textarea 
                   className="form-control"  
                   style={{resize:'vertical'}}
@@ -137,7 +136,7 @@ export default class ContactForm extends React.Component {
           </Row>
         </Row>
         <Center>
-          <Button key={'uploadFormButton'} bsSize={'small'} bsStyle={'primary'} onClick={this.onSubmit}>Subir requerimiento</Button>
+          <Button key={'uploadFormButton'} bsSize={'small'} bsStyle={'primary'} onClick={this.onSubmit}>Enviar requerimiento</Button>
         </Center>
       </React.Fragment>
     );

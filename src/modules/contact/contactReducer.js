@@ -5,24 +5,34 @@ import axios from 'axios';
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const UPLOAD_FORM = 'UPLOAD_FORM';
 const QUERY_ERROR = 'QUERY_ERROR';
+const TOGGLE_LOADING = 'TOGGLE_LOADING';
 
 const initialState = {
   alert: null,
+  loading: false
 };
+
+const toggleLoading = ({ loading }) => ({
+  type: TOGGLE_LOADING,
+  loading
+});
 
 export const clearAlert = () => ({
   type: CLEAR_ALERT
 });
 
 export const queryError = err => ({
-  type: QUERY_ERROR, err
+  type: QUERY_ERROR,
+  err
 });
 
 export const formUploaded = data => ({
-  type: UPLOAD_FORM, data
+  type: UPLOAD_FORM,
+  data
 });
 
 export const upload = ({ email, name, description }) => dispatch => {
+  dispatch(toggleLoading({ loading: true }));
   let config = getNullConfig();
   const body = {
     email,
@@ -30,13 +40,16 @@ export const upload = ({ email, name, description }) => dispatch => {
     description
   };
 
-  axios.post(api.contact, body, config)
+  axios
+    .post(api.contact, body, config)
     .then(res => res)
     .then(() => {
       dispatch(formUploaded());
+      dispatch(toggleLoading({ loading: false }));
     })
     .catch(err => {
       dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
     });
 };
 
@@ -52,7 +65,7 @@ export default (state = initialState, action) => {
       }
     };
   case QUERY_ERROR:
-    return { 
+    return {
       ...state,
       alert: {
         message: utilsMessages.QUERY_ERROR,
@@ -62,6 +75,8 @@ export default (state = initialState, action) => {
     };
   case CLEAR_ALERT:
     return { ...state, alert: null };
+  case TOGGLE_LOADING:
+    return { ...state, loading: action.loading};
   default:
     return state;
   }

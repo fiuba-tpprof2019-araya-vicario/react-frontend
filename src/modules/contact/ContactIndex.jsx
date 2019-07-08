@@ -28,7 +28,8 @@ export class ContactIndex extends React.Component {
           <Col md={4} lg={4}></Col>
           <Col md={4} lg={4}>
             <Title title={contactMessages.TITLE} subtitle={contactMessages.SUBTITLE}/>
-            <ContactForm 
+            <ContactForm
+              loading={this.props.loading} 
               uploadForm={this.uploadForm} 
               user={this.props.isAuthenticated && this.props.user}/>
           </Col>
@@ -50,6 +51,7 @@ const mapDispatch = (dispatch) => ({
 
 const mapStateToProps = (state) => {
   return {
+    loading: state.contactReducer.loading,
     user: state.authReducer.user,
     isAuthenticated: state.authReducer.isAuthenticated
   };
