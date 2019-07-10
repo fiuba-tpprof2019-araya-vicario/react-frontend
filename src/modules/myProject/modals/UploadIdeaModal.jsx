@@ -16,7 +16,8 @@ export default class UploadIdeaModal extends React.Component {
         autor: { error: false, mensaje: '' },
         title: { error: false, mensaje: '' },
       },
-      coautors: []
+      coautors: [],
+      tutors: []
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -28,6 +29,13 @@ export default class UploadIdeaModal extends React.Component {
     this.setState({
       ...this.state, 
       coautors: newValue,
+    });
+  }
+
+  updateTutorsSelect(newValue) {
+    this.setState({
+      ...this.state, 
+      tutors: newValue,
     });
   }
 
@@ -145,7 +153,7 @@ export default class UploadIdeaModal extends React.Component {
                 inputComponent=
                   {<Select 
                     key="coautorsSelect" 
-                    value={[]}
+                    value={this.state.coautors}
                     ref={coautorsSelect => { this.coautorsSelect = coautorsSelect; }} 
                     onChange={ (e) => this.updateAutorsSelect(e) }
                     options={this.props.coautors}
@@ -158,6 +166,24 @@ export default class UploadIdeaModal extends React.Component {
             </Col>
           </Row>
           <Row key={'formCreateRow3'}>
+            <Col md={12} lg={12}>
+              <Field key="tutorsGroup" bsSize="small" controlId="tutorsSelect" label="Tutores"
+                inputComponent=
+                  {<Select 
+                    key="tutorsSelect" 
+                    value={this.state.tutors}
+                    ref={tutorsSelect => { this.tutorsSelect = tutorsSelect; }} 
+                    onChange={ (e) => this.updateTutorsSelect(e) }
+                    options={this.props.tutors}
+                    isSearchable={true}
+                    id="tutorsSelect"
+                    placeholder="Seleccione tutores"
+                    name="tutorsSelect"
+                    multi={true}/>
+                  }/>
+            </Col>
+          </Row>
+          <Row key={'formCreateRow4'}>
             <Col md={12} lg={12}>
               <FormGroup validationState={(this.state.form.description.error)? 'error' : null}>
                 <ControlLabel>Descripción de la idea<MandatoryField/></ControlLabel>
