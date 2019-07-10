@@ -115,7 +115,7 @@ export class UploadFileModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button bsSize={'small'} onClick={this.cerrarModal}>Cancelar</Button>&nbsp;
-          <Button key={'createAppServerButton'} bsSize={'small'} bsStyle={'primary'} onClick={this.onSubmit}>Crear</Button>
+          <Button key={'createFileButton'} bsSize={'small'} bsStyle={'primary'} onClick={this.onSubmit}>Crear</Button>
         </Modal.Footer>
       </Modal>
     );

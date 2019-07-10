@@ -5,6 +5,7 @@ import { routerReducer } from 'react-router-redux';
 /* Import Other Reducers */
 import authReducer from '../modules/login/authReducer';
 import contactReducer from '../modules/contact/contactReducer';
+import myProjectReducer from '../modules/myProject/myProjectReducer';
 import filesReducer from '../modules/fileAdmin/fileReducer';
 
 
@@ -12,6 +13,7 @@ import filesReducer from '../modules/fileAdmin/fileReducer';
 const appReducer = combineReducers({
   authReducer,
   contactReducer,
+  myProjectReducer,
   filesReducer,
   routerReducer
 });

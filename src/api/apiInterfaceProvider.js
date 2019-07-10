@@ -3,21 +3,18 @@ import { BASE } from './api';
 
 // Api routes phrases
 const LOGIN = 'auth';
-const APPSERVERS = 'servers';
-const FILES = 'files';
+const PROJECTS = 'projects';
+const USERS = 'users';
 const CONTACT = 'contact';
 
 export const api = {
   base: BASE,
   login: BASE + LOGIN,
   contact: BASE + CONTACT,
-  appServers: BASE + APPSERVERS,
-  files: BASE + FILES,
-  appServer: (id) => {
-    return BASE + APPSERVERS + '/' + id;
-  },
-  file: (id) => {
-    return BASE + FILES + '/' + id;
+  projects: BASE + PROJECTS,
+  users: BASE + USERS,
+  project: (id) => {
+    return BASE + PROJECTS + '/' + id;
   },
 };
 

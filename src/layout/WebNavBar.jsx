@@ -21,8 +21,8 @@ export class WebNavBar extends React.Component {
           {this.props.isAuthenticated && (
             <div id="navs">
               <Nav>
-                <LinkContainer to={'/appServer'}>
-                  <NavItem eventKey={1}>App Servers</NavItem>
+                <LinkContainer to={'/my_project'}>
+                  <NavItem eventKey={1}>Mi proyecto</NavItem>
                 </LinkContainer>
                 <LinkContainer to={'/file'}>
                   <NavItem eventKey={2}>Archivos</NavItem>

@@ -9,6 +9,12 @@ export const contactMessages = {
   UPLOAD_SUCCESS: 'El requerimiento se ha cargado correctamente. Espera a que personal de FIUBA se contacte con usted',
 };
   
+export const myProjectMessages = {
+  TITLE: 'Mi proyecto',
+  SUBTITLE: '',
+  NEW_IDEA_DESCRIPTION: 'No se ha creado una idea aún, agregue una para dar comienzo a su propuesta.',
+};
+
 export const utilsMessages = {
   QUERY_ERROR: 'Se produjo un error al comunicarse con el servidor, vuelve a intentar en unos minutos',
 };

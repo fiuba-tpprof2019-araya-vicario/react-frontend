@@ -7,9 +7,8 @@ import { Home } from '../layout/Home';
 import Login from '../modules/login/Login';
 import WebNavBar from '../layout/WebNavBar';
 import PrivateRoute from '../utils/PrivateRoute';
-import AppServerIndex from '../modules/appServerAdmin/AppServerIndex';
+import MyProjectIndex from '../modules/myProject/MyProjectIndex';
 import ContactIndex from '../modules/contact/ContactIndex';
-import AppServerDetail from '../modules/appServerAdmin/AppServerDetail';
 import FileIndex from '../modules/fileAdmin/FileIndex';
 import { persistor } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -50,10 +49,9 @@ class App extends React.Component {
             <Switch>
               <Route path="/login" component={Login} />
               <PrivateRoute exact={true} path="/" permiso={true} component={Home} />
-              <Route exact={true} path="/contact" permiso={true} component={ContactIndex} />
-              <PrivateRoute exact={false} path="/appServer/:id" permiso={true} component={AppServerDetail} />
-              <PrivateRoute exact={true} path="/appServer" permiso={true} component={AppServerIndex} />
+              <PrivateRoute exact={true} path="/my_project" permiso={true} component={MyProjectIndex} />
               <PrivateRoute exact={true} path="/file" permiso={true} component={FileIndex} />
+              <Route exact={true} path="/contact" permiso={true} component={ContactIndex} />
             </Switch>
           </Grid>
         </PersistGate>

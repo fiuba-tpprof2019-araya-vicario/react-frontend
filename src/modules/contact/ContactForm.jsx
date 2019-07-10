@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Row, Col, Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import Center from 'react-center';
-import { isValidEmail } from '../../utils/functions/funtions';
+import { isValidEmail } from '../../utils/services/funtions';
 import LoadingModal from '../../utils/LoadingModal';
 import MandatoryField from '../../utils/forms/MandatoryField';
 
@@ -91,7 +91,7 @@ export default class ContactForm extends React.Component {
               <FormGroup validationState={(this.state.form.name.error)? 'error' : null}>
                 <ControlLabel>Nombre de contacto <MandatoryField/></ControlLabel>
                 <FormControl
-                  disabled={this.props.user && this.props.user.email}
+                  disabled={this.props.user && this.props.user.name}
                   defaultValue={this.props.user ? this.props.user.name : ''}
                   ref={nameInput => { this.nameInput = nameInput; }} 
                   key="nameInput" 

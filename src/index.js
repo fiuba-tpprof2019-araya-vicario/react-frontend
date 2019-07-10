@@ -11,7 +11,7 @@ import 'jquery';
 /* Css */
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-select/dist/react-select.css';
-import 'font-awesome/css/font-awesome.css';
+import 'font-awesome/css/font-awesome.min.css';
 import './index.css';
 
 ReactDOM.render(

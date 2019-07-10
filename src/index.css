@@ -59,6 +59,21 @@ body {
   margin-bottom: 50px;
 }
 
+.bigIcon {
+  font-size: 8em;
+  color: #0196DC;
+}
+
+.inmenseIcon {
+  font-size: 12em;
+  color: #0196DC;
+}
+
+.onlyIcon {
+  border-radius: 100%;
+  border-width: 0px;
+}
+
 /* Ends - Fiuba CSS */
 
 .loading {
