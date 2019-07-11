@@ -18,7 +18,8 @@ export class MyProjectIndex extends React.Component {
 
   componentDidMount() {
     this.props.clearAlert();
-    this.props.getInitialData();
+    console.log(this.props)
+    this.props.getInitialData(this.props.user.id);
   }
 
   uploadIdea(form) {
@@ -83,8 +84,8 @@ export class MyProjectIndex extends React.Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  getInitialData: () => {
-    dispatch(getInitialData());
+  getInitialData: (id) => {
+    dispatch(getInitialData(id));
   },
   uploadIdea: (form) => {
     dispatch(uploadIdea(form));

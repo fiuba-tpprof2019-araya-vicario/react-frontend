@@ -52,7 +52,16 @@ export const loginWithGoogle = (response) => dispatch => {
   axios.post(api.login, body)
     .then(res => res.data)
     .then(({data}) => {
-      dispatch(login({ token: data.token, user: { email: body.email, name: body.name} }));
+      console.log(data);
+      dispatch(login({ 
+        token: data.token, 
+        user: { 
+          id: data.id,
+          email: body.email,
+          name: body.name,
+          credentials: data.credentials
+        }}
+      ));
       dispatch(push('/'));
     })
     .catch(err => {

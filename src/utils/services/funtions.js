@@ -8,3 +8,11 @@ export function getSelectOptions (options, valueString = 'id', labelString = 'na
     return { value: elem[valueString], label: elem[labelString] };
   });
 }
+
+export function getSelectOptionsWithIgnore (options, ignoreValue, valueString = 'id', labelString = 'name' ) {
+  return options.map((elem) => {
+    return { value: elem[valueString], label: elem[labelString] };
+  }).filter((elem) => {
+    return elem.value != ignoreValue;
+  });
+}

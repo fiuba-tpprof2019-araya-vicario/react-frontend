@@ -1,13 +1,14 @@
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
 import references from '../../utils/services/references';
-import { getSelectOptions } from '../../utils/services/funtions';
+import { getSelectOptionsWithIgnore } from '../../utils/services/funtions';
 import axios from 'axios';
 import Bluebird from 'bluebird';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const GET_TUTORS = 'GET_TUTORS';
 const GET_COAUTORS = 'GET_COAUTORS';
+const POST_IDEA = 'POST_IDEA';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
 
@@ -30,65 +31,73 @@ export const queryError = err => ({
   err
 });
 
-export const coautorsUploaded = data => ({
+export const ideaUploaded = data => ({
+  type: POST_IDEA,
+  data
+});
+
+export const coautorsUploaded = (data, ignoreId) => ({
   type: GET_COAUTORS,
-  data
+  data,
+  ignoreId
 });
 
-export const tutorsUploaded = data => ({
+export const tutorsUploaded = (data, ignoreId) => ({
   type: GET_TUTORS,
-  data
+  data,
+  ignoreId
 });
 
-export const getInitialData = () => dispatch => {
+export const getInitialData = (ignoreId) => dispatch => {
+  console.log(ignoreId)
   dispatch(toggleLoading({ loading: true }));
-  Bluebird.join(getTutors(dispatch),getCoautors(dispatch))
+  Bluebird.join(getTutors(ignoreId, dispatch),getCoautors(ignoreId, dispatch))
     .then(() => 
       dispatch(toggleLoading({ loading: false }))
     );
 };
 
-const getTutors = (dispatch) => {
+const getTutors = (ignoreId, dispatch) => {
   let config = getConfig();
-
   return axios
     .get(api.users+'?profile_id='+references.PROFILES.TUTOR, config)
     .then(res => res.data.data)
     .then((data) => {
-      dispatch(tutorsUploaded(data));
+      dispatch(tutorsUploaded(data, ignoreId));
     })
     .catch(err => {
       dispatch(queryError(err));
     });
 };
 
-const getCoautors = (dispatch) => {
+const getCoautors = (ignoreId, dispatch) => {
   let config = getConfig();
   return axios
     .get(api.users+'?profile_id='+references.PROFILES.STUDENT, config)
     .then(res => res.data.data)
     .then((data) => {
-      dispatch(coautorsUploaded(data));
+      dispatch(coautorsUploaded(data, ignoreId));
     })
     .catch(err => {
       dispatch(queryError(err));
     });
 };
 
-export const uploadIdea = ({ email, name, description }) => dispatch => {
+export const uploadIdea = ({ title, description, autor, tutor_id }) => dispatch => {
   dispatch(toggleLoading({ loading: true }));
   let config = getConfig();
   const body = {
-    email,
-    name,
-    description
+    name: title,
+    description,
+    autor,
+    tutor_id
   };
 
   axios
-    .post(api.contact, body, config)
+    .post(api.projects, body, config)
     .then(res => res)
     .then(() => {
-      dispatch(coautorsUploaded());
+      dispatch(ideaUploaded());
       dispatch(toggleLoading({ loading: false }));
     })
     .catch(err => {
@@ -99,15 +108,20 @@ export const uploadIdea = ({ email, name, description }) => dispatch => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+  case POST_IDEA:
+    return {
+      ...state,
+      data: action.data 
+    };
   case GET_COAUTORS:
     return {
       ...state,
-      coautors: getSelectOptions(action.data) 
+      coautors: getSelectOptionsWithIgnore(action.data, action.ignoreId) 
     };
   case GET_TUTORS:
     return {
       ...state,
-      tutors: getSelectOptions(action.data) 
+      tutors: getSelectOptionsWithIgnore(action.data, action.ignoreId) 
     };
   case QUERY_ERROR:
     return {

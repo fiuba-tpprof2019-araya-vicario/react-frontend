@@ -17,7 +17,7 @@ export default class UploadIdeaModal extends React.Component {
         title: { error: false, mensaje: '' },
       },
       coautors: [],
-      tutors: []
+      tutor: null
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -35,7 +35,7 @@ export default class UploadIdeaModal extends React.Component {
   updateTutorsSelect(newValue) {
     this.setState({
       ...this.state, 
-      tutors: newValue,
+      tutor: newValue,
     });
   }
 
@@ -100,10 +100,12 @@ export default class UploadIdeaModal extends React.Component {
   }
 
   onSubmit() {
-    let description = ReactDOM.findDOMNode(this.descriptionInput).value;
-    let autor = ReactDOM.findDOMNode(this.autorInput).value;
-    if (this.validateForm(description, autor)) {
-      this.props.uploadIdea(description, autor);
+    const title = ReactDOM.findDOMNode(this.titleInput).value;
+    const description = ReactDOM.findDOMNode(this.descriptionInput).value;
+    const autor = ReactDOM.findDOMNode(this.autorInput).value;
+    const tutor_id = ReactDOM.findDOMNode(this.tutorSelect).value;
+    if (this.validateForm(title, description, autor)) {
+      this.props.uploadIdea({title, description, autor, tutor_id});
       this.hideModal();
     }
   }
@@ -167,19 +169,19 @@ export default class UploadIdeaModal extends React.Component {
           </Row>
           <Row key={'formCreateRow3'}>
             <Col md={12} lg={12}>
-              <Field key="tutorsGroup" bsSize="small" controlId="tutorsSelect" label="Tutores"
+              <Field key="tutorGroup" bsSize="small" controlId="tutorSelect" label="Tutores"
                 inputComponent=
                   {<Select 
-                    key="tutorsSelect" 
-                    value={this.state.tutors}
-                    ref={tutorsSelect => { this.tutorsSelect = tutorsSelect; }} 
+                    key="tutorSelect" 
+                    value={this.state.tutor}
+                    ref={tutorSelect => { this.tutorSelect = tutorSelect; }} 
                     onChange={ (e) => this.updateTutorsSelect(e) }
                     options={this.props.tutors}
                     isSearchable={true}
-                    id="tutorsSelect"
-                    placeholder="Seleccione tutores"
-                    name="tutorsSelect"
-                    multi={true}/>
+                    id="tutorSelect"
+                    placeholder="Seleccione un tutor"
+                    name="tutorSelect"
+                    multi={false}/>
                   }/>
             </Col>
           </Row>

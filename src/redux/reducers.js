@@ -19,7 +19,7 @@ const appReducer = combineReducers({
 });
 
 const storeToken = (data) => {
-  localStorage.setItem('token', data.token.token);
+  localStorage.setItem('token', data.token);
 };
 
 const rootReducer = (state, action) => {
