@@ -32,7 +32,7 @@ class App extends React.Component {
         rowKey={'centralAlert'}
         bsStyle={alert.style}
         message={alert.message}
-        onDismiss={() => this.props.execute(alert.onDismiss)}
+        onDismiss={() => alert.onDismiss && this.props.execute(alert.onDismiss)}
       />);
     } 
 

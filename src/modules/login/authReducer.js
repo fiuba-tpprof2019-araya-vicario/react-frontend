@@ -5,6 +5,7 @@ const LOGIN_USER = 'LOGIN_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const LOGIN_ERROR = 'LOGIN_ERROR';
 const CLEAR_ERRORS = 'CLEAR_ERRORS';
+const POST_IDEA = 'POST_IDEA';
 
 const initialState = {
   token: {},
@@ -59,7 +60,8 @@ export const loginWithGoogle = (response) => dispatch => {
           id: data.id,
           email: body.email,
           name: body.name,
-          credentials: data.credentials
+          credentials: data.credentials,
+          projectId: data.projectId
         }}
       ));
       dispatch(push('/'));
@@ -78,6 +80,14 @@ export default (state = initialState, action) => {
       user: action.data.user,
       error: {},
       isAuthenticated: true
+    };
+  case POST_IDEA:
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        projectId: action.data
+      }
     };
   case LOGOUT_USER:
     return { ...state, user: {}, error: {}, isAuthenticated: false };

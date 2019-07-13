@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { uploadIdea, clearAlert, getInitialData} from './myProjectReducer';
 import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import Center from 'react-center';
 import Title from '../../utils/Title';
 import UploadIdeaModal from './modals/UploadIdeaModal';
 import { myProjectMessages } from '../../utils/messages';
 import Stepper from 'react-stepper-horizontal';
+import CreateIdea from './CreateIdea';
+import ReviewIdea from './ReviewIdea';
 
 export class MyProjectIndex extends React.Component {
   constructor() {
@@ -18,8 +19,7 @@ export class MyProjectIndex extends React.Component {
 
   componentDidMount() {
     this.props.clearAlert();
-    console.log(this.props)
-    this.props.getInitialData(this.props.user.id);
+    this.props.getInitialData(this.props.user.id, this.props.user.projectId);
   }
 
   uploadIdea(form) {
@@ -28,6 +28,16 @@ export class MyProjectIndex extends React.Component {
 
   showUploadIdeaModal() {
     this.UploadIdeaModal.showModal();
+  }
+
+  getActiveStep() {
+    const { projectId } = this.props.user;
+
+    let activeStep = 0;
+    if (projectId) {
+      activeStep = 1;
+    }
+    return activeStep;
   }
 
   render() {
@@ -40,42 +50,47 @@ export class MyProjectIndex extends React.Component {
       { title: 'Pendiente de publicación' },
       { title: 'Propuesta publicada' }
     ];
+    const activeStep = this.getActiveStep();
     return (
       <Fragment>
         <Row>
-          <Col md={1} lg={1}></Col>
+          <Col md={1} lg={1} />
           <Col md={10} lg={10}>
             <Row>
-              <Title title={myProjectMessages.TITLE} subtitle={myProjectMessages.SUBTITLE}/>
-              <div className='step-progress'>
-                <Stepper steps={steps} activeStep={ 0 } />
+              <Title
+                title={myProjectMessages.TITLE}
+                subtitle={myProjectMessages.SUBTITLE}
+              />
+              <div className="step-progress">
+                <Stepper
+                  steps={steps}
+                  activeStep={activeStep}
+                  defaultTitleOpacity="0.5"
+                  completeTitleOpacity="0.75"
+                  activeColor="#468847"
+                />
               </div>
             </Row>
             <Row>
-              <br></br>
-              <br></br>
-              <br></br>
-              <Row>
-                <Center>
-                  <button className="onlyIcon" onClick={this.showUploadIdeaModal}>
-                    <i className="fa fa-plus-circle inmenseIcon"></i>
-                  </button>
-                </Center>
-              </Row>
-              <Row>
-                <Center>
-                  <p>{myProjectMessages.NEW_IDEA_DESCRIPTION}</p>
-                </Center>
-              </Row>
+              {activeStep == 0 ? (
+                <CreateIdea showUploadIdeaModal={this.showUploadIdeaModal} />
+              ) : null}
+              {activeStep == 1 ? (
+                <ReviewIdea project={this.props.project} showUploadIdeaModal={this.showUploadIdeaModal} />
+              ) : null}
             </Row>
           </Col>
-          <Col md={1} lg={1}></Col>
+          <Col md={1} lg={1} />
         </Row>
-        <UploadIdeaModal 
+        <UploadIdeaModal
           uploadIdea={this.uploadIdea}
           coautors={this.props.coautors}
           tutors={this.props.tutors}
-          ref={(modal) => { this.UploadIdeaModal = modal;}}
+          projectTypes={this.props.projectTypes}
+          project={this.props.project}
+          ref={modal => {
+            this.UploadIdeaModal = modal;
+          }}
           user={this.props.isAuthenticated && this.props.user}
         />
       </Fragment>
@@ -83,11 +98,11 @@ export class MyProjectIndex extends React.Component {
   }
 }
 
-const mapDispatch = (dispatch) => ({
-  getInitialData: (id) => {
-    dispatch(getInitialData(id));
+const mapDispatch = dispatch => ({
+  getInitialData: (id, projectId) => {
+    dispatch(getInitialData(id, projectId));
   },
-  uploadIdea: (form) => {
+  uploadIdea: form => {
     dispatch(uploadIdea(form));
   },
   clearAlert: () => {
@@ -95,14 +110,21 @@ const mapDispatch = (dispatch) => ({
   }
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     loading: state.myProjectReducer.loading,
     coautors: state.myProjectReducer.coautors,
+    project: state.myProjectReducer.project,
+    projectTypes: state.myProjectReducer.projectTypes,
     tutors: state.myProjectReducer.tutors,
     user: state.authReducer.user,
     isAuthenticated: state.authReducer.isAuthenticated
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatch)(MyProjectIndex));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatch
+  )(MyProjectIndex)
+);

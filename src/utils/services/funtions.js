@@ -9,6 +9,12 @@ export function getSelectOptions (options, valueString = 'id', labelString = 'na
   });
 }
 
+export function getOnlyField (values, valueString = 'value') {
+  return values.map((elem) => {
+    return elem[valueString];
+  });
+}
+
 export function getSelectOptionsWithIgnore (options, ignoreValue, valueString = 'id', labelString = 'name' ) {
   return options.map((elem) => {
     return { value: elem[valueString], label: elem[labelString] };

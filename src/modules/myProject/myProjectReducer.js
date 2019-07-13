@@ -1,13 +1,15 @@
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
 import references from '../../utils/services/references';
-import { getSelectOptionsWithIgnore } from '../../utils/services/funtions';
+import { getSelectOptionsWithIgnore, getOnlyField } from '../../utils/services/funtions';
 import axios from 'axios';
 import Bluebird from 'bluebird';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const GET_TUTORS = 'GET_TUTORS';
 const GET_COAUTORS = 'GET_COAUTORS';
+const GET_ACTIVE_PROJECT = 'GET_ACTIVE_PROJECT';
+const GET_PROJECT_TYPES = 'GET_PROJECT_TYPES';
 const POST_IDEA = 'POST_IDEA';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
@@ -36,6 +38,16 @@ export const ideaUploaded = data => ({
   data
 });
 
+export const projectTypesUploaded = data => ({
+  type: GET_PROJECT_TYPES,
+  data
+});
+
+export const activeProjectUploaded = data => ({
+  type: GET_ACTIVE_PROJECT,
+  data
+});
+
 export const coautorsUploaded = (data, ignoreId) => ({
   type: GET_COAUTORS,
   data,
@@ -48,14 +60,43 @@ export const tutorsUploaded = (data, ignoreId) => ({
   ignoreId
 });
 
-export const getInitialData = (ignoreId) => dispatch => {
-  console.log(ignoreId)
+export const getInitialData = (ignoreId, projectId) => dispatch => {
   dispatch(toggleLoading({ loading: true }));
-  Bluebird.join(getTutors(ignoreId, dispatch),getCoautors(ignoreId, dispatch))
+  Bluebird.join(
+    getTutors(ignoreId, dispatch),
+    getActiveProject(projectId, dispatch),
+    getProjectTypes(dispatch),
+    getCoautors(ignoreId, dispatch))
     .then(() => 
       dispatch(toggleLoading({ loading: false }))
     );
 };
+
+const getProjectTypes = (dispatch) => {
+  dispatch(projectTypesUploaded([
+    {
+      value: 1,
+      label: 'Trabajo Profesional'
+    },
+    {
+      value: 2,
+      label: 'Tesis' 
+    }
+  ]));
+};
+
+const getActiveProject = (projectId, dispatch) => {
+  let config = getConfig();
+  return axios
+    .get(api.project(projectId), config)
+    .then(res => res.data.data)
+    .then((data) => {
+      dispatch(activeProjectUploaded(data));
+    })
+    .catch(err => {
+      dispatch(queryError(err));
+    });
+}
 
 const getTutors = (ignoreId, dispatch) => {
   let config = getConfig();
@@ -83,21 +124,24 @@ const getCoautors = (ignoreId, dispatch) => {
     });
 };
 
-export const uploadIdea = ({ title, description, autor, tutor_id }) => dispatch => {
+export const uploadIdea = ({title, description, coautors, type, autor, tutor_id}) => dispatch => {
   dispatch(toggleLoading({ loading: true }));
   let config = getConfig();
   const body = {
     name: title,
     description,
     autor,
-    tutor_id
+    tutor_id,
+    cotutors: [],
+    students: getOnlyField(coautors),
+    type
   };
 
   axios
     .post(api.projects, body, config)
-    .then(res => res)
-    .then(() => {
-      dispatch(ideaUploaded());
+    .then(res => res.data.data)
+    .then((data) => {
+      dispatch(ideaUploaded(data));
       dispatch(toggleLoading({ loading: false }));
     })
     .catch(err => {
@@ -108,15 +152,20 @@ export const uploadIdea = ({ title, description, autor, tutor_id }) => dispatch 
 
 export default (state = initialState, action) => {
   switch (action.type) {
-  case POST_IDEA:
-    return {
-      ...state,
-      data: action.data 
-    };
   case GET_COAUTORS:
     return {
       ...state,
       coautors: getSelectOptionsWithIgnore(action.data, action.ignoreId) 
+    };
+  case GET_ACTIVE_PROJECT:
+    return {
+      ...state,
+      project: action.data
+    };
+  case GET_PROJECT_TYPES:
+    return {
+      ...state,
+      projectTypes: action.data 
     };
   case GET_TUTORS:
     return {
