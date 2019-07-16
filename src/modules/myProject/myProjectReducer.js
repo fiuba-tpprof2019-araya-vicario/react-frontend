@@ -90,7 +90,12 @@ const getProjectTypes = (dispatch) => {
 };
 
 const getActiveProject = (projectId, dispatch) => {
+  console.log('projectId', projectId);
+  if(!projectId) {
+    return Bluebird.resolve();
+  }
   let config = getConfig();
+
   return axios
     .get(api.project(projectId), config)
     .then(res => res.data.data)
