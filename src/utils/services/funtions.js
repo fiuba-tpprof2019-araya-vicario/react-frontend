@@ -4,7 +4,7 @@ export function isValidEmail(email) {
 }
 
 export function getSelectOptions (options, valueString = 'id', labelString = 'name' ) {
-  return options.map((elem) => {
+  return options && options.map((elem) => {
     return { value: elem[valueString], label: elem[labelString] };
   });
 }
@@ -16,9 +16,17 @@ export function getOnlyField (values, valueString = 'value') {
 }
 
 export function getSelectOptionsWithIgnore (options, ignoreValue, valueString = 'id', labelString = 'name' ) {
-  return options.map((elem) => {
+  return options && options.map((elem) => {
     return { value: elem[valueString], label: elem[labelString] };
   }).filter((elem) => {
     return elem.value != ignoreValue;
   });
+}
+
+export function getSelectOption (option, valueString = 'id', labelString = 'name' ) {
+  return option && { value: option[valueString], label: option[labelString] };
+}
+
+export function getFullName (user) {
+  return user.name + ' ' + user.surname;
 }

@@ -7,8 +7,11 @@ import MandatoryField from '../../../utils/forms/MandatoryField';
 
 export default class UploadIdeaModal extends React.Component {
 
-  constructor() {
+  constructor(props) {
     super();
+    const project = props.project ? props.project : {};
+    const user = props.user ? props.user : {};
+    console.log(project);
     this.state = {
       file: null,
       form: {
@@ -16,10 +19,13 @@ export default class UploadIdeaModal extends React.Component {
         autor: { error: false, mensaje: '' },
         title: { error: false, mensaje: '' },
       },
-      coautors: [],
+      coautors: project.students ? props.project.students : [],
       tutors: [],
-      projectType: null,
-      tutor: null
+      title: project.name ? project.name : '',
+      description: project.description ? project.description : '',
+      projectType: project.type ? project.type : null,
+      tutor: project.tutor ? project.tutor : null,
+      autor: project.creator ? project.creator.name : user.name
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -47,6 +53,28 @@ export default class UploadIdeaModal extends React.Component {
       tutor: newValue,
     });
   }
+
+  updateTitle(newValue) {
+    this.setState({
+      ...this.state, 
+      title: newValue,
+    });
+  }
+
+  updateDescription(newValue) {
+    this.setState({
+      ...this.state, 
+      description: newValue,
+    });
+  }
+
+  updateAutor(newValue) {
+    this.setState({
+      ...this.state, 
+      autor: newValue,
+    });
+  }
+
 
   resetForm() {
     let form = {
@@ -109,9 +137,9 @@ export default class UploadIdeaModal extends React.Component {
   }
 
   onSubmit() {
-    const title = ReactDOM.findDOMNode(this.titleInput).value;
+    const title = this.state.title;
     const description = ReactDOM.findDOMNode(this.descriptionInput).value;
-    const autor = ReactDOM.findDOMNode(this.autorInput).value;
+    const autor = this.state.autor;
     const type = this.state.projectType ? this.state.projectType.value : null;
     const coautors = this.state.coautors? this.state.coautors : null;
     const tutor_id = this.state.tutor? this.state.tutor.value : null;
@@ -135,11 +163,14 @@ export default class UploadIdeaModal extends React.Component {
             <Col md={12} lg={12}>
               <FormGroup validationState={(this.state.form.title.error)? 'error' : null}>
                 <ControlLabel>Título<MandatoryField/></ControlLabel>
-                <FormControl 
+                <FormControl
+                  value={this.state.title}
+                  onChange={this.updateTitle}
                   ref={titleInput => { this.titleInput = titleInput; }}
                   key="titleInput"
                   placeholder={'Ingrese un título para tu idea'}
-                  type="text"/>
+                  type="text"
+                  required/>
               </FormGroup>
               {this.state.form.title.error &&
                 <HelpBlock bsSize="small" >{this.state.form.title.mensaje}</HelpBlock>}
@@ -147,7 +178,12 @@ export default class UploadIdeaModal extends React.Component {
           </Row>
           <Row key={'formCreateRow5'}>
             <Col md={12} lg={12}>
-              <Field key="projectTypeGroup" bsSize="small" controlId="projectTypeSelect" label="Tipo"
+              <Field 
+                key="projectTypeGroup" 
+                bsSize="small" 
+                controlId="projectTypeSelect" 
+                label={'Tipo'}
+                required={true}
                 inputComponent=
                   {<Select 
                     key="projectTypeSelect" 
@@ -168,7 +204,8 @@ export default class UploadIdeaModal extends React.Component {
               <FormGroup validationState={(this.state.form.autor.error)? 'error' : null}>
                 <ControlLabel>Autor<MandatoryField/></ControlLabel>
                 <FormControl 
-                  defaultValue={this.props.user ? this.props.user.name : ''}
+                  defaultValue={this.state.autor}
+                  onChange={this.updateAutor}
                   disabled={this.props.user && this.props.user.name}
                   ref={autorInput => { this.autorInput = autorInput; }}
                   key="autorInput"
@@ -219,6 +256,8 @@ export default class UploadIdeaModal extends React.Component {
               <FormGroup validationState={(this.state.form.description.error)? 'error' : null}>
                 <ControlLabel>Descripción de la idea<MandatoryField/></ControlLabel>
                 <textarea 
+                  value={this.state.description}
+                  onChange={this.updateDescription}
                   className="form-control"  
                   style={{resize:'vertical'}}
                   rows="10" 

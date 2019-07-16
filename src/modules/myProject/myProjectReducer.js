@@ -1,7 +1,7 @@
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
 import references from '../../utils/services/references';
-import { getSelectOptionsWithIgnore, getOnlyField } from '../../utils/services/funtions';
+import { getSelectOption, getSelectOptions, getSelectOptionsWithIgnore, getOnlyField } from '../../utils/services/funtions';
 import axios from 'axios';
 import Bluebird from 'bluebird';
 
@@ -16,7 +16,11 @@ const TOGGLE_LOADING = 'TOGGLE_LOADING';
 
 const initialState = {
   alert: null,
-  loading: false
+  loading: false,
+  project: null,
+  coautors: null,
+  projectTypes: null,
+  tutors: null
 };
 
 const toggleLoading = ({ loading }) => ({
@@ -96,7 +100,7 @@ const getActiveProject = (projectId, dispatch) => {
     .catch(err => {
       dispatch(queryError(err));
     });
-}
+};
 
 const getTutors = (ignoreId, dispatch) => {
   let config = getConfig();
@@ -150,6 +154,16 @@ export const uploadIdea = ({title, description, coautors, type, autor, tutor_id}
     });
 };
 
+const getFormattedProject = (project) => {
+  return {
+    ...project,
+    tutors: getSelectOptions(project.tutors),
+    type: getSelectOption(project.Type),
+    students: getSelectOptions(project.Students),
+    tutor: { ...project.tutor, ...getSelectOption(project.tutor)}
+  };
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
   case GET_COAUTORS:
@@ -160,7 +174,7 @@ export default (state = initialState, action) => {
   case GET_ACTIVE_PROJECT:
     return {
       ...state,
-      project: action.data
+      project: getFormattedProject(action.data)
     };
   case GET_PROJECT_TYPES:
     return {
