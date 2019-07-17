@@ -11,24 +11,29 @@ export default class ReviewIdea extends React.Component {
   getAutors(){
     const { creator, Students } = this.props.project;
     let autors = [];
-    autors.push('Creador: ' + getFullName(creator));
-    Students.forEach(student => {
-      autors.push('Participante: ' + getFullName(student));
-    });
+    if (creator && Students) {
+      autors.push('Creador: ' + getFullName(creator));
+      Students.forEach(student => {
+        autors.push('Participante: ' + getFullName(student));
+      });
+    }
     return autors;
   }
 
   getTutors(){
     const { tutor, Tutors } = this.props.project;
-    let autors = [];
-    autors.push('Tutor: ' + getFullName(tutor));
-    Tutors.forEach(tutor => {
-      autors.push('Cotutor: ' + getFullName(tutor));
-    });
-    return autors;
+    let tutors = [];
+    if (tutor && Tutors) {
+      tutors.push('Tutor: ' + getFullName(tutor));
+      Tutors.forEach(tutor => {
+        tutors.push('Cotutor: ' + getFullName(tutor));
+      });
+    } 
+    return tutors;
   }
 
   render() {
+    console.log(this.props);
     return (
       <Fragment>
         <Row>

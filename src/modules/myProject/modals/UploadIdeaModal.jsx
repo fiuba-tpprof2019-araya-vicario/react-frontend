@@ -11,7 +11,6 @@ export default class UploadIdeaModal extends React.Component {
     super();
     const project = props.project ? props.project : {};
     const user = props.user ? props.user : {};
-    console.log(project);
     this.state = {
       file: null,
       form: {
@@ -31,6 +30,11 @@ export default class UploadIdeaModal extends React.Component {
     this.hideModal = this.hideModal.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.updateAutorsSelect = this.updateAutorsSelect.bind(this);
+    this.updateAutor = this.updateAutor.bind(this);
+    this.updateProjectTypeSelect = this.updateProjectTypeSelect.bind(this);
+    this.updateTutorSelect = this.updateTutorSelect.bind(this);
+    this.updateTitle = this.updateTitle.bind(this);
+    this.updateDescription = this.updateDescription.bind(this);
   }
 
   updateProjectTypeSelect(newValue) {
@@ -57,21 +61,21 @@ export default class UploadIdeaModal extends React.Component {
   updateTitle(newValue) {
     this.setState({
       ...this.state, 
-      title: newValue,
+      title: newValue.target.value,
     });
   }
 
   updateDescription(newValue) {
     this.setState({
       ...this.state, 
-      description: newValue,
+      description: newValue.target.value,
     });
   }
 
   updateAutor(newValue) {
     this.setState({
       ...this.state, 
-      autor: newValue,
+      autor: newValue.target.value,
     });
   }
 
@@ -165,7 +169,7 @@ export default class UploadIdeaModal extends React.Component {
                 <ControlLabel>Título<MandatoryField/></ControlLabel>
                 <FormControl
                   value={this.state.title}
-                  onChange={this.updateTitle}
+                  onChange={(e) => this.updateTitle(e)}
                   ref={titleInput => { this.titleInput = titleInput; }}
                   key="titleInput"
                   placeholder={'Ingrese un título para tu idea'}

@@ -90,7 +90,6 @@ const getProjectTypes = (dispatch) => {
 };
 
 const getActiveProject = (projectId, dispatch) => {
-  console.log('projectId', projectId);
   if(!projectId) {
     return Bluebird.resolve();
   }

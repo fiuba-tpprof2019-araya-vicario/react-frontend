@@ -12,7 +12,7 @@ export const contactMessages = {
 export const myProjectMessages = {
   TITLE: 'Mi proyecto',
   SUBTITLE: '',
-  NEW_IDEA_DESCRIPTION: 'No se ha creado una idea aún, agregue una para dar comienzo a su propuesta.',
+  NEW_IDEA_DESCRIPTION: 'No se ha creado una idea aún, agregue una para dar comienzo a su propuesta. En la misma debe describir brevemente el proposito de su proyecto (En caso de no tener un tutor asignado puede realizarlo en pasos posteriores).',
 };
 
 export const utilsMessages = {

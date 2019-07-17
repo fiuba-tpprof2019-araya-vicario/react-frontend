@@ -28,5 +28,5 @@ export function getSelectOption (option, valueString = 'id', labelString = 'name
 }
 
 export function getFullName (user) {
-  return user.name + ' ' + user.surname;
+  return user ? user.name + ' ' + user.surname : '';
 }
