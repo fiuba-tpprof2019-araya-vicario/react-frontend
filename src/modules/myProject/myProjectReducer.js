@@ -1,7 +1,7 @@
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
 import references from '../../utils/services/references';
-import { getSelectOption, getSelectOptions, getSelectOptionsWithIgnore, getOnlyField } from '../../utils/services/funtions';
+import { getSelectOption, getSelectOptions, getSelectOptionsWithIgnore, getOnlyField, getFullName } from '../../utils/services/funtions';
 import axios from 'axios';
 import Bluebird from 'bluebird';
 
@@ -161,10 +161,11 @@ export const uploadIdea = ({title, description, coautors, type, autor, tutor_id}
 const getFormattedProject = (project) => {
   return {
     ...project,
-    tutors: getSelectOptions(project.tutors),
-    type: getSelectOption(project.Type),
-    students: getSelectOptions(project.Students),
-    tutor: { ...project.tutor, ...getSelectOption(project.tutor)}
+    cotutors: getSelectOptions(project.Cotutors, {getLabel: getFullName}),
+    students: getSelectOptions(project.Students, {getLabel: getFullName}),
+    tutor: { ...project.Tutor, ...getSelectOption(project.Tutor, {getLabel: getFullName})},
+    creator: { ...project.Creator, ...getSelectOption(project.Creator, {getLabel: getFullName})},
+    type: getSelectOption(project.Type, {})
   };
 };
 

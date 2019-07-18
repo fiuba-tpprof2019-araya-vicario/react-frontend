@@ -14,12 +14,6 @@ export const formatterDate = (data) => {
   return fullDate;
 }
 
-export function getSelectOptions (options, valueString = 'id', labelString = 'name' ) {
-  return options && options.map((elem) => {
-    return { value: elem[valueString], label: elem[labelString] };
-  });
-}
-
 export function getOnlyField (values, valueString = 'value') {
   return values.map((elem) => {
     return elem[valueString];
@@ -34,8 +28,20 @@ export function getSelectOptionsWithIgnore (options, ignoreValue, valueString = 
   });
 }
 
-export function getSelectOption (option, valueString = 'id', labelString = 'name' ) {
-  return option && { value: option[valueString], label: option[labelString] };
+export function getSelectOptions (options, { valueString = 'id', getLabel = (e) => { return e['name']; }}) {
+  if (!options || options.length === 0){
+    return [];
+  }
+  return options.map((elem) => {
+    return { value: elem[valueString], label: getLabel(elem) };
+  });
+}
+
+export function getSelectOption (option, { valueString = 'id', getLabel = (e) => { return e['name']; }}) {
+  if (!option  || option === {}){
+    return null;
+  }
+  return option && option !== {} && { value: option[valueString], label: getLabel(option) };
 }
 
 export function getFullName (user) {

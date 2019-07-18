@@ -4,6 +4,8 @@ import { Row, Col, Button, FormControl, FormGroup, ControlLabel, HelpBlock, Moda
 import Select from 'react-select';
 import Field from '../../../utils/Field';
 import MandatoryField from '../../../utils/forms/MandatoryField';
+import { getFullName } from '../../../utils/services/funtions';
+
 
 export default class UploadIdeaModal extends React.Component {
 
@@ -24,7 +26,7 @@ export default class UploadIdeaModal extends React.Component {
       description: project.description ? project.description : '',
       projectType: project.type ? project.type : null,
       tutor: project.tutor ? project.tutor : null,
-      autor: project.creator ? project.creator.name : user.name
+      autor: project.creator ? getFullName(project.creator) : user.name
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
