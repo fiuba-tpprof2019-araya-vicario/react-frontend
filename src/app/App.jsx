@@ -12,9 +12,9 @@ import ContactIndex from '../modules/contact/ContactIndex';
 import FileIndex from '../modules/fileAdmin/FileIndex';
 import { persistor } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
-import { CustomAlert } from '../utils/CustomAlert';
+import CustomAlert from '../utils/CustomAlert';
 import './App.css';
-import { Loading } from '../utils/Loading';
+import Loading from '../utils/Loading';
 
 class App extends React.Component {
 

@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import Itemized from '../../utils/styles/Itemized';
+import CustomAlert from '../../utils/CustomAlert';
 import { getFullName, formatterDate } from '../../utils/services/funtions';
+import { myProjectMessages } from '../../utils/messages';
 
 export default class ReviewIdea extends React.Component {
   constructor() {
@@ -36,6 +38,11 @@ export default class ReviewIdea extends React.Component {
     return (
       <Fragment>
         <Row>
+          <br/>
+          <CustomAlert
+            rowKey="infoNextStep"
+            bsStyle="info"
+            message={myProjectMessages.NEW_STEP_PROJECT_CREATED_INFO}/>
           <br/>
           <Row>
             <h3>Título: {this.props.project.name}</h3>

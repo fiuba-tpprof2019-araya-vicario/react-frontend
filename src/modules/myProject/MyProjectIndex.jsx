@@ -87,6 +87,7 @@ export class MyProjectIndex extends React.Component {
           tutors={this.props.tutors}
           projectTypes={this.props.projectTypes}
           project={this.props.project}
+          editMode={activeStep}
           ref={modal => {
             this.UploadIdeaModal = modal;
           }}
