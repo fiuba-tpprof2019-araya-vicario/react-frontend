@@ -1,18 +1,20 @@
+import references from './references';
 
 export function isValidEmail(email) {
   return (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email));
 }
 
 export const formatterDate = (data) => {
-  if(!data)
+  if (!data) {
     return '';
+  }
   let dates = data.split('-');
   let dayAndHour = dates[2].split('T');
   const hour = dayAndHour[1].split('.');
   const day = dayAndHour[0];
   let fullDate = day + '-' + dates[1] + '-' + dates[0] + ' ' + hour[0];
   return fullDate;
-}
+};
 
 export function getOnlyField (values, valueString = 'value') {
   return values.map((elem) => {
@@ -46,4 +48,26 @@ export function getSelectOption (option, { valueString = 'id', getLabel = (e) =>
 
 export function getFullName (user) {
   return user ? user.name + ' ' + user.surname : '';
+}
+
+export function getFullNameWithDescription(user, description) {
+  return user ? user.name + ' ' + user.surname + ' (' + description + ')': '';
+}
+
+export function getDescriptionByRequestStatus(stateRequest) {
+  return stateRequest ? references.REQUEST_STATES[stateRequest] : '';
+}
+
+export function getFullNameWithStatus(user, label) {
+  const requests = user[label];
+  const description = getDescriptionByRequestStatus(requests[requests.length - 1].status);
+  return getFullNameWithDescription(user, description);
+}
+
+export function getTutorFullName(user) {
+  return user ? getFullNameWithStatus(user, 'TutorRequests') : '';
+}
+
+export function getStudentFullName(user) {
+  return user ? getFullNameWithStatus(user, 'StudentRequests') : '';
 }

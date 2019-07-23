@@ -279,7 +279,7 @@ export default class UploadIdeaModal extends React.Component {
         <Modal.Footer>
           <Button bsSize={'small'} onClick={this.hideModal}>Cancelar</Button>&nbsp;
           <Button key={'createFileButton'} bsSize={'small'} bsStyle={'primary'} onClick={this.onSubmit}>
-            {this.props.editMode? 'Crear' : 'Enviar'}
+            {this.props.editMode? 'Enviar' : 'Crear'}
           </Button>
         </Modal.Footer>
       </Modal>

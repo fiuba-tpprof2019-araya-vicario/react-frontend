@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import Itemized from '../../utils/styles/Itemized';
 import CustomAlert from '../../utils/CustomAlert';
-import { getFullName, formatterDate } from '../../utils/services/funtions';
+import { getFullName, formatterDate, getStudentFullName, getTutorFullName } from '../../utils/services/funtions';
 import { myProjectMessages } from '../../utils/messages';
 
 export default class ReviewIdea extends React.Component {
@@ -16,7 +16,7 @@ export default class ReviewIdea extends React.Component {
     if (Creator && Students) {
       autors.push('Creador: ' + getFullName(Creator));
       Students.forEach(student => {
-        autors.push('Participante: ' + getFullName(student));
+        autors.push('Participante: ' + getStudentFullName(student));
       });
     }
     return autors;
@@ -26,9 +26,9 @@ export default class ReviewIdea extends React.Component {
     const { Tutor, Cotutors } = this.props.project;
     let tutors = [];
     if (Tutor && Cotutors) {
-      tutors.push('Tutor: ' + getFullName(Tutor));
+      tutors.push('Tutor: ' + getTutorFullName(Tutor));
       Cotutors.forEach(tutor => {
-        tutors.push('Cotutor: ' + getFullName(tutor));
+        tutors.push('Cotutor: ' + getTutorFullName(tutor));
       });
     } 
     return tutors;
@@ -53,11 +53,13 @@ export default class ReviewIdea extends React.Component {
               <Itemized title='Autores:' items={this.getAutors()}/>
             </Col>
             <Col md={4} lg={4}>
-              <Itemized title='Tutores:'items={this.getTutors()}/>
+              <Itemized title='Tutores:' items={this.getTutors()}/>
             </Col>
             <Col md={4} lg={4}>
-              <h4>Fecha de creación:</h4>
-              <p>{formatterDate(this.props.project.createdAt)}</p>
+              <Itemized 
+                title='Fecha de creación:'
+                items={[formatterDate(this.props.project.createdAt)]}
+              />
             </Col>
           </Row>
           <br/>

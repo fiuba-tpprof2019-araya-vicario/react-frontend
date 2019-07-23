@@ -90,7 +90,7 @@ const getProjectTypes = (dispatch) => {
 };
 
 const getActiveProject = (projectId, dispatch) => {
-  if(!projectId) {
+  if  (!projectId) {
     return Bluebird.resolve();
   }
   let config = getConfig();
@@ -148,8 +148,38 @@ export const uploadIdea = ({title, description, coautors, type, autor, tutor_id}
   axios
     .post(api.projects, body, config)
     .then(res => res.data.data)
-    .then((data) => {
-      dispatch(ideaUploaded(data));
+    .then((projectId) => {
+      dispatch(ideaUploaded(projectId));
+      getActiveProject(projectId, dispatch);
+    }).then(() => {
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch(err => {
+      dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
+export const editIdea = (projectId, {title, description, coautors, type, autor, tutor_id}) => dispatch => {
+  dispatch(toggleLoading({ loading: true }));
+  let config = getConfig();
+  const body = {
+    name: title,
+    description,
+    autor,
+    tutor_id,
+    cotutors: [],
+    students: getOnlyField(coautors),
+    type
+  };
+
+  axios
+    .put(api.projects(projectId), body, config)
+    .then(res => res.data.data)
+    .then((projectId) => {
+      dispatch(ideaUploaded(projectId));
+      getActiveProject(projectId, dispatch);
+    }).then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
     .catch(err => {
