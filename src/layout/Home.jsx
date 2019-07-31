@@ -18,8 +18,6 @@ export const Home = () => {
       </Row>
       <br />
       <Row className="text-center">
-        <Col md={1} lg={1}> 
-        </Col>
         <Col md={2} lg={2}>
           <Row>
             <Center>
@@ -35,6 +33,23 @@ export const Home = () => {
           </Row>
           <Row>
             Edita tu información personal
+          </Row>
+        </Col>
+        <Col md={2} lg={2}>
+          <Row>
+            <Center>
+              <button className="onlyIcon">
+                <i className="fa fa-inbox bigIcon"
+                  aria-hidden="true" 
+                  onClick={() => access('/request')}/>
+              </button>
+            </Center>
+          </Row>
+          <Row>
+            <h4>Mis solicitudes</h4>
+          </Row>
+          <Row>
+            Revisa todas las solicitudes recibidas para colaborar en un proyecto
           </Row>
         </Col>
         <Col md={2} lg={2}>

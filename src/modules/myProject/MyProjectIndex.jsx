@@ -31,10 +31,9 @@ export class MyProjectIndex extends React.Component {
   }
 
   getActiveStep() {
-    const { projectId } = this.props.user;
-
+    const { user, project } = this.props;
     let activeStep = 0;
-    if (projectId) {
+    if (user.projectId && project) {
       activeStep = 1;
     }
     return activeStep;
@@ -88,6 +87,7 @@ export class MyProjectIndex extends React.Component {
           tutors={this.props.tutors}
           projectTypes={this.props.projectTypes}
           project={this.props.project}
+          editMode={activeStep}
           ref={modal => {
             this.UploadIdeaModal = modal;
           }}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Modal } from 'react-bootstrap';
-import { deleteFile } from '../fileReducer';
+import { deleteFile } from '../requestReducer';
 
 export class DeleteFileModal extends React.Component {
 

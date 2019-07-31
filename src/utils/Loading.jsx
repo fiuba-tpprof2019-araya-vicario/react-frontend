@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-export class Loading extends React.Component {
+export default class Loading extends React.Component {
   render() {
     return (
       <Row className="loading">

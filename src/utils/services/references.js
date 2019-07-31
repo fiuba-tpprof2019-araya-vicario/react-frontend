@@ -10,5 +10,10 @@ export default {
     TRABAJO_PROFESIONAL: 1,
     TESIS: 2,
     TRABAJO_PRACTICO: 3
+  },
+  REQUEST_STATES: {
+    pending: 'Pendiente',
+    accepted: 'Aceptada',
+    rejected: 'Rechazada'
   }
 };

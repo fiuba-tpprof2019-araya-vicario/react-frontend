@@ -12,7 +12,13 @@ export const contactMessages = {
 export const myProjectMessages = {
   TITLE: 'Mi proyecto',
   SUBTITLE: '',
-  NEW_IDEA_DESCRIPTION: 'No se ha creado una idea aún, agregue una para dar comienzo a su propuesta.',
+  NEW_IDEA_DESCRIPTION: 'No se ha creado una idea aún, agregue una para dar comienzo a su propuesta. En la misma debe describir brevemente el proposito de su proyecto (En caso de no tener un tutor asignado puede realizarlo en pasos posteriores).',
+  NEW_STEP_PROJECT_CREATED_INFO: 'Para avanzar al siguiente paso el proyecto debe tener un tutor asignado a tu proyecto, que haya aceptado la solicitud de tutoría.',
+};
+
+export const requestMessages = {
+  TITLE: 'Mis solicitudes',
+  SUBTITLE: 'Administra todas tus solicitudes para formar parte de un proyecto',
 };
 
 export const utilsMessages = {

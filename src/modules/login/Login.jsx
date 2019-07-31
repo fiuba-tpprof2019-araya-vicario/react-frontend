@@ -4,7 +4,7 @@ import { loginWithGoogle, clearErrors } from './authReducer';
 import { Row, Col } from 'react-bootstrap';
 import Center from 'react-center';
 import { withRouter } from 'react-router-dom';
-import { CustomAlert } from '../../utils/CustomAlert';
+import CustomAlert from '../../utils/CustomAlert';
 import { GoogleLogin } from 'react-google-login';
 import Title from '../../utils/Title';
 import { loginMessages } from '../../utils/messages';
