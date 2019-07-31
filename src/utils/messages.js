@@ -16,6 +16,11 @@ export const myProjectMessages = {
   NEW_STEP_PROJECT_CREATED_INFO: 'Para avanzar al siguiente paso el proyecto debe tener un tutor asignado a tu proyecto, que haya aceptado la solicitud de tutoría.',
 };
 
+export const requestMessages = {
+  TITLE: 'Mis solicitudes',
+  SUBTITLE: 'Administra todas tus solicitudes para formar parte de un proyecto',
+};
+
 export const utilsMessages = {
   QUERY_ERROR: 'Se produjo un error al comunicarse con el servidor, vuelve a intentar en unos minutos',
 };

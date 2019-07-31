@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { Row, Col, Button, FormControl, FormGroup, ControlLabel, HelpBlock, Modal } from 'react-bootstrap';
-import { uploadFile } from '../fileReducer';
+import { uploadFile } from '../requestReducer';
 
 export class UploadFileModal extends React.Component {
 

@@ -17,12 +17,10 @@ export const internalError = err => ({
   type: INTERNAL_ERROR, err
 });
 
-// Action creators
 export const hydrateFiles = data => ({
   type: HYDRATE_FILES, data
 });
 
-// Thunks
 export const getFiles = () => dispatch => {
   let config = getConfig();
   axios.get(api.files, config)

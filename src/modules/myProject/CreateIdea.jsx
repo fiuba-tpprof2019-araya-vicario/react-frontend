@@ -34,6 +34,25 @@ export default class CreateIdea extends React.Component {
             </Col>
             <Col md={3} lg={3}/>
           </Row>
+          <Row>
+            <Center>
+              <button
+                className="onlyIcon"
+                onClick={this.props.showUploadIdeaModal}
+              >
+                <i className="fa fa-plus-circle inmenseIcon" />
+              </button>
+            </Center>
+          </Row>
+          <Row>
+            <Col md={3} lg={3}/>
+            <Col md={6} lg={6}>
+              <Center>
+                <p>{myProjectMessages.NEW_IDEA_DESCRIPTION}</p>
+              </Center>
+            </Col>
+            <Col md={3} lg={3}/>
+          </Row>
         </Row>
       </Fragment>
     );

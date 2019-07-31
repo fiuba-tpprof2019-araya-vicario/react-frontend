@@ -9,7 +9,7 @@ import WebNavBar from '../layout/WebNavBar';
 import PrivateRoute from '../utils/PrivateRoute';
 import MyProjectIndex from '../modules/myProject/MyProjectIndex';
 import ContactIndex from '../modules/contact/ContactIndex';
-import FileIndex from '../modules/fileAdmin/FileIndex';
+import RequestIndex from '../modules/request/RequestIndex';
 import { persistor } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import CustomAlert from '../utils/CustomAlert';
@@ -50,7 +50,7 @@ class App extends React.Component {
               <Route path="/login" component={Login} />
               <PrivateRoute exact={true} path="/" permiso={true} component={Home} />
               <PrivateRoute exact={true} path="/my_project" permiso={true} component={MyProjectIndex} />
-              <PrivateRoute exact={true} path="/file" permiso={true} component={FileIndex} />
+              <PrivateRoute exact={true} path="/file" permiso={true} component={RequestIndex} />
               <Route exact={true} path="/contact" permiso={true} component={ContactIndex} />
             </Switch>
           </Grid>
