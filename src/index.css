@@ -3,3 +3,81 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+/* Starts - Fiuba CSS */
+
+.navbar {
+  background-color: #00AEE6;
+  border-color: #0196DC;
+  color: #ededed;
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
+  margin-bottom: 0px;
+}
+
+.help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #a94442;
+}
+
+.linkNavbar {
+  color: #ededed;
+  text-align: -webkit-match-parent;
+  text-decoration: none;
+  line-height: 20px;
+  position: relative;
+  display: block;
+  padding: 15px;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+.navbar-inverse .navbar-nav > .open > a, 
+.navbar-inverse .navbar-nav > .open > a:hover, 
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background-color: #0196DC;
+}
+
+.navbar-inverse .navbar-brand {
+  color: #ededed;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #ededed; 
+}
+
+.loadingModal {
+  width: 200px;
+  margin-top: 250px;
+}
+
+.expandedRow {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.bigIcon {
+  font-size: 8em;
+  color: #0196DC;
+}
+
+.inmenseIcon {
+  font-size: 12em;
+  color: #0196DC;
+}
+
+.onlyIcon {
+  border-radius: 100%;
+  border-width: 0px;
+}
+
+/* Ends - Fiuba CSS */
+
+.loading {
+  margin: auto;
+  width: 100%;
+  padding: 100px;
+}
