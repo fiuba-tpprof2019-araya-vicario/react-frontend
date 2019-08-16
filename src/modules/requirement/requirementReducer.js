@@ -3,14 +3,14 @@ import { utilsMessages } from '../../utils/messages'
 import axios from 'axios'
 
 const CLEAR_ALERT = 'CLEAR_ALERT'
-const HYDRATE_REQUESTS = 'HYDRATE_REQUESTS'
+const HYDRATE_REQUIREMENTS = 'HYDRATE_REQUIREMENTS'
 const QUERY_ERROR = 'QUERY_ERROR'
 const TOGGLE_LOADING = 'TOGGLE_LOADING'
 
 const initialState = {
   alert: null,
   loading: false,
-  requests: null
+  requirements: null
 }
 
 const toggleLoading = ({ loading }) => ({
@@ -26,18 +26,18 @@ export const queryError = err => ({
   type: QUERY_ERROR, err
 })
 
-export const hydrateRequests = data => ({
-  type: HYDRATE_REQUESTS, data
+export const hydrateRequirements = data => ({
+  type: HYDRATE_REQUIREMENTS, data
 })
 
-export const getRequests = () => dispatch => {
+export const getRequirements = () => dispatch => {
   dispatch(toggleLoading({ loading: true }))
   let config = getConfig()
-  axios.get(api.requests, config)
+  axios.get(api.requirements, config)
     .then(res => res.data.data)
     .then(data => {
       dispatch(toggleLoading({ loading: false }))
-      dispatch(hydrateRequests(data))
+      dispatch(hydrateRequirements(data))
     })
     .catch(err => {
       dispatch(toggleLoading({ loading: false }))
@@ -45,51 +45,16 @@ export const getRequests = () => dispatch => {
     })
 }
 
-export const acceptRequest = (requestId) => dispatch => {
-  dispatch(toggleLoading({ loading: true }))
-  let config = getConfig()
-  const body = {
-    type: 'tutor',
-    status: 'accepted'
-  }
-  axios.put(api.acceptRequest(requestId), body, config)
-    .then(res => res.data.data)
-    .then(data => {
-      dispatch(toggleLoading({ loading: false }))
-    })
-    .catch(err => {
-      dispatch(toggleLoading({ loading: false }))
-      dispatch(queryError(err))
-    })
-}
-
-export const rejectRequest = (requestId) => dispatch => {
-  dispatch(toggleLoading({ loading: true }))
-  let config = getConfig()
-  const body = {
-    type: 'tutor',
-    status: 'rejected'
-  }
-  axios.put(api.rejectRequest(requestId), body, config)
-    .then(res => res.data.data)
-    .then(data => {
-      dispatch(toggleLoading({ loading: false }))
-    })
-    .catch(err => {
-      dispatch(toggleLoading({ loading: false }))
-      dispatch(queryError(err))
-    })
-}
-
-const fetchRequestTable = (data) => {
+const fetchRequirementTable = (data) => {
   let returnValue = []
   data.map(function (rowObject) {
     returnValue.push({
       id: rowObject.id,
-      creator: `${rowObject.User.name} ${rowObject.User.surname}`,
-      project: rowObject.Project.name,
+      creator: `${rowObject.Creator.name} ${rowObject.Creator.surname}`,
+      requirement: rowObject.name,
       created_at: rowObject.createdAt,
-      updated_at: rowObject.updatedAt
+      updated_at: rowObject.updatedAt,
+      status: rowObject.status
     })
   })
   return returnValue
@@ -97,10 +62,10 @@ const fetchRequestTable = (data) => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case HYDRATE_REQUESTS:
+    case HYDRATE_REQUIREMENTS:
       return {
         ...state,
-        requests: fetchRequestTable(action.data)
+        requirements: fetchRequirementTable(action.data)
       }
     case QUERY_ERROR:
       return {

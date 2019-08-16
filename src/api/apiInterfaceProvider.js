@@ -6,6 +6,7 @@ const LOGIN = 'auth';
 const PROJECTS = 'projects';
 const USERS = 'users';
 const REQUESTS = 'requests'
+const REQUIREMENTS = 'requirements'
 const CONTACT = 'contact';
 
 export const api = {
@@ -15,6 +16,7 @@ export const api = {
   projects: BASE + PROJECTS,
   users: BASE + USERS,
   requests: BASE + REQUESTS + '/tutors',
+  requirements: BASE + REQUIREMENTS,
   project: (id) => {
     return BASE + PROJECTS + '/' + id;
   },

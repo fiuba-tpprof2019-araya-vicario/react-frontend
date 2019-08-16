@@ -40,7 +40,7 @@ export class RequestIndex extends React.Component {
   }
 
   renderTable () {
-    if (this.props.requests === null || this.props.requests.length === 0) {
+    if (this.props.requests == null || this.props.requests.length === 0) {
       return (<Fragment>
         <br />
         <Alert bsStyle='info'>La búsqueda no trajo resultados</Alert>

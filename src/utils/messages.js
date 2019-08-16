@@ -21,6 +21,11 @@ export const requestMessages = {
   SUBTITLE: 'Administra todas tus solicitudes para formar parte de un proyecto',
 };
 
+export const requirementMessages = {
+  TITLE: 'Requerimientos',
+  SUBTITLE: 'Colabora con los distintos requerimientos solicitados'
+};
+
 export const utilsMessages = {
   QUERY_ERROR: 'Se produjo un error al comunicarse con el servidor, vuelve a intentar en unos minutos',
 };

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Table, Button } from 'react-bootstrap'
 
-export class RequestTable extends React.Component {
+export class RequirementTable extends React.Component {
   constructor () {
     super()
     this.getHeaders = this.getHeaders.bind(this)
@@ -9,7 +9,7 @@ export class RequestTable extends React.Component {
   }
 
   getHeaders () {
-    let headers = [ 'Id', 'Creador', 'Proyecto', 'Fecha de alta', 'Última modificación' ], i, returnHeaders = []
+    let headers = [ 'Id', 'Creador', 'Requerimiento', 'Fecha de alta', 'Última modificación', 'Estado' ], i, returnHeaders = []
     for (i in headers) {
       returnHeaders.push(
         <th key={i}>
@@ -17,12 +17,12 @@ export class RequestTable extends React.Component {
         </th>
       )
     }
-    returnHeaders.push(<th className="text-right" key={'acciones'} ></th>)
+    // returnHeaders.push(<th className="text-right" key={'acciones'} ></th>)
     return returnHeaders
   }
 
   getTableRows () {
-    let data = this.props.data, accept=this.props.accept, reject=this.props.reject
+    let data = this.props.data
 
     var tableRow = data.map(function (rowObject) {
       let i
@@ -34,17 +34,17 @@ export class RequestTable extends React.Component {
             {rowObject[i]}
           </td>)
       }
-      returnValue.push(
-        <td colSpan="2" className="text-right" key={'acciones'}>
-          <Button bsSize="xsmall" bsStyle="primary" onClick={() => accept(rowObject.id)}>
-            <i className="fa fa-download action" title="Aceptar"></i>
-            Acceptar
-          </Button>
-          <Button bsSize="xsmall" bsStyle="danger" onClick={() => reject(rowObject.id)}>
-            <i className="fa fa-remove action" title="rechazar"></i>
-            Rechazar
-          </Button>
-        </td>)
+      // returnValue.push(
+      //   <td colSpan="2" className="text-right" key={'acciones'}>
+      //     <Button bsSize="xsmall" bsStyle="primary" onClick={() => accept(rowObject.id)}>
+      //       <i className="fa fa-download action" title="Aceptar"></i>
+      //       Acceptar
+      //     </Button>
+      //     <Button bsSize="xsmall" bsStyle="danger" onClick={() => reject(rowObject.id)}>
+      //       <i className="fa fa-remove action" title="rechazar"></i>
+      //       Rechazar
+      //     </Button>
+      //   </td>)
 
       return (<tr key={rowObject.id}>
         {returnValue}

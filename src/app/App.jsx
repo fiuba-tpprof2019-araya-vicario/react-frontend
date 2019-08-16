@@ -10,6 +10,7 @@ import PrivateRoute from '../utils/PrivateRoute';
 import MyProjectIndex from '../modules/myProject/MyProjectIndex';
 import ContactIndex from '../modules/contact/ContactIndex';
 import RequestIndex from '../modules/request/RequestIndex';
+import RequirementIndex from '../modules/requirement/RequirementIndex';
 import { persistor } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import CustomAlert from '../utils/CustomAlert';
@@ -51,6 +52,7 @@ class App extends React.Component {
               <PrivateRoute exact={true} path="/" permiso={true} component={Home} />
               <PrivateRoute exact={true} path="/my_project" permiso={true} component={MyProjectIndex} />
               <PrivateRoute exact={true} path="/request" permiso={true} component={RequestIndex} />
+              <PrivateRoute exact={true} path="/requirement" permiso={true} component={RequirementIndex} />
               <Route exact={true} path="/contact" permiso={true} component={ContactIndex} />
             </Switch>
           </Grid>
