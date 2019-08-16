@@ -52,7 +52,8 @@ export class Login extends React.Component {
                 onFailure={this.responseGoogle}
                 autoLoad={false}
                 uxMode='popup'
-                hostedDomain='fi.uba.ar'
+                // TODO: SACAR PARA VALIDAR SOLO MAIL FIUBA
+                // hostedDomain='fi.uba.ar'
                 cookiePolicy={'single_host_origin'}
               >
                 <span> Login with Google</span>

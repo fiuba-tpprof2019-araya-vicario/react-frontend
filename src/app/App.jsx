@@ -50,7 +50,7 @@ class App extends React.Component {
               <Route path="/login" component={Login} />
               <PrivateRoute exact={true} path="/" permiso={true} component={Home} />
               <PrivateRoute exact={true} path="/my_project" permiso={true} component={MyProjectIndex} />
-              <PrivateRoute exact={true} path="/file" permiso={true} component={RequestIndex} />
+              <PrivateRoute exact={true} path="/request" permiso={true} component={RequestIndex} />
               <Route exact={true} path="/contact" permiso={true} component={ContactIndex} />
             </Switch>
           </Grid>

@@ -1,87 +1,122 @@
-import { getConfig, getMultipartFormDataConfig, getPostFileUploadBody, api } from '../../api/apiInterfaceProvider';
-import axios from 'axios';
+import { getConfig, api } from '../../api/apiInterfaceProvider'
+import { utilsMessages } from '../../utils/messages'
+import axios from 'axios'
 
-const HYDRATE_FILES = 'HYDRATE_FILES';
-const QUERY_ERROR = 'QUERY_ERROR';
-const INTERNAL_ERROR = 'INTERNAL_ERROR';
+const CLEAR_ALERT = 'CLEAR_ALERT'
+const HYDRATE_REQUESTS = 'HYDRATE_REQUESTS'
+const QUERY_ERROR = 'QUERY_ERROR'
+const TOGGLE_LOADING = 'TOGGLE_LOADING'
+
 const initialState = {
-  result: [],
   alert: null,
-};
+  loading: false,
+  requests: null
+}
+
+const toggleLoading = ({ loading }) => ({
+  type: TOGGLE_LOADING,
+  loading
+})
+
+export const clearAlert = () => ({
+  type: CLEAR_ALERT
+})
 
 export const queryError = err => ({
   type: QUERY_ERROR, err
-});
+})
 
-export const internalError = err => ({
-  type: INTERNAL_ERROR, err
-});
+export const hydrateRequests = data => ({
+  type: HYDRATE_REQUESTS, data
+})
 
-export const hydrateFiles = data => ({
-  type: HYDRATE_FILES, data
-});
-
-export const getFiles = () => dispatch => {
-  let config = getConfig();
-  axios.get(api.files, config)
-    .then(res => res.data)
+export const getRequests = () => dispatch => {
+  dispatch(toggleLoading({ loading: true }))
+  let config = getConfig()
+  axios.get(api.requests, config)
+    .then(res => res.data.data)
     .then(data => {
-      dispatch(hydrateFiles(data));
+      dispatch(toggleLoading({ loading: false }))
+      dispatch(hydrateRequests(data))
     })
     .catch(err => {
-      dispatch(queryError(err));
-    });
-};
+      dispatch(toggleLoading({ loading: false }))
+      dispatch(queryError(err))
+    })
+}
 
-export const uploadFile = (file,nombre) => dispatch => {
-  let config = getMultipartFormDataConfig();
-  var f = new File([file], nombre);
-  let body = getPostFileUploadBody(f);
-  axios.post(api.files, body, config)
+export const acceptRequest = (requestId) => dispatch => {
+  dispatch(toggleLoading({ loading: true }))
+  let config = getConfig()
+  const body = {
+    type: 'tutor',
+    status: 'accepted'
+  }
+  axios.put(api.acceptRequest(requestId), body, config)
     .then(res => res.data.data)
-    .then(() => {
-      dispatch(getFiles());
+    .then(data => {
+      dispatch(toggleLoading({ loading: false }))
     })
     .catch(err => {
-      dispatch(queryError(err));
-    });
-};
+      dispatch(toggleLoading({ loading: false }))
+      dispatch(queryError(err))
+    })
+}
 
-export const deleteFile = (fileId) => dispatch =>{
-  let config = getConfig();
-  axios.delete(api.file(fileId), config)
+export const rejectRequest = (requestId) => dispatch => {
+  dispatch(toggleLoading({ loading: true }))
+  let config = getConfig()
+  const body = {
+    type: 'tutor',
+    status: 'rejected'
+  }
+  axios.put(api.rejectRequest(requestId), body, config)
     .then(res => res.data.data)
-    .then(() => {
-      dispatch(getFiles());
+    .then(data => {
+      dispatch(toggleLoading({ loading: false }))
     })
     .catch(err => {
-      dispatch(queryError(err));
-    });
-}; 
+      dispatch(toggleLoading({ loading: false }))
+      dispatch(queryError(err))
+    })
+}
 
-const fetchFilesTable = (data) => {
-  let returnValue = [];
+const fetchRequestTable = (data) => {
+  let returnValue = []
+  console.log('data request: ', data)
   data.map(function (rowObject) {
-    returnValue.push({ 
-      id: rowObject.id, 
-      filename: rowObject.filename, 
-      size: rowObject.size,
-      created_at: rowObject.created_at,
-      updated_at: rowObject.updated_at 
-    });
-  });
-  return returnValue;
-};
+    returnValue.push({
+      id: rowObject.id,
+      creator: `${rowObject.User.name} ${rowObject.User.surname}`,
+      project: rowObject.Project.name,
+      created_at: rowObject.createdAt,
+      updated_at: rowObject.updatedAt
+    })
+  })
+  return returnValue
+}
 
 export default (state = initialState, action) => {
   switch (action.type) {
-  case HYDRATE_FILES:
-    return {
-      ...state,
-      result: fetchFilesTable(action.data.Files),
-      alert: null,
-    };
-  default:
-    return state;
+    case HYDRATE_REQUESTS:
+      return {
+        ...state,
+        requests: fetchRequestTable(action.data)
+      }
+    case QUERY_ERROR:
+      return {
+        ...state,
+        alert: {
+          message: utilsMessages.QUERY_ERROR,
+          style: 'danger',
+          onDismiss: clearAlert
+        }
+      }
+    case CLEAR_ALERT:
+      return { ...state, alert: null }
+    case TOGGLE_LOADING:
+      return { ...state, loading: action.loading }
+    default:
+      return state
   }
-};
+}

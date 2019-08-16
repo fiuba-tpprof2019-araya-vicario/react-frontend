@@ -5,6 +5,7 @@ import { BASE } from './api';
 const LOGIN = 'auth';
 const PROJECTS = 'projects';
 const USERS = 'users';
+const REQUESTS = 'requests'
 const CONTACT = 'contact';
 
 export const api = {
@@ -13,9 +14,16 @@ export const api = {
   contact: BASE + CONTACT,
   projects: BASE + PROJECTS,
   users: BASE + USERS,
+  requests: BASE + REQUESTS + '/tutors',
   project: (id) => {
     return BASE + PROJECTS + '/' + id;
   },
+  acceptRequest: (id) => {
+    return BASE + REQUESTS + '/tutors/' + id;
+  },
+  rejectRequest: (id) => {
+    return BASE + REQUESTS + '/tutors/' + id;
+  }
 };
 
 const getStoredToken = () => (localStorage.getItem('token'));

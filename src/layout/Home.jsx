@@ -58,7 +58,7 @@ export const Home = () => {
               <button className="onlyIcon">
                 <i className="fa fa-file bigIcon"
                   aria-hidden="true" 
-                  onClick={() => access('/my_project')}/>
+                  onClick={() => access('/request')}/>
               </button>
             </Center>
           </Row>

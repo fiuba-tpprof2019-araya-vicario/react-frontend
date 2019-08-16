@@ -24,7 +24,7 @@ export class WebNavBar extends React.Component {
                 <LinkContainer to={'/my_project'}>
                   <NavItem eventKey={1}>Mi proyecto</NavItem>
                 </LinkContainer>
-                <LinkContainer to={'/file'}>
+                <LinkContainer to={'/request'}>
                   <NavItem eventKey={2}>Mis Solicitudes</NavItem>
                 </LinkContainer>
               </Nav>
