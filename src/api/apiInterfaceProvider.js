@@ -5,8 +5,8 @@ import { BASE } from './api';
 const LOGIN = 'auth';
 const PROJECTS = 'projects';
 const USERS = 'users';
-const REQUESTS = 'requests'
-const REQUIREMENTS = 'requirements'
+const REQUESTS = 'requests';
+const REQUIREMENTS = 'requirements';
 const CONTACT = 'contact';
 
 export const api = {

@@ -1,30 +1,30 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { clearAlert, getRequests, acceptRequest, rejectRequest } from './requestReducer'
-import { Alert } from 'react-bootstrap'
-import Title from '../../utils/Title'
-import { requestMessages } from '../../utils/messages'
-import { withRouter } from 'react-router-dom'
-import { RequestTable } from './RequestTable'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { clearAlert, getRequests, acceptRequest, rejectRequest } from './requestReducer';
+import { Alert } from 'react-bootstrap';
+import Title from '../../utils/Title';
+import { requestMessages } from '../../utils/messages';
+import { withRouter } from 'react-router-dom';
+import { RequestTable } from './RequestTable';
 
 export class RequestIndex extends React.Component {
   constructor () {
-    super()
-    this.acceptRequest = this.acceptRequest.bind(this)
-    this.rejectRequest = this.rejectRequest.bind(this)
+    super();
+    this.acceptRequest = this.acceptRequest.bind(this);
+    this.rejectRequest = this.rejectRequest.bind(this);
   }
 
   componentDidMount () {
-    this.props.clearAlert()
-    this.props.getRequests()
+    this.props.clearAlert();
+    this.props.getRequests();
   }
 
   acceptRequest (requestId) {
-    this.props.acceptRequest(requestId)
+    this.props.acceptRequest(requestId);
   }
 
   rejectRequest (requestId) {
-    this.props.rejectRequest(requestId)
+    this.props.rejectRequest(requestId);
   }
 
   render () {
@@ -36,7 +36,7 @@ export class RequestIndex extends React.Component {
         />
         { this.renderTable() }
       </Fragment>
-    )
+    );
   }
 
   renderTable () {
@@ -44,13 +44,11 @@ export class RequestIndex extends React.Component {
       return (<Fragment>
         <br />
         <Alert bsStyle='info'>La búsqueda no trajo resultados</Alert>
-      </Fragment>)
+      </Fragment>);
     } else {
       return (
-        <Fragment>
-          <RequestTable data={this.props.requests} accept={this.acceptRequest} reject={this.rejectRequest} />
-        </Fragment>
-      )
+        <RequestTable data={this.props.requests} accept={this.acceptRequest} reject={this.rejectRequest} />
+      );
     }
   }
 }
@@ -58,22 +56,22 @@ export class RequestIndex extends React.Component {
 const mapStateToProps = (state) => {
   return {
     requests: state.requestReducer.requests
-  }
-}
+  };
+};
 
 const mapDispatch = dispatch => ({
   getRequests: () => {
-    dispatch(getRequests())
+    dispatch(getRequests());
   },
   clearAlert: () => {
-    dispatch(clearAlert())
+    dispatch(clearAlert());
   },
   acceptRequest: (requestId) => {
-    dispatch(acceptRequest(requestId))
+    dispatch(acceptRequest(requestId));
   },
   rejectRequest: (requestId) => {
-    dispatch(rejectRequest(requestId))
+    dispatch(rejectRequest(requestId));
   }
-})
+});
 
-export default withRouter(connect(mapStateToProps, mapDispatch)(RequestIndex))
+export default withRouter(connect(mapStateToProps, mapDispatch)(RequestIndex));

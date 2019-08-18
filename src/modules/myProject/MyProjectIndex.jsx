@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { uploadIdea, clearAlert, getInitialData} from './myProjectReducer';
-import { Row, Col } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import Title from '../../utils/Title';
+import BorderScreen from '../../utils/styles/BorderScreen';
 import UploadIdeaModal from './modals/UploadIdeaModal';
 import { myProjectMessages } from '../../utils/messages';
 import Stepper from 'react-stepper-horizontal';
@@ -52,35 +53,31 @@ export class MyProjectIndex extends React.Component {
     const activeStep = this.getActiveStep();
     return (
       <Fragment>
-        <Row>
-          <Col md={1} lg={1} />
-          <Col md={10} lg={10}>
-            <Row>
-              <Title
-                title={myProjectMessages.TITLE}
-                subtitle={myProjectMessages.SUBTITLE}
+        <BorderScreen>
+          <Row>
+            <Title
+              title={myProjectMessages.TITLE}
+              subtitle={myProjectMessages.SUBTITLE}
+            />
+            <div className="step-progress">
+              <Stepper
+                steps={steps}
+                activeStep={activeStep}
+                defaultTitleOpacity="0.5"
+                completeTitleOpacity="0.75"
+                activeColor="#468847"
               />
-              <div className="step-progress">
-                <Stepper
-                  steps={steps}
-                  activeStep={activeStep}
-                  defaultTitleOpacity="0.5"
-                  completeTitleOpacity="0.75"
-                  activeColor="#468847"
-                />
-              </div>
-            </Row>
-            <Row>
-              {activeStep == 0 ? (
-                <CreateIdea showUploadIdeaModal={this.showUploadIdeaModal} />
-              ) : null}
-              {activeStep == 1 ? (
-                <ReviewIdea project={this.props.project} showUploadIdeaModal={this.showUploadIdeaModal} />
-              ) : null}
-            </Row>
-          </Col>
-          <Col md={1} lg={1} />
-        </Row>
+            </div>
+          </Row>
+          <Row>
+            {activeStep == 0 ? (
+              <CreateIdea showUploadIdeaModal={this.showUploadIdeaModal} />
+            ) : null}
+            {activeStep == 1 ? (
+              <ReviewIdea project={this.props.project} showUploadIdeaModal={this.showUploadIdeaModal} />
+            ) : null}
+          </Row>
+        </BorderScreen>
         <UploadIdeaModal
           uploadIdea={this.uploadIdea}
           coautors={this.props.coautors}

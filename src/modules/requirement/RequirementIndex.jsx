@@ -1,19 +1,19 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { clearAlert, getRequirements } from './requirementReducer'
-import { Alert } from 'react-bootstrap'
-import Title from '../../utils/Title'
-import { requirementMessages } from '../../utils/messages'
-import { withRouter } from 'react-router-dom'
-import { RequirementTable } from './RequirementTable'
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { clearAlert, getRequirements } from './requirementReducer';
+import { Alert } from 'react-bootstrap';
+import Title from '../../utils/Title';
+import { requirementMessages } from '../../utils/messages';
+import { withRouter } from 'react-router-dom';
+import { RequirementTable } from './RequirementTable';
 
 export class RequirementIndex extends React.Component {
 
   componentDidMount () {
-    console.log('this.props', this.props)
-    console.log('this.props.clearAlert', this.props.clearAlert)
-    this.props.clearAlert()
-    this.props.getRequirements()
+    console.log('this.props', this.props);
+    console.log('this.props.clearAlert', this.props.clearAlert);
+    this.props.clearAlert();
+    this.props.getRequirements();
   }
 
   render () {
@@ -25,7 +25,7 @@ export class RequirementIndex extends React.Component {
         />
         { this.renderTable() }
       </Fragment>
-    )
+    );
   }
 
   renderTable () {
@@ -33,13 +33,13 @@ export class RequirementIndex extends React.Component {
       return (<Fragment>
         <br />
         <Alert bsStyle='info'>La búsqueda no trajo resultados</Alert>
-      </Fragment>)
+      </Fragment>);
     } else {
       return (
         <Fragment>
           <RequirementTable data={this.props.requirements} />
         </Fragment>
-      )
+      );
     }
   }
 }
@@ -47,16 +47,16 @@ export class RequirementIndex extends React.Component {
 const mapStateToProps = (state) => {
   return {
     requirements: state.requirementReducer.requirements
-  }
-}
+  };
+};
 
 const mapDispatch = dispatch => ({
   getRequirements: () => {
-    dispatch(getRequirements())
+    dispatch(getRequirements());
   },
   clearAlert: () => {
-    dispatch(clearAlert())
+    dispatch(clearAlert());
   }
-})
+});
 
-export default withRouter(connect(mapStateToProps, mapDispatch)(RequirementIndex))
+export default withRouter(connect(mapStateToProps, mapDispatch)(RequirementIndex));

@@ -1,38 +1,38 @@
-import React, { Fragment } from 'react'
-import { Table, Button } from 'react-bootstrap'
+import React, { Fragment } from 'react';
+import { Table } from 'react-bootstrap';
 
 export class RequirementTable extends React.Component {
   constructor () {
-    super()
-    this.getHeaders = this.getHeaders.bind(this)
-    this.getTableRows = this.getTableRows.bind(this)
+    super();
+    this.getHeaders = this.getHeaders.bind(this);
+    this.getTableRows = this.getTableRows.bind(this);
   }
 
   getHeaders () {
-    let headers = [ 'Id', 'Creador', 'Requerimiento', 'Fecha de alta', 'Última modificación', 'Estado' ], i, returnHeaders = []
+    let headers = [ 'Id', 'Creador', 'Requerimiento', 'Fecha de alta', 'Última modificación', 'Estado' ], i, returnHeaders = [];
     for (i in headers) {
       returnHeaders.push(
         <th key={i}>
           {headers[i]}
         </th>
-      )
+      );
     }
     // returnHeaders.push(<th className="text-right" key={'acciones'} ></th>)
-    return returnHeaders
+    return returnHeaders;
   }
 
   getTableRows () {
-    let data = this.props.data
+    let data = this.props.data;
 
     var tableRow = data.map(function (rowObject) {
-      let i
-      var returnValue = []
+      let i;
+      var returnValue = [];
 
       for (i in rowObject) {
         returnValue.push(
           <td key={i}>
             {rowObject[i]}
-          </td>)
+          </td>);
       }
       // returnValue.push(
       //   <td colSpan="2" className="text-right" key={'acciones'}>
@@ -48,9 +48,9 @@ export class RequirementTable extends React.Component {
 
       return (<tr key={rowObject.id}>
         {returnValue}
-      </tr>)
-    })
-    return tableRow
+      </tr>);
+    });
+    return tableRow;
   }
 
   render () {
@@ -67,6 +67,6 @@ export class RequirementTable extends React.Component {
           </tbody>
         </Table>
       </Fragment>
-    )
+    );
   }
 }
