@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Center from 'react-center';
+import history from '../../redux/history';
 import { myProjectMessages } from '../../utils/messages';
 import BorderScreen from '../../utils/styles/BorderScreen';
 
