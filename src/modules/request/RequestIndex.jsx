@@ -4,6 +4,7 @@ import { clearAlert, getRequests, acceptRequest, rejectRequest } from './request
 import { Alert } from 'react-bootstrap';
 import Title from '../../utils/Title';
 import { requestMessages } from '../../utils/messages';
+import BorderScreen from '../../utils/styles/BorderScreen';
 import { withRouter } from 'react-router-dom';
 import { RequestTable } from './RequestTable';
 
@@ -29,13 +30,13 @@ export class RequestIndex extends React.Component {
 
   render () {
     return (
-      <Fragment>
+      <BorderScreen>
         <Title
           title={requestMessages.TITLE}
           subtitle={requestMessages.SUBTITLE}
         />
         { this.renderTable() }
-      </Fragment>
+      </BorderScreen>
     );
   }
 

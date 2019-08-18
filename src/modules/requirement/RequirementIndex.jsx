@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { clearAlert, getRequirements } from './requirementReducer';
 import { Alert } from 'react-bootstrap';
 import Title from '../../utils/Title';
+import BorderScreen from '../../utils/styles/BorderScreen';
 import { requirementMessages } from '../../utils/messages';
 import { withRouter } from 'react-router-dom';
 import { RequirementTable } from './RequirementTable';
@@ -18,13 +19,13 @@ export class RequirementIndex extends React.Component {
 
   render () {
     return (
-      <Fragment>
+      <BorderScreen>
         <Title
           title={requirementMessages.TITLE}
           subtitle={requirementMessages.SUBTITLE}
         />
         { this.renderTable() }
-      </Fragment>
+      </BorderScreen>
     );
   }
 
@@ -36,9 +37,7 @@ export class RequirementIndex extends React.Component {
       </Fragment>);
     } else {
       return (
-        <Fragment>
-          <RequirementTable data={this.props.requirements} />
-        </Fragment>
+        <RequirementTable data={this.props.requirements} />
       );
     }
   }

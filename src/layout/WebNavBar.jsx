@@ -21,11 +21,14 @@ export class WebNavBar extends React.Component {
           {this.props.isAuthenticated && (
             <div id="navs">
               <Nav>
-                <LinkContainer to={'/my_project'}>
+                <LinkContainer to={'/my_projects'}>
                   <NavItem eventKey={1}>Mi proyecto</NavItem>
                 </LinkContainer>
-                <LinkContainer to={'/request'}>
+                <LinkContainer to={'/requests'}>
                   <NavItem eventKey={2}>Mis Solicitudes</NavItem>
+                </LinkContainer>
+                <LinkContainer to={'/requirements'}>
+                  <NavItem eventKey={3}>Requerimientos</NavItem>
                 </LinkContainer>
               </Nav>
               <Nav pullRight>
@@ -40,7 +43,7 @@ export class WebNavBar extends React.Component {
           )}
           <Nav>
             <LinkContainer to={'/contact'}>
-              <NavItem eventKey={3}>Contacto</NavItem>
+              <NavItem eventKey={4}>Contacto</NavItem>
             </LinkContainer>
           </Nav>
           {!this.props.isAuthenticated && (

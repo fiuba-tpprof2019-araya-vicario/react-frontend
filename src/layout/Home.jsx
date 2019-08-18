@@ -24,7 +24,7 @@ export const Home = () => {
               <button className="onlyIcon">
                 <i className="fa fa-user-circle bigIcon" 
                   aria-hidden="true" 
-                  onClick={() => access('/my_project')}/>
+                  onClick={() => access('/my_projects')}/>
               </button>
             </Center>
           </Row>
@@ -58,7 +58,7 @@ export const Home = () => {
               <button className="onlyIcon">
                 <i className="fa fa-file bigIcon"
                   aria-hidden="true" 
-                  onClick={() => access('/my_project')}/>
+                  onClick={() => access('/my_projects')}/>
               </button>
             </Center>
           </Row>
@@ -75,7 +75,7 @@ export const Home = () => {
               <button className="onlyIcon">
                 <i className="fa fa-lightbulb-o bigIcon"
                   aria-hidden="true" 
-                  onClick={() => access('/my_project')}/>
+                  onClick={() => access('/my_projects')}/>
               </button>
             </Center>
           </Row>
@@ -92,7 +92,7 @@ export const Home = () => {
               <button className="onlyIcon">
                 <i className="fa fa-clipboard bigIcon"
                   aria-hidden="true" 
-                  onClick={() => access('/requirement')}/>
+                  onClick={() => access('/requirements')}/>
               </button>
             </Center>
           </Row>
@@ -109,7 +109,7 @@ export const Home = () => {
               <button className="onlyIcon">
                 <i className="fa fa-archive bigIcon"
                   aria-hidden="true" 
-                  onClick={() => access('/my_project')}/>
+                  onClick={() => access('/my_projects')}/>
               </button>
             </Center>
           </Row>

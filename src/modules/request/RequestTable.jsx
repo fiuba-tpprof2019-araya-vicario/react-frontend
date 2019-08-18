@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 
 export class RequestTable extends React.Component {
