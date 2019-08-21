@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { clearAlert, getRequests, acceptRequest, rejectRequest } from './requestReducer';
-import { Alert } from 'react-bootstrap';
 import Title from '../../utils/Title';
 import { requestMessages } from '../../utils/messages';
 import BorderScreen from '../../utils/styles/BorderScreen';
 import { withRouter } from 'react-router-dom';
 import { RequestTable } from './RequestTable';
+import CustomAlert from '../../utils/CustomAlert';
 
 export class RequestIndex extends React.Component {
   constructor () {
@@ -35,6 +35,7 @@ export class RequestIndex extends React.Component {
           title={requestMessages.TITLE}
           subtitle={requestMessages.SUBTITLE}
         />
+        <br />
         { this.renderTable() }
       </BorderScreen>
     );
@@ -42,13 +43,16 @@ export class RequestIndex extends React.Component {
 
   renderTable () {
     if (this.props.requests == null || this.props.requests.length === 0) {
-      return (<Fragment>
-        <br />
-        <Alert bsStyle='info'>La búsqueda no trajo resultados</Alert>
-      </Fragment>);
+      return (
+        <CustomAlert message={requestMessages.NO_RESULTS_MESSAGE}/>
+      );
     } else {
       return (
-        <RequestTable data={this.props.requests} accept={this.acceptRequest} reject={this.rejectRequest} />
+        <RequestTable 
+          data={this.props.requests}
+          accept={this.acceptRequest}
+          reject={this.rejectRequest}
+        />
       );
     }
   }

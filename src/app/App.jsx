@@ -19,11 +19,6 @@ import Loading from '../utils/Loading';
 
 class App extends React.Component {
 
-  constructor() {
-    super();
-    this.state = { theme: 'Light' };
-  }
-
   alertRender() {
     let render = [];
     const alert = this.props.alerts[0];

@@ -37,9 +37,8 @@ export const queryError = err => ({
   err
 });
 
-export const ideaUploaded = data => ({
-  type: POST_IDEA,
-  data
+export const ideaUploaded = () => ({
+  type: POST_IDEA
 });
 
 export const projectTypesUploaded = data => ({

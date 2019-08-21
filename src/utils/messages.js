@@ -20,11 +20,13 @@ export const myProjectMessages = {
 export const requestMessages = {
   TITLE: 'Mis solicitudes',
   SUBTITLE: 'Administra todas tus solicitudes para formar parte de un proyecto',
+  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
 };
 
 export const requirementMessages = {
   TITLE: 'Requerimientos',
-  SUBTITLE: 'Colabora con los distintos requerimientos solicitados'
+  SUBTITLE: 'Colabora con los distintos requerimientos solicitados',
+  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
 };
 
 export const utilsMessages = {

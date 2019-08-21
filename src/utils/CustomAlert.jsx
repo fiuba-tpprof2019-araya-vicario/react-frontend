@@ -7,7 +7,7 @@ export default class CustomAlert extends React.Component {
     return (
       <Row key={this.props.rowKey}>
         <Center>
-          <Col lg={this.props.size ? this.props.size : 8}>
+          <Col lg={this.props.size ? this.props.size : 10}>
             <Alert onDismiss={this.props.onDismiss} bsStyle={this.props.bsStyle}><p>{this.props.message}</p></Alert>
           </Col>
         </Center>
