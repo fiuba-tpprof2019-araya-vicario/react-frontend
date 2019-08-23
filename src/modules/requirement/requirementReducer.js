@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
+import {
+  formatterDate,
+  getDescriptionByRequirementStatus
+} from '../../utils/services/funtions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUIREMENTS = 'HYDRATE_REQUIREMENTS';
@@ -80,9 +84,9 @@ const fetchRequirementTable = (data) => {
       id: rowObject.id,
       creator: `${rowObject.Creator.name} ${rowObject.Creator.surname}`,
       requirement: rowObject.name,
-      created_at: rowObject.createdAt,
-      updated_at: rowObject.updatedAt,
-      status: rowObject.status
+      created_at: formatterDate(rowObject.createdAt),
+      updated_at: formatterDate(rowObject.updatedAt),
+      status: getDescriptionByRequirementStatus(rowObject.status)
     });
   });
 

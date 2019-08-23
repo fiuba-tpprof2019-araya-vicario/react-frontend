@@ -15,5 +15,12 @@ export default {
     pending: 'Pendiente',
     accepted: 'Aceptada',
     rejected: 'Rechazada'
+  },
+  REQUIREMENT_STATES: {
+    inactive: 'Inactivo',
+    accepted: 'Aceptado',
+    requested: 'Solicitado',
+    implemented: 'Implementado',
+    deleted: 'Borrado'
   }
 };

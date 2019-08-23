@@ -2,6 +2,7 @@ import axios from 'axios';
 import Bluebird from 'bluebird';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
+import { formatterDate } from '../../utils/services/funtions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUESTS_TUTORS = 'HYDRATE_REQUESTS_TUTORS';
@@ -79,7 +80,7 @@ export const getRequests = () => (dispatch) => {
     });
 };
 
-export const acceptRequest = (requestId) => (dispatch) => {
+export const acceptTutorRequest = (requestId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
@@ -88,7 +89,7 @@ export const acceptRequest = (requestId) => (dispatch) => {
   };
 
   axios
-    .put(api.acceptRequest(requestId), body, config)
+    .put(api.acceptTutorRequest(requestId), body, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
@@ -98,7 +99,26 @@ export const acceptRequest = (requestId) => (dispatch) => {
     });
 };
 
-export const rejectRequest = (requestId) => (dispatch) => {
+export const acceptStudentRequest = (requestId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    type: 'student',
+    status: 'accepted'
+  };
+
+  axios
+    .put(api.acceptStudentRequest(requestId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch(() => {
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
+export const rejectTutorRequest = (requestId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
@@ -107,7 +127,27 @@ export const rejectRequest = (requestId) => (dispatch) => {
   };
 
   axios
-    .put(api.rejectRequest(requestId), body, config)
+    .put(api.rejectTutorRequest(requestId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(queryError(err));
+    });
+};
+
+export const rejectStudentRequest = (requestId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    type: 'student',
+    status: 'rejected'
+  };
+
+  axios
+    .put(api.rejectStudentRequest(requestId), body, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
@@ -126,8 +166,8 @@ const fetchRequestTable = (data) => {
       id: rowObject.id,
       creator: `${rowObject.User.name} ${rowObject.User.surname}`,
       project: rowObject.Project.name,
-      created_at: rowObject.createdAt,
-      updated_at: rowObject.updatedAt
+      created_at: formatterDate(rowObject.createdAt),
+      updated_at: formatterDate(rowObject.updatedAt)
     });
   });
 

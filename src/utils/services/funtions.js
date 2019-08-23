@@ -75,6 +75,10 @@ export function getDescriptionByRequestStatus(stateRequest) {
   return stateRequest ? references.REQUEST_STATES[stateRequest] : '';
 }
 
+export function getDescriptionByRequirementStatus(status) {
+  return status ? references.REQUIREMENT_STATES[status] : '';
+}
+
 export function getFullNameWithStatus(user, label) {
   const requests = user[label];
   const description = getDescriptionByRequestStatus(

@@ -5,8 +5,10 @@ import { withRouter } from 'react-router-dom';
 import {
   clearAlert,
   getRequests,
-  acceptRequest,
-  rejectRequest
+  acceptTutorRequest,
+  acceptStudentRequest,
+  rejectTutorRequest,
+  rejectStudentRequest
 } from './requestReducer';
 import Title from '../../utils/Title';
 import { requestMessages } from '../../utils/messages';
@@ -18,16 +20,20 @@ export class RequestIndex extends React.Component {
   static propTypes = {
     clearAlert: PropTypes.func,
     getRequests: PropTypes.func,
-    acceptRequest: PropTypes.func,
+    acceptTutorRequest: PropTypes.func,
+    acceptStudentRequest: PropTypes.func,
     studentRequests: PropTypes.array,
     tutorRequests: PropTypes.array,
-    rejectRequest: PropTypes.func
+    rejectStudentRequest: PropTypes.func,
+    rejectTutorRequest: PropTypes.func
   };
 
   constructor() {
     super();
-    this.acceptRequest = this.acceptRequest.bind(this);
-    this.rejectRequest = this.rejectRequest.bind(this);
+    this.acceptStudentRequest = this.acceptStudentRequest.bind(this);
+    this.rejectStudentRequest = this.rejectStudentRequest.bind(this);
+    this.acceptTutorRequest = this.acceptTutorRequest.bind(this);
+    this.rejectTutorRequest = this.rejectTutorRequest.bind(this);
   }
 
   componentDidMount() {
@@ -35,12 +41,20 @@ export class RequestIndex extends React.Component {
     this.props.getRequests();
   }
 
-  acceptRequest(requestId) {
-    this.props.acceptRequest(requestId);
+  acceptStudentRequest(requestId) {
+    this.props.acceptStudentRequest(requestId);
   }
 
-  rejectRequest(requestId) {
-    this.props.rejectRequest(requestId);
+  rejectStudentRequest(requestId) {
+    this.props.rejectStudentRequest(requestId);
+  }
+
+  acceptTutorRequest(requestId) {
+    this.props.acceptTutorRequest(requestId);
+  }
+
+  rejectTutorRequest(requestId) {
+    this.props.rejectTutorRequest(requestId);
   }
 
   render() {
@@ -52,15 +66,23 @@ export class RequestIndex extends React.Component {
         />
         <br />
         <h3>Mis solicitudes de alumno</h3>
-        {this.renderTable(this.props.studentRequests)}
+        {this.renderTable(
+          this.props.studentRequests,
+          this.acceptStudentRequest,
+          rejectStudentRequest
+        )}
         <br />
         <h3>Mis solicitudes de tutor</h3>
-        {this.renderTable(this.props.tutorRequests)}
+        {this.renderTable(
+          this.props.tutorRequests,
+          this.acceptTutorRequest,
+          this.rejectTutorRequest
+        )}
       </BorderScreen>
     );
   }
 
-  renderTable(requests) {
+  renderTable(requests, acceptRequest, rejectRequest) {
     if (requests == null || requests.length === 0) {
       return <CustomAlert message={requestMessages.NO_RESULTS_MESSAGE} />;
     }
@@ -68,8 +90,8 @@ export class RequestIndex extends React.Component {
     return (
       <RequestTable
         data={requests}
-        accept={this.acceptRequest}
-        reject={this.rejectRequest}
+        accept={acceptRequest}
+        reject={rejectRequest}
       />
     );
   }
@@ -87,11 +109,17 @@ const mapDispatch = (dispatch) => ({
   clearAlert: () => {
     dispatch(clearAlert());
   },
-  acceptRequest: (requestId) => {
-    dispatch(acceptRequest(requestId));
+  acceptStudentRequest: (requestId) => {
+    dispatch(acceptStudentRequest(requestId));
   },
-  rejectRequest: (requestId) => {
-    dispatch(rejectRequest(requestId));
+  acceptTutorRequest: (requestId) => {
+    dispatch(acceptTutorRequest(requestId));
+  },
+  rejectStudentRequest: (requestId) => {
+    dispatch(rejectStudentRequest(requestId));
+  },
+  rejectTutorRequest: (requestId) => {
+    dispatch(rejectTutorRequest(requestId));
   }
 });
 

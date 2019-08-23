@@ -18,8 +18,10 @@ export const api = {
   requestsStudents: `${BASE + REQUESTS}/students`,
   requirements: BASE + REQUIREMENTS,
   project: (id) => `${BASE + PROJECTS}/${id}`,
-  acceptRequest: (id) => `${BASE + REQUESTS}/tutors/${id}`,
-  rejectRequest: (id) => `${BASE + REQUESTS}/tutors/${id}`
+  acceptTutorRequest: (id) => `${BASE + REQUESTS}/tutors/${id}`,
+  rejectTutorRequest: (id) => `${BASE + REQUESTS}/tutors/${id}`,
+  acceptStudentRequest: (id) => `${BASE + REQUESTS}/students/${id}`,
+  rejectStudentRequest: (id) => `${BASE + REQUESTS}/students/${id}`
 };
 
 const getStoredToken = () => localStorage.getItem('token');
