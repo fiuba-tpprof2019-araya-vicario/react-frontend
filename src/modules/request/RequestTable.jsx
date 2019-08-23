@@ -53,6 +53,7 @@ export class RequestTable extends React.Component {
             <i className="fa fa-download action" title="Aceptar" />
             Acceptar
           </Button>
+          &nbsp;
           <Button
             bsSize="xsmall"
             bsStyle="danger"

@@ -19,6 +19,7 @@ export class RequirementTable extends React.Component {
       'Id',
       'Creador',
       'Requerimiento',
+      'Descripción',
       'Fecha de alta',
       'Última modificación',
       'Estado'

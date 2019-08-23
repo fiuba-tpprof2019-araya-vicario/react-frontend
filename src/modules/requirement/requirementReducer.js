@@ -84,6 +84,7 @@ const fetchRequirementTable = (data) => {
       id: rowObject.id,
       creator: `${rowObject.Creator.name} ${rowObject.Creator.surname}`,
       requirement: rowObject.name,
+      description: rowObject.description,
       created_at: formatterDate(rowObject.createdAt),
       updated_at: formatterDate(rowObject.updatedAt),
       status: getDescriptionByRequirementStatus(rowObject.status)
