@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Center from 'react-center';
@@ -6,9 +7,9 @@ import { myProjectMessages } from '../../utils/messages';
 import BorderScreen from '../../utils/styles/BorderScreen';
 
 export default class CreateIdea extends React.Component {
-  constructor() {
-    super();
-  }
+  static propTypes = {
+    showUploadIdeaModal: PropTypes.func
+  };
 
   render() {
     return (
@@ -39,7 +40,7 @@ export default class CreateIdea extends React.Component {
               <Center>
                 <button
                   className="onlyIcon"
-                  onClick={() =>  history.push('/requirements')}
+                  onClick={() => history.push('/requirements')}
                 >
                   <i className="fa fa-clipboard inmenseIcon" />
                 </button>

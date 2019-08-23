@@ -1,9 +1,15 @@
+import axios from 'axios';
+import Bluebird from 'bluebird';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
 import references from '../../utils/services/references';
-import { getSelectOption, getSelectOptions, getSelectOptionsWithIgnore, getOnlyField, getFullName } from '../../utils/services/funtions';
-import axios from 'axios';
-import Bluebird from 'bluebird';
+import {
+  getSelectOption,
+  getSelectOptions,
+  getSelectOptionsWithIgnore,
+  getOnlyField,
+  getFullName
+} from '../../utils/services/funtions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const GET_TUTORS = 'GET_TUTORS';
@@ -32,7 +38,7 @@ export const clearAlert = () => ({
   type: CLEAR_ALERT
 });
 
-export const queryError = err => ({
+export const queryError = (err) => ({
   type: QUERY_ERROR,
   err
 });
@@ -41,12 +47,12 @@ export const ideaUploaded = () => ({
   type: POST_IDEA
 });
 
-export const projectTypesUploaded = data => ({
+export const projectTypesUploaded = (data) => ({
   type: GET_PROJECT_TYPES,
   data
 });
 
-export const activeProjectUploaded = data => ({
+export const activeProjectUploaded = (data) => ({
   type: GET_ACTIVE_PROJECT,
   data
 });
@@ -63,82 +69,81 @@ export const tutorsUploaded = (data, ignoreId) => ({
   ignoreId
 });
 
-export const getInitialData = (ignoreId, projectId) => dispatch => {
-  dispatch(toggleLoading({ loading: true }));
-  Bluebird.join(
-    getTutors(ignoreId, dispatch),
-    getActiveProject(projectId, dispatch),
-    getProjectTypes(dispatch),
-    getCoautors(ignoreId, dispatch))
-    .then(() => 
-      dispatch(toggleLoading({ loading: false }))
-    );
-};
-
 const getProjectTypes = (dispatch) => {
-  dispatch(projectTypesUploaded([
-    {
-      value: 1,
-      label: 'Trabajo Profesional'
-    },
-    {
-      value: 2,
-      label: 'Tesis' 
-    }
-  ]));
+  dispatch(
+    projectTypesUploaded([
+      {
+        value: 1,
+        label: 'Trabajo Profesional'
+      },
+      {
+        value: 2,
+        label: 'Tesis'
+      }
+    ])
+  );
 };
 
 const getActiveProject = (projectId, dispatch) => {
-  if  (!projectId) {
+  if (!projectId) {
     return Bluebird.resolve();
   }
-  let config = getConfig();
+  const config = getConfig();
 
   return axios
     .get(api.project(projectId), config)
-    .then(res => res.data.data)
+    .then((res) => res.data.data)
     .then((data) => {
       dispatch(activeProjectUploaded(data));
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(queryError(err));
     });
 };
 
 const getTutors = (ignoreId, dispatch) => {
-  let config = getConfig();
+  const config = getConfig();
+
   return axios
-    .get(api.users+'?profile_id='+references.PROFILES.TUTOR, config)
-    .then(res => res.data.data)
+    .get(`${api.users}?profile_id=${references.PROFILES.TUTOR}`, config)
+    .then((res) => res.data.data)
     .then((data) => {
       dispatch(tutorsUploaded(data, ignoreId));
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(queryError(err));
     });
 };
 
 const getCoautors = (ignoreId, dispatch) => {
-  let config = getConfig();
+  const config = getConfig();
+
   return axios
-    .get(api.users+'?profile_id='+references.PROFILES.STUDENT, config)
-    .then(res => res.data.data)
+    .get(`${api.users}?profile_id=${references.PROFILES.STUDENT}`, config)
+    .then((res) => res.data.data)
     .then((data) => {
       dispatch(coautorsUploaded(data, ignoreId));
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(queryError(err));
     });
 };
 
-export const uploadIdea = ({title, description, coautors, type, autor, tutor_id}) => dispatch => {
+export const uploadIdea = ({
+  title,
+  description,
+  coautors,
+  type,
+  autor,
+  tutorId
+}) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  let config = getConfig();
+  const config = getConfig();
   const body = {
     name: title,
     description,
     autor,
-    tutor_id,
+    tutorId,
     cotutors: [],
     students: getOnlyField(coautors),
     type
@@ -146,27 +151,45 @@ export const uploadIdea = ({title, description, coautors, type, autor, tutor_id}
 
   axios
     .post(api.projects, body, config)
-    .then(res => res.data.data)
+    .then((res) => res.data.data)
     .then((projectId) => {
       dispatch(ideaUploaded(projectId));
       getActiveProject(projectId, dispatch);
-    }).then(() => {
+    })
+    .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(queryError(err));
       dispatch(toggleLoading({ loading: false }));
     });
 };
 
-export const editIdea = (projectId, {title, description, coautors, type, autor, tutor_id}) => dispatch => {
+export const getInitialData = (ignoreId, projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  let config = getConfig();
+  Bluebird.join(
+    getTutors(ignoreId, dispatch),
+    getActiveProject(projectId, dispatch),
+    getProjectTypes(dispatch),
+    getCoautors(ignoreId, dispatch)
+  )
+    .then(() => dispatch(toggleLoading({ loading: false })))
+    .catch(() => {
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
+export const editIdea = (
+  projectId,
+  { title, description, coautors, type, autor, tutorId }
+) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
   const body = {
     name: title,
     description,
     autor,
-    tutor_id,
+    tutorId,
     cotutors: [],
     students: getOnlyField(coautors),
     type
@@ -174,66 +197,71 @@ export const editIdea = (projectId, {title, description, coautors, type, autor, 
 
   axios
     .put(api.projects(projectId), body, config)
-    .then(res => res.data.data)
-    .then((projectId) => {
+    .then((res) => res.data.data)
+    .then(() => {
       dispatch(ideaUploaded(projectId));
       getActiveProject(projectId, dispatch);
-    }).then(() => {
+    })
+    .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(queryError(err));
       dispatch(toggleLoading({ loading: false }));
     });
 };
 
-const getFormattedProject = (project) => {
-  return {
-    ...project,
-    cotutors: getSelectOptions(project.Cotutors, {getLabel: getFullName}),
-    students: getSelectOptions(project.Students, {getLabel: getFullName}),
-    tutor: { ...project.Tutor, ...getSelectOption(project.Tutor, {getLabel: getFullName})},
-    creator: { ...project.Creator, ...getSelectOption(project.Creator, {getLabel: getFullName})},
-    type: getSelectOption(project.Type, {})
-  };
-};
+const getFormattedProject = (project) => ({
+  ...project,
+  cotutors: getSelectOptions(project.Cotutors, { getLabel: getFullName }),
+  students: getSelectOptions(project.Students, { getLabel: getFullName }),
+  tutor: {
+    ...project.Tutor,
+    ...getSelectOption(project.Tutor, { getLabel: getFullName })
+  },
+  creator: {
+    ...project.Creator,
+    ...getSelectOption(project.Creator, { getLabel: getFullName })
+  },
+  type: getSelectOption(project.Type, {})
+});
 
 export default (state = initialState, action) => {
   switch (action.type) {
-  case GET_COAUTORS:
-    return {
-      ...state,
-      coautors: getSelectOptionsWithIgnore(action.data, action.ignoreId) 
-    };
-  case GET_ACTIVE_PROJECT:
-    return {
-      ...state,
-      project: getFormattedProject(action.data)
-    };
-  case GET_PROJECT_TYPES:
-    return {
-      ...state,
-      projectTypes: action.data 
-    };
-  case GET_TUTORS:
-    return {
-      ...state,
-      tutors: getSelectOptionsWithIgnore(action.data, action.ignoreId) 
-    };
-  case QUERY_ERROR:
-    return {
-      ...state,
-      alert: {
-        message: utilsMessages.QUERY_ERROR,
-        style: 'danger',
-        onDismiss: clearAlert
-      }
-    };
-  case CLEAR_ALERT:
-    return { ...state, alert: null };
-  case TOGGLE_LOADING:
-    return { ...state, loading: action.loading};
-  default:
-    return state;
+    case GET_COAUTORS:
+      return {
+        ...state,
+        coautors: getSelectOptionsWithIgnore(action.data, action.ignoreId)
+      };
+    case GET_ACTIVE_PROJECT:
+      return {
+        ...state,
+        project: getFormattedProject(action.data)
+      };
+    case GET_PROJECT_TYPES:
+      return {
+        ...state,
+        projectTypes: action.data
+      };
+    case GET_TUTORS:
+      return {
+        ...state,
+        tutors: getSelectOptionsWithIgnore(action.data, action.ignoreId)
+      };
+    case QUERY_ERROR:
+      return {
+        ...state,
+        alert: {
+          message: utilsMessages.QUERY_ERROR,
+          style: 'danger',
+          onDismiss: clearAlert
+        }
+      };
+    case CLEAR_ALERT:
+      return { ...state, alert: null };
+    case TOGGLE_LOADING:
+      return { ...state, loading: action.loading };
+    default:
+      return state;
   }
 };

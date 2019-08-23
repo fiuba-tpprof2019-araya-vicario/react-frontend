@@ -25,10 +25,11 @@ const storeToken = (data) => {
 
 const rootReducer = (state, action) => {
   if (action.type === 'LOGOUT_USER') {
-    state = undefined;
-  } else if (action.type === 'LOGIN_USER'){
+    return appReducer(undefined, action);
+  } else if (action.type === 'LOGIN_USER') {
     storeToken(action.data);
   }
+
   return appReducer(state, action);
 };
 

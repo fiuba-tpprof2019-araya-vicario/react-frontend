@@ -1,8 +1,13 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Modal, Row } from 'react-bootstrap';
 import Center from 'react-center';
 
 export default class LoadingModal extends React.Component {
+  static propTypes = {
+    show: PropTypes.bool
+  };
+
   constructor(props) {
     super();
     this.state = { show: props.show };
@@ -32,9 +37,7 @@ export default class LoadingModal extends React.Component {
               <h1>
                 <i className="fa fa-spinner fa-lg fa-spin">&nbsp;</i>
               </h1>
-              <h3>
-                Cargando
-              </h3>
+              <h3>Cargando</h3>
             </Center>
           </Row>
         </Modal.Body>

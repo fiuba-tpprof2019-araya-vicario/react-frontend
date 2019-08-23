@@ -7,12 +7,11 @@ export default class Loading extends React.Component {
       <Row className="loading">
         <Col lg={12} className="text-center">
           <h3>
-            <i className="fa fa-spinner fa-lg fa-spin">
-            &nbsp;
-            </i>
+            <i className="fa fa-spinner fa-lg fa-spin">&nbsp;</i>
             Cargando
           </h3>
         </Col>
-      </Row>);
+      </Row>
+    );
   }
 }

@@ -1,4 +1,3 @@
-
 import { BASE } from './api';
 
 // Api routes phrases
@@ -15,66 +14,60 @@ export const api = {
   contact: BASE + CONTACT,
   projects: BASE + PROJECTS,
   users: BASE + USERS,
-  requests: BASE + REQUESTS + '/tutors',
+  requestsTutors: `${BASE + REQUESTS}/tutors`,
+  requestsStudents: `${BASE + REQUESTS}/students`,
   requirements: BASE + REQUIREMENTS,
-  project: (id) => {
-    return BASE + PROJECTS + '/' + id;
-  },
-  acceptRequest: (id) => {
-    return BASE + REQUESTS + '/tutors/' + id;
-  },
-  rejectRequest: (id) => {
-    return BASE + REQUESTS + '/tutors/' + id;
-  }
+  project: (id) => `${BASE + PROJECTS}/${id}`,
+  acceptRequest: (id) => `${BASE + REQUESTS}/tutors/${id}`,
+  rejectRequest: (id) => `${BASE + REQUESTS}/tutors/${id}`
 };
 
-const getStoredToken = () => (localStorage.getItem('token'));
+const getStoredToken = () => localStorage.getItem('token');
 
 export const getConfig = () => ({
   headers: {
-    'Authorization': getStoredToken(),
+    Authorization: getStoredToken()
   }
 });
 
 export const getNullConfig = () => ({
-  headers: {
-  }
+  headers: {}
 });
 
 export const getFirebaseConfig = () => ({
   crossdomain: 'true',
-  dataType : 'jsonp',
+  dataType: 'jsonp',
   headers: {
-    'crossdomain': 'true',
-    'dataType': 'jsonp',
+    crossdomain: 'true',
+    dataType: 'jsonp',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Headers': '*'
   }
 });
 
 export const getMultipartFormDataConfig = () => ({
   headers: {
-    'Authorization': getStoredToken(),
+    Authorization: getStoredToken(),
     'content-type': 'multipart/form-data'
   }
 });
 
 export const getFileConfig = () => ({
   headers: {
-    'Authorization': getStoredToken(),
-    
+    Authorization: getStoredToken()
   },
   responseType: 'blob'
 });
 
-export const getErrorResponse = (err) => {
-  return { status: err.response.status, message: err.response.data.message.msg };
-};
+export const getErrorResponse = (err) => ({
+  status: err.response.status,
+  message: err.response.data.message.msg
+});
 
 export const getPostAppServerBody = (nombre, url) => ({
   id: null,
   name: nombre,
-  url: url,
+  url,
   _rev: null,
   created_by: null,
   created_at: null,
@@ -83,6 +76,7 @@ export const getPostAppServerBody = (nombre, url) => ({
 
 export const getPostFileUploadBody = (archivo) => {
   const formData = new FormData();
+
   formData.append('file', archivo);
   formData.append('id', null);
   formData.append('_rev', null);
@@ -92,5 +86,6 @@ export const getPostFileUploadBody = (archivo) => {
   formData.append('updated_at', null);
   formData.append('filename', null);
   formData.append('size', null);
+
   return formData;
 };

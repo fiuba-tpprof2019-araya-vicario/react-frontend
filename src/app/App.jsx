@@ -1,36 +1,51 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
 import _ from 'lodash';
-import { Home } from '../layout/Home';
-import Login from '../modules/login/Login';
-import WebNavBar from '../layout/WebNavBar';
-import PrivateRoute from '../utils/PrivateRoute';
-import MyProjectIndex from '../modules/myProject/MyProjectIndex';
-import ContactIndex from '../modules/contact/ContactIndex';
-import RequestIndex from '../modules/request/RequestIndex';
-import RequirementIndex from '../modules/requirement/RequirementIndex';
-import { persistor } from '../redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Home } from '../layout/Home';
+import Log from '../modules/login/Login';
+import NavBar from '../layout/WebNavBar';
+import Private from '../utils/PrivateRoute';
+import MyProject from '../modules/myProject/MyProjectIndex';
+import Contact from '../modules/contact/ContactIndex';
+import Request from '../modules/request/RequestIndex';
+import Requirement from '../modules/requirement/RequirementIndex';
+import { persistor } from '../redux/store';
 import CustomAlert from '../utils/CustomAlert';
 import './App.css';
 import Loading from '../utils/Loading';
 
 class App extends React.Component {
+  static propTypes = {
+    alerts: PropTypes.array,
+    execute: PropTypes.func
+  };
 
   alertRender() {
-    let render = [];
+    const render = [];
     const alert = this.props.alerts[0];
+
     if (alert) {
-      render.push(<div key={'margin'}><br/></div>);
-      render.push(<CustomAlert key={'alert'}
-        rowKey={'centralAlert'}
-        bsStyle={alert.style}
-        message={alert.message}
-        onDismiss={() => alert.onDismiss && this.props.execute(alert.onDismiss)}
-      />);
-    } 
+      render.push(
+        <div key="margin">
+          <br />
+        </div>
+      );
+      render.push(
+        <CustomAlert
+          key="alert"
+          rowKey="centralAlert"
+          bsStyle={alert.style}
+          message={alert.message}
+          onDismiss={() =>
+            alert.onDismiss && this.props.execute(alert.onDismiss)
+          }
+        />
+      );
+    }
 
     return render;
   }
@@ -38,17 +53,27 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <WebNavBar />
+        <NavBar />
         {this.alertRender()}
         <PersistGate loading={<Loading />} persistor={persistor}>
-          <Grid fluid >
+          <Grid fluid>
             <Switch>
-              <Route path="/login" component={Login} />
-              <PrivateRoute exact={true} path="/" permiso={true} component={Home} />
-              <PrivateRoute exact={true} path="/my_projects" permiso={true} component={MyProjectIndex} />
-              <PrivateRoute exact={true} path="/requests" permiso={true} component={RequestIndex} />
-              <PrivateRoute exact={true} path="/requirements" permiso={true} component={RequirementIndex} />
-              <Route exact={true} path="/contact" permiso={true} component={ContactIndex} />
+              <Route path="/login" component={Log} />
+              <Private exact path="/" permiso component={Home} />
+              <Private
+                exact
+                path="/my_projects"
+                permiso
+                component={MyProject}
+              />
+              <Private exact path="/requests" permiso component={Request} />
+              <Private
+                exact
+                path="/requirements"
+                permiso
+                component={Requirement}
+              />
+              <Route exact path="/contact" permiso component={Contact} />
             </Switch>
           </Grid>
         </PersistGate>
@@ -57,12 +82,11 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    alerts: _.filter(state, function(reducer) { return reducer && reducer.alert; })
-      .map((reducer)=>reducer && reducer.alert),
-  };
-};
+const mapStateToProps = (state) => ({
+  alerts: _.filter(state, (reducer) => reducer && reducer.alert).map(
+    (reducer) => reducer && reducer.alert
+  )
+});
 
 const mapDispatch = (dispatch) => ({
   execute: (f) => {
@@ -70,4 +94,9 @@ const mapDispatch = (dispatch) => ({
   }
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatch)(App)); 
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatch
+  )(App)
+);

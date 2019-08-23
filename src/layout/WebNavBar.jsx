@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
@@ -6,6 +8,13 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { logout } from '../modules/login/authReducer';
 
 export class WebNavBar extends React.Component {
+  static propTypes = {
+    home: PropTypes.func,
+    logout: PropTypes.func,
+    name: PropTypes.string,
+    isAuthenticated: PropTypes.bool
+  };
+
   render() {
     return (
       <Navbar fluid inverse>
@@ -18,56 +27,60 @@ export class WebNavBar extends React.Component {
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          {this.props.isAuthenticated ? [
-            <Nav key='1' navbar>
-              <LinkContainer to={'/my_projects'}>
-                <NavItem eventKey={1}>Mi proyecto</NavItem>
-              </LinkContainer>
-              <LinkContainer to={'/requests'}>
-                <NavItem eventKey={2}>Mis Solicitudes</NavItem>
-              </LinkContainer>
-              <LinkContainer to={'/requirements'}>
-                <NavItem eventKey={3}>Requerimientos</NavItem>
-              </LinkContainer>
-              <LinkContainer to={'/contact'}>
-                <NavItem eventKey={4}>Contacto</NavItem>
-              </LinkContainer>
-            </Nav>,
-            <Nav key='2' pullRight>
-              <NavDropdown eventKey={9} title={this.props.name} id="logged-user-dropdown">
-                <MenuItem eventKey={9.1} onClick={this.props.logout}>
-                  <i className="fa fa-sign-out" />
-                  &nbsp; Cerrar sesión
-                </MenuItem>
-              </NavDropdown>
-            </Nav>
-          ] : [
-            <Nav key='1' navbar>
-              <LinkContainer to={'/contact'}>
-                <NavItem eventKey={4}>Contacto</NavItem>
-              </LinkContainer>
-            </Nav>,
-            <Nav key='2' pullRight>
-              <NavItem eventKey={10} href='http://www.fi.uba.ar/'>
-                Página oficial FIUBA&nbsp;
-                <i className="fa fa-arrow-circle-right"/>
-              </NavItem>
-            </Nav>
-          ]}
+          {this.props.isAuthenticated
+            ? [
+                <Nav key="1" navbar>
+                  <LinkContainer to="/my_projects">
+                    <NavItem eventKey={1}>Mi proyecto</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="/requests">
+                    <NavItem eventKey={2}>Mis Solicitudes</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="/requirements">
+                    <NavItem eventKey={3}>Requerimientos</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="/contact">
+                    <NavItem eventKey={4}>Contacto</NavItem>
+                  </LinkContainer>
+                </Nav>,
+                <Nav key="2" pullRight>
+                  <NavDropdown
+                    eventKey={9}
+                    title={this.props.name}
+                    id="logged-user-dropdown"
+                  >
+                    <MenuItem eventKey={9.1} onClick={this.props.logout}>
+                      <i className="fa fa-sign-out" />
+                      &nbsp; Cerrar sesión
+                    </MenuItem>
+                  </NavDropdown>
+                </Nav>
+              ]
+            : [
+                <Nav key="1" navbar>
+                  <LinkContainer to="/contact">
+                    <NavItem eventKey={4}>Contacto</NavItem>
+                  </LinkContainer>
+                </Nav>,
+                <Nav key="2" pullRight>
+                  <NavItem eventKey={10} href="http://www.fi.uba.ar/">
+                    Página oficial FIUBA&nbsp;
+                    <i className="fa fa-arrow-circle-right" />
+                  </NavItem>
+                </Nav>
+              ]}
         </Navbar.Collapse>
       </Navbar>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.authReducer.isAuthenticated,
-    name: state.authReducer.user.name
-  };
-};
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.authReducer.isAuthenticated,
+  name: state.authReducer.user.name
+});
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({
   logout: () => {
     dispatch(logout());
   },

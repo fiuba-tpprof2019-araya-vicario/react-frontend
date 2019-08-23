@@ -1,17 +1,30 @@
+import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { uploadIdea, clearAlert, getInitialData} from './myProjectReducer';
+import Stepper from 'react-stepper-horizontal';
 import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import { uploadIdea, clearAlert, getInitialData } from './myProjectReducer';
 import Title from '../../utils/Title';
 import BorderScreen from '../../utils/styles/BorderScreen';
 import UploadIdeaModal from './modals/UploadIdeaModal';
 import { myProjectMessages } from '../../utils/messages';
-import Stepper from 'react-stepper-horizontal';
 import CreateIdea from './CreateIdea';
 import ReviewIdea from './ReviewIdea';
 
 export class MyProjectIndex extends React.Component {
+  static propTypes = {
+    clearAlert: PropTypes.func,
+    getInitialData: PropTypes.func,
+    uploadIdea: PropTypes.func,
+    user: PropTypes.object,
+    project: PropTypes.object,
+    isAuthenticated: PropTypes.bool,
+    coautors: PropTypes.array,
+    tutors: PropTypes.array,
+    projectTypes: PropTypes.array
+  };
+
   constructor() {
     super();
     this.uploadIdea = this.uploadIdea.bind(this);
@@ -34,9 +47,11 @@ export class MyProjectIndex extends React.Component {
   getActiveStep() {
     const { user, project } = this.props;
     let activeStep = 0;
+
     if (user.projectId && project) {
       activeStep = 1;
     }
+
     return activeStep;
   }
 
@@ -51,6 +66,7 @@ export class MyProjectIndex extends React.Component {
       { title: 'Propuesta publicada' }
     ];
     const activeStep = this.getActiveStep();
+
     return (
       <Fragment>
         <BorderScreen>
@@ -70,11 +86,14 @@ export class MyProjectIndex extends React.Component {
             </div>
           </Row>
           <Row>
-            {activeStep == 0 ? (
+            {activeStep === 0 ? (
               <CreateIdea showUploadIdeaModal={this.showUploadIdeaModal} />
             ) : null}
-            {activeStep == 1 ? (
-              <ReviewIdea project={this.props.project} showUploadIdeaModal={this.showUploadIdeaModal} />
+            {activeStep === 1 ? (
+              <ReviewIdea
+                project={this.props.project}
+                showUploadIdeaModal={this.showUploadIdeaModal}
+              />
             ) : null}
           </Row>
         </BorderScreen>
@@ -85,7 +104,7 @@ export class MyProjectIndex extends React.Component {
           projectTypes={this.props.projectTypes}
           project={this.props.project}
           editMode={activeStep}
-          ref={modal => {
+          ref={(modal) => {
             this.UploadIdeaModal = modal;
           }}
           user={this.props.isAuthenticated && this.props.user}
@@ -95,11 +114,11 @@ export class MyProjectIndex extends React.Component {
   }
 }
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({
   getInitialData: (id, projectId) => {
     dispatch(getInitialData(id, projectId));
   },
-  uploadIdea: form => {
+  uploadIdea: (form) => {
     dispatch(uploadIdea(form));
   },
   clearAlert: () => {
@@ -107,17 +126,15 @@ const mapDispatch = dispatch => ({
   }
 });
 
-const mapStateToProps = state => {
-  return {
-    loading: state.myProjectReducer.loading,
-    coautors: state.myProjectReducer.coautors,
-    project: state.myProjectReducer.project,
-    projectTypes: state.myProjectReducer.projectTypes,
-    tutors: state.myProjectReducer.tutors,
-    user: state.authReducer.user,
-    isAuthenticated: state.authReducer.isAuthenticated
-  };
-};
+const mapStateToProps = (state) => ({
+  loading: state.myProjectReducer.loading,
+  coautors: state.myProjectReducer.coautors,
+  project: state.myProjectReducer.project,
+  projectTypes: state.myProjectReducer.projectTypes,
+  tutors: state.myProjectReducer.tutors,
+  user: state.authReducer.user,
+  isAuthenticated: state.authReducer.isAuthenticated
+});
 
 export default withRouter(
   connect(

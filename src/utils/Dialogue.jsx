@@ -1,8 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
-
 export class Dialogue extends React.Component {
+  static propTypes = {
+    show: PropTypes.bool,
+    body: PropTypes.element,
+    title: PropTypes.string,
+    buttons: PropTypes.object
+  };
 
   constructor(props) {
     super();
@@ -28,13 +34,16 @@ export class Dialogue extends React.Component {
         dialogClassName="custom-modal"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-lg">{this.props.title}</Modal.Title>
+          <Modal.Title id="contained-modal-title-lg">
+            {this.props.title}
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          {this.props.body}
-        </Modal.Body>
+        <Modal.Body>{this.props.body}</Modal.Body>
         <Modal.Footer>
-          <Button bsSize={'small'} onClick={this.hideModal}>Cancelar</Button>&nbsp;{this.props.buttons}
+          <Button bsSize="small" onClick={this.hideModal}>
+            Cancelar
+          </Button>
+          &nbsp;{this.props.buttons}
         </Modal.Footer>
       </Modal>
     );

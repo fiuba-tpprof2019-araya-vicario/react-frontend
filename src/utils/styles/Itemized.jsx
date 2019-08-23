@@ -1,11 +1,15 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Row } from 'react-bootstrap';
 
 export default class Itemized extends React.Component {
-  renderItems(items){
-    return items.map((item, index) => {
-      return <li key={'item'+index}>{item}</li>;
-    });
+  static propTypes = {
+    items: PropTypes.array,
+    title: PropTypes.string
+  };
+
+  renderItems(items) {
+    return items.map((item, index) => <li key={`item${index}`}>{item}</li>);
   }
 
   render() {

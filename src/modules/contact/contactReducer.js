@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { getNullConfig, api } from '../../api/apiInterfaceProvider';
 import { contactMessages, utilsMessages } from '../../utils/messages';
-import axios from 'axios';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const UPLOAD_FORM = 'UPLOAD_FORM';
@@ -21,19 +21,19 @@ export const clearAlert = () => ({
   type: CLEAR_ALERT
 });
 
-export const queryError = err => ({
+export const queryError = (err) => ({
   type: QUERY_ERROR,
   err
 });
 
-export const formUploaded = data => ({
+export const formUploaded = (data) => ({
   type: UPLOAD_FORM,
   data
 });
 
-export const upload = ({ email, name, description }) => dispatch => {
+export const upload = ({ email, name, description }) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  let config = getNullConfig();
+  const config = getNullConfig();
   const body = {
     email,
     name,
@@ -42,12 +42,12 @@ export const upload = ({ email, name, description }) => dispatch => {
 
   axios
     .post(api.contact, body, config)
-    .then(res => res)
+    .then((res) => res)
     .then(() => {
       dispatch(formUploaded());
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(queryError(err));
       dispatch(toggleLoading({ loading: false }));
     });
@@ -55,29 +55,29 @@ export const upload = ({ email, name, description }) => dispatch => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-  case UPLOAD_FORM:
-    return {
-      ...state,
-      alert: {
-        message: contactMessages.UPLOAD_SUCCESS,
-        style: 'success',
-        onDismiss: clearAlert
-      }
-    };
-  case QUERY_ERROR:
-    return {
-      ...state,
-      alert: {
-        message: utilsMessages.QUERY_ERROR,
-        style: 'danger',
-        onDismiss: clearAlert
-      }
-    };
-  case CLEAR_ALERT:
-    return { ...state, alert: null };
-  case TOGGLE_LOADING:
-    return { ...state, loading: action.loading};
-  default:
-    return state;
+    case UPLOAD_FORM:
+      return {
+        ...state,
+        alert: {
+          message: contactMessages.UPLOAD_SUCCESS,
+          style: 'success',
+          onDismiss: clearAlert
+        }
+      };
+    case QUERY_ERROR:
+      return {
+        ...state,
+        alert: {
+          message: utilsMessages.QUERY_ERROR,
+          style: 'danger',
+          onDismiss: clearAlert
+        }
+      };
+    case CLEAR_ALERT:
+      return { ...state, alert: null };
+    case TOGGLE_LOADING:
+      return { ...state, loading: action.loading };
+    default:
+      return state;
   }
 };

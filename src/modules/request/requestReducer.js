@@ -1,9 +1,11 @@
+import axios from 'axios';
+import Bluebird from 'bluebird';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
-import axios from 'axios';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
-const HYDRATE_REQUESTS = 'HYDRATE_REQUESTS';
+const HYDRATE_REQUESTS_TUTORS = 'HYDRATE_REQUESTS_TUTORS';
+const HYDRATE_REQUESTS_STUDENTS = 'HYDRATE_REQUESTS_STUDENTS';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
 
@@ -22,68 +24,104 @@ export const clearAlert = () => ({
   type: CLEAR_ALERT
 });
 
-export const queryError = err => ({
-  type: QUERY_ERROR, err
+export const queryError = (err) => ({
+  type: QUERY_ERROR,
+  err
 });
 
-export const hydrateRequests = data => ({
-  type: HYDRATE_REQUESTS, data
+export const hydrateRequestsStudents = (data) => ({
+  type: HYDRATE_REQUESTS_STUDENTS,
+  data
 });
 
-export const getRequests = () => dispatch => {
-  dispatch(toggleLoading({ loading: true }));
-  let config = getConfig();
-  axios.get(api.requests, config)
-    .then(res => res.data.data)
-    .then(data => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(hydrateRequests(data));
+export const hydrateRequestsTutors = (data) => ({
+  type: HYDRATE_REQUESTS_TUTORS,
+  data
+});
+
+export const getRequestsTutors = (dispatch) => {
+  const config = getConfig();
+
+  axios
+    .get(api.requestsTutors, config)
+    .then((res) => res.data.data)
+    .then((data) => {
+      dispatch(hydrateRequestsTutors(data));
     })
-    .catch(err => {
+    .catch((err) => {
+      dispatch(queryError(err));
+    });
+};
+
+export const getRequestsStudents = (dispatch) => {
+  const config = getConfig();
+
+  axios
+    .get(api.requestsStudents, config)
+    .then((res) => res.data.data)
+    .then((data) => {
+      dispatch(hydrateRequestsStudents(data));
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+    });
+};
+
+export const getRequests = () => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  Bluebird.join(getRequestsTutors(dispatch), getRequestsStudents(dispatch))
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(queryError(err));
     });
 };
 
-export const acceptRequest = (requestId) => dispatch => {
+export const acceptRequest = (requestId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  let config = getConfig();
+  const config = getConfig();
   const body = {
     type: 'tutor',
     status: 'accepted'
   };
-  axios.put(api.acceptRequest(requestId), body, config)
-    .then(res => res.data.data)
+
+  axios
+    .put(api.acceptRequest(requestId), body, config)
+    .then((res) => res.data.data)
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch(err => {
+    .catch(() => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
     });
 };
 
-export const rejectRequest = (requestId) => dispatch => {
+export const rejectRequest = (requestId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  let config = getConfig();
+  const config = getConfig();
   const body = {
     type: 'tutor',
     status: 'rejected'
   };
-  axios.put(api.rejectRequest(requestId), body, config)
-    .then(res => res.data.data)
+
+  axios
+    .put(api.rejectRequest(requestId), body, config)
+    .then((res) => res.data.data)
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(queryError(err));
     });
 };
 
 const fetchRequestTable = (data) => {
-  let returnValue = [];
-  data.map(function (rowObject) {
+  const returnValue = [];
+
+  data.forEach((rowObject) => {
     returnValue.push({
       id: rowObject.id,
       creator: `${rowObject.User.name} ${rowObject.User.surname}`,
@@ -92,30 +130,36 @@ const fetchRequestTable = (data) => {
       updated_at: rowObject.updatedAt
     });
   });
+
   return returnValue;
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-  case HYDRATE_REQUESTS:
-    return {
-      ...state,
-      requests: fetchRequestTable(action.data)
-    };
-  case QUERY_ERROR:
-    return {
-      ...state,
-      alert: {
-        message: utilsMessages.QUERY_ERROR,
-        style: 'danger',
-        onDismiss: clearAlert
-      }
-    };
-  case CLEAR_ALERT:
-    return { ...state, alert: null };
-  case TOGGLE_LOADING:
-    return { ...state, loading: action.loading };
-  default:
-    return state;
+    case HYDRATE_REQUESTS_TUTORS:
+      return {
+        ...state,
+        studentRequests: fetchRequestTable(action.data)
+      };
+    case HYDRATE_REQUESTS_STUDENTS:
+      return {
+        ...state,
+        tutorRequests: fetchRequestTable(action.data)
+      };
+    case QUERY_ERROR:
+      return {
+        ...state,
+        alert: {
+          message: utilsMessages.QUERY_ERROR,
+          style: 'danger',
+          onDismiss: clearAlert
+        }
+      };
+    case CLEAR_ALERT:
+      return { ...state, alert: null };
+    case TOGGLE_LOADING:
+      return { ...state, loading: action.loading };
+    default:
+      return state;
   }
 };

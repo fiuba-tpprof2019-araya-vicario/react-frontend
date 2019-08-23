@@ -1,12 +1,27 @@
+/* eslint-disable react/no-find-dom-node */
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Row, Col, Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  Button,
+  FormControl,
+  FormGroup,
+  ControlLabel,
+  HelpBlock
+} from 'react-bootstrap';
 import Center from 'react-center';
 import { isValidEmail } from '../../utils/services/funtions';
 import LoadingModal from '../../utils/LoadingModal';
 import MandatoryField from '../../utils/forms/MandatoryField';
 
 export default class ContactForm extends React.Component {
+  static propTypes = {
+    uploadForm: PropTypes.func,
+    loading: PropTypes.bool,
+    user: PropTypes.object
+  };
 
   constructor() {
     super();
@@ -15,31 +30,32 @@ export default class ContactForm extends React.Component {
       form: {
         email: { error: false, mensaje: '' },
         name: { error: false, mensaje: '' },
-        description: { error: false, mensaje: '' },
+        description: { error: false, mensaje: '' }
       }
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   resetForm() {
-    let form = {
+    const form = {
       email: { error: false, mensaje: '' },
       name: { error: false, mensaje: '' },
-      description: { error: false, mensaje: '' },
+      description: { error: false, mensaje: '' }
     };
-    this.setState({ ...this.state, form: form });
+
+    this.setState({ ...this.state, form });
   }
 
   validateForm(email, name, description) {
     let formOk = true;
 
-    let form = {
+    const form = {
       email: { error: false, mensaje: '' },
       name: { error: false, mensaje: '' },
-      description: { error: false, mensaje: '' },
+      description: { error: false, mensaje: '' }
     };
 
-    if (email == null || email == '' || !isValidEmail(email)) {
+    if (email == null || email === '' || !isValidEmail(email)) {
       form.email.error = true;
       form.email.mensaje = 'Tenés que ingresar un mail de contacto valido';
       formOk = false;
@@ -48,7 +64,7 @@ export default class ContactForm extends React.Component {
       form.email.mensaje = '';
     }
 
-    if (name == null || name == '') {
+    if (name == null || name === '') {
       form.name.error = true;
       form.name.mensaje = 'Tenés que ingresar un nombre de contacto';
       formOk = false;
@@ -57,26 +73,28 @@ export default class ContactForm extends React.Component {
       form.name.mensaje = '';
     }
 
-    if (description == null || description == '') {
+    if (description == null || description === '') {
       form.description.error = true;
-      form.description.mensaje = 'Tenés que ingresar la descripción del requerimiento';
+      form.description.mensaje =
+        'Tenés que ingresar la descripción del requerimiento';
       formOk = false;
     } else {
       form.description.error = false;
       form.description.mensaje = '';
     }
 
-    this.setState({ ...this.state, form: form });
+    this.setState({ ...this.state, form });
 
     return formOk;
   }
 
   onSubmit() {
-    let email = ReactDOM.findDOMNode(this.emailInput).value;
-    let name = ReactDOM.findDOMNode(this.nameInput).value;
-    let description = ReactDOM.findDOMNode(this.descriptionInput).value;
+    const email = ReactDOM.findDOMNode(this.emailInput).value;
+    const name = ReactDOM.findDOMNode(this.nameInput).value;
+    const description = ReactDOM.findDOMNode(this.descriptionInput).value;
+
     if (this.validateForm(email, name, description)) {
-      this.props.uploadForm({email, name, description});
+      this.props.uploadForm({ email, name, description });
       this.resetForm();
     }
   }
@@ -84,59 +102,97 @@ export default class ContactForm extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.props.loading && <LoadingModal show={true}/>}
+        {this.props.loading && <LoadingModal show />}
         <Row>
-          <Row key={'uploadFormRow2'}>
+          <Row key="uploadFormRow2">
             <Col md={12} lg={12}>
-              <FormGroup validationState={(this.state.form.name.error)? 'error' : null}>
-                <ControlLabel>Nombre de contacto <MandatoryField/></ControlLabel>
+              <FormGroup
+                validationState={this.state.form.name.error ? 'error' : null}
+              >
+                <ControlLabel>
+                  Nombre de contacto <MandatoryField />
+                </ControlLabel>
                 <FormControl
                   disabled={this.props.user && this.props.user.name}
                   defaultValue={this.props.user ? this.props.user.name : ''}
-                  ref={nameInput => { this.nameInput = nameInput; }} 
-                  key="nameInput" 
+                  ref={(nameInput) => {
+                    this.nameInput = nameInput;
+                  }}
+                  key="nameInput"
                   type="text"
-                  placeholder={'Ingrese nombre de contacto'}/>
+                  placeholder="Ingrese nombre de contacto"
+                />
               </FormGroup>
-              {this.state.form.email.error &&
-                <HelpBlock bsSize="small" >{this.state.form.name.mensaje}</HelpBlock>}
+              {this.state.form.email.error && (
+                <HelpBlock bsSize="small">
+                  {this.state.form.name.mensaje}
+                </HelpBlock>
+              )}
             </Col>
           </Row>
-          <Row key={'uploadFormRow1'}>
+          <Row key="uploadFormRow1">
             <Col md={12} lg={12}>
-              <FormGroup validationState={(this.state.form.email.error)? 'error' : null}>
-                <ControlLabel>Mail de contacto <MandatoryField/></ControlLabel>
+              <FormGroup
+                validationState={this.state.form.email.error ? 'error' : null}
+              >
+                <ControlLabel>
+                  Mail de contacto <MandatoryField />
+                </ControlLabel>
                 <FormControl
                   disabled={this.props.user && this.props.user.email}
                   defaultValue={this.props.user ? this.props.user.email : ''}
-                  ref={emailInput => { this.emailInput = emailInput; }}
+                  ref={(emailInput) => {
+                    this.emailInput = emailInput;
+                  }}
                   key="emailInput"
                   type="email"
-                  placeholder={'Ingrese un email (example@domain.com)'}/>
-              </FormGroup>
-              {this.state.form.email.error &&
-                <HelpBlock bsSize="small" >{this.state.form.email.mensaje}</HelpBlock>}
-            </Col>
-          </Row>
-          <Row key={'uploadFormRow3'}>
-            <Col md={12} lg={12}>
-              <FormGroup validationState={(this.state.form.description.error)? 'error' : null}>
-                <ControlLabel>Descripción del requerimiento <MandatoryField/></ControlLabel>
-                <textarea 
-                  className="form-control"  
-                  style={{resize:'vertical'}}
-                  rows="10" 
-                  ref={descriptionInput => { this.descriptionInput = descriptionInput;}} 
-                  placeholder={'Ingrese la descripción...'}
+                  placeholder="Ingrese un email (example@domain.com)"
                 />
               </FormGroup>
-              {this.state.form.email.error &&
-                <HelpBlock bsSize="small" >{this.state.form.description.mensaje}</HelpBlock>}
+              {this.state.form.email.error && (
+                <HelpBlock bsSize="small">
+                  {this.state.form.email.mensaje}
+                </HelpBlock>
+              )}
+            </Col>
+          </Row>
+          <Row key="uploadFormRow3">
+            <Col md={12} lg={12}>
+              <FormGroup
+                validationState={
+                  this.state.form.description.error ? 'error' : null
+                }
+              >
+                <ControlLabel>
+                  Descripción del requerimiento <MandatoryField />
+                </ControlLabel>
+                <textarea
+                  className="form-control"
+                  style={{ resize: 'vertical' }}
+                  rows="10"
+                  ref={(descriptionInput) => {
+                    this.descriptionInput = descriptionInput;
+                  }}
+                  placeholder="Ingrese la descripción..."
+                />
+              </FormGroup>
+              {this.state.form.email.error && (
+                <HelpBlock bsSize="small">
+                  {this.state.form.description.mensaje}
+                </HelpBlock>
+              )}
             </Col>
           </Row>
         </Row>
         <Center>
-          <Button key={'uploadFormButton'} bsSize={'small'} bsStyle={'primary'} onClick={this.onSubmit}>Enviar requerimiento</Button>
+          <Button
+            key="uploadFormButton"
+            bsSize="small"
+            bsStyle="primary"
+            onClick={this.onSubmit}
+          >
+            Enviar requerimiento
+          </Button>
         </Center>
       </React.Fragment>
     );

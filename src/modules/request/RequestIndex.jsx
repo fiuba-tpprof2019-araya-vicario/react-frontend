@@ -1,34 +1,49 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { clearAlert, getRequests, acceptRequest, rejectRequest } from './requestReducer';
+import { withRouter } from 'react-router-dom';
+import {
+  clearAlert,
+  getRequests,
+  acceptRequest,
+  rejectRequest
+} from './requestReducer';
 import Title from '../../utils/Title';
 import { requestMessages } from '../../utils/messages';
 import BorderScreen from '../../utils/styles/BorderScreen';
-import { withRouter } from 'react-router-dom';
 import { RequestTable } from './RequestTable';
 import CustomAlert from '../../utils/CustomAlert';
 
 export class RequestIndex extends React.Component {
-  constructor () {
+  static propTypes = {
+    clearAlert: PropTypes.func,
+    getRequests: PropTypes.func,
+    acceptRequest: PropTypes.func,
+    studentRequests: PropTypes.array,
+    tutorRequests: PropTypes.array,
+    rejectRequest: PropTypes.func
+  };
+
+  constructor() {
     super();
     this.acceptRequest = this.acceptRequest.bind(this);
     this.rejectRequest = this.rejectRequest.bind(this);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.clearAlert();
     this.props.getRequests();
   }
 
-  acceptRequest (requestId) {
+  acceptRequest(requestId) {
     this.props.acceptRequest(requestId);
   }
 
-  rejectRequest (requestId) {
+  rejectRequest(requestId) {
     this.props.rejectRequest(requestId);
   }
 
-  render () {
+  render() {
     return (
       <BorderScreen>
         <Title
@@ -36,35 +51,36 @@ export class RequestIndex extends React.Component {
           subtitle={requestMessages.SUBTITLE}
         />
         <br />
-        { this.renderTable() }
+        <h3>Mis solicitudes de alumno</h3>
+        {this.renderTable(this.props.studentRequests)}
+        <br />
+        <h3>Mis solicitudes de tutor</h3>
+        {this.renderTable(this.props.tutorRequests)}
       </BorderScreen>
     );
   }
 
-  renderTable () {
-    if (this.props.requests == null || this.props.requests.length === 0) {
-      return (
-        <CustomAlert message={requestMessages.NO_RESULTS_MESSAGE}/>
-      );
-    } else {
-      return (
-        <RequestTable 
-          data={this.props.requests}
-          accept={this.acceptRequest}
-          reject={this.rejectRequest}
-        />
-      );
+  renderTable(requests) {
+    if (requests == null || requests.length === 0) {
+      return <CustomAlert message={requestMessages.NO_RESULTS_MESSAGE} />;
     }
+
+    return (
+      <RequestTable
+        data={requests}
+        accept={this.acceptRequest}
+        reject={this.rejectRequest}
+      />
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    requests: state.requestReducer.requests
-  };
-};
+const mapStateToProps = (state) => ({
+  tutorRequests: state.requestReducer.tutorRequests,
+  studentRequests: state.requestReducer.studentRequests
+});
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({
   getRequests: () => {
     dispatch(getRequests());
   },
@@ -79,4 +95,9 @@ const mapDispatch = dispatch => ({
   }
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatch)(RequestIndex));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatch
+  )(RequestIndex)
+);

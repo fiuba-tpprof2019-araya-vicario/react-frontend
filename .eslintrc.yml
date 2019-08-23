@@ -1,0 +1,106 @@
+extends: ['airbnb', 'plugin:prettier/recommended']
+
+env:
+  node: true
+  es6: true
+  mocha: true
+  browser: true
+
+parser: 'babel-eslint'
+
+parserOptions:
+  ecmaFeatures:
+    experimentalObjectRestSpread: true
+
+plugins:
+  - mocha
+
+rules:
+  import/no-unresolved:
+    - 2
+    - ignore:
+        - '^~'
+        - '^@'
+  import/extensions:
+    - 0
+  import/no-extraneous-dependencies:
+    - 0
+  import/prefer-default-export:
+    - 0
+  react/sort-comp:
+    - 0
+  react/prefer-stateless-function:
+    - 0
+  react/jsx-filename-extension:
+    - 0
+  react/forbid-prop-types:
+    - 0
+  react/require-default-props:
+    - 0
+  react/no-array-index-key:
+    - 0
+  jsx-a11y/no-static-element-interactions:
+    - 0
+  jsx-a11y/anchor-is-valid:
+    - 0
+  jsx-a11y/click-events-have-key-events:
+    - 0
+  jsx-a11y/interactive-supports-focus:
+    - 0
+  jsx-a11y/mouse-events-have-key-events:
+    - 0
+  jsx-a11y/no-autofocus:
+    - 0
+  jsx-a11y/no-noninteractive-element-interactions:
+    - 0
+  jsx-a11y/no-noninteractive-tabindex:
+    - 0
+  jsx-a11y/label-has-for: # deprecated in favor of jsx-a11y/label-has-associated-control but included by airbnb
+    - 0
+  jsx-a11y/label-has-associated-control:
+    - 2
+    - assert: 'either'
+  mocha/no-exclusive-tests:
+    - error
+  no-use-before-define:
+    - error
+    - functions: false
+  no-underscore-dangle:
+    - error
+    - allow:
+        - '__INITIAL_STATE__'
+        - '__APHRODITE_RENDERED_CLASS_NAMES__'
+        - '__NAVBAR_RENDER__'
+  class-methods-use-this:
+    - 0
+  padding-line-between-statements:
+    - error
+    - blankLine: always
+      prev: '*'
+      next: return
+    - blankLine: always
+      prev:
+        - const
+        - let
+        - var
+      next: '*'
+    - blankLine: any
+      prev:
+        - const
+        - let
+        - var
+      next:
+        - const
+        - let
+        - var
+  prefer-destructuring:
+    - error
+    - array: false
+      object: true
+  no-restricted-syntax:
+    - 0
+  no-await-in-loop:
+    - 0
+
+globals:
+  sandbox: true

@@ -1,15 +1,22 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { loginWithGoogle, clearErrors } from './authReducer';
 import { Row, Col } from 'react-bootstrap';
 import Center from 'react-center';
 import { withRouter } from 'react-router-dom';
-import CustomAlert from '../../utils/CustomAlert';
 import { GoogleLogin } from 'react-google-login';
+import CustomAlert from '../../utils/CustomAlert';
+import { loginWithGoogle, clearErrors } from './authReducer';
 import Title from '../../utils/Title';
 import { loginMessages } from '../../utils/messages';
 
 export class Login extends React.Component {
+  static propTypes = {
+    loginWithGoogle: PropTypes.func,
+    clearErrors: PropTypes.func,
+    errorMessage: PropTypes.string
+  };
+
   constructor() {
     super();
     this.responseGoogle = this.responseGoogle.bind(this);
@@ -24,10 +31,19 @@ export class Login extends React.Component {
   }
 
   getErroresRender() {
-    let render = [];
+    const render = [];
+
     if (this.props.errorMessage) {
-      render.push(<CustomAlert key={'alert'} rowKey={'rowkey'} bsStyle="danger" message={this.props.errorMessage} />);
+      render.push(
+        <CustomAlert
+          key="alert"
+          rowKey="rowkey"
+          bsStyle="danger"
+          message={this.props.errorMessage}
+        />
+      );
     }
+
     return render;
   }
 
@@ -47,14 +63,14 @@ export class Login extends React.Component {
             <Center>
               <GoogleLogin
                 clientId="942857236809-n8qa3b9nlijciqlf41eeglnnubb3ukja.apps.googleusercontent.com"
-                buttonText='Login'
+                buttonText="Login"
                 onSuccess={this.responseGoogle}
                 onFailure={this.responseGoogle}
                 autoLoad={false}
-                uxMode='popup'
+                uxMode="popup"
                 // TODO: SACAR PARA VALIDAR SOLO MAIL FIUBA
                 // hostedDomain='fi.uba.ar'
-                cookiePolicy={'single_host_origin'}
+                cookiePolicy="single_host_origin"
               >
                 <span> Login with Google</span>
               </GoogleLogin>
@@ -80,11 +96,14 @@ const mapDispatch = (dispatch) => ({
   }
 });
 
-const mapStateToProps = (state) => {
-  return {
-    errorMessage: state.authReducer.error.message,
-    isAuthenticated: state.authReducer.isAuthenticated
-  };
-};
+const mapStateToProps = (state) => ({
+  errorMessage: state.authReducer.error.message,
+  isAuthenticated: state.authReducer.isAuthenticated
+});
 
-export default withRouter(connect(mapStateToProps, mapDispatch)(Login));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatch
+  )(Login)
+);

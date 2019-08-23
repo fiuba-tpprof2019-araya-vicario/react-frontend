@@ -1,26 +1,37 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { FormGroup, ControlLabel } from 'react-bootstrap';
+import { FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import MandatoryField from './forms/MandatoryField';
+
 export default class Field extends React.Component {
+  static propTypes = {
+    controlId: PropTypes.string,
+    validationState: PropTypes.string,
+    bsSize: PropTypes.string,
+    label: PropTypes.string,
+    required: PropTypes.bool,
+    inputComponent: PropTypes.element,
+    validationMessage: PropTypes.string
+  };
+
   render() {
     return (
       <FormGroup
-        key={this.props.controlId + 'group'}
+        key={`${this.props.controlId}group`}
         validationState={this.props.validationState}
         controlId={this.props.controlId}
         bsSize={this.props.bsSize}
-        validationState={this.props.validationState}
       >
-        <ControlLabel key={this.props.controlId + 'label'}>
+        <ControlLabel key={`${this.props.controlId}label`}>
           {this.props.label}
-          {this.props.required ? <MandatoryField/> : ''}
+          {this.props.required ? <MandatoryField /> : ''}
         </ControlLabel>
-        { this.props.inputComponent }
-        {this.props.validationState == 'error' &&
-          <HelpBlock key={this.props.controlId + 'help'} bsSize="small" >
+        {this.props.inputComponent}
+        {this.props.validationState === 'error' && (
+          <HelpBlock key={`${this.props.controlId}help`} bsSize="small">
             {this.props.validationMessage}
           </HelpBlock>
-        }
+        )}
       </FormGroup>
     );
   }
