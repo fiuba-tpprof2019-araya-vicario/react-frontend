@@ -27,6 +27,7 @@ export class MyProjectIndex extends React.Component {
 
   constructor() {
     super();
+    this.state = { activeStep: 0 };
     this.uploadIdea = this.uploadIdea.bind(this);
     this.showUploadIdeaModal = this.showUploadIdeaModal.bind(this);
   }
@@ -36,23 +37,37 @@ export class MyProjectIndex extends React.Component {
     this.props.getInitialData(this.props.user.id, this.props.user.projectId);
   }
 
+  getActiveStep(user, project) {
+    let activeStep = 0;
+
+    if (user && user.projectId && project) {
+      activeStep = 1;
+    }
+
+    return activeStep;
+  }
+
+  updateActiveStep(step) {
+    this.setState({
+      activeStep: step
+    });
+  }
+
+  componentDidUpdate() {
+    console.log(this.props.user, this.props.project);
+    const newStep = this.getActiveStep(this.props.user, this.props.project);
+
+    if (this.state.activeStep !== newStep) {
+      this.updateActiveStep(newStep);
+    }
+  }
+
   uploadIdea(form) {
     this.props.uploadIdea(form);
   }
 
   showUploadIdeaModal() {
     this.UploadIdeaModal.showModal();
-  }
-
-  getActiveStep() {
-    const { user, project } = this.props;
-    let activeStep = 0;
-
-    if (user.projectId && project) {
-      activeStep = 1;
-    }
-
-    return activeStep;
   }
 
   render() {
@@ -65,7 +80,6 @@ export class MyProjectIndex extends React.Component {
       { title: 'Pendiente de publicación' },
       { title: 'Propuesta publicada' }
     ];
-    const activeStep = this.getActiveStep();
 
     return (
       <Fragment>
@@ -78,7 +92,7 @@ export class MyProjectIndex extends React.Component {
             <div className="step-progress">
               <Stepper
                 steps={steps}
-                activeStep={activeStep}
+                activeStep={this.state.activeStep}
                 defaultTitleOpacity="0.5"
                 completeTitleOpacity="0.75"
                 activeColor="#468847"
@@ -86,10 +100,10 @@ export class MyProjectIndex extends React.Component {
             </div>
           </Row>
           <Row>
-            {activeStep === 0 ? (
+            {this.state.activeStep === 0 ? (
               <CreateIdea showUploadIdeaModal={this.showUploadIdeaModal} />
             ) : null}
-            {activeStep === 1 ? (
+            {this.state.activeStep === 1 ? (
               <ReviewIdea
                 project={this.props.project}
                 showUploadIdeaModal={this.showUploadIdeaModal}
@@ -103,7 +117,7 @@ export class MyProjectIndex extends React.Component {
           tutors={this.props.tutors}
           projectTypes={this.props.projectTypes}
           project={this.props.project}
-          editMode={activeStep}
+          editMode={this.state.activeStep}
           ref={(modal) => {
             this.UploadIdeaModal = modal;
           }}

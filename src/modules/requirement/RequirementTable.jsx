@@ -18,7 +18,7 @@ export class RequirementTable extends React.Component {
     const headers = [
       'Id',
       'Creador',
-      'Requerimiento',
+      'Título',
       'Descripción',
       'Fecha de alta',
       'Última modificación',

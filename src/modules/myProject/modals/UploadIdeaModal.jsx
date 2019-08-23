@@ -32,7 +32,6 @@ export default class UploadIdeaModal extends React.Component {
     const user = props.user ? props.user : {};
 
     this.state = {
-      file: null,
       form: {
         description: { error: false, mensaje: '' },
         autor: { error: false, mensaje: '' },
@@ -44,7 +43,8 @@ export default class UploadIdeaModal extends React.Component {
       description: project.description ? project.description : '',
       projectType: project.type ? project.type : null,
       tutor: project.tutor ? project.tutor : null,
-      autor: project.creator ? getFullName(project.creator) : user.name
+      autor: project.creator ? getFullName(project.creator) : user.name,
+      show: false
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -55,6 +55,12 @@ export default class UploadIdeaModal extends React.Component {
     this.updateTutorSelect = this.updateTutorSelect.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
     this.updateDescription = this.updateDescription.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.project !== this.props.project) {
+      this.resetForm(this.props);
+    }
   }
 
   updateProjectTypeSelect(newValue) {
@@ -99,14 +105,25 @@ export default class UploadIdeaModal extends React.Component {
     });
   }
 
-  resetForm() {
-    const form = {
-      description: { error: false, mensaje: '' },
-      autor: { error: false, mensaje: '' },
-      title: { error: false, mensaje: '' }
-    };
+  resetForm(props) {
+    const project = props.project ? props.project : {};
+    const user = props.user ? props.user : {};
 
-    this.setState({ ...this.state, form });
+    this.setState({
+      file: null,
+      form: {
+        description: { error: false, mensaje: '' },
+        autor: { error: false, mensaje: '' },
+        title: { error: false, mensaje: '' }
+      },
+      coautors: project.students ? props.project.students : [],
+      tutors: [],
+      title: project.name ? project.name : '',
+      description: project.description ? project.description : '',
+      projectType: project.type ? project.type : null,
+      tutor: project.tutor ? project.tutor : null,
+      autor: project.creator ? getFullName(project.creator) : user.name
+    });
   }
 
   validateForm(title, description, autor) {

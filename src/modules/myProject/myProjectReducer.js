@@ -43,8 +43,9 @@ export const queryError = (err) => ({
   err
 });
 
-export const ideaUploaded = () => ({
-  type: POST_IDEA
+export const ideaUploaded = (data) => ({
+  type: POST_IDEA,
+  data
 });
 
 export const projectTypesUploaded = (data) => ({
@@ -143,7 +144,7 @@ export const uploadIdea = ({
     name: title,
     description,
     autor,
-    tutorId,
+    tutor_id: tutorId,
     cotutors: [],
     students: getOnlyField(coautors),
     type
@@ -153,6 +154,7 @@ export const uploadIdea = ({
     .post(api.projects, body, config)
     .then((res) => res.data.data)
     .then((projectId) => {
+      console.log(projectId);
       dispatch(ideaUploaded(projectId));
       getActiveProject(projectId, dispatch);
     })
