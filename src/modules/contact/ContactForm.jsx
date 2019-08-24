@@ -89,9 +89,11 @@ export default class ContactForm extends React.Component {
   }
 
   onSubmit() {
-    const email = ReactDOM.findDOMNode(this.emailInput).value;
-    const name = ReactDOM.findDOMNode(this.nameInput).value;
-    const description = ReactDOM.findDOMNode(this.descriptionInput).value;
+    const email = ReactDOM.findDOMNode(this.emailInput).value.trim();
+    const name = ReactDOM.findDOMNode(this.nameInput).value.trim();
+    const description = ReactDOM.findDOMNode(
+      this.descriptionInput
+    ).value.trim();
 
     if (this.validateForm(email, name, description)) {
       this.props.uploadForm({ email, name, description });

@@ -1,7 +1,13 @@
+import _ from 'lodash';
 import references from './references';
 
+export function getById(objects, id) {
+  return _.find(objects, (object) => object.id === id);
+}
+
 export function isValidEmail(email) {
-  return /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email);
+  // eslint-disable-next-line no-useless-escape
+  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 }
 
 export const formatterDate = (data) => {

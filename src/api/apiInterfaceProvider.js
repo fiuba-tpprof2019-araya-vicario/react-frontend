@@ -6,7 +6,7 @@ const PROJECTS = 'projects';
 const USERS = 'users';
 const REQUESTS = 'requests';
 const REQUIREMENTS = 'requirements';
-const CONTACT = 'contact';
+const CONTACT = 'contacts';
 
 export const api = {
   base: BASE,

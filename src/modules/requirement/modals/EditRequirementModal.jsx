@@ -4,9 +4,9 @@ import { Button, FormControl, Modal } from 'react-bootstrap';
 import FullRow from '../../../utils/styles/FullRow';
 import Field from '../../../utils/Field';
 
-export default class CreateRequirementModal extends React.Component {
+export default class EditRequirementModal extends React.Component {
   static propTypes = {
-    uploadRequirement: PropTypes.func
+    editRequirement: PropTypes.func
   };
 
   constructor() {
@@ -45,10 +45,14 @@ export default class CreateRequirementModal extends React.Component {
     });
   }
 
-  resetForm() {
+  resetForm(requirement) {
     const form = {
-      description: { error: false, mensaje: '', value: '' },
-      title: { error: false, mensaje: '', value: '' }
+      description: {
+        error: false,
+        mensaje: '',
+        value: requirement.description
+      },
+      title: { error: false, mensaje: '', value: requirement.title }
     };
 
     this.setState({ ...this.state, form });
@@ -85,8 +89,8 @@ export default class CreateRequirementModal extends React.Component {
     return formOk;
   }
 
-  showModal() {
-    this.resetForm();
+  showModal(requirement) {
+    this.resetForm(requirement);
     this.setState({ show: true });
   }
 
@@ -99,7 +103,7 @@ export default class CreateRequirementModal extends React.Component {
     const description = this.state.form.description.value;
 
     if (this.validateForm(title, description)) {
-      this.props.uploadRequirement({ name: title, description });
+      this.props.editRequirement({ name: title, description });
       this.hideModal();
     }
   }
@@ -113,7 +117,7 @@ export default class CreateRequirementModal extends React.Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-lg">
-            Crear requerimiento
+            Editar requerimiento
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -162,12 +166,12 @@ export default class CreateRequirementModal extends React.Component {
           </Button>
           &nbsp;
           <Button
-            key="createButton"
+            key="editButton"
             bsSize="small"
             bsStyle="primary"
             onClick={this.onSubmit}
           >
-            Crear
+            Editar
           </Button>
         </Modal.Footer>
       </Modal>

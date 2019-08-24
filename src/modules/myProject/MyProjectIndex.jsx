@@ -54,7 +54,6 @@ export class MyProjectIndex extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(this.props.user, this.props.project);
     const newStep = this.getActiveStep(this.props.user, this.props.project);
 
     if (this.state.activeStep !== newStep) {

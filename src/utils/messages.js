@@ -29,6 +29,7 @@ export const requestMessages = {
 export const requirementMessages = {
   TITLE: 'Requerimientos',
   SUBTITLE: 'Colabora con los distintos requerimientos solicitados',
+  EDIT_TITLE: 'Editar Requerimiento',
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
 };
 

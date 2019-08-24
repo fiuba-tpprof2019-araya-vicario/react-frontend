@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getNullConfig, api } from '../../api/apiInterfaceProvider';
+import { api } from '../../api/apiInterfaceProvider';
 import { contactMessages, utilsMessages } from '../../utils/messages';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
@@ -33,7 +33,6 @@ export const formUploaded = (data) => ({
 
 export const upload = ({ email, name, description }) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  const config = getNullConfig();
   const body = {
     email,
     name,
@@ -41,7 +40,7 @@ export const upload = ({ email, name, description }) => (dispatch) => {
   };
 
   axios
-    .post(api.contact, body, config)
+    .post(api.contact, body)
     .then((res) => res)
     .then(() => {
       dispatch(formUploaded());

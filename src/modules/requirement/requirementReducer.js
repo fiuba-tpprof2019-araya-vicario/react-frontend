@@ -8,6 +8,7 @@ import {
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUIREMENTS = 'HYDRATE_REQUIREMENTS';
+const EDIT_REQUIREMENT = 'EDIT_REQUIREMENT';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const UPLOAD_REQUIREMENT = 'UPLOAD_REQUIREMENT';
@@ -41,6 +42,10 @@ export const requirementsUploaded = () => ({
   type: UPLOAD_REQUIREMENT
 });
 
+export const requirementsEdited = () => ({
+  type: EDIT_REQUIREMENT
+});
+
 export const getRequirements = () => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
@@ -51,6 +56,24 @@ export const getRequirements = () => (dispatch) => {
     .then((data) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateRequirements(data));
+    })
+    .catch((err) => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(queryError(err));
+    });
+};
+
+export const editRequirement = (form) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+
+  axios
+    .post(api.requirements, form, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(requirementsEdited());
+      dispatch(getRequirements());
+      dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {
       dispatch(toggleLoading({ loading: false }));

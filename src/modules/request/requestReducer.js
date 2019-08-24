@@ -103,7 +103,6 @@ export const acceptStudentRequest = (requestId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
-    type: 'student',
     status: 'accepted'
   };
 
@@ -142,7 +141,6 @@ export const rejectStudentRequest = (requestId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
-    type: 'student',
     status: 'rejected'
   };
 
@@ -179,12 +177,12 @@ export default (state = initialState, action) => {
     case HYDRATE_REQUESTS_TUTORS:
       return {
         ...state,
-        studentRequests: fetchRequestTable(action.data)
+        tutorRequests: fetchRequestTable(action.data)
       };
     case HYDRATE_REQUESTS_STUDENTS:
       return {
         ...state,
-        tutorRequests: fetchRequestTable(action.data)
+        studentRequests: fetchRequestTable(action.data)
       };
     case QUERY_ERROR:
       return {

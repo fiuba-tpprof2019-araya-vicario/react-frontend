@@ -6,20 +6,24 @@ import { withRouter } from 'react-router-dom';
 import {
   clearAlert,
   getRequirements,
+  editRequirement,
   uploadRequirement
 } from './requirementReducer';
+import { getById } from '../../utils/services/funtions';
 import Title from '../../utils/Title';
 import BorderScreen from '../../utils/styles/BorderScreen';
 import { requirementMessages } from '../../utils/messages';
 import { RequirementTable } from './RequirementTable';
 import CustomAlert from '../../utils/CustomAlert';
 import CreateRequirementModal from './modals/CreateRequirementModal';
+import EditRequirementModal from './modals/EditRequirementModal';
 
 export class RequirementIndex extends React.Component {
   static propTypes = {
     clearAlert: PropTypes.func,
     getRequirements: PropTypes.func,
     uploadRequirement: PropTypes.func,
+    editRequirement: PropTypes.func,
     requirements: PropTypes.array
   };
 
@@ -30,6 +34,10 @@ export class RequirementIndex extends React.Component {
 
   createRequirement() {
     this.CreateModal.showModal();
+  }
+
+  editRequirement(id) {
+    this.EditModal.showModal(getById(this.props.requirements, id));
   }
 
   render() {
@@ -56,9 +64,11 @@ export class RequirementIndex extends React.Component {
         {this.renderTable()}
         <CreateRequirementModal
           uploadRequirement={this.props.uploadRequirement}
-          ref={(modal) => {
-            this.CreateModal = modal;
-          }}
+          ref={this.CreateModal}
+        />
+        <EditRequirementModal
+          editRequirement={this.props.editRequirement}
+          ref={this.EditModal}
         />
       </BorderScreen>
     );
@@ -86,6 +96,9 @@ const mapDispatch = (dispatch) => ({
   },
   uploadRequirement: (form) => {
     dispatch(uploadRequirement(form));
+  },
+  editRequirement: (form) => {
+    dispatch(editRequirement(form));
   },
   clearAlert: () => {
     dispatch(clearAlert());

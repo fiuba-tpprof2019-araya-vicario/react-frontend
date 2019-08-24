@@ -154,7 +154,6 @@ export const uploadIdea = ({
     .post(api.projects, body, config)
     .then((res) => res.data.data)
     .then((projectId) => {
-      console.log(projectId);
       dispatch(ideaUploaded(projectId));
       getActiveProject(projectId, dispatch);
     })
