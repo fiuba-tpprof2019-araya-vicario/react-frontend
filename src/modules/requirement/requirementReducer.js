@@ -63,12 +63,30 @@ export const getRequirements = () => (dispatch) => {
     });
 };
 
-export const editRequirement = (form) => (dispatch) => {
+export const editRequirement = (id, form) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
 
   axios
-    .post(api.requirements, form, config)
+    .put(api.requirement(id), form, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(requirementsEdited());
+      dispatch(getRequirements());
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(queryError(err));
+    });
+};
+
+export const deleteRequirement = (id) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+
+  axios
+    .delete(api.requirement(id), config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(requirementsEdited());

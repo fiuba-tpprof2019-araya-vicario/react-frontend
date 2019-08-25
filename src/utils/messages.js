@@ -30,6 +30,7 @@ export const requirementMessages = {
   TITLE: 'Requerimientos',
   SUBTITLE: 'Colabora con los distintos requerimientos solicitados',
   EDIT_TITLE: 'Editar Requerimiento',
+  DELETE_WARNING: '¿Estas seguro que quieres borrar este requerimiento?',
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
 };
 

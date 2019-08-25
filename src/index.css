@@ -35,8 +35,8 @@ body {
   box-sizing: border-box;
 }
 
-.navbar-inverse .navbar-nav > .open > a, 
-.navbar-inverse .navbar-nav > .open > a:hover, 
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus {
   background-color: #0196DC;
 }
@@ -46,7 +46,7 @@ body {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #ededed; 
+  color: #ededed;
 }
 
 .loadingModal {
@@ -75,6 +75,14 @@ body {
 }
 
 /* Ends - Fiuba CSS */
+
+.actionsColumn :not(:first-child) {
+  margin-left: 0.5em;
+}
+
+.actionsColumn :first-child {
+  margin-left: 0em;
+}
 
 .loading {
   margin: auto;

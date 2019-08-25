@@ -47,12 +47,13 @@ export default class EditRequirementModal extends React.Component {
 
   resetForm(requirement) {
     const form = {
+      id: requirement.id,
       description: {
         error: false,
         mensaje: '',
         value: requirement.description
       },
-      title: { error: false, mensaje: '', value: requirement.title }
+      title: { error: false, mensaje: '', value: requirement.requirement }
     };
 
     this.setState({ ...this.state, form });
@@ -103,7 +104,7 @@ export default class EditRequirementModal extends React.Component {
     const description = this.state.form.description.value;
 
     if (this.validateForm(title, description)) {
-      this.props.editRequirement({ name: title, description });
+      this.props.editRequirement(this.state.id, { name: title, description });
       this.hideModal();
     }
   }

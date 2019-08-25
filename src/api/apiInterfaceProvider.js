@@ -17,6 +17,7 @@ export const api = {
   requestsTutors: `${BASE + REQUESTS}/tutors`,
   requestsStudents: `${BASE + REQUESTS}/students`,
   requirements: BASE + REQUIREMENTS,
+  requirement: (id) => `${BASE + REQUIREMENTS}/${id}`,
   project: (id) => `${BASE + PROJECTS}/${id}`,
   acceptTutorRequest: (id) => `${BASE + REQUESTS}/tutors/${id}`,
   rejectTutorRequest: (id) => `${BASE + REQUESTS}/tutors/${id}`,

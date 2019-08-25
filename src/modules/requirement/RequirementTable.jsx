@@ -6,17 +6,9 @@ import { CustomTable } from '../../utils/CustomTable';
 export class RequirementTable extends React.Component {
   static propTypes = {
     data: PropTypes.array,
-    editAction: PropTypes.func
+    editRequirement: PropTypes.func,
+    deleteRequirement: PropTypes.func
   };
-
-  constructor() {
-    super();
-    this.getHeaders = this.getHeaders.bind(this);
-  }
-
-  editAction(id) {
-    this.props.editAction(id);
-  }
 
   getHeaders() {
     return [
@@ -35,7 +27,10 @@ export class RequirementTable extends React.Component {
       <CustomTable
         headers={this.getHeaders()}
         data={this.props.data}
-        actions={{ editAction: this.editAction }}
+        actions={{
+          editAction: this.props.editRequirement,
+          deleteAction: this.props.deleteRequirement
+        }}
       />
     );
   }

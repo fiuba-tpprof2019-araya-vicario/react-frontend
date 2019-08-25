@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import {
   clearAlert,
   getRequirements,
+  deleteRequirement,
   editRequirement,
   uploadRequirement
 } from './requirementReducer';
@@ -17,6 +18,7 @@ import { RequirementTable } from './RequirementTable';
 import CustomAlert from '../../utils/CustomAlert';
 import CreateRequirementModal from './modals/CreateRequirementModal';
 import EditRequirementModal from './modals/EditRequirementModal';
+import DeleteRequirementModal from './modals/DeleteRequirementModal';
 
 export class RequirementIndex extends React.Component {
   static propTypes = {
@@ -24,8 +26,16 @@ export class RequirementIndex extends React.Component {
     getRequirements: PropTypes.func,
     uploadRequirement: PropTypes.func,
     editRequirement: PropTypes.func,
+    deleteRequirement: PropTypes.func,
     requirements: PropTypes.array
   };
+
+  constructor() {
+    super();
+    this.createRequirement = this.createRequirement.bind(this);
+    this.editRequirement = this.editRequirement.bind(this);
+    this.deleteRequirement = this.deleteRequirement.bind(this);
+  }
 
   componentDidMount() {
     this.props.clearAlert();
@@ -38,6 +48,10 @@ export class RequirementIndex extends React.Component {
 
   editRequirement(id) {
     this.EditModal.showModal(getById(this.props.requirements, id));
+  }
+
+  deleteRequirement(id) {
+    this.DeleteModal.showModal(getById(this.props.requirements, id));
   }
 
   render() {
@@ -64,11 +78,21 @@ export class RequirementIndex extends React.Component {
         {this.renderTable()}
         <CreateRequirementModal
           uploadRequirement={this.props.uploadRequirement}
-          ref={this.CreateModal}
+          ref={(modal) => {
+            this.CreateModal = modal;
+          }}
         />
         <EditRequirementModal
           editRequirement={this.props.editRequirement}
-          ref={this.EditModal}
+          ref={(modal) => {
+            this.EditModal = modal;
+          }}
+        />
+        <DeleteRequirementModal
+          onDelete={this.props.deleteRequirement}
+          ref={(modal) => {
+            this.DeleteModal = modal;
+          }}
         />
       </BorderScreen>
     );
@@ -82,7 +106,13 @@ export class RequirementIndex extends React.Component {
       return <CustomAlert message={requirementMessages.NO_RESULTS_MESSAGE} />;
     }
 
-    return <RequirementTable data={this.props.requirements} />;
+    return (
+      <RequirementTable
+        data={this.props.requirements}
+        editRequirement={this.editRequirement}
+        deleteRequirement={this.deleteRequirement}
+      />
+    );
   }
 }
 
@@ -97,8 +127,11 @@ const mapDispatch = (dispatch) => ({
   uploadRequirement: (form) => {
     dispatch(uploadRequirement(form));
   },
-  editRequirement: (form) => {
-    dispatch(editRequirement(form));
+  editRequirement: (id, form) => {
+    dispatch(editRequirement(id, form));
+  },
+  deleteRequirement: (id, form) => {
+    dispatch(deleteRequirement(id, form));
   },
   clearAlert: () => {
     dispatch(clearAlert());

@@ -1,7 +1,7 @@
 /* eslint-disable guard-for-in */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Table, Glyphicon } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 
 export class CustomTable extends React.Component {
   static propTypes = {
@@ -37,13 +37,15 @@ export class CustomTable extends React.Component {
   }
 
   getActionsColumn(row, actions) {
-    const { editAction, deleteAction } = actions;
+    const { editAction, deleteAction, acceptAction, rejectAction } = actions;
     let editRender;
     let deleteRender;
+    let acceptRender;
+    let rejectRender;
 
     if (editAction) {
       editRender = (
-        <a href={this.nullHref}>
+        <a role="button">
           <i
             className="fa fa-pencil"
             title="Editar"
@@ -55,23 +57,48 @@ export class CustomTable extends React.Component {
 
     if (deleteAction) {
       deleteRender = (
-        <a href={this.nullHref}>
-          <Glyphicon
-            glyph="eye-close"
-            title="Eliminar"
+        <a role="button">
+          <i
+            className="fa fa-trash"
+            title="Editar"
             onClick={() => deleteAction(row.id)}
           />
         </a>
       );
     }
 
-    const spaceEditDelete = editRender && deleteRender ? '  ' : '';
+    if (acceptAction) {
+      acceptRender = (
+        <Button
+          bsSize="xsmall"
+          bsStyle="primary"
+          onClick={() => acceptAction(row.id)}
+        >
+          <i className="fa fa-success action" title="Aceptar" />
+          Acceptar
+        </Button>
+      );
+    }
+
+    if (rejectAction) {
+      rejectRender = (
+        <Button
+          bsSize="xsmall"
+          bsStyle="danger"
+          onClick={() => rejectAction(row.id)}
+        >
+          <i className="fa fa-remove action" title="rechazar" />
+          Rechazar
+        </Button>
+      );
+    }
 
     return (
-      <td key="actions">
+      <td key="actions" className="actionsColumn">
         {editRender}
-        {spaceEditDelete}
         {deleteRender}
+        {acceptRender}
+        {rejectRender}
       </td>
     );
   }
