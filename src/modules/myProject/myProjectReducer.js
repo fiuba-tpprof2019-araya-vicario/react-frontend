@@ -9,7 +9,7 @@ import {
   getSelectOptionsWithIgnore,
   getOnlyField,
   getFullName
-} from '../../utils/services/funtions';
+} from '../../utils/services/functions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const GET_TUTORS = 'GET_TUTORS';

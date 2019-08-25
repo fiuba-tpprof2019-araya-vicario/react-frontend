@@ -12,7 +12,7 @@ import {
   HelpBlock
 } from 'react-bootstrap';
 import Center from 'react-center';
-import { isValidEmail } from '../../utils/services/funtions';
+import { isValidEmail } from '../../utils/services/functions';
 import LoadingModal from '../../utils/LoadingModal';
 import MandatoryField from '../../utils/forms/MandatoryField';
 

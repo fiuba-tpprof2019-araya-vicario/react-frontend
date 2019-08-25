@@ -28,8 +28,8 @@ export class RequirementTable extends React.Component {
         headers={this.getHeaders()}
         data={this.props.data}
         actions={{
-          editAction: this.props.editRequirement,
-          deleteAction: this.props.deleteRequirement
+          editAction: { action: this.props.editRequirement },
+          deleteAction: { action: this.props.deleteRequirement }
         }}
       />
     );

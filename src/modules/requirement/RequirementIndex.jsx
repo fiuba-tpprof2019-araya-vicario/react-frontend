@@ -10,7 +10,7 @@ import {
   editRequirement,
   uploadRequirement
 } from './requirementReducer';
-import { getById } from '../../utils/services/funtions';
+import { getById } from '../../utils/services/functions';
 import Title from '../../utils/Title';
 import BorderScreen from '../../utils/styles/BorderScreen';
 import { requirementMessages } from '../../utils/messages';

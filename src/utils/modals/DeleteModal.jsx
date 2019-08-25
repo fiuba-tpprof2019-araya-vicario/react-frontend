@@ -6,7 +6,7 @@ import FullRow from '../styles/FullRow';
 export default class DeleteModal extends React.Component {
   static propTypes = {
     onDelete: PropTypes.func,
-    message: PropTypes.string,
+    message: PropTypes.func,
     element: PropTypes.string
   };
 

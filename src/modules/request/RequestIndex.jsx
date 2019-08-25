@@ -86,6 +86,7 @@ export class RequestIndex extends React.Component {
     if (requests == null || requests.length === 0) {
       return <CustomAlert message={requestMessages.NO_RESULTS_MESSAGE} />;
     }
+    console.log(requests);
 
     return (
       <RequestTable

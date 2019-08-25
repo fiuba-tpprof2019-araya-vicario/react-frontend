@@ -34,6 +34,10 @@ export class CustomTable extends React.Component {
     return returnHeaders;
   }
 
+  actionEnabled(action, row) {
+    return action && (!action.disabled || !action.disabled(row));
+  }
+
   getActionsColumn(row, actions) {
     const { editAction, deleteAction, acceptAction, rejectAction } = actions;
     let editRender;
@@ -41,51 +45,51 @@ export class CustomTable extends React.Component {
     let acceptRender;
     let rejectRender;
 
-    if (editAction) {
+    if (this.actionEnabled(editAction, row)) {
       editRender = (
         <a role="button">
           <i
             className="fa fa-pencil"
             title="Editar"
-            onClick={() => editAction(row.id)}
+            onClick={() => editAction.action(row.id)}
           />
         </a>
       );
     }
 
-    if (deleteAction) {
+    if (this.actionEnabled(deleteAction, row)) {
       deleteRender = (
         <a role="button">
           <i
             className="fa fa-trash"
             title="Editar"
-            onClick={() => deleteAction(row.id)}
+            onClick={() => deleteAction.action(row.id)}
           />
         </a>
       );
     }
 
-    if (acceptAction) {
+    if (this.actionEnabled(acceptAction, row)) {
       acceptRender = (
         <Button
           bsSize="xsmall"
           bsStyle="primary"
-          onClick={() => acceptAction(row.id)}
+          onClick={() => acceptAction.action(row.id)}
         >
-          <i className="fa fa-success action" title="Aceptar" />
+          <i className="fa fa-check action" title="Aceptar" />
           Acceptar
         </Button>
       );
     }
 
-    if (rejectAction) {
+    if (this.actionEnabled(rejectAction, row)) {
       rejectRender = (
         <Button
           bsSize="xsmall"
           bsStyle="danger"
-          onClick={() => rejectAction(row.id)}
+          onClick={() => rejectAction.action(row.id)}
         >
-          <i className="fa fa-remove action" title="rechazar" />
+          <i className="fa fa-remove action" title="Rechazar" />
           Rechazar
         </Button>
       );

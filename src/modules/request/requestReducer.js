@@ -2,7 +2,10 @@ import axios from 'axios';
 import Bluebird from 'bluebird';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
-import { formatterDate } from '../../utils/services/funtions';
+import {
+  formatterDate,
+  getDescriptionByRequestStatus
+} from '../../utils/services/functions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUESTS_TUTORS = 'HYDRATE_REQUESTS_TUTORS';
@@ -160,12 +163,14 @@ const fetchRequestTable = (data) => {
   const returnValue = [];
 
   data.forEach((rowObject) => {
+    console.log(rowObject);
     returnValue.push({
       id: rowObject.id,
       creator: `${rowObject.User.name} ${rowObject.User.surname}`,
       project: rowObject.Project.name,
       created_at: formatterDate(rowObject.createdAt),
-      updated_at: formatterDate(rowObject.updatedAt)
+      updated_at: formatterDate(rowObject.updatedAt),
+      status: getDescriptionByRequestStatus(rowObject.status)
     });
   });
 

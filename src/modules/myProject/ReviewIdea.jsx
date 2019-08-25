@@ -8,7 +8,7 @@ import {
   formatterDate,
   getStudentFullName,
   getTutorFullName
-} from '../../utils/services/funtions';
+} from '../../utils/services/functions';
 import { myProjectMessages } from '../../utils/messages';
 
 export default class ReviewIdea extends React.Component {

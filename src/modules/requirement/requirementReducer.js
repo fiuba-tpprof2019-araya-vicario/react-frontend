@@ -4,7 +4,7 @@ import { utilsMessages } from '../../utils/messages';
 import {
   formatterDate,
   getDescriptionByRequirementStatus
-} from '../../utils/services/funtions';
+} from '../../utils/services/functions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUIREMENTS = 'HYDRATE_REQUIREMENTS';

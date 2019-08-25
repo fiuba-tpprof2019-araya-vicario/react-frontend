@@ -13,7 +13,7 @@ import {
 import Select from 'react-select';
 import Field from '../../../utils/Field';
 import MandatoryField from '../../../utils/forms/MandatoryField';
-import { getFullName } from '../../../utils/services/funtions';
+import { getFullName } from '../../../utils/services/functions';
 
 export default class UploadIdeaModal extends React.Component {
   static propTypes = {
