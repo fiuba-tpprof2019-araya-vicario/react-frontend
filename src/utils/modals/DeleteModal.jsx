@@ -7,7 +7,6 @@ export default class DeleteModal extends React.Component {
   static propTypes = {
     onDelete: PropTypes.func,
     message: PropTypes.string,
-    id: PropTypes.number,
     element: PropTypes.string
   };
 
@@ -21,17 +20,16 @@ export default class DeleteModal extends React.Component {
     this.onDelete = this.onDelete.bind(this);
   }
 
-  showModal(requirement) {
-    this.resetForm(requirement);
-    this.setState({ show: true });
+  showModal(id, name) {
+    this.setState({ show: true, id, name });
   }
 
   hideModal() {
-    this.setState({ show: false });
+    this.setState({ show: false, id: null, name: '' });
   }
 
   onDelete() {
-    this.props.onDelete(this.props.id);
+    this.props.onDelete(this.state.id);
     this.hideModal();
   }
 
@@ -49,7 +47,7 @@ export default class DeleteModal extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <FullRow key="1">
-            <p>{this.props.message}</p>
+            <p>{this.props.message(this.state.name)}</p>
           </FullRow>
         </Modal.Body>
         <Modal.Footer>

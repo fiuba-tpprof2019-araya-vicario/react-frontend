@@ -51,7 +51,9 @@ export class RequirementIndex extends React.Component {
   }
 
   deleteRequirement(id) {
-    this.DeleteModal.showModal(getById(this.props.requirements, id));
+    const requirement = getById(this.props.requirements, id);
+
+    this.DeleteModal.getRef().showModal(requirement.id, requirement.name);
   }
 
   render() {

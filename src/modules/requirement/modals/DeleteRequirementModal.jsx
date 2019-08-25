@@ -9,6 +9,10 @@ export default class DeleteRequirementModal extends React.Component {
     id: PropTypes.number
   };
 
+  getRef() {
+    return this.ref;
+  }
+
   render() {
     return (
       <DeleteModal

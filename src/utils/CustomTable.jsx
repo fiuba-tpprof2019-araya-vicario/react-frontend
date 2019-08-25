@@ -10,8 +10,6 @@ export class CustomTable extends React.Component {
     actions: PropTypes.object
   };
 
-  nullHref = '';
-
   constructor() {
     super();
     this.getHeaders = this.getHeaders.bind(this);

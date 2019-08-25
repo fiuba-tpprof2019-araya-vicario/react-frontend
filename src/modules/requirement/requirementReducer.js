@@ -124,7 +124,7 @@ const fetchRequirementTable = (data) => {
     returnValue.push({
       id: rowObject.id,
       creator: `${rowObject.Creator.name} ${rowObject.Creator.surname}`,
-      requirement: rowObject.name,
+      name: rowObject.name,
       description: rowObject.description,
       created_at: formatterDate(rowObject.createdAt),
       updated_at: formatterDate(rowObject.updatedAt),
