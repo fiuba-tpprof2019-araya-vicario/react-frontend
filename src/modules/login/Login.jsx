@@ -68,7 +68,7 @@ export class Login extends React.Component {
                 onFailure={this.responseGoogle}
                 autoLoad={false}
                 uxMode="popup"
-                // TODO: SACAR PARA VALIDAR SOLO MAIL FIUBA
+                // TODO: SACAR PARA VALIDAR SOLO MAIL DE FIUBA
                 // hostedDomain='fi.uba.ar'
                 cookiePolicy="single_host_origin"
               >
