@@ -73,11 +73,11 @@ export class CustomTable extends React.Component {
       acceptRender = (
         <Button
           bsSize="xsmall"
-          bsStyle="primary"
+          bsStyle="success"
           onClick={() => acceptAction.action(row.id)}
         >
           <i className="fa fa-check action" title="Aceptar" />
-          Acceptar
+          Aceptar
         </Button>
       );
     }

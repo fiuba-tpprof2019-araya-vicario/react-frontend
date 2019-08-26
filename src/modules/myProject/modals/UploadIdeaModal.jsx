@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  Row,
-  Col,
   Button,
   FormControl,
   FormGroup,
   ControlLabel,
-  HelpBlock,
   Modal
 } from 'react-bootstrap';
 import Select from 'react-select';
 import Field from '../../../utils/Field';
 import MandatoryField from '../../../utils/forms/MandatoryField';
 import { getFullName } from '../../../utils/services/functions';
+import FullRow from '../../../utils/styles/FullRow';
 
 export default class UploadIdeaModal extends React.Component {
   static propTypes = {
@@ -23,7 +21,8 @@ export default class UploadIdeaModal extends React.Component {
     tutors: PropTypes.array,
     editMode: PropTypes.number,
     projectTypes: PropTypes.array,
-    uploadIdea: PropTypes.func
+    uploadIdea: PropTypes.func,
+    editIdea: PropTypes.func
   };
 
   constructor(props) {
@@ -33,9 +32,9 @@ export default class UploadIdeaModal extends React.Component {
 
     this.state = {
       form: {
-        description: { error: false, mensaje: '' },
+        description: { error: false, mensaje: '', value: '' },
         autor: { error: false, mensaje: '' },
-        title: { error: false, mensaje: '' }
+        title: { error: false, mensaje: '', value: '' }
       },
       coautors: project.students ? props.project.students : [],
       tutors: [],
@@ -87,14 +86,20 @@ export default class UploadIdeaModal extends React.Component {
   updateTitle(newValue) {
     this.setState({
       ...this.state,
-      title: newValue.target.value
+      form: {
+        ...this.state.form,
+        title: { error: false, mensaje: '', value: newValue.target.value }
+      }
     });
   }
 
   updateDescription(newValue) {
     this.setState({
       ...this.state,
-      description: newValue.target.value
+      form: {
+        ...this.state.form,
+        description: { error: false, mensaje: '', value: newValue.target.value }
+      }
     });
   }
 
@@ -111,15 +116,22 @@ export default class UploadIdeaModal extends React.Component {
 
     this.setState({
       file: null,
+      id: props.project.id,
       form: {
-        description: { error: false, mensaje: '' },
+        description: {
+          error: false,
+          mensaje: '',
+          value: project.description ? project.description : ''
+        },
         autor: { error: false, mensaje: '' },
-        title: { error: false, mensaje: '' }
+        title: {
+          error: false,
+          mensaje: '',
+          value: project.name ? project.name : ''
+        }
       },
       coautors: project.students ? props.project.students : [],
       tutors: [],
-      title: project.name ? project.name : '',
-      description: project.description ? project.description : '',
       projectType: project.type ? project.type : null,
       tutor: project.tutor ? project.tutor : null,
       autor: project.creator ? getFullName(project.creator) : user.name
@@ -168,30 +180,42 @@ export default class UploadIdeaModal extends React.Component {
   }
 
   showModal() {
-    // this.resetForm();
     this.setState({ show: true });
   }
 
   hideModal() {
-    // this.resetForm();
     this.setState({ show: false });
   }
 
   onSubmit() {
-    const { title, description, autor } = this.state;
+    const { autor, id } = this.state;
+    const title = this.state.form.title.value;
+    const description = this.state.form.description.value;
     const type = this.state.projectType ? this.state.projectType.value : null;
     const coautors = this.state.coautors ? this.state.coautors : null;
     const tutorId = this.state.tutor ? this.state.tutor.value : null;
 
     if (this.validateForm(title, description, autor)) {
-      this.props.uploadIdea({
-        title,
-        description,
-        coautors,
-        type,
-        autor,
-        tutorId
-      });
+      if (this.props.editMode) {
+        this.props.editIdea(id, {
+          title,
+          description,
+          coautors,
+          type,
+          autor,
+          tutorId
+        });
+      } else {
+        this.props.uploadIdea({
+          title,
+          description,
+          coautors,
+          type,
+          autor,
+          tutorId
+        });
+      }
+
       this.hideModal();
     }
   }
@@ -209,170 +233,135 @@ export default class UploadIdeaModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Row key="formCreateRow0">
-            <Col md={12} lg={12}>
-              <FormGroup
-                validationState={this.state.form.title.error ? 'error' : null}
-              >
-                <ControlLabel>
-                  Título
-                  <MandatoryField />
-                </ControlLabel>
+          <FullRow key="formCreateRow0">
+            <Field
+              controlId="titleInput"
+              label="Título"
+              required
+              validationState={this.state.form.title.error ? 'error' : null}
+              validationMessage={this.state.form.title.mensaje}
+              inputComponent={
                 <FormControl
-                  value={this.state.title}
-                  onChange={(e) => this.updateTitle(e)}
-                  ref={(titleInput) => {
-                    this.titleInput = titleInput;
-                  }}
-                  key="titleInput"
-                  placeholder="Ingrese un título para tu idea"
                   type="text"
-                  required
+                  value={this.state.form.title.value}
+                  placeholder="Ingrese un título para tu requerimiento"
+                  onChange={this.updateTitle}
                 />
-              </FormGroup>
-              {this.state.form.title.error && (
-                <HelpBlock bsSize="small">
-                  {this.state.form.title.mensaje}
-                </HelpBlock>
-              )}
-            </Col>
-          </Row>
-          <Row key="formCreateRow5">
-            <Col md={12} lg={12}>
-              <Field
-                key="projectTypeGroup"
-                bsSize="small"
-                controlId="projectTypeSelect"
-                label="Tipo"
-                required
-                inputComponent={
-                  <Select
-                    key="projectTypeSelect"
-                    value={this.state.projectType}
-                    ref={(projectTypeSelect) => {
-                      this.projectTypeSelect = projectTypeSelect;
-                    }}
-                    onChange={(e) => this.updateProjectTypeSelect(e)}
-                    options={this.props.projectTypes}
-                    isSearchable
-                    id="projectTypeSelect"
-                    placeholder="Seleccione un tipo de proyecto"
-                    name="projectTypeSelect"
-                    multi={false}
-                  />
-                }
+              }
+            />
+          </FullRow>
+          <FullRow key="formCreateRow5">
+            <FormGroup
+              validationState={this.state.form.autor.error ? 'error' : null}
+            >
+              <ControlLabel>
+                Autor
+                <MandatoryField />
+              </ControlLabel>
+              <FormControl
+                defaultValue={this.state.autor}
+                onChange={this.updateAutor}
+                disabled={this.props.user && this.props.user.name}
+                ref={(autorInput) => {
+                  this.autorInput = autorInput;
+                }}
+                key="autorInput"
+                type="text"
               />
-            </Col>
-          </Row>
-          <Row key="formCreateRow1">
-            <Col md={12} lg={12}>
-              <FormGroup
-                validationState={this.state.form.autor.error ? 'error' : null}
-              >
-                <ControlLabel>
-                  Autor
-                  <MandatoryField />
-                </ControlLabel>
-                <FormControl
-                  defaultValue={this.state.autor}
-                  onChange={this.updateAutor}
-                  disabled={this.props.user && this.props.user.name}
-                  ref={(autorInput) => {
-                    this.autorInput = autorInput;
+            </FormGroup>
+            <Field
+              key="projectTypeGroup"
+              bsSize="small"
+              controlId="projectTypeSelect"
+              label="Tipo"
+              required
+              inputComponent={
+                <Select
+                  key="projectTypeSelect"
+                  value={this.state.projectType}
+                  ref={(projectTypeSelect) => {
+                    this.projectTypeSelect = projectTypeSelect;
                   }}
-                  key="autorInput"
-                  type="text"
+                  onChange={(e) => this.updateProjectTypeSelect(e)}
+                  options={this.props.projectTypes}
+                  isSearchable
+                  id="projectTypeSelect"
+                  placeholder="Seleccione un tipo de proyecto"
+                  name="projectTypeSelect"
+                  multi={false}
                 />
-              </FormGroup>
-              {this.state.form.autor.error && (
-                <HelpBlock bsSize="small">
-                  {this.state.form.autor.mensaje}
-                </HelpBlock>
-              )}
-            </Col>
-          </Row>
-          <Row key="formCreateRow2">
-            <Col md={12} lg={12}>
-              <Field
-                key="coautorsGroup"
-                bsSize="small"
-                controlId="coautorsSelect"
-                label="Coautores"
-                inputComponent={
-                  <Select
-                    key="coautorsSelect"
-                    value={this.state.coautors}
-                    ref={(coautorsSelect) => {
-                      this.coautorsSelect = coautorsSelect;
-                    }}
-                    onChange={(e) => this.updateAutorsSelect(e)}
-                    options={this.props.coautors}
-                    isSearchable
-                    id="coautorsSelect"
-                    placeholder="Seleccione coautores"
-                    name="coautorsSelect"
-                    multi
-                  />
-                }
-              />
-            </Col>
-          </Row>
-          <Row key="formCreateRow3">
-            <Col md={12} lg={12}>
-              <Field
-                key="tutorGroup"
-                bsSize="small"
-                controlId="tutorSelect"
-                label="Tutor"
-                inputComponent={
-                  <Select
-                    key="tutorSelect"
-                    value={this.state.tutor}
-                    ref={(tutorSelect) => {
-                      this.tutorSelect = tutorSelect;
-                    }}
-                    onChange={(e) => this.updateTutorSelect(e)}
-                    options={this.props.tutors}
-                    isSearchable
-                    id="tutorSelect"
-                    placeholder="Seleccione un tutor"
-                    name="tutorSelect"
-                    multi={false}
-                  />
-                }
-              />
-            </Col>
-          </Row>
-          <Row key="formCreateRow4">
-            <Col md={12} lg={12}>
-              <FormGroup
-                validationState={
-                  this.state.form.description.error ? 'error' : null
-                }
-              >
-                <ControlLabel>
-                  Descripción de la idea
-                  <MandatoryField />
-                </ControlLabel>
+              }
+            />
+          </FullRow>
+          <FullRow key="formCreateRow2">
+            <Field
+              key="coautorsGroup"
+              bsSize="small"
+              controlId="coautorsSelect"
+              label="Coautores"
+              inputComponent={
+                <Select
+                  key="coautorsSelect"
+                  value={this.state.coautors}
+                  ref={(coautorsSelect) => {
+                    this.coautorsSelect = coautorsSelect;
+                  }}
+                  onChange={(e) => this.updateAutorsSelect(e)}
+                  options={this.props.coautors}
+                  isSearchable
+                  id="coautorsSelect"
+                  placeholder="Seleccione coautores"
+                  name="coautorsSelect"
+                  multi
+                />
+              }
+            />
+          </FullRow>
+          <FullRow key="formCreateRow3">
+            <Field
+              key="tutorGroup"
+              bsSize="small"
+              controlId="tutorSelect"
+              label="Tutor"
+              inputComponent={
+                <Select
+                  key="tutorSelect"
+                  value={this.state.tutor}
+                  ref={(tutorSelect) => {
+                    this.tutorSelect = tutorSelect;
+                  }}
+                  onChange={(e) => this.updateTutorSelect(e)}
+                  options={this.props.tutors}
+                  isSearchable
+                  id="tutorSelect"
+                  placeholder="Seleccione un tutor"
+                  name="tutorSelect"
+                  multi={false}
+                />
+              }
+            />
+          </FullRow>
+          <FullRow key="formCreateRow4">
+            <Field
+              controlId="descriptionInput"
+              label="Descripción de la idea"
+              required
+              validationState={
+                this.state.form.description.error ? 'error' : null
+              }
+              validationMessage={this.state.form.description.mensaje}
+              inputComponent={
                 <textarea
-                  value={this.state.description}
+                  value={this.state.form.description.value}
                   onChange={this.updateDescription}
                   className="form-control"
                   style={{ resize: 'vertical' }}
                   rows="10"
-                  ref={(descriptionInput) => {
-                    this.descriptionInput = descriptionInput;
-                  }}
                   placeholder="Ingrese una descripción de tu idea..."
                 />
-              </FormGroup>
-              {this.state.form.description.error && (
-                <HelpBlock bsSize="small">
-                  {this.state.form.description.mensaje}
-                </HelpBlock>
-              )}
-            </Col>
-          </Row>
+              }
+            />
+          </FullRow>
         </Modal.Body>
         <Modal.Footer>
           <Button bsSize="small" onClick={this.hideModal}>
@@ -385,7 +374,7 @@ export default class UploadIdeaModal extends React.Component {
             bsStyle="primary"
             onClick={this.onSubmit}
           >
-            {this.props.editMode ? 'Enviar' : 'Crear'}
+            {this.props.editMode ? 'Editar' : 'Crear'}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -12,9 +12,12 @@ import {
 } from './requestReducer';
 import Title from '../../utils/Title';
 import { requestMessages } from '../../utils/messages';
+import { getById } from '../../utils/services/functions';
 import BorderScreen from '../../utils/styles/BorderScreen';
 import { RequestTable } from './RequestTable';
 import CustomAlert from '../../utils/CustomAlert';
+import AcceptRequestModal from './modals/AcceptRequestModal';
+import RejectRequestModal from './modals/RejectRequestModal';
 
 export class RequestIndex extends React.Component {
   static propTypes = {
@@ -41,20 +44,44 @@ export class RequestIndex extends React.Component {
     this.props.getRequests();
   }
 
-  acceptStudentRequest(requestId) {
-    this.props.acceptStudentRequest(requestId);
+  acceptStudentRequest(id) {
+    const request = getById(this.props.studentRequests, id);
+
+    this.AcceptModal.getRef().showModal(
+      request.id,
+      request.name,
+      this.props.acceptStudentRequest
+    );
   }
 
-  rejectStudentRequest(requestId) {
-    this.props.rejectStudentRequest(requestId);
+  rejectStudentRequest(id) {
+    const request = getById(this.props.studentRequests, id);
+
+    this.RejectModal.getRef().showModal(
+      request.id,
+      request.name,
+      this.props.rejectStudentRequest
+    );
   }
 
-  acceptTutorRequest(requestId) {
-    this.props.acceptTutorRequest(requestId);
+  acceptTutorRequest(id) {
+    const request = getById(this.props.tutorRequests, id);
+
+    this.AcceptModal.getRef().showModal(
+      request.id,
+      request.name,
+      this.props.acceptTutorRequest
+    );
   }
 
-  rejectTutorRequest(requestId) {
-    this.props.rejectTutorRequest(requestId);
+  rejectTutorRequest(id) {
+    const request = getById(this.props.tutorRequests, id);
+
+    this.RejectModal.getRef().showModal(
+      request.id,
+      request.name,
+      this.props.rejectTutorRequest
+    );
   }
 
   render() {
@@ -69,7 +96,7 @@ export class RequestIndex extends React.Component {
         {this.renderTable(
           this.props.studentRequests,
           this.acceptStudentRequest,
-          rejectStudentRequest
+          this.rejectStudentRequest
         )}
         <br />
         <h3>Mis solicitudes de tutor</h3>
@@ -78,6 +105,16 @@ export class RequestIndex extends React.Component {
           this.acceptTutorRequest,
           this.rejectTutorRequest
         )}
+        <AcceptRequestModal
+          ref={(modal) => {
+            this.AcceptModal = modal;
+          }}
+        />
+        <RejectRequestModal
+          ref={(modal) => {
+            this.RejectModal = modal;
+          }}
+        />
       </BorderScreen>
     );
   }
@@ -86,7 +123,6 @@ export class RequestIndex extends React.Component {
     if (requests == null || requests.length === 0) {
       return <CustomAlert message={requestMessages.NO_RESULTS_MESSAGE} />;
     }
-    console.log(requests);
 
     return (
       <RequestTable

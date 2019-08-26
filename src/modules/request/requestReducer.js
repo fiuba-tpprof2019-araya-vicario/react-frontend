@@ -163,7 +163,6 @@ const fetchRequestTable = (data) => {
   const returnValue = [];
 
   data.forEach((rowObject) => {
-    console.log(rowObject);
     returnValue.push({
       id: rowObject.id,
       creator: `${rowObject.User.name} ${rowObject.User.surname}`,

@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import Stepper from 'react-stepper-horizontal';
 import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import { uploadIdea, clearAlert, getInitialData } from './myProjectReducer';
+import {
+  uploadIdea,
+  editIdea,
+  clearAlert,
+  getInitialData
+} from './myProjectReducer';
 import Title from '../../utils/Title';
 import BorderScreen from '../../utils/styles/BorderScreen';
 import UploadIdeaModal from './modals/UploadIdeaModal';
@@ -17,6 +22,7 @@ export class MyProjectIndex extends React.Component {
     clearAlert: PropTypes.func,
     getInitialData: PropTypes.func,
     uploadIdea: PropTypes.func,
+    editIdea: PropTypes.func,
     user: PropTypes.object,
     project: PropTypes.object,
     isAuthenticated: PropTypes.bool,
@@ -29,6 +35,7 @@ export class MyProjectIndex extends React.Component {
     super();
     this.state = { activeStep: 0 };
     this.uploadIdea = this.uploadIdea.bind(this);
+    this.editIdea = this.editIdea.bind(this);
     this.showUploadIdeaModal = this.showUploadIdeaModal.bind(this);
   }
 
@@ -63,6 +70,10 @@ export class MyProjectIndex extends React.Component {
 
   uploadIdea(form) {
     this.props.uploadIdea(form);
+  }
+
+  editIdea(id, form) {
+    this.props.editIdea(id, form);
   }
 
   showUploadIdeaModal() {
@@ -112,6 +123,7 @@ export class MyProjectIndex extends React.Component {
         </BorderScreen>
         <UploadIdeaModal
           uploadIdea={this.uploadIdea}
+          editIdea={this.editIdea}
           coautors={this.props.coautors}
           tutors={this.props.tutors}
           projectTypes={this.props.projectTypes}
@@ -133,6 +145,9 @@ const mapDispatch = (dispatch) => ({
   },
   uploadIdea: (form) => {
     dispatch(uploadIdea(form));
+  },
+  editIdea: (id, form) => {
+    dispatch(editIdea(id, form));
   },
   clearAlert: () => {
     dispatch(clearAlert());

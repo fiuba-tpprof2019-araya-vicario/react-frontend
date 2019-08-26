@@ -23,7 +23,11 @@ export const myProjectMessages = {
 export const requestMessages = {
   TITLE: 'Mis solicitudes',
   SUBTITLE: 'Administra todas tus solicitudes para formar parte de un proyecto',
-  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
+  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados',
+  ACCEPT_WARNING: (request) =>
+    `¿Estas seguro de que quieres aceptar el pedido para trabajar en el proyecto ${request}?`,
+  REJECT_WARNING: (request) =>
+    `¿Estas seguro de que quieres rechazar el pedido para trabajr en el proyecto ${request}?`
 };
 
 export const requirementMessages = {

@@ -86,7 +86,6 @@ export default class CreateRequirementModal extends React.Component {
   }
 
   showModal() {
-    this.resetForm();
     this.setState({ show: true });
   }
 
@@ -100,6 +99,7 @@ export default class CreateRequirementModal extends React.Component {
 
     if (this.validateForm(title, description)) {
       this.props.uploadRequirement({ name: title, description });
+      this.resetForm();
       this.hideModal();
     }
   }

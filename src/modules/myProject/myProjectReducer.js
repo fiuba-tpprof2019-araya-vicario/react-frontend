@@ -190,14 +190,14 @@ export const editIdea = (
     name: title,
     description,
     autor,
-    tutorId,
+    tutor_id: tutorId,
     cotutors: [],
     students: getOnlyField(coautors),
     type
   };
 
   axios
-    .put(api.projects(projectId), body, config)
+    .put(api.project(projectId), body, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(ideaUploaded(projectId));

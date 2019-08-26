@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import Itemized from '../../utils/styles/Itemized';
 import CustomAlert from '../../utils/CustomAlert';
 import {
@@ -80,14 +80,22 @@ export default class ReviewIdea extends React.Component {
             <p>{this.props.project.description}</p>
           </Row>
           <br />
-          <Row>
+          <Row className="pull-right">
             <Button
-              bsStyle="primary"
-              className="pull-right"
+              bsStyle="danger"
               onClick={this.props.showUploadIdeaModal}
               bsSize="small"
             >
-              <i className="fa fa-pencil">&nbsp;</i>Editar idea
+              <Glyphicon glyph="log-out">&nbsp;</Glyphicon>
+              Abandonar idea
+            </Button>
+            &nbsp;
+            <Button
+              bsStyle="primary"
+              onClick={this.props.showUploadIdeaModal}
+              bsSize="small"
+            >
+              <i className="fa fa-pencil">&nbsp;</i>&nbsp;Editar idea
             </Button>
           </Row>
         </Row>
