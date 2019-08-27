@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
+import { Row, Button, Glyphicon } from 'react-bootstrap';
 import Itemized from '../../utils/styles/Itemized';
 import CustomAlert from '../../utils/CustomAlert';
+import FullRow from '../../utils/styles/FullRow';
 import {
   getFullName,
+  getOnlyField,
   formatterDate,
   getStudentFullName,
   getTutorFullName
@@ -60,20 +62,18 @@ export default class ReviewIdea extends React.Component {
             <h3>Título: {this.props.project.name}</h3>
           </Row>
           <br />
-          <Row>
-            <Col md={4} lg={4}>
-              <Itemized title="Autores:" items={this.getAutors()} />
-            </Col>
-            <Col md={4} lg={4}>
-              <Itemized title="Tutores:" items={this.getTutors()} />
-            </Col>
-            <Col md={4} lg={4}>
-              <Itemized
-                title="Fecha de creación:"
-                items={[formatterDate(this.props.project.createdAt)]}
-              />
-            </Col>
-          </Row>
+          <FullRow>
+            <Itemized title="Autores:" items={this.getAutors()} />
+            <Itemized title="Tutores:" items={this.getTutors()} />
+            <Itemized
+              title="Fecha de creación:"
+              items={[formatterDate(this.props.project.createdAt)]}
+            />
+            <Itemized
+              title="Departamentos:"
+              items={getOnlyField(this.props.project.departments, 'label')}
+            />
+          </FullRow>
           <br />
           <Row>
             <h4>Descripción:</h4>

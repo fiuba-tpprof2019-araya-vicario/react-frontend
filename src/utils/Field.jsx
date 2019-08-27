@@ -6,7 +6,7 @@ import MandatoryField from './forms/MandatoryField';
 export default class Field extends React.Component {
   static propTypes = {
     controlId: PropTypes.string,
-    validationState: PropTypes.string,
+    validationState: PropTypes.bool,
     bsSize: PropTypes.string,
     label: PropTypes.string,
     required: PropTypes.bool,
@@ -18,7 +18,7 @@ export default class Field extends React.Component {
     return (
       <FormGroup
         key={`${this.props.controlId}group`}
-        validationState={this.props.validationState}
+        validationState={this.props.validationState ? 'error' : null}
         controlId={this.props.controlId}
         bsSize={this.props.bsSize}
       >

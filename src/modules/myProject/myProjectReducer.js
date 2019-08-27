@@ -250,6 +250,9 @@ const getFormattedProject = (project) => ({
   ...project,
   cotutors: getSelectOptions(project.Cotutors, { getLabel: getFullName }),
   students: getSelectOptions(project.Students, { getLabel: getFullName }),
+  departments: getSelectOptions(project.Departments, {
+    getLabel: (departments) => departments.name
+  }),
   tutor: {
     ...project.Tutor,
     ...getSelectOption(project.Tutor, { getLabel: getFullName })
