@@ -1,15 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {
-  Button,
-  FormControl,
-  FormGroup,
-  ControlLabel,
-  Modal
-} from 'react-bootstrap';
+import { Button, FormControl, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import Field from '../../../utils/Field';
-import MandatoryField from '../../../utils/forms/MandatoryField';
 import { getFullName } from '../../../utils/services/functions';
 import FullRow from '../../../utils/styles/FullRow';
 
@@ -18,6 +11,7 @@ export default class UploadIdeaModal extends React.Component {
     project: PropTypes.object,
     user: PropTypes.object,
     coautors: PropTypes.array,
+    departments: PropTypes.array,
     tutors: PropTypes.array,
     editMode: PropTypes.number,
     projectTypes: PropTypes.array,
@@ -34,11 +28,19 @@ export default class UploadIdeaModal extends React.Component {
       form: {
         description: { error: false, mensaje: '', value: '' },
         autor: { error: false, mensaje: '' },
-        title: { error: false, mensaje: '', value: '' }
+        title: {
+          error: false,
+          mensaje: '',
+          value: project.name ? project.name : ''
+        },
+        departments: {
+          error: false,
+          mensaje: '',
+          value: project.departments ? props.project.departments : []
+        }
       },
       coautors: project.students ? props.project.students : [],
       tutors: [],
-      title: project.name ? project.name : '',
       description: project.description ? project.description : '',
       projectType: project.type ? project.type : null,
       tutor: project.tutor ? project.tutor : null,
@@ -49,6 +51,7 @@ export default class UploadIdeaModal extends React.Component {
     this.hideModal = this.hideModal.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.updateAutorsSelect = this.updateAutorsSelect.bind(this);
+    this.updateDepartmentsSelect = this.updateDepartmentsSelect.bind(this);
     this.updateAutor = this.updateAutor.bind(this);
     this.updateProjectTypeSelect = this.updateProjectTypeSelect.bind(this);
     this.updateTutorSelect = this.updateTutorSelect.bind(this);
@@ -93,6 +96,16 @@ export default class UploadIdeaModal extends React.Component {
     });
   }
 
+  updateDepartmentsSelect(newValue) {
+    this.setState({
+      ...this.state,
+      form: {
+        ...this.state.form,
+        departments: { error: false, mensaje: '', value: newValue }
+      }
+    });
+  }
+
   updateDescription(newValue) {
     this.setState({
       ...this.state,
@@ -128,6 +141,11 @@ export default class UploadIdeaModal extends React.Component {
           error: false,
           mensaje: '',
           value: project.name ? project.name : ''
+        },
+        departments: {
+          error: false,
+          mensaje: '',
+          value: project.departments ? project.departments : []
         }
       },
       coautors: project.students ? props.project.students : [],
@@ -138,13 +156,14 @@ export default class UploadIdeaModal extends React.Component {
     });
   }
 
-  validateForm(title, description, autor) {
+  validateForm(title, description, autor, departments) {
     let formOk = true;
 
     const form = {
-      description: { error: false, mensaje: '' },
-      autor: { error: false, mensaje: '' },
-      title: { error: false, mensaje: '' }
+      description: { error: false, mensaje: '', value: description },
+      autor: { error: false, mensaje: '', value: autor },
+      title: { error: false, mensaje: '', value: title },
+      departments: { error: false, mensaje: '', value: departments }
     };
 
     if (title == null || title === '') {
@@ -173,6 +192,15 @@ export default class UploadIdeaModal extends React.Component {
       form.autor.error = false;
       form.autor.mensaje = '';
     }
+    if (departments && departments.length === 0) {
+      form.departments.error = true;
+      form.departments.mensaje =
+        'Tenés que ingresar al menos un departamento al que pertenece tu idea';
+      formOk = false;
+    } else {
+      form.departments.error = false;
+      form.departments.mensaje = '';
+    }
 
     this.setState({ ...this.state, form });
 
@@ -190,15 +218,17 @@ export default class UploadIdeaModal extends React.Component {
   onSubmit() {
     const { autor, id } = this.state;
     const title = this.state.form.title.value;
+    const departments = this.state.form.departments.value;
     const description = this.state.form.description.value;
     const type = this.state.projectType ? this.state.projectType.value : null;
     const coautors = this.state.coautors ? this.state.coautors : null;
     const tutorId = this.state.tutor ? this.state.tutor.value : null;
 
-    if (this.validateForm(title, description, autor)) {
+    if (this.validateForm(title, description, autor, departments)) {
       if (this.props.editMode) {
         this.props.editIdea(id, {
           title,
+          departments,
           description,
           coautors,
           type,
@@ -208,6 +238,7 @@ export default class UploadIdeaModal extends React.Component {
       } else {
         this.props.uploadIdea({
           title,
+          departments,
           description,
           coautors,
           type,
@@ -251,24 +282,20 @@ export default class UploadIdeaModal extends React.Component {
             />
           </FullRow>
           <FullRow key="formCreateRow5">
-            <FormGroup
-              validationState={this.state.form.autor.error ? 'error' : null}
-            >
-              <ControlLabel>
-                Autor
-                <MandatoryField />
-              </ControlLabel>
-              <FormControl
-                defaultValue={this.state.autor}
-                onChange={this.updateAutor}
-                disabled={this.props.user && this.props.user.name}
-                ref={(autorInput) => {
-                  this.autorInput = autorInput;
-                }}
-                key="autorInput"
-                type="text"
-              />
-            </FormGroup>
+            <Field
+              controlId="autorInput"
+              label="Autor"
+              required
+              inputComponent={
+                <FormControl
+                  type="text"
+                  value={this.state.autor}
+                  disabled={this.props.user && this.props.user.name}
+                  placeholder="Ingrese un título para tu requerimiento"
+                  onChange={this.updateTitle}
+                />
+              }
+            />
             <Field
               key="projectTypeGroup"
               bsSize="small"
@@ -279,10 +306,7 @@ export default class UploadIdeaModal extends React.Component {
                 <Select
                   key="projectTypeSelect"
                   value={this.state.projectType}
-                  ref={(projectTypeSelect) => {
-                    this.projectTypeSelect = projectTypeSelect;
-                  }}
-                  onChange={(e) => this.updateProjectTypeSelect(e)}
+                  onChange={this.updateProjectTypeSelect}
                   options={this.props.projectTypes}
                   isSearchable
                   id="projectTypeSelect"
@@ -303,10 +327,7 @@ export default class UploadIdeaModal extends React.Component {
                 <Select
                   key="coautorsSelect"
                   value={this.state.coautors}
-                  ref={(coautorsSelect) => {
-                    this.coautorsSelect = coautorsSelect;
-                  }}
-                  onChange={(e) => this.updateAutorsSelect(e)}
+                  onChange={this.updateAutorsSelect}
                   options={this.props.coautors}
                   isSearchable
                   id="coautorsSelect"
@@ -327,16 +348,39 @@ export default class UploadIdeaModal extends React.Component {
                 <Select
                   key="tutorSelect"
                   value={this.state.tutor}
-                  ref={(tutorSelect) => {
-                    this.tutorSelect = tutorSelect;
-                  }}
-                  onChange={(e) => this.updateTutorSelect(e)}
+                  onChange={this.updateTutorSelect}
                   options={this.props.tutors}
                   isSearchable
                   id="tutorSelect"
                   placeholder="Seleccione un tutor"
                   name="tutorSelect"
                   multi={false}
+                />
+              }
+            />
+          </FullRow>
+          <FullRow key="formCreateRow6">
+            <Field
+              key="departmentsGroup"
+              bsSize="small"
+              required
+              controlId="departmentsSelect"
+              label="Departamentos"
+              validationState={
+                this.state.form.departments.error ? 'error' : null
+              }
+              validationMessage={this.state.form.departments.mensaje}
+              inputComponent={
+                <Select
+                  key="departmentsSelect"
+                  value={this.state.form.departments.value}
+                  onChange={this.updateDepartmentsSelect}
+                  options={this.props.departments}
+                  isSearchable
+                  id="departmentsSelect"
+                  placeholder="Seleccione los departamentos a los que pertence la idea"
+                  name="departmentsSelect"
+                  multi
                 />
               }
             />

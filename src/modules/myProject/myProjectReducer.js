@@ -14,6 +14,7 @@ import {
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const GET_TUTORS = 'GET_TUTORS';
 const GET_COAUTORS = 'GET_COAUTORS';
+const GET_DEPARTMENTS = 'GET_DEPARTMENTS';
 const GET_ACTIVE_PROJECT = 'GET_ACTIVE_PROJECT';
 const GET_PROJECT_TYPES = 'GET_PROJECT_TYPES';
 const POST_IDEA = 'POST_IDEA';
@@ -48,8 +49,13 @@ export const ideaUploaded = (data) => ({
   data
 });
 
-export const projectTypesUploaded = (data) => ({
+export const projectTypesLoaded = (data) => ({
   type: GET_PROJECT_TYPES,
+  data
+});
+
+export const departmentsLoaded = (data) => ({
+  type: GET_DEPARTMENTS,
   data
 });
 
@@ -72,7 +78,7 @@ export const tutorsUploaded = (data, ignoreId) => ({
 
 const getProjectTypes = (dispatch) => {
   dispatch(
-    projectTypesUploaded([
+    projectTypesLoaded([
       {
         value: 1,
         label: 'Trabajo Profesional'
@@ -80,6 +86,33 @@ const getProjectTypes = (dispatch) => {
       {
         value: 2,
         label: 'Tesis'
+      },
+      {
+        value: 3,
+        label: 'Trabajo Práctico'
+      }
+    ])
+  );
+};
+
+const getDepartments = (dispatch) => {
+  dispatch(
+    departmentsLoaded([
+      {
+        value: 1,
+        label: 'Departamento Informática'
+      },
+      {
+        value: 2,
+        label: 'Departamento Civil'
+      },
+      {
+        value: 3,
+        label: 'Departamento Electrónica'
+      },
+      {
+        value: 4,
+        label: 'Departamento Química'
       }
     ])
   );
@@ -132,18 +165,18 @@ const getCoautors = (ignoreId, dispatch) => {
 
 export const uploadIdea = ({
   title,
+  departments,
   description,
   coautors,
   type,
-  autor,
   tutorId
 }) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
     name: title,
+    departments: getOnlyField(departments),
     description,
-    autor,
     tutor_id: tutorId,
     cotutors: [],
     students: getOnlyField(coautors),
@@ -172,6 +205,7 @@ export const getInitialData = (ignoreId, projectId) => (dispatch) => {
     getTutors(ignoreId, dispatch),
     getActiveProject(projectId, dispatch),
     getProjectTypes(dispatch),
+    getDepartments(dispatch),
     getCoautors(ignoreId, dispatch)
   )
     .then(() => dispatch(toggleLoading({ loading: false })))
@@ -243,6 +277,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         projectTypes: action.data
+      };
+    case GET_DEPARTMENTS:
+      return {
+        ...state,
+        departments: action.data
       };
     case GET_TUTORS:
       return {
