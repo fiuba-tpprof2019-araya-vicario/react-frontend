@@ -41,7 +41,7 @@ export default class UploadIdeaModal extends React.Component {
         projectType: {
           error: false,
           mensaje: '',
-          value: project.type ? props.project.type : []
+          value: project.type ? props.project.type : null
         }
       },
       coautors: project.students ? props.project.students : [],
@@ -318,7 +318,7 @@ export default class UploadIdeaModal extends React.Component {
               inputComponent={
                 <Select
                   key="projectTypeSelect"
-                  value={this.state.projectType}
+                  value={this.state.form.projectType.value}
                   onChange={this.updateProjectTypeSelect}
                   options={this.props.projectTypes}
                   isSearchable

@@ -1,5 +1,5 @@
 {
-  "name": "shared-server-ui",
+  "name": "brain-search-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
