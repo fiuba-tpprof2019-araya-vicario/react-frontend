@@ -7,6 +7,7 @@ import {
   getSelectOption,
   getSelectOptions,
   getSelectOptionsWithIgnore,
+  getStudentIsApproved,
   getOnlyField,
   getFullName
 } from '../../utils/services/functions';
@@ -249,7 +250,10 @@ export const editIdea = (
 const getFormattedProject = (project) => ({
   ...project,
   cotutors: getSelectOptions(project.Cotutors, { getLabel: getFullName }),
-  students: getSelectOptions(project.Students, { getLabel: getFullName }),
+  students: getSelectOptions(project.Students, {
+    getLabel: getFullName,
+    getFixed: getStudentIsApproved
+  }),
   departments: getSelectOptions(project.Departments, {
     getLabel: (departments) => departments.name
   }),

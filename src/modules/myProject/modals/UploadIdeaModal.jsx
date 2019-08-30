@@ -26,27 +26,34 @@ export default class UploadIdeaModal extends React.Component {
 
     this.state = {
       form: {
-        description: { error: false, mensaje: '', value: '' },
-        autor: { error: false, mensaje: '' },
+        description: {
+          error: false,
+          message: '',
+          value: project.description ? project.description : ''
+        },
+        autor: { error: false, message: '' },
         title: {
           error: false,
-          mensaje: '',
+          message: '',
           value: project.name ? project.name : ''
         },
         departments: {
           error: false,
-          mensaje: '',
+          message: '',
           value: project.departments ? props.project.departments : []
         },
         projectType: {
           error: false,
-          mensaje: '',
+          message: '',
           value: project.type ? props.project.type : null
+        },
+        coautors: {
+          error: false,
+          message: '',
+          value: project.students ? props.project.students : []
         }
       },
-      coautors: project.students ? props.project.students : [],
       tutors: [],
-      description: project.description ? project.description : '',
       projectType: project.type ? project.type : null,
       autor: project.creator ? getFullName(project.creator) : user.name,
       show: false
@@ -74,7 +81,7 @@ export default class UploadIdeaModal extends React.Component {
       ...this.state,
       form: {
         ...this.state.form,
-        projectType: { error: false, mensaje: '', value: newValue }
+        projectType: { error: false, message: '', value: newValue }
       }
     });
   }
@@ -82,7 +89,10 @@ export default class UploadIdeaModal extends React.Component {
   updateAutorsSelect(newValue) {
     this.setState({
       ...this.state,
-      coautors: newValue
+      form: {
+        ...this.state.form,
+        coautors: { error: false, message: '', value: newValue }
+      }
     });
   }
 
@@ -98,7 +108,7 @@ export default class UploadIdeaModal extends React.Component {
       ...this.state,
       form: {
         ...this.state.form,
-        title: { error: false, mensaje: '', value: newValue.target.value }
+        title: { error: false, message: '', value: newValue.target.value }
       }
     });
   }
@@ -108,7 +118,7 @@ export default class UploadIdeaModal extends React.Component {
       ...this.state,
       form: {
         ...this.state.form,
-        departments: { error: false, mensaje: '', value: newValue }
+        departments: { error: false, message: '', value: newValue }
       }
     });
   }
@@ -118,7 +128,7 @@ export default class UploadIdeaModal extends React.Component {
       ...this.state,
       form: {
         ...this.state.form,
-        description: { error: false, mensaje: '', value: newValue.target.value }
+        description: { error: false, message: '', value: newValue.target.value }
       }
     });
   }
@@ -140,77 +150,93 @@ export default class UploadIdeaModal extends React.Component {
       form: {
         description: {
           error: false,
-          mensaje: '',
+          message: '',
           value: project.description ? project.description : ''
         },
-        autor: { error: false, mensaje: '' },
+        autor: { error: false, message: '' },
         title: {
           error: false,
-          mensaje: '',
+          message: '',
           value: project.name ? project.name : ''
         },
         departments: {
           error: false,
-          mensaje: '',
+          message: '',
           value: project.departments ? project.departments : []
         },
         projectType: {
           error: false,
-          mensaje: '',
+          message: '',
           value: project.type ? project.type : null
+        },
+        coautors: {
+          error: false,
+          message: '',
+          value: project.students ? props.project.students : null
         }
       },
-      coautors: project.students ? props.project.students : [],
       tutors: [],
       tutor: project.tutor ? project.tutor : null,
       autor: project.creator ? getFullName(project.creator) : user.name
     });
   }
 
-  validateForm(title, description, autor, departments) {
+  validateForm(title, description, autor, departments, type) {
     let formOk = true;
 
     const form = {
-      description: { error: false, mensaje: '', value: description },
-      autor: { error: false, mensaje: '', value: autor },
-      title: { error: false, mensaje: '', value: title },
-      departments: { error: false, mensaje: '', value: departments }
+      description: { error: false, message: '', value: description },
+      projectType: { error: false, message: '', value: type },
+      autor: { error: false, message: '' },
+      title: { error: false, message: '', value: title },
+      departments: { error: false, message: '', value: departments },
+      coautors: this.state.form.coautors
     };
 
     if (title == null || title === '') {
       form.title.error = true;
-      form.title.mensaje = 'Tenés que ingresar el título de tu idea';
+      form.title.message = 'Tenés que ingresar el título de tu idea';
       formOk = false;
     } else {
       form.title.error = false;
-      form.title.mensaje = '';
+      form.title.message = '';
     }
 
     if (description == null || description === '') {
       form.description.error = true;
-      form.description.mensaje = 'Tenés que ingresar la descripción de tu idea';
+      form.description.message = 'Tenés que ingresar la descripción de tu idea';
       formOk = false;
     } else {
       form.description.error = false;
-      form.description.mensaje = '';
+      form.description.message = '';
     }
 
     if (autor == null || autor === '') {
       form.autor.error = true;
-      form.autor.mensaje = 'Tenés que ingresar el autor de la idea';
+      form.autor.message = 'Tenés que ingresar el autor de la idea';
       formOk = false;
     } else {
       form.autor.error = false;
-      form.autor.mensaje = '';
+      form.autor.message = '';
     }
+
+    if (!type) {
+      form.projectType.error = true;
+      form.projectType.message = 'Tenés que seleccionar el tipo de proyecto';
+      formOk = false;
+    } else {
+      form.projectType.error = false;
+      form.projectType.message = '';
+    }
+
     if (departments && departments.length === 0) {
       form.departments.error = true;
-      form.departments.mensaje =
+      form.departments.message =
         'Tenés que ingresar al menos un departamento al que pertenece tu idea';
       formOk = false;
     } else {
       form.departments.error = false;
-      form.departments.mensaje = '';
+      form.departments.message = '';
     }
 
     this.setState({ ...this.state, form });
@@ -235,7 +261,7 @@ export default class UploadIdeaModal extends React.Component {
     const coautors = this.state.coautors ? this.state.coautors : null;
     const tutorId = this.state.tutor ? this.state.tutor.value : null;
 
-    if (this.validateForm(title, description, autor, departments)) {
+    if (this.validateForm(title, description, autor, departments, type)) {
       if (this.props.editMode) {
         this.props.editIdea(id, {
           title,
@@ -281,7 +307,7 @@ export default class UploadIdeaModal extends React.Component {
               label="Título"
               required
               validationState={this.state.form.title.error}
-              validationMessage={this.state.form.title.mensaje}
+              validationMessage={this.state.form.title.message}
               inputComponent={
                 <FormControl
                   type="text"
@@ -314,7 +340,7 @@ export default class UploadIdeaModal extends React.Component {
               label="Tipo"
               required
               validationState={this.state.form.projectType.error}
-              validationMessage={this.state.form.projectType.mensaje}
+              validationMessage={this.state.form.projectType.message}
               inputComponent={
                 <Select
                   key="projectTypeSelect"
@@ -339,10 +365,12 @@ export default class UploadIdeaModal extends React.Component {
               inputComponent={
                 <Select
                   key="coautorsSelect"
-                  value={this.state.coautors}
+                  value={this.state.form.coautors.value}
                   onChange={this.updateAutorsSelect}
+                  isClearable={this.state.form.coautors.value.some(
+                    (element) => !element.isFixed
+                  )}
                   options={this.props.coautors}
-                  isSearchable
                   id="coautorsSelect"
                   placeholder="Seleccione coautores"
                   name="coautorsSelect"
@@ -380,7 +408,7 @@ export default class UploadIdeaModal extends React.Component {
               controlId="departmentsSelect"
               label="Departamentos"
               validationState={this.state.form.departments.error}
-              validationMessage={this.state.form.departments.mensaje}
+              validationMessage={this.state.form.departments.message}
               inputComponent={
                 <Select
                   key="departmentsSelect"
@@ -402,7 +430,7 @@ export default class UploadIdeaModal extends React.Component {
               label="Descripción de la idea"
               required
               validationState={this.state.form.description.error}
-              validationMessage={this.state.form.description.mensaje}
+              validationMessage={this.state.form.description.message}
               inputComponent={
                 <textarea
                   value={this.state.form.description.value}

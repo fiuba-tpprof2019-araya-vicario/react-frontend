@@ -27,7 +27,7 @@ export default class Field extends React.Component {
           {this.props.required ? <MandatoryField /> : ''}
         </ControlLabel>
         {this.props.inputComponent}
-        {this.props.validationState === 'error' && (
+        {this.props.validationState && (
           <HelpBlock key={`${this.props.controlId}help`} bsSize="small">
             {this.props.validationMessage}
           </HelpBlock>

@@ -43,7 +43,7 @@ export function getSelectOptionsWithIgnore(
 
 export function getSelectOptions(
   options,
-  { valueString = 'id', getLabel = (e) => e.name }
+  { valueString = 'id', getLabel = (e) => e.name, getFixed = () => {} }
 ) {
   if (!options || options.length === 0) {
     return [];
@@ -51,7 +51,8 @@ export function getSelectOptions(
 
   return options.map((elem) => ({
     value: elem[valueString],
-    label: getLabel(elem)
+    label: getLabel(elem),
+    isFixed: getFixed(elem)
   }));
 }
 
@@ -100,4 +101,8 @@ export function getTutorFullName(user) {
 
 export function getStudentFullName(user) {
   return user ? getFullNameWithStatus(user, 'StudentRequests') : '';
+}
+
+export function getStudentIsApproved(student) {
+  return student.StudentRequests.status === references.REQUEST_STATES.accepted;
 }
