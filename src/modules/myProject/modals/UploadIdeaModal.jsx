@@ -258,7 +258,7 @@ export default class UploadIdeaModal extends React.Component {
     const departments = this.state.form.departments.value;
     const description = this.state.form.description.value;
     const type = this.state.form.projectType.value;
-    const coautors = this.state.coautors ? this.state.coautors : null;
+    const coautors = this.state.form.coautors.value;
     const tutorId = this.state.tutor ? this.state.tutor.value : null;
 
     if (this.validateForm(title, description, autor, departments, type)) {
