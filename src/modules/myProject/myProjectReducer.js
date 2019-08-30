@@ -181,7 +181,7 @@ export const uploadIdea = ({
     tutor_id: tutorId,
     cotutors: [],
     students: getOnlyField(coautors),
-    type
+    type: type.value
   };
 
   axios
