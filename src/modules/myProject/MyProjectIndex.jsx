@@ -106,8 +106,9 @@ export class MyProjectIndex extends React.Component {
       { title: 'Propuesta publicada' }
     ];
     const isUserCreator =
-      this.props.project &&
-      this.props.user.id === this.props.project.creator_id;
+      (this.props.project &&
+        this.props.user.id === this.props.project.creator_id) ||
+      !this.props.project;
 
     return (
       <Fragment>
