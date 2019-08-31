@@ -11,6 +11,7 @@ const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUESTS_TUTORS = 'HYDRATE_REQUESTS_TUTORS';
 const HYDRATE_REQUESTS_STUDENTS = 'HYDRATE_REQUESTS_STUDENTS';
 const QUERY_ERROR = 'QUERY_ERROR';
+const POST_IDEA = 'POST_IDEA';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
 
 const initialState = {
@@ -22,6 +23,11 @@ const initialState = {
 const toggleLoading = ({ loading }) => ({
   type: TOGGLE_LOADING,
   loading
+});
+
+const ideaAccepted = (data) => ({
+  type: POST_IDEA,
+  data
 });
 
 export const clearAlert = () => ({
@@ -107,7 +113,7 @@ export const acceptTutorRequest = (requestId) => (dispatch) => {
     });
 };
 
-export const acceptStudentRequest = (requestId) => (dispatch) => {
+export const acceptStudentRequest = (requestId, projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
@@ -118,6 +124,7 @@ export const acceptStudentRequest = (requestId) => (dispatch) => {
     .put(api.acceptStudentRequest(requestId), body, config)
     .then((res) => res.data.data)
     .then(() => {
+      dispatch(ideaAccepted(projectId));
       getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
@@ -174,6 +181,7 @@ const fetchRequestTable = (data) => {
   data.forEach((rowObject) => {
     returnValue.push({
       id: rowObject.id,
+      projectId: rowObject.Project.id,
       creator: `${rowObject.User.name} ${rowObject.User.surname}`,
       project: rowObject.Project.name,
       created_at: formatterDate(rowObject.createdAt),

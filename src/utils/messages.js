@@ -17,7 +17,9 @@ export const myProjectMessages = {
     'No se ha creado una idea aún, agregue una para dar comienzo a su propuesta. En la misma debe describir brevemente el proposito de su proyecto (En caso de no tener un tutor asignado puede realizarlo en pasos posteriores).',
   GO_TO_REQUERIMENT_DESCRIPTION: 'Puedes tomar un requerimiento.',
   NEW_STEP_PROJECT_CREATED_INFO:
-    'Para avanzar al siguiente paso el proyecto debe tener un tutor asignado a tu proyecto, que haya aceptado la solicitud de tutoría.'
+    'Para avanzar al siguiente paso el proyecto debe tener un tutor asignado a tu proyecto, que haya aceptado la solicitud de tutoría.',
+  ABANDON_WARNING: (proyect) =>
+    `¿Estas seguro de que quieres abandonar este el ${proyect}?`
 };
 
 export const requestMessages = {

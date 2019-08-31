@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ShowIdea from './ShowIdea';
 
-export default class ReviewIdea extends React.Component {
+export default class PendingProposal extends React.Component {
   static propTypes = {
     project: PropTypes.object,
     userId: PropTypes.number,

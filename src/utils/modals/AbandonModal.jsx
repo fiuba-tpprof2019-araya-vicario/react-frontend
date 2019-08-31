@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import FullRow from '../styles/FullRow';
 
-export default class AcceptModal extends React.Component {
+export default class AbandonModal extends React.Component {
   static propTypes = {
     message: PropTypes.func,
     element: PropTypes.string
@@ -16,25 +16,25 @@ export default class AcceptModal extends React.Component {
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
-    this.onAccept = this.onAccept.bind(this);
+    this.onAbandon = this.onAbandon.bind(this);
   }
 
-  showModal(id, projectId, name, action) {
-    this.setState({ show: true, id, projectId, name, action });
+  showModal(id, memberId, name, action) {
+    this.setState({ show: true, id, memberId, name, action });
   }
 
   hideModal() {
     this.setState({
       show: false,
       id: null,
-      projectId: null,
+      memberId: null,
       name: '',
       action: null
     });
   }
 
-  onAccept() {
-    this.state.action(this.state.id, this.state.projectId);
+  onAbandon() {
+    this.state.action(this.state.id, this.state.memberId);
     this.hideModal();
   }
 
@@ -47,7 +47,7 @@ export default class AcceptModal extends React.Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-lg">
-            Aceptar {this.props.element}
+            Abandonar {this.props.element}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -63,10 +63,10 @@ export default class AcceptModal extends React.Component {
           <Button
             key="editButton"
             bsSize="small"
-            bsStyle="success"
-            onClick={this.onAccept}
+            bsStyle="danger"
+            onClick={this.onAbandon}
           >
-            Aceptar
+            Abanadonar
           </Button>
         </Modal.Footer>
       </Modal>

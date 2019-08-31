@@ -69,6 +69,7 @@ export class RequestIndex extends React.Component {
 
     this.AcceptModal.getRef().showModal(
       request.id,
+      request.projectId,
       request.name,
       this.props.acceptTutorRequest
     );
@@ -146,8 +147,8 @@ const mapDispatch = (dispatch) => ({
   clearAlert: () => {
     dispatch(clearAlert());
   },
-  acceptStudentRequest: (requestId) => {
-    dispatch(acceptStudentRequest(requestId));
+  acceptStudentRequest: (requestId, projectId) => {
+    dispatch(acceptStudentRequest(requestId, projectId));
   },
   acceptTutorRequest: (requestId) => {
     dispatch(acceptTutorRequest(requestId));

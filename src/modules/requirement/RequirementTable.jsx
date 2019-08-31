@@ -13,7 +13,6 @@ export class RequirementTable extends React.Component {
 
   getHeaders() {
     return [
-      'Id',
       'Creador',
       'Título',
       'Descripción',

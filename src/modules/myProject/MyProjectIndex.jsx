@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import {
   uploadIdea,
   editIdea,
+  abandonIdea,
   clearAlert,
   getInitialData
 } from './myProjectReducer';
@@ -16,6 +17,8 @@ import UploadIdeaModal from './modals/UploadIdeaModal';
 import { myProjectMessages } from '../../utils/messages';
 import CreateIdea from './CreateIdea';
 import ReviewIdea from './ReviewIdea';
+import PendingProposal from './PendingProposal';
+import AbandonProjectModal from './modals/AbandonProjectModal';
 
 export class MyProjectIndex extends React.Component {
   static propTypes = {
@@ -23,6 +26,7 @@ export class MyProjectIndex extends React.Component {
     getInitialData: PropTypes.func,
     uploadIdea: PropTypes.func,
     editIdea: PropTypes.func,
+    abandonIdea: PropTypes.func,
     user: PropTypes.object,
     project: PropTypes.object,
     isAuthenticated: PropTypes.bool,
@@ -38,6 +42,7 @@ export class MyProjectIndex extends React.Component {
     this.uploadIdea = this.uploadIdea.bind(this);
     this.editIdea = this.editIdea.bind(this);
     this.showUploadIdeaModal = this.showUploadIdeaModal.bind(this);
+    this.showAbandonIdeaModal = this.showAbandonIdeaModal.bind(this);
   }
 
   componentDidMount() {
@@ -49,7 +54,7 @@ export class MyProjectIndex extends React.Component {
     let activeStep = 0;
 
     if (user && user.projectId && project) {
-      activeStep = 1;
+      activeStep = project.state_id;
     }
 
     return activeStep;
@@ -77,6 +82,15 @@ export class MyProjectIndex extends React.Component {
     this.props.editIdea(id, form);
   }
 
+  showAbandonIdeaModal(memberId) {
+    this.AbandonModal.getRef().showModal(
+      this.props.project.id,
+      memberId,
+      this.props.project.name,
+      this.props.abandonIdea
+    );
+  }
+
   showUploadIdeaModal() {
     this.UploadIdeaModal.showModal();
   }
@@ -91,6 +105,9 @@ export class MyProjectIndex extends React.Component {
       { title: 'Pendiente de publicación' },
       { title: 'Propuesta publicada' }
     ];
+    const isUserCreator =
+      this.props.project &&
+      this.props.user.id === this.props.project.creator_id;
 
     return (
       <Fragment>
@@ -116,25 +133,44 @@ export class MyProjectIndex extends React.Component {
             ) : null}
             {this.state.activeStep === 1 ? (
               <ReviewIdea
+                isUserCreator={isUserCreator}
+                userId={this.props.user.id}
                 project={this.props.project}
                 showUploadIdeaModal={this.showUploadIdeaModal}
+                showAbandonIdeaModal={this.showAbandonIdeaModal}
+              />
+            ) : null}
+            {this.state.activeStep === 2 ? (
+              <PendingProposal
+                isUserCreator={isUserCreator}
+                userId={this.props.user.id}
+                project={this.props.project}
+                showUploadIdeaModal={this.showUploadIdeaModal}
+                showAbandonIdeaModal={this.showAbandonIdeaModal}
               />
             ) : null}
           </Row>
         </BorderScreen>
-        <UploadIdeaModal
-          uploadIdea={this.uploadIdea}
-          editIdea={this.editIdea}
-          departments={this.props.departments}
-          coautors={this.props.coautors}
-          tutors={this.props.tutors}
-          projectTypes={this.props.projectTypes}
-          project={this.props.project}
-          editMode={this.state.activeStep}
+        {isUserCreator && (
+          <UploadIdeaModal
+            uploadIdea={this.uploadIdea}
+            editIdea={this.editIdea}
+            departments={this.props.departments}
+            coautors={this.props.coautors}
+            tutors={this.props.tutors}
+            projectTypes={this.props.projectTypes}
+            project={this.props.project}
+            editMode={this.state.activeStep}
+            ref={(modal) => {
+              this.UploadIdeaModal = modal;
+            }}
+            user={this.props.isAuthenticated && this.props.user}
+          />
+        )}
+        <AbandonProjectModal
           ref={(modal) => {
-            this.UploadIdeaModal = modal;
+            this.AbandonModal = modal;
           }}
-          user={this.props.isAuthenticated && this.props.user}
         />
       </Fragment>
     );
@@ -150,6 +186,9 @@ const mapDispatch = (dispatch) => ({
   },
   editIdea: (id, form) => {
     dispatch(editIdea(id, form));
+  },
+  abandonIdea: (projectId, memberId) => {
+    dispatch(abandonIdea(projectId, memberId));
   },
   clearAlert: () => {
     dispatch(clearAlert());

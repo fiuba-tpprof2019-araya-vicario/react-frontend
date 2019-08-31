@@ -105,14 +105,20 @@ export class CustomTable extends React.Component {
     );
   }
 
+  isValidKey(key) {
+    return key !== 'id' && key !== 'projectId';
+  }
+
   getTableRows(actions) {
     const { data } = this.props;
 
     const tableRows = data.map((rowObject) => {
       const returnValue = [];
 
-      for (const j in rowObject) {
-        returnValue.push(<td key={j}>{rowObject[j]}</td>);
+      for (const key in rowObject) {
+        if (this.isValidKey(key)) {
+          returnValue.push(<td key={key}>{rowObject[key]}</td>);
+        }
       }
 
       if (actions) {

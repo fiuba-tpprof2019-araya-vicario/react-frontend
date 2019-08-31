@@ -13,7 +13,6 @@ export class RequestTable extends React.Component {
 
   getHeaders() {
     return [
-      'Id',
       'Creador',
       'Proyecto',
       'Fecha de alta',

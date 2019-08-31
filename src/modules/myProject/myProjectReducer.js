@@ -19,6 +19,7 @@ const GET_DEPARTMENTS = 'GET_DEPARTMENTS';
 const GET_ACTIVE_PROJECT = 'GET_ACTIVE_PROJECT';
 const GET_PROJECT_TYPES = 'GET_PROJECT_TYPES';
 const POST_IDEA = 'POST_IDEA';
+const ABANDON_IDEA = 'ABANDON_IDEA';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
 
@@ -47,6 +48,11 @@ export const queryError = (err) => ({
 
 export const ideaUploaded = (data) => ({
   type: POST_IDEA,
+  data
+});
+
+export const ideaAbandoned = (data) => ({
+  type: ABANDON_IDEA,
   data
 });
 
@@ -238,6 +244,26 @@ export const editIdea = (
     .then(() => {
       dispatch(ideaUploaded(projectId));
       getActiveProject(projectId, dispatch);
+    })
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
+export const abandonIdea = (projectId, memberId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+
+  axios
+    .delete(api.abandonProject(projectId, memberId), config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(ideaUploaded(null));
+      getActiveProject(null, dispatch);
     })
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
