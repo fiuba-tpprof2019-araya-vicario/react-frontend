@@ -23,8 +23,8 @@ export class RequestTable extends React.Component {
   }
 
   render() {
-    const disableButton = (requirement) =>
-      requirement.status !== references.REQUEST_STATES.pending;
+    const disableButton = (request) =>
+      request.status !== references.REQUEST_STATES.pending;
 
     return (
       <CustomTable

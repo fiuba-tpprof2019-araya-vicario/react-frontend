@@ -217,18 +217,19 @@ export const getInitialData = (ignoreId, projectId) => (dispatch) => {
 
 export const editIdea = (
   projectId,
-  { title, description, coautors, type, autor, tutorId }
+  { title, description, coautors, type, autor, tutorId, departments }
 ) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
     name: title,
+    departments: getOnlyField(departments),
     description,
     autor,
     tutor_id: tutorId,
     cotutors: [],
     students: getOnlyField(coautors),
-    type
+    type: type.value
   };
 
   axios

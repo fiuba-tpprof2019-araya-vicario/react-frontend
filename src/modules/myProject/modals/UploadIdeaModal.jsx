@@ -348,6 +348,7 @@ export default class UploadIdeaModal extends React.Component {
                   onChange={this.updateProjectTypeSelect}
                   options={this.props.projectTypes}
                   isSearchable
+                  isClearable={false}
                   id="projectTypeSelect"
                   placeholder="Seleccione un tipo de proyecto"
                   name="projectTypeSelect"
@@ -385,6 +386,7 @@ export default class UploadIdeaModal extends React.Component {
               bsSize="small"
               controlId="tutorSelect"
               label="Tutor"
+              required={this.props.editMode}
               inputComponent={
                 <Select
                   key="tutorSelect"

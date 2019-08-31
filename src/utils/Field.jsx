@@ -9,7 +9,7 @@ export default class Field extends React.Component {
     validationState: PropTypes.bool,
     bsSize: PropTypes.string,
     label: PropTypes.string,
-    required: PropTypes.bool,
+    required: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
     inputComponent: PropTypes.element,
     validationMessage: PropTypes.string
   };

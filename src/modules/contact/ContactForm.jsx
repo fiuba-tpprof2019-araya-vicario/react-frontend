@@ -193,7 +193,7 @@ export default class ContactForm extends React.Component {
             bsStyle="primary"
             onClick={this.onSubmit}
           >
-            Enviar requerimiento
+            Enviar contacto
           </Button>
         </Center>
       </React.Fragment>

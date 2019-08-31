@@ -71,7 +71,7 @@ export const getRequestsStudents = (dispatch) => {
     });
 };
 
-export const getRequests = () => (dispatch) => {
+export const getRequestsWithDispatch = (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   Bluebird.join(getRequestsTutors(dispatch), getRequestsStudents(dispatch))
     .then(() => {
@@ -82,6 +82,9 @@ export const getRequests = () => (dispatch) => {
       dispatch(queryError(err));
     });
 };
+
+export const getRequests = () => (dispatch) =>
+  getRequestsWithDispatch(dispatch);
 
 export const acceptTutorRequest = (requestId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
@@ -95,10 +98,12 @@ export const acceptTutorRequest = (requestId) => (dispatch) => {
     .put(api.acceptTutorRequest(requestId), body, config)
     .then((res) => res.data.data)
     .then(() => {
+      getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch(() => {
+    .catch((err) => {
       dispatch(toggleLoading({ loading: false }));
+      dispatch(queryError(err));
     });
 };
 
@@ -113,10 +118,12 @@ export const acceptStudentRequest = (requestId) => (dispatch) => {
     .put(api.acceptStudentRequest(requestId), body, config)
     .then((res) => res.data.data)
     .then(() => {
+      getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch(() => {
+    .catch((err) => {
       dispatch(toggleLoading({ loading: false }));
+      dispatch(queryError(err));
     });
 };
 
@@ -132,6 +139,7 @@ export const rejectTutorRequest = (requestId) => (dispatch) => {
     .put(api.rejectTutorRequest(requestId), body, config)
     .then((res) => res.data.data)
     .then(() => {
+      getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {
@@ -151,6 +159,7 @@ export const rejectStudentRequest = (requestId) => (dispatch) => {
     .put(api.rejectStudentRequest(requestId), body, config)
     .then((res) => res.data.data)
     .then(() => {
+      getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {
