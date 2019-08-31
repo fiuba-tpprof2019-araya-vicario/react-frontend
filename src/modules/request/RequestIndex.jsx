@@ -47,10 +47,12 @@ export class RequestIndex extends React.Component {
   acceptStudentRequest(id) {
     const request = getById(this.props.studentRequests, id);
 
+    console.log(request);
+
     this.AcceptModal.getRef().showModal(
       request.id,
       request.projectId,
-      request.name,
+      request.project,
       this.props.acceptStudentRequest
     );
   }
@@ -71,7 +73,7 @@ export class RequestIndex extends React.Component {
     this.AcceptModal.getRef().showModal(
       request.id,
       request.projectId,
-      request.name,
+      request.project,
       this.props.acceptTutorRequest
     );
   }
