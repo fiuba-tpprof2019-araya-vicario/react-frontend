@@ -33,14 +33,17 @@ export class WebNavBar extends React.Component {
                   <LinkContainer to="/my_projects">
                     <NavItem eventKey={1}>Mi proyecto</NavItem>
                   </LinkContainer>
+                  <LinkContainer to="/my_tutorials">
+                    <NavItem eventKey={2}>Mis tutorías</NavItem>
+                  </LinkContainer>
                   <LinkContainer to="/requests">
-                    <NavItem eventKey={2}>Mis Solicitudes</NavItem>
+                    <NavItem eventKey={3}>Mis Solicitudes</NavItem>
                   </LinkContainer>
                   <LinkContainer to="/requirements">
-                    <NavItem eventKey={3}>Requerimientos</NavItem>
+                    <NavItem eventKey={4}>Requerimientos</NavItem>
                   </LinkContainer>
                   <LinkContainer to="/contact">
-                    <NavItem eventKey={4}>Contacto</NavItem>
+                    <NavItem eventKey={5}>Contacto</NavItem>
                   </LinkContainer>
                 </Nav>,
                 <Nav key="2" pullRight>

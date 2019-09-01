@@ -6,4 +6,9 @@ const ROOT =
     : 'apinodebackend.herokuapp.com';
 const API_VERSION = 'v0';
 
+export const CLIENT_ID =
+  '942857236809-n8qa3b9nlijciqlf41eeglnnubb3ukja.apps.googleusercontent.com';
+export const DEVELOPER_KEY = 'AIzaSyCf2kRvI-8OfaM58uNb-uk6Ko64PRCr2mI';
+export const SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
+
 export const BASE = `${PROTOCOL}://${ROOT}/${API_VERSION}/api/`;

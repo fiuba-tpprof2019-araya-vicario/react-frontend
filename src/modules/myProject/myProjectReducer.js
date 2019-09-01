@@ -259,7 +259,7 @@ export const abandonIdea = (projectId, memberId) => (dispatch) => {
   const config = getConfig();
 
   axios
-    .delete(api.abandonProject(projectId, memberId), config)
+    .delete(api.abandonStudentProject(projectId, memberId), config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(ideaUploaded(null));

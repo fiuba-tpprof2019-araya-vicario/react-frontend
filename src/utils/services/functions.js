@@ -18,7 +18,7 @@ export const formatterDate = (data) => {
   const dayAndHour = dates[2].split('T');
   const hour = dayAndHour[1].split('.');
   const day = dayAndHour[0];
-  const fullDate = `${day}-${dates[1]}-${dates[0]} ${hour[0]}`;
+  const fullDate = `${day}/${dates[1]}/${dates[0]} ${hour[0]}`;
 
   return fullDate;
 };

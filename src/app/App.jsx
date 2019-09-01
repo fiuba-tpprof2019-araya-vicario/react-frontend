@@ -10,6 +10,7 @@ import Log from '../modules/login/Login';
 import NavBar from '../layout/WebNavBar';
 import Private from '../utils/PrivateRoute';
 import MyProject from '../modules/myProject/MyProjectIndex';
+import MyTutorials from '../modules/myTutorials/MyTutorialsIndex';
 import Contact from '../modules/contact/ContactIndex';
 import Request from '../modules/request/RequestIndex';
 import Requirement from '../modules/requirement/RequirementIndex';
@@ -65,6 +66,12 @@ class App extends React.Component {
                 path="/my_projects"
                 permiso
                 component={MyProject}
+              />
+              <Private
+                exact
+                path="/my_tutorials"
+                permiso
+                component={MyTutorials}
               />
               <Private exact path="/requests" permiso component={Request} />
               <Private

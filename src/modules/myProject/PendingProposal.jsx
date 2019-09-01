@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ShowIdea from './ShowIdea';
+import { myProjectMessages } from '../../utils/messages';
 
 export default class PendingProposal extends React.Component {
   static propTypes = {
@@ -22,9 +23,11 @@ export default class PendingProposal extends React.Component {
 
     return (
       <ShowIdea
+        nextStepMessage={myProjectMessages.NEW_STEP_PROJECT_CREATED_INFO}
         project={project}
         userId={userId}
         isUserCreator={isUserCreator}
+        showProposal
         showUploadIdeaModal={showUploadIdeaModal}
         showAbandonIdeaModal={showAbandonIdeaModal}
       />
