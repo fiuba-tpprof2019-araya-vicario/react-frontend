@@ -13,6 +13,7 @@ export const api = {
   login: BASE + LOGIN,
   contact: BASE + CONTACT,
   projects: BASE + PROJECTS,
+  projectsTutor: `${BASE + PROJECTS}/tutors`,
   users: BASE + USERS,
   requestsTutors: `${BASE + REQUESTS}/tutors`,
   requestsStudents: `${BASE + REQUESTS}/students`,

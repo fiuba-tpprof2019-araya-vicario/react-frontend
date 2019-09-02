@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
-import MandatoryField from './forms/MandatoryField';
+import MandatoryField from './MandatoryField';
 
 export default class Field extends React.Component {
   static propTypes = {

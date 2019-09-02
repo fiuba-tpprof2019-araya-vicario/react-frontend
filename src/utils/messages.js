@@ -45,11 +45,8 @@ export const requirementMessages = {
 };
 
 export const myTutorialsMessages = {
-  TITLE: 'Requerimientos',
-  SUBTITLE: 'Colabora con los distintos requerimientos solicitados',
-  EDIT_TITLE: 'Editar Requerimiento',
-  DELETE_WARNING: (requirement) =>
-    `¿Estas seguro que quieres borrar el requerimiento ${requirement}?`,
+  TITLE: 'Mis tutorías',
+  SUBTITLE: 'Aministra las distintas tutorias',
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
 };
 

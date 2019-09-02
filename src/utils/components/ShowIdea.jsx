@@ -63,8 +63,6 @@ export default class ShowIdea extends React.Component {
       showAbandonIdeaModal
     } = this.props;
 
-    console.log(process.env);
-
     return (
       <Fragment>
         <Row>

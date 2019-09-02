@@ -39,11 +39,30 @@ export class CustomTable extends React.Component {
   }
 
   getActionsColumn(row, actions) {
-    const { editAction, deleteAction, acceptAction, rejectAction } = actions;
+    const {
+      detailAction,
+      editAction,
+      deleteAction,
+      acceptAction,
+      rejectAction
+    } = actions;
+    let detailRender;
     let editRender;
     let deleteRender;
     let acceptRender;
     let rejectRender;
+
+    if (this.actionEnabled(detailAction, row)) {
+      detailRender = (
+        <a role="button">
+          <i
+            className="fa fa-search"
+            title="Editar"
+            onClick={() => detailAction.action(row.id)}
+          />
+        </a>
+      );
+    }
 
     if (this.actionEnabled(editAction, row)) {
       editRender = (
@@ -97,6 +116,7 @@ export class CustomTable extends React.Component {
 
     return (
       <td key="actions" className="actionsColumn">
+        {detailRender}
         {editRender}
         {deleteRender}
         {acceptRender}
@@ -106,7 +126,7 @@ export class CustomTable extends React.Component {
   }
 
   isValidKey(key) {
-    return key !== 'id' && key !== 'projectId';
+    return key !== 'id' && key !== 'projectId' && key !== 'project';
   }
 
   getTableRows(actions) {

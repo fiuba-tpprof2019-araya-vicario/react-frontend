@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, FormControl, Modal } from 'react-bootstrap';
 import FullRow from '../../../utils/styles/FullRow';
-import Field from '../../../utils/Field';
+import Field from '../../../utils/forms/Field';
 
 export default class EditRequirementModal extends React.Component {
   static propTypes = {

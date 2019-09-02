@@ -11,6 +11,7 @@ import NavBar from '../layout/WebNavBar';
 import Private from '../utils/PrivateRoute';
 import MyProject from '../modules/myProject/MyProjectIndex';
 import MyTutorials from '../modules/myTutorials/MyTutorialsIndex';
+import MyTutorialsDetail from '../modules/myTutorials/MyTutorialsDetail';
 import Contact from '../modules/contact/ContactIndex';
 import Request from '../modules/request/RequestIndex';
 import Requirement from '../modules/requirement/RequirementIndex';
@@ -72,6 +73,12 @@ class App extends React.Component {
                 path="/my_tutorials"
                 permiso
                 component={MyTutorials}
+              />
+              <Private
+                exact={false}
+                path="/my_tutorials/:id"
+                permiso
+                component={MyTutorialsDetail}
               />
               <Private exact path="/requests" permiso component={Request} />
               <Private

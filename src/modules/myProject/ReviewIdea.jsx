@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ShowIdea from './ShowIdea';
+import ShowIdea from '../../utils/components/ShowIdea';
 import { myProjectMessages } from '../../utils/messages';
 
 export default class ReviewIdea extends React.Component {

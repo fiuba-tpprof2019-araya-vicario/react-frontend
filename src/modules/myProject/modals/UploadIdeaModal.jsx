@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, FormControl, Modal } from 'react-bootstrap';
 import Select from 'react-select';
-import Field from '../../../utils/Field';
+import Field from '../../../utils/forms/Field';
 import { getFullName } from '../../../utils/services/functions';
 import FullRow from '../../../utils/styles/FullRow';
 
