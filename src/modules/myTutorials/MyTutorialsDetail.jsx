@@ -10,13 +10,13 @@ import Title from '../../utils/Title';
 import BorderScreen from '../../utils/styles/BorderScreen';
 import { myProjectMessages } from '../../utils/messages';
 import AbandonProjectModal from './modals/AbandonProjectModal';
+import ShowIdea from '../../utils/components/ShowIdea';
+import history from '../../redux/history';
 
 export class MyProjectIndex extends React.Component {
   static propTypes = {
     clearAlert: PropTypes.func,
     getMyTutorials: PropTypes.func,
-    uploadIdea: PropTypes.func,
-    editIdea: PropTypes.func,
     abandonIdea: PropTypes.func,
     user: PropTypes.object,
     project: PropTypes.object
@@ -25,8 +25,6 @@ export class MyProjectIndex extends React.Component {
   constructor() {
     super();
     this.state = { activeStep: 0 };
-    this.uploadIdea = this.uploadIdea.bind(this);
-    this.editIdea = this.editIdea.bind(this);
     this.showUploadIdeaModal = this.showUploadIdeaModal.bind(this);
     this.showAbandonIdeaModal = this.showAbandonIdeaModal.bind(this);
   }
@@ -60,12 +58,8 @@ export class MyProjectIndex extends React.Component {
     }
   }
 
-  uploadIdea(form) {
-    this.props.uploadIdea(form);
-  }
-
-  editIdea(id, form) {
-    this.props.editIdea(id, form);
+  abandonPostAction() {
+    history.push('/my_tutorials/');
   }
 
   showAbandonIdeaModal(memberId) {
@@ -73,7 +67,8 @@ export class MyProjectIndex extends React.Component {
       this.props.project.id,
       memberId,
       this.props.project.name,
-      this.props.abandonIdea
+      this.props.abandonIdea,
+      this.abandonPostAction
     );
   }
 
@@ -91,6 +86,7 @@ export class MyProjectIndex extends React.Component {
       { title: 'Pendiente de publicación' },
       { title: 'Propuesta publicada' }
     ];
+    const { user, project } = this.props;
 
     return (
       <Fragment>
@@ -110,6 +106,12 @@ export class MyProjectIndex extends React.Component {
               />
             </div>
           </Row>
+          <ShowIdea
+            nextStepMessage={myProjectMessages.NEW_STEP_PROJECT_CREATED_INFO}
+            project={project}
+            userId={user.id}
+            showAbandonIdeaModal={this.showAbandonIdeaModal}
+          />
         </BorderScreen>
         <AbandonProjectModal
           ref={(modal) => {
@@ -139,12 +141,13 @@ const mapStateToProps = (state, ownProps) => ({
   project:
     find(
       state.myTutorialsReducer.myTutorials,
-      (project) => project.id === ownProps.match.params.id
-    ) ||
+      (project) => project.id.toString() === ownProps.match.params.id
+    ).project ||
     find(
       state.myTutorialsReducer.myCotutorials,
-      (project) => project.id === ownProps.match.params.id
-    ),
+      (project) => project.id.toString() === ownProps.match.params.id
+    ).project ||
+    {},
   user: state.authReducer.user,
   isAuthenticated: state.authReducer.isAuthenticated
 });

@@ -86,7 +86,10 @@ export default class ShowIdea extends React.Component {
             />
             <Itemized
               title="Departamentos:"
-              items={getOnlyField(project.departments, 'label')}
+              items={
+                project.departments &&
+                getOnlyField(project.departments, 'label')
+              }
             />
           </FullRow>
           <br />

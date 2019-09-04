@@ -14,7 +14,8 @@ const initialState = {
   alert: null,
   loading: false,
   myTutorials: [],
-  myCoTutorials: []
+  myCoTutorials: [],
+  project: {}
 };
 
 const toggleLoading = ({ loading }) => ({
@@ -44,7 +45,7 @@ export const myTutorialsEdited = () => ({
   type: EDIT_MY_TUTORIALS
 });
 
-export const abandonIdea = (projectId, memberId) => (dispatch) => {
+export const abandonIdea = (projectId, memberId, postAction) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
 
@@ -52,9 +53,8 @@ export const abandonIdea = (projectId, memberId) => (dispatch) => {
     .delete(api.abandonTutorProject(projectId, memberId), config)
     .then((res) => res.data.data)
     .then(() => {
-      // dispatch(ideaUploaded(null));
-      // getActiveProject(null, dispatch);
       dispatch(toggleLoading({ loading: false }));
+      postAction();
     })
     .catch((err) => {
       dispatch(queryError(err));
@@ -86,7 +86,8 @@ const fetchMyTutorialsTable = (data) =>
     description: project.description,
     type: project.Type.name,
     created_at: formatterDate(project.createdAt),
-    status: project.State.name
+    status: project.State.name,
+    project
   }));
 
 export default (state = initialState, action) => {

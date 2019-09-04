@@ -19,8 +19,8 @@ export default class AbandonModal extends React.Component {
     this.onAbandon = this.onAbandon.bind(this);
   }
 
-  showModal(id, memberId, name, action) {
-    this.setState({ show: true, id, memberId, name, action });
+  showModal(id, memberId, name, action, postAction) {
+    this.setState({ show: true, id, memberId, name, action, postAction });
   }
 
   hideModal() {
@@ -29,12 +29,15 @@ export default class AbandonModal extends React.Component {
       id: null,
       memberId: null,
       name: '',
-      action: null
+      action: null,
+      postAction: null
     });
   }
 
   onAbandon() {
-    this.state.action(this.state.id, this.state.memberId);
+    const { id, memberId, postAction } = this.state;
+
+    this.state.action(id, memberId, postAction);
     this.hideModal();
   }
 
