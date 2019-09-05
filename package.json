@@ -1,6 +1,10 @@
 {
   "name": "brain-search-frontend",
   "version": "0.1.0",
+  "engines": {
+    "node": "8.16.0",
+    "npm": "6.4.1"
+  },
   "private": true,
   "dependencies": {
     "autoprefixer": "7.1.6",
