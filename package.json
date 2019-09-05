@@ -67,6 +67,7 @@
   "scripts": {
     "lint": "eslint src/",
     "start": "node scripts/start.js",
+    "start-heroku": "node scripts/start.js",
     "start-dock": "npm install && node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"

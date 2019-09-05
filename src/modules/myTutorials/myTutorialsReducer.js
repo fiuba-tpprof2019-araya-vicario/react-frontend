@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { api, getConfig } from '../../api/apiInterfaceProvider';
-import { utilsMessages } from '../../utils/messages';
+import { utilsMessages, myTutorialsMessages } from '../../utils/messages';
 import { formatterDate } from '../../utils/services/functions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_MY_TUTORIALS = 'HYDRATE_MY_TUTORIALS';
-const EDIT_MY_TUTORIALS = 'EDIT_MY_TUTORIALS';
+const HYDRATE_MY_TUTORIAL = 'HYDRATE_MY_TUTORIAL';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
-const UPLOAD_MY_TUTORIALS = 'UPLOAD_MY_TUTORIALS';
+const ABANDON_IDEA = 'ABANDON_IDEA';
 
 const initialState = {
   alert: null,
@@ -32,20 +32,23 @@ export const queryError = (err) => ({
   err
 });
 
+export const abandonedIdea = () => ({
+  type: ABANDON_IDEA
+});
+
+export const hydrateMyTutorial = (data) => ({
+  type: HYDRATE_MY_TUTORIAL,
+  data
+});
+
 export const hydrateMyTutorials = (data) => ({
   type: HYDRATE_MY_TUTORIALS,
   data
 });
 
-export const myTutorialsUploaded = () => ({
-  type: UPLOAD_MY_TUTORIALS
-});
-
-export const myTutorialsEdited = () => ({
-  type: EDIT_MY_TUTORIALS
-});
-
-export const abandonIdea = (projectId, memberId, postAction) => (dispatch) => {
+export const abandonIdea = (projectId, memberId, postAction = () => {}) => (
+  dispatch
+) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
 
@@ -54,11 +57,29 @@ export const abandonIdea = (projectId, memberId, postAction) => (dispatch) => {
     .then((res) => res.data.data)
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
+      dispatch(abandonedIdea());
       postAction();
     })
     .catch((err) => {
       dispatch(queryError(err));
       dispatch(toggleLoading({ loading: false }));
+    });
+};
+
+export const getMyTutorial = (projectId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+
+  axios
+    .get(api.project(projectId), config)
+    .then((res) => res.data.data)
+    .then((data) => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(hydrateMyTutorial(data));
+    })
+    .catch((err) => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(queryError(err));
     });
 };
 
@@ -86,8 +107,7 @@ const fetchMyTutorialsTable = (data) =>
     description: project.description,
     type: project.Type.name,
     created_at: formatterDate(project.createdAt),
-    status: project.State.name,
-    project
+    status: project.State.name
   }));
 
 export default (state = initialState, action) => {
@@ -97,6 +117,16 @@ export default (state = initialState, action) => {
         ...state,
         myTutorials: fetchMyTutorialsTable(action.data.Tutorials),
         myCoTutorials: fetchMyTutorialsTable(action.data.Cotutorials)
+      };
+    case HYDRATE_MY_TUTORIAL:
+      return {
+        ...state,
+        project: action.data,
+        alert: {
+          message: myTutorialsMessages.ABANDON_SUCCESS,
+          style: 'success',
+          onDismiss: clearAlert
+        }
       };
     case QUERY_ERROR:
       return {

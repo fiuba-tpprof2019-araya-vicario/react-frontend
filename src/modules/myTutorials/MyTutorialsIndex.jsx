@@ -54,6 +54,7 @@ export class MyTutorialsIndex extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  loading: state.myTutorialsReducer.loading,
   myTutorials: state.myTutorialsReducer.myTutorials
 });
 

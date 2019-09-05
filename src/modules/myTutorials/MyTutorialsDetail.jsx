@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { find } from 'lodash';
 import Stepper from 'react-stepper-horizontal';
 import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import { getMyTutorials, abandonIdea, clearAlert } from './myTutorialsReducer';
+import { getMyTutorial, abandonIdea, clearAlert } from './myTutorialsReducer';
 import Title from '../../utils/Title';
 import BorderScreen from '../../utils/styles/BorderScreen';
 import { myProjectMessages } from '../../utils/messages';
@@ -16,7 +15,8 @@ import history from '../../redux/history';
 export class MyProjectIndex extends React.Component {
   static propTypes = {
     clearAlert: PropTypes.func,
-    getMyTutorials: PropTypes.func,
+    getMyTutorial: PropTypes.func,
+    projectId: PropTypes.string,
     abandonIdea: PropTypes.func,
     user: PropTypes.object,
     project: PropTypes.object
@@ -27,11 +27,12 @@ export class MyProjectIndex extends React.Component {
     this.state = { activeStep: 0 };
     this.showUploadIdeaModal = this.showUploadIdeaModal.bind(this);
     this.showAbandonIdeaModal = this.showAbandonIdeaModal.bind(this);
+    this.abandonPostAction = this.abandonPostAction.bind(this);
   }
 
   componentDidMount() {
     this.props.clearAlert();
-    this.props.getMyTutorials();
+    this.props.getMyTutorial(this.props.projectId);
   }
 
   getActiveStep(user, project) {
@@ -124,30 +125,21 @@ export class MyProjectIndex extends React.Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  getMyTutorials: () => {
-    dispatch(getMyTutorials());
+  getMyTutorial: (projectId) => {
+    dispatch(getMyTutorial(projectId));
   },
   clearAlert: () => {
     dispatch(clearAlert());
   },
-  abandonIdea: (projectId, memberId) => {
-    dispatch(abandonIdea(projectId, memberId));
+  abandonIdea: (projectId, memberId, postAction) => {
+    dispatch(abandonIdea(projectId, memberId, postAction));
   }
 });
 
 const mapStateToProps = (state, ownProps) => ({
-  loading: state.myProjectReducer.loading,
+  loading: state.myTutorialsReducer.loading,
   projectId: ownProps.match.params.id,
-  project:
-    find(
-      state.myTutorialsReducer.myTutorials,
-      (project) => project.id.toString() === ownProps.match.params.id
-    ).project ||
-    find(
-      state.myTutorialsReducer.myCotutorials,
-      (project) => project.id.toString() === ownProps.match.params.id
-    ).project ||
-    {},
+  project: state.myTutorialsReducer.project,
   user: state.authReducer.user,
   isAuthenticated: state.authReducer.isAuthenticated
 });

@@ -22,7 +22,7 @@ export const myProjectMessages = {
   NEW_STEP_PROJECT_ACCEPTED_INFO:
     'Para avanzar al siguiente paso el proyecto debe tener una propuesta aceptada por todos los miembros del proyecto.',
   ABANDON_WARNING: (proyect) =>
-    `¿Estas seguro de que quieres abandonar este el ${proyect}?`
+    `¿Estas seguro de que quieres abandonar el proyecto ${proyect}?`
 };
 
 export const requestMessages = {
@@ -47,7 +47,8 @@ export const requirementMessages = {
 export const myTutorialsMessages = {
   TITLE: 'Mis tutorías',
   SUBTITLE: 'Aministra las distintas tutorias',
-  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
+  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados',
+  ABANDON_SUCCESS: 'Abandonaste el proyecto correctamente'
 };
 
 export const utilsMessages = {
