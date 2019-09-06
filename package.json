@@ -9,8 +9,8 @@
   "dependencies": {
     "autoprefixer": "7.1.6",
     "axios": "^0.19.0",
-    "babel-eslint": "^9.0.0",
     "babel-core": "6.26.0",
+    "babel-eslint": "^9.0.0",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.2",
     "babel-preset-react-app": "3.1.1",
@@ -48,6 +48,7 @@
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
+    "prettier": "^1.16.4",
     "promise": "8.0.1",
     "prop-types": "^15.6.0",
     "raf": "3.4.0",
@@ -133,7 +134,6 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "jest": "^25.0.0",
-    "prettier": "^1.16.4"
+    "jest": "^25.0.0"
   }
 }
