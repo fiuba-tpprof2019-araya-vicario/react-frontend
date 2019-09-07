@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { intersection } from 'lodash';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 
 export class PrivateRoute extends React.Component {
@@ -9,13 +10,31 @@ export class PrivateRoute extends React.Component {
     exact: PropTypes.bool,
     path: PropTypes.string,
     component: PropTypes.func,
-    permiso: PropTypes.bool
+    requiredCredentials: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.string
+    ]),
+    grantedCredentials: PropTypes.array
   };
 
-  dondeRedirigir() {
+  allowedToShow() {
+    const { requiredCredentials, grantedCredentials } = this.props;
+
+    console.log(requiredCredentials, grantedCredentials);
+
+    return (
+      !requiredCredentials ||
+      (Array.isArray(requiredCredentials)
+        ? intersection(grantedCredentials, requiredCredentials).length ===
+          requiredCredentials.length
+        : grantedCredentials.includes(requiredCredentials))
+    );
+  }
+
+  whereToRedirect() {
     if (!this.props.isAuthenticated) {
       return <Redirect to={{ pathname: '/login', state: '/roles' }} />;
-    } else if (!this.props.permiso) {
+    } else if (!this.allowedToShow()) {
       return <Redirect to={{ pathname: '/' }} />;
     }
 
@@ -29,13 +48,13 @@ export class PrivateRoute extends React.Component {
   }
 
   render() {
-    return <div>{this.dondeRedirigir()}</div>;
+    return this.whereToRedirect();
   }
 }
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.authReducer.isAuthenticated,
-  permisosUsuario: state.authReducer.permisos
+  grantedCredentials: state.authReducer.user.credentials
 });
 
 export default withRouter(connect(mapStateToProps)(PrivateRoute));

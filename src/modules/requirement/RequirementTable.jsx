@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { CustomTable } from '../../utils/CustomTable';
-import references from '../../utils/services/references';
+import { REQUIREMENT_STATES } from '../../utils/services/references';
 
 export class RequirementTable extends React.Component {
   static propTypes = {
@@ -24,7 +24,7 @@ export class RequirementTable extends React.Component {
 
   render() {
     const disableButton = (requirement) =>
-      requirement.status !== references.REQUIREMENT_STATES.inactive;
+      requirement.status !== REQUIREMENT_STATES.inactive;
 
     return (
       <CustomTable

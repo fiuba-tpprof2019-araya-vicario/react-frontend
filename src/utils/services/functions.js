@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import references from './references';
+import { REQUEST_STATES, REQUIREMENT_STATES } from './references';
 
 export function getById(objects, id) {
   return _.find(objects, (object) => object.id === id);
@@ -79,15 +79,15 @@ export function getFullNameWithDescription(user, description) {
 }
 
 export function getDescriptionByRequestStatus(stateRequest) {
-  return stateRequest ? references.REQUEST_STATES[stateRequest] : '';
+  return stateRequest ? REQUEST_STATES[stateRequest] : '';
 }
 
 export function getDescriptionByRequirementStatus(status) {
-  return status ? references.REQUIREMENT_STATES[status] : '';
+  return status ? REQUIREMENT_STATES[status] : '';
 }
 
 export function getDescriptionByProjectStatus(status) {
-  return status ? references.REQUIREMENT_STATES[status] : '';
+  return status ? REQUIREMENT_STATES[status] : '';
 }
 
 export function getFullNameWithStatus(user, label) {
@@ -108,5 +108,5 @@ export function getStudentFullName(user) {
 }
 
 export function getStudentIsApproved(student) {
-  return student.StudentRequests.status === references.REQUEST_STATES.accepted;
+  return student.StudentRequests.status === REQUEST_STATES.accepted;
 }

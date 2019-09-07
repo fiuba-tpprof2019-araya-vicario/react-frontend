@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
-import _ from 'lodash';
+import { filter } from 'lodash';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Home } from '../layout/Home';
 import Log from '../modules/login/Login';
@@ -19,6 +19,7 @@ import { persistor } from '../redux/store';
 import CustomAlert from '../utils/CustomAlert';
 import './App.css';
 import Loading from '../utils/Loading';
+import { CREDENTIALS } from '../utils/services/references';
 
 class App extends React.Component {
   static propTypes = {
@@ -61,33 +62,38 @@ class App extends React.Component {
           <Grid fluid>
             <Switch>
               <Route path="/login" component={Log} />
-              <Private exact path="/" permiso component={Home} />
+              <Private exact path="/" component={Home} />
               <Private
                 exact
                 path="/my_projects"
-                permiso
+                requiredCredentials={CREDENTIALS.CREATE_PROJECTS}
                 component={MyProject}
               />
               <Private
                 exact
                 path="/my_tutorials"
-                permiso
+                requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
                 component={MyTutorials}
               />
               <Private
                 exact={false}
                 path="/my_tutorials/:id"
-                permiso
+                requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
                 component={MyTutorialsDetail}
               />
-              <Private exact path="/requests" permiso component={Request} />
+              <Private
+                exact
+                path="/requests"
+                requiredCredentials={CREDENTIALS.GET_PROJECTS}
+                component={Request}
+              />
               <Private
                 exact
                 path="/requirements"
-                permiso
+                requiredCredentials={CREDENTIALS.GET_PROJECTS}
                 component={Requirement}
               />
-              <Route exact path="/contact" permiso component={Contact} />
+              <Route exact path="/contact" component={Contact} />
             </Switch>
           </Grid>
         </PersistGate>
@@ -97,7 +103,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  alerts: _.filter(state, (reducer) => reducer && reducer.alert).map(
+  alerts: filter(state, (reducer) => reducer && reducer.alert).map(
     (reducer) => reducer && reducer.alert
   )
 });

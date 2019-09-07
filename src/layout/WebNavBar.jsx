@@ -6,6 +6,8 @@ import { push } from 'react-router-redux';
 import { Navbar, Nav, NavItem, MenuItem, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { logout } from '../modules/login/authReducer';
+import { CREDENTIALS } from '../utils/services/references';
+import WithAuthorization from '../utils/WithAuthorization';
 
 export class WebNavBar extends React.Component {
   static propTypes = {
@@ -30,18 +32,34 @@ export class WebNavBar extends React.Component {
           {this.props.isAuthenticated
             ? [
                 <Nav key="1" navbar>
-                  <LinkContainer to="/my_projects">
-                    <NavItem eventKey={1}>Mi proyecto</NavItem>
-                  </LinkContainer>
-                  <LinkContainer to="/my_tutorials">
-                    <NavItem eventKey={2}>Mis tutorías</NavItem>
-                  </LinkContainer>
-                  <LinkContainer to="/requests">
-                    <NavItem eventKey={3}>Mis Solicitudes</NavItem>
-                  </LinkContainer>
-                  <LinkContainer to="/requirements">
-                    <NavItem eventKey={4}>Requerimientos</NavItem>
-                  </LinkContainer>
+                  <WithAuthorization
+                    requiredCredentials={CREDENTIALS.CREATE_PROJECTS}
+                  >
+                    <LinkContainer to="/my_projects">
+                      <NavItem eventKey={1}>Mi proyecto</NavItem>
+                    </LinkContainer>
+                  </WithAuthorization>
+                  <WithAuthorization
+                    requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
+                  >
+                    <LinkContainer to="/my_tutorials">
+                      <NavItem eventKey={2}>Mis tutorías</NavItem>
+                    </LinkContainer>
+                  </WithAuthorization>
+                  <WithAuthorization
+                    requiredCredentials={CREDENTIALS.GET_PROJECTS}
+                  >
+                    <LinkContainer to="/requests">
+                      <NavItem eventKey={3}>Mis Solicitudes</NavItem>
+                    </LinkContainer>
+                  </WithAuthorization>
+                  <WithAuthorization
+                    requiredCredentials={CREDENTIALS.GET_PROJECTS}
+                  >
+                    <LinkContainer to="/requirements">
+                      <NavItem eventKey={4}>Requerimientos</NavItem>
+                    </LinkContainer>
+                  </WithAuthorization>
                   <LinkContainer to="/contact">
                     <NavItem eventKey={5}>Contacto</NavItem>
                   </LinkContainer>

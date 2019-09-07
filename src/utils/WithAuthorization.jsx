@@ -6,17 +6,21 @@ import { intersection } from 'lodash';
 
 class WithAuthorization extends Component {
   static propTypes = {
-    permission: PropTypes.string,
-    permissionsList: PropTypes.array,
+    requiredCredentials: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.string
+    ]),
+    grantedCredentials: PropTypes.array,
     children: PropTypes.node
   };
 
   allowedToShow() {
-    const { permission, permissionsList } = this.props;
+    const { requiredCredentials, grantedCredentials } = this.props;
 
-    return Array.isArray(permission)
-      ? intersection(permissionsList, permission).length === permission.length
-      : permissionsList.includes(permission);
+    return Array.isArray(requiredCredentials)
+      ? intersection(grantedCredentials, requiredCredentials).length ===
+          requiredCredentials.length
+      : grantedCredentials.includes(requiredCredentials);
   }
 
   render() {
@@ -25,7 +29,7 @@ class WithAuthorization extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  permissionsList: state.authReducer.permisos
+  grantedCredentials: state.authReducer.user.credentials
 });
 
 export default withRouter(

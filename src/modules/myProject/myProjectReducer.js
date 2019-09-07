@@ -2,7 +2,7 @@ import axios from 'axios';
 import Bluebird from 'bluebird';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
-import references from '../../utils/services/references';
+import { PROFILES } from '../../utils/services/references';
 import {
   getSelectOption,
   getSelectOptions,
@@ -146,7 +146,7 @@ const getTutors = (ignoreId, dispatch) => {
   const config = getConfig();
 
   return axios
-    .get(`${api.users}?profile_id=${references.PROFILES.TUTOR}`, config)
+    .get(`${api.users}?profile_id=${PROFILES.TUTOR}`, config)
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(tutorsUploaded(data, ignoreId));
@@ -160,7 +160,7 @@ const getCoautors = (ignoreId, dispatch) => {
   const config = getConfig();
 
   return axios
-    .get(`${api.users}?profile_id=${references.PROFILES.STUDENT}`, config)
+    .get(`${api.users}?profile_id=${PROFILES.STUDENT}`, config)
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(coautorsUploaded(data, ignoreId));

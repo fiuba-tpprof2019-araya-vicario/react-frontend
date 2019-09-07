@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { CustomTable } from '../../utils/CustomTable';
-import references from '../../utils/services/references';
+import { REQUEST_STATES } from '../../utils/services/references';
 
 export class RequestTable extends React.Component {
   static propTypes = {
@@ -23,7 +23,7 @@ export class RequestTable extends React.Component {
 
   render() {
     const disableButton = (request) =>
-      request.status !== references.REQUEST_STATES.pending;
+      request.status !== REQUEST_STATES.pending;
 
     return (
       <CustomTable

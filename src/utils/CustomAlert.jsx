@@ -12,6 +12,12 @@ export default class CustomAlert extends React.Component {
     message: PropTypes.string
   };
 
+  componentWillUnmount() {
+    if (this.props.onDismiss) {
+      this.props.onDismiss();
+    }
+  }
+
   render() {
     return (
       <Row key={this.props.rowKey}>
