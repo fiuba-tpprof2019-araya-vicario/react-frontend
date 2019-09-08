@@ -11,7 +11,7 @@ export default class UploadIdeaModal extends React.Component {
     project: PropTypes.object,
     user: PropTypes.object,
     coautors: PropTypes.array,
-    departments: PropTypes.array,
+    careers: PropTypes.array,
     tutors: PropTypes.array,
     editMode: PropTypes.number,
     projectTypes: PropTypes.array,
@@ -37,10 +37,10 @@ export default class UploadIdeaModal extends React.Component {
           message: '',
           value: project.name ? project.name : ''
         },
-        departments: {
+        careers: {
           error: false,
           message: '',
-          value: project.departments ? props.project.departments : []
+          value: project.careers ? props.project.careers : []
         },
         projectType: {
           error: false,
@@ -62,7 +62,7 @@ export default class UploadIdeaModal extends React.Component {
     this.hideModal = this.hideModal.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.updateAutorsSelect = this.updateAutorsSelect.bind(this);
-    this.updateDepartmentsSelect = this.updateDepartmentsSelect.bind(this);
+    this.updateCareersSelect = this.updateCareersSelect.bind(this);
     this.updateAutor = this.updateAutor.bind(this);
     this.updateProjectTypeSelect = this.updateProjectTypeSelect.bind(this);
     this.updateTutorSelect = this.updateTutorSelect.bind(this);
@@ -113,12 +113,12 @@ export default class UploadIdeaModal extends React.Component {
     });
   }
 
-  updateDepartmentsSelect(newValue) {
+  updateCareersSelect(newValue) {
     this.setState({
       ...this.state,
       form: {
         ...this.state.form,
-        departments: { error: false, message: '', value: newValue }
+        careers: { error: false, message: '', value: newValue }
       }
     });
   }
@@ -159,10 +159,10 @@ export default class UploadIdeaModal extends React.Component {
           message: '',
           value: project.name ? project.name : ''
         },
-        departments: {
+        careers: {
           error: false,
           message: '',
-          value: project.departments ? project.departments : []
+          value: project.careers ? project.careers : []
         },
         projectType: {
           error: false,
@@ -181,7 +181,7 @@ export default class UploadIdeaModal extends React.Component {
     });
   }
 
-  validateForm(title, description, autor, departments, type) {
+  validateForm(title, description, autor, careers, type) {
     let formOk = true;
 
     const form = {
@@ -189,7 +189,7 @@ export default class UploadIdeaModal extends React.Component {
       projectType: { error: false, message: '', value: type },
       autor: { error: false, message: '' },
       title: { error: false, message: '', value: title },
-      departments: { error: false, message: '', value: departments },
+      careers: { error: false, message: '', value: careers },
       coautors: this.state.form.coautors
     };
 
@@ -229,14 +229,14 @@ export default class UploadIdeaModal extends React.Component {
       form.projectType.message = '';
     }
 
-    if (departments && departments.length === 0) {
-      form.departments.error = true;
-      form.departments.message =
+    if (careers && careers.length === 0) {
+      form.careers.error = true;
+      form.careers.message =
         'Tenés que ingresar al menos un departamento al que pertenece tu idea';
       formOk = false;
     } else {
-      form.departments.error = false;
-      form.departments.message = '';
+      form.careers.error = false;
+      form.careers.message = '';
     }
 
     this.setState({ ...this.state, form });
@@ -255,17 +255,17 @@ export default class UploadIdeaModal extends React.Component {
   onSubmit() {
     const { autor, id } = this.state;
     const title = this.state.form.title.value;
-    const departments = this.state.form.departments.value;
+    const careers = this.state.form.careers.value;
     const description = this.state.form.description.value;
     const type = this.state.form.projectType.value;
     const coautors = this.state.form.coautors.value;
     const tutorId = this.state.tutor ? this.state.tutor.value : null;
 
-    if (this.validateForm(title, description, autor, departments, type)) {
+    if (this.validateForm(title, description, autor, careers, type)) {
       if (this.props.editMode) {
         this.props.editIdea(id, {
           title,
-          departments,
+          careers,
           description,
           coautors,
           type,
@@ -275,7 +275,7 @@ export default class UploadIdeaModal extends React.Component {
       } else {
         this.props.uploadIdea({
           title,
-          departments,
+          careers,
           description,
           coautors,
           type,
@@ -404,23 +404,23 @@ export default class UploadIdeaModal extends React.Component {
           </FullRow>
           <FullRow key="formCreateRow6">
             <Field
-              key="departmentsGroup"
+              key="careersGroup"
               bsSize="small"
               required
-              controlId="departmentsSelect"
-              label="Departamentos"
-              validationState={this.state.form.departments.error}
-              validationMessage={this.state.form.departments.message}
+              controlId="careersSelect"
+              label="Carreras"
+              validationState={this.state.form.careers.error}
+              validationMessage={this.state.form.careers.message}
               inputComponent={
                 <Select
-                  key="departmentsSelect"
-                  value={this.state.form.departments.value}
-                  onChange={this.updateDepartmentsSelect}
-                  options={this.props.departments}
+                  key="careersSelect"
+                  value={this.state.form.careers.value}
+                  onChange={this.updateCareersSelect}
+                  options={this.props.careers}
                   isSearchable
-                  id="departmentsSelect"
-                  placeholder="Seleccione los departamentos a los que pertence la idea"
-                  name="departmentsSelect"
+                  id="careersSelect"
+                  placeholder="Seleccione los carreras a los que pertence la idea"
+                  name="careersSelect"
                   multi
                 />
               }

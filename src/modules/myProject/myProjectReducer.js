@@ -15,7 +15,7 @@ import {
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const GET_TUTORS = 'GET_TUTORS';
 const GET_COAUTORS = 'GET_COAUTORS';
-const GET_DEPARTMENTS = 'GET_DEPARTMENTS';
+const GET_CAREERS = 'GET_CAREERS';
 const GET_ACTIVE_PROJECT = 'GET_ACTIVE_PROJECT';
 const GET_PROJECT_TYPES = 'GET_PROJECT_TYPES';
 const POST_IDEA = 'POST_IDEA';
@@ -61,8 +61,8 @@ export const projectTypesLoaded = (data) => ({
   data
 });
 
-export const departmentsLoaded = (data) => ({
-  type: GET_DEPARTMENTS,
+export const careersLoaded = (data) => ({
+  type: GET_CAREERS,
   data
 });
 
@@ -102,9 +102,9 @@ const getProjectTypes = (dispatch) => {
   );
 };
 
-const getDepartments = (dispatch) => {
+const getCareers = (dispatch) => {
   dispatch(
-    departmentsLoaded([
+    careersLoaded([
       {
         value: 1,
         label: 'Departamento Informática'
@@ -172,7 +172,7 @@ const getCoautors = (ignoreId, dispatch) => {
 
 export const uploadIdea = ({
   title,
-  departments,
+  careers,
   description,
   coautors,
   type,
@@ -182,7 +182,7 @@ export const uploadIdea = ({
   const config = getConfig();
   const body = {
     name: title,
-    departments: getOnlyField(departments),
+    careers: getOnlyField(careers),
     description,
     tutor_id: tutorId,
     cotutors: [],
@@ -212,7 +212,7 @@ export const getInitialData = (ignoreId, projectId) => (dispatch) => {
     getTutors(ignoreId, dispatch),
     getActiveProject(projectId, dispatch),
     getProjectTypes(dispatch),
-    getDepartments(dispatch),
+    getCareers(dispatch),
     getCoautors(ignoreId, dispatch)
   )
     .then(() => dispatch(toggleLoading({ loading: false })))
@@ -223,13 +223,13 @@ export const getInitialData = (ignoreId, projectId) => (dispatch) => {
 
 export const editIdea = (
   projectId,
-  { title, description, coautors, type, autor, tutorId, departments }
+  { title, description, coautors, type, autor, tutorId, careers }
 ) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
     name: title,
-    departments: getOnlyField(departments),
+    careers: getOnlyField(careers),
     description,
     autor,
     tutor_id: tutorId,
@@ -281,8 +281,8 @@ const getFormattedProject = (project) => ({
     getLabel: getFullName,
     getFixed: getStudentIsApproved
   }),
-  departments: getSelectOptions(project.Departments, {
-    getLabel: (departments) => departments.name
+  careers: getSelectOptions(project.Careers, {
+    getLabel: (careers) => careers.name
   }),
   tutor: {
     ...project.Tutor,
@@ -312,10 +312,10 @@ export default (state = initialState, action) => {
         ...state,
         projectTypes: action.data
       };
-    case GET_DEPARTMENTS:
+    case GET_CAREERS:
       return {
         ...state,
-        departments: action.data
+        careers: action.data
       };
     case GET_TUTORS:
       return {

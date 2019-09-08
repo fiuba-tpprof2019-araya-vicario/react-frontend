@@ -16,6 +16,8 @@ plugins:
   - mocha
 
 rules:
+  prettier/prettier:
+    - warn
   import/no-unresolved:
     - 2
     - ignore:

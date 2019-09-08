@@ -85,10 +85,8 @@ export default class ShowIdea extends React.Component {
               items={[formatterDate(project.createdAt)]}
             />
             <Itemized
-              title="Departamentos:"
-              items={
-                project.Departments && getOnlyField(project.Departments, 'name')
-              }
+              title="Carreras:"
+              items={project.Careers && getOnlyField(project.Careers, 'name')}
             />
           </FullRow>
           <br />

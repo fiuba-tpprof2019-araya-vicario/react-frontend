@@ -30,7 +30,7 @@ export class MyProjectIndex extends React.Component {
     user: PropTypes.object,
     project: PropTypes.object,
     isAuthenticated: PropTypes.bool,
-    departments: PropTypes.array,
+    careers: PropTypes.array,
     coautors: PropTypes.array,
     tutors: PropTypes.array,
     projectTypes: PropTypes.array
@@ -156,7 +156,7 @@ export class MyProjectIndex extends React.Component {
           <UploadIdeaModal
             uploadIdea={this.uploadIdea}
             editIdea={this.editIdea}
-            departments={this.props.departments}
+            careers={this.props.careers}
             coautors={this.props.coautors}
             tutors={this.props.tutors}
             projectTypes={this.props.projectTypes}
@@ -199,7 +199,7 @@ const mapDispatch = (dispatch) => ({
 const mapStateToProps = (state) => ({
   loading: state.myProjectReducer.loading,
   coautors: state.myProjectReducer.coautors,
-  departments: state.myProjectReducer.departments,
+  careers: state.myProjectReducer.careers,
   project: state.myProjectReducer.project,
   projectTypes: state.myProjectReducer.projectTypes,
   tutors: state.myProjectReducer.tutors,

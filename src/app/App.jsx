@@ -72,13 +72,13 @@ class App extends React.Component {
               <Private
                 exact
                 path="/my_tutorials"
-                requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
+                // requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
                 component={MyTutorials}
               />
               <Private
                 exact={false}
                 path="/my_tutorials/:id"
-                requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
+                // requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
                 component={MyTutorialsDetail}
               />
               <Private

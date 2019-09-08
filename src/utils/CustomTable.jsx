@@ -52,6 +52,8 @@ export class CustomTable extends React.Component {
     let acceptRender;
     let rejectRender;
 
+    console.log(row);
+
     if (this.actionEnabled(detailAction, row)) {
       detailRender = (
         <a role="button">

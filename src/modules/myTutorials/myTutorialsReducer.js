@@ -83,7 +83,7 @@ export const getMyTutorial = (projectId) => (dispatch) => {
     });
 };
 
-export const getMyTutorials = () => (dispatch) => {
+export const getMyTutorials = (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
 
@@ -98,6 +98,52 @@ export const getMyTutorials = () => (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(queryError(err));
     });
+};
+
+export const acceptRequest = (requestId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    type: 'tutor',
+    status: 'accepted'
+  };
+
+  axios
+    .put(api.acceptTutorRequest(requestId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      getMyTutorials(dispatch);
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(queryError(err));
+    });
+};
+
+export const rejectRequest = (requestId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    type: 'tutor',
+    status: 'rejected'
+  };
+
+  axios
+    .put(api.rejectTutorRequest(requestId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      getMyTutorials(dispatch);
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(queryError(err));
+    });
+};
+
+export const getInitialData = () => (dispatch) => {
+  getMyTutorials(dispatch);
 };
 
 const fetchMyTutorialsTable = (data) =>
@@ -121,7 +167,11 @@ export default (state = initialState, action) => {
     case HYDRATE_MY_TUTORIAL:
       return {
         ...state,
-        project: action.data,
+        project: action.data
+      };
+    case ABANDON_IDEA:
+      return {
+        ...state,
         alert: {
           message: myTutorialsMessages.ABANDON_SUCCESS,
           style: 'success',

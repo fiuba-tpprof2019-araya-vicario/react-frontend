@@ -20,8 +20,6 @@ export class PrivateRoute extends React.Component {
   allowedToShow() {
     const { requiredCredentials, grantedCredentials } = this.props;
 
-    console.log(requiredCredentials, grantedCredentials);
-
     return (
       !requiredCredentials ||
       (Array.isArray(requiredCredentials)
