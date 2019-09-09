@@ -9,7 +9,8 @@ export default class PendingProposal extends React.Component {
     userId: PropTypes.number,
     isUserCreator: PropTypes.bool,
     showUploadIdeaModal: PropTypes.func,
-    showAbandonIdeaModal: PropTypes.func
+    showAbandonIdeaModal: PropTypes.func,
+    uploadProposalUrl: PropTypes.func
   };
 
   render() {
@@ -18,7 +19,8 @@ export default class PendingProposal extends React.Component {
       userId,
       isUserCreator,
       showUploadIdeaModal,
-      showAbandonIdeaModal
+      showAbandonIdeaModal,
+      uploadProposalUrl
     } = this.props;
 
     return (
@@ -28,8 +30,10 @@ export default class PendingProposal extends React.Component {
         userId={userId}
         isUserCreator={isUserCreator}
         showProposal
+        showAbandonButton
         showUploadIdeaModal={showUploadIdeaModal}
         showAbandonIdeaModal={showAbandonIdeaModal}
+        uploadProposalUrl={uploadProposalUrl}
       />
     );
   }

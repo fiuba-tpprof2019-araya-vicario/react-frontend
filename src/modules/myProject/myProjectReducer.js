@@ -170,6 +170,30 @@ const getCoautors = (ignoreId, dispatch) => {
     });
 };
 
+export const uploadProposalUrl = (project, url) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    ...project,
+    proposal_url: url
+  };
+
+  axios
+    .put(api.project(project.id), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(ideaUploaded(project.id));
+      getActiveProject(project.id, dispatch);
+    })
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
 export const uploadIdea = ({
   title,
   careers,

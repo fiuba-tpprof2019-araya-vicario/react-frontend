@@ -74,6 +74,9 @@ body {
   border-width: 0px;
 }
 
+.fixMarginLeft {
+  margin-left: 1em;
+}
 /* Ends - Fiuba CSS */
 
 .actionsColumn :not(:first-child) {

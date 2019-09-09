@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Navbar, Nav, NavItem, MenuItem, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { GoogleLogout } from 'react-google-login';
 import { logout } from '../modules/login/authReducer';
+import { CLIENT_ID } from '../api/api';
 import { CREDENTIALS } from '../utils/services/references';
 import WithAuthorization from '../utils/WithAuthorization';
 
@@ -70,9 +72,14 @@ export class WebNavBar extends React.Component {
                     title={this.props.name}
                     id="logged-user-dropdown"
                   >
-                    <MenuItem eventKey={9.1} onClick={this.props.logout}>
-                      <i className="fa fa-sign-out" />
-                      &nbsp; Cerrar sesión
+                    <MenuItem eventKey={9.1}>
+                      <GoogleLogout
+                        clientId={CLIENT_ID}
+                        onLogoutSuccess={this.props.logout}
+                      >
+                        <i className="fa fa-sign-out" />
+                        &nbsp; Cerrar sesión
+                      </GoogleLogout>
                     </MenuItem>
                   </NavDropdown>
                 </Nav>

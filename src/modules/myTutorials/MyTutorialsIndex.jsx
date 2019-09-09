@@ -117,7 +117,7 @@ const mapDispatch = (dispatch) => ({
   acceptRequest: (requestId) => {
     dispatch(acceptRequest(requestId));
   },
-  rejectTutorRequest: (requestId) => {
+  rejectRequest: (requestId) => {
     dispatch(rejectRequest(requestId));
   }
 });

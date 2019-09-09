@@ -5,6 +5,7 @@ import Stepper from 'react-stepper-horizontal';
 import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
+  uploadProposalUrl,
   uploadIdea,
   editIdea,
   abandonIdea,
@@ -27,6 +28,7 @@ export class MyProjectIndex extends React.Component {
     uploadIdea: PropTypes.func,
     editIdea: PropTypes.func,
     abandonIdea: PropTypes.func,
+    uploadProposalUrl: PropTypes.func,
     user: PropTypes.object,
     project: PropTypes.object,
     isAuthenticated: PropTypes.bool,
@@ -43,6 +45,7 @@ export class MyProjectIndex extends React.Component {
     this.editIdea = this.editIdea.bind(this);
     this.showUploadIdeaModal = this.showUploadIdeaModal.bind(this);
     this.showAbandonIdeaModal = this.showAbandonIdeaModal.bind(this);
+    this.uploadProposalUrl = this.uploadProposalUrl.bind(this);
   }
 
   componentDidMount() {
@@ -76,6 +79,10 @@ export class MyProjectIndex extends React.Component {
 
   uploadIdea(form) {
     this.props.uploadIdea(form);
+  }
+
+  uploadProposalUrl(proposal, url) {
+    this.props.uploadProposalUrl(proposal, url);
   }
 
   editIdea(id, form) {
@@ -146,6 +153,7 @@ export class MyProjectIndex extends React.Component {
                 isUserCreator={isUserCreator}
                 userId={this.props.user.id}
                 project={this.props.project}
+                uploadProposalUrl={this.uploadProposalUrl}
                 showUploadIdeaModal={this.showUploadIdeaModal}
                 showAbandonIdeaModal={this.showAbandonIdeaModal}
               />
@@ -190,6 +198,9 @@ const mapDispatch = (dispatch) => ({
   },
   abandonIdea: (projectId, memberId) => {
     dispatch(abandonIdea(projectId, memberId));
+  },
+  uploadProposalUrl: (project, url) => {
+    dispatch(uploadProposalUrl(project, url));
   },
   clearAlert: () => {
     dispatch(clearAlert());

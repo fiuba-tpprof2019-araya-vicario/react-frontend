@@ -27,6 +27,7 @@ export default class ReviewIdea extends React.Component {
         project={project}
         userId={userId}
         isUserCreator={isUserCreator}
+        showAbandonButton
         showUploadIdeaModal={showUploadIdeaModal}
         showAbandonIdeaModal={showAbandonIdeaModal}
       />

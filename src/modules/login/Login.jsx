@@ -9,6 +9,7 @@ import CustomAlert from '../../utils/CustomAlert';
 import { loginWithGoogle, clearErrors } from './authReducer';
 import Title from '../../utils/Title';
 import { loginMessages } from '../../utils/messages';
+import { CLIENT_ID } from '../../api/api';
 
 export class Login extends React.Component {
   static propTypes = {
@@ -62,7 +63,7 @@ export class Login extends React.Component {
           <Row>
             <Center>
               <GoogleLogin
-                clientId="942857236809-n8qa3b9nlijciqlf41eeglnnubb3ukja.apps.googleusercontent.com"
+                clientId={CLIENT_ID}
                 buttonText="Login"
                 onSuccess={this.responseGoogle}
                 onFailure={this.responseGoogle}
@@ -72,13 +73,8 @@ export class Login extends React.Component {
                 // hostedDomain='fi.uba.ar'
                 cookiePolicy="single_host_origin"
               >
-                <span> Login with Google</span>
+                <span> Ingresar con Google</span>
               </GoogleLogin>
-              {/* <GoogleLogout
-              buttonText="Logout"
-              onLogoutSuccess={logout}
-            >
-            </GoogleLogout> */}
             </Center>
           </Row>
         </Col>

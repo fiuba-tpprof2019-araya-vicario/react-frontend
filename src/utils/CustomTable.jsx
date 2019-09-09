@@ -1,7 +1,7 @@
 /* eslint-disable guard-for-in */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Table, Button } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 
 export class CustomTable extends React.Component {
   static propTypes = {
@@ -52,20 +52,6 @@ export class CustomTable extends React.Component {
     let acceptRender;
     let rejectRender;
 
-    console.log(row);
-
-    if (this.actionEnabled(detailAction, row)) {
-      detailRender = (
-        <a role="button">
-          <i
-            className="fa fa-search"
-            title="Editar"
-            onClick={() => detailAction.action(row.id)}
-          />
-        </a>
-      );
-    }
-
     if (this.actionEnabled(editAction, row)) {
       editRender = (
         <a role="button">
@@ -92,43 +78,58 @@ export class CustomTable extends React.Component {
 
     if (this.actionEnabled(acceptAction, row)) {
       acceptRender = (
-        <Button
-          bsSize="xsmall"
-          bsStyle="success"
-          onClick={() => acceptAction.action(row.id)}
-        >
-          <i className="fa fa-check action" title="Aceptar" />
-          Aceptar
-        </Button>
+        <a role="button">
+          <i
+            className="fa fa-check action"
+            title="Aceptar"
+            onClick={() => acceptAction.action(row.id)}
+          />
+        </a>
       );
     }
 
     if (this.actionEnabled(rejectAction, row)) {
       rejectRender = (
-        <Button
-          bsSize="xsmall"
-          bsStyle="danger"
-          onClick={() => rejectAction.action(row.id)}
-        >
-          <i className="fa fa-remove action" title="Rechazar" />
-          Rechazar
-        </Button>
+        <a role="button">
+          <i
+            className="fa fa-remove action"
+            title="Rechazar"
+            onClick={() => rejectAction.action(row.id)}
+          />
+        </a>
+      );
+    }
+
+    if (this.actionEnabled(detailAction, row)) {
+      detailRender = (
+        <a role="button">
+          <i
+            className="fa fa-search"
+            title="Editar"
+            onClick={() => detailAction.action(row.id)}
+          />
+        </a>
       );
     }
 
     return (
-      <td key="actions" className="actionsColumn">
-        {detailRender}
+      <td key="actions" className="actionsColumn pull-right">
         {editRender}
         {deleteRender}
         {acceptRender}
         {rejectRender}
+        {detailRender}
       </td>
     );
   }
 
   isValidKey(key) {
-    return key !== 'id' && key !== 'projectId' && key !== 'project';
+    return (
+      key !== 'id' &&
+      key !== 'projectId' &&
+      key !== 'project' &&
+      key !== 'requestStatusId'
+    );
   }
 
   getTableRows(actions) {

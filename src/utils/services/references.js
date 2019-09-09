@@ -26,6 +26,12 @@ export const PROJECT_TYPES = {
   TRABAJO_PRACTICO: 3
 };
 
+export const STATES = {
+  pending: 'pending',
+  accepted: 'accepted',
+  rejected: 'rejected'
+};
+
 export const REQUEST_STATES = {
   pending: 'Pendiente',
   accepted: 'Aceptada',

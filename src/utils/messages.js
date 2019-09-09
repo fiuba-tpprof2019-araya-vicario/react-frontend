@@ -16,7 +16,7 @@ export const myProjectMessages = {
   NEW_IDEA_DESCRIPTION:
     'No se ha creado una idea aún, agregue una para dar comienzo a su propuesta. En la misma debe describir brevemente el proposito de su proyecto (En caso de no tener un tutor asignado puede realizarlo en pasos posteriores).',
   GO_TO_REQUERIMENT_DESCRIPTION: 'Puedes tomar un requerimiento.',
-  EMPTY_PROPOSAL: 'Debes subir una propuesta para poder avanzar.',
+  EMPTY_PROPOSAL: 'Todavia no has subido ninguna propuesta.',
   NEW_STEP_PROJECT_CREATED_INFO:
     'Para avanzar al siguiente paso el proyecto debe tener un tutor asignado a tu proyecto, que haya aceptado la solicitud de tutoría.',
   NEW_STEP_PROJECT_ACCEPTED_INFO:
@@ -46,9 +46,13 @@ export const requirementMessages = {
 
 export const myTutorialsMessages = {
   TITLE: 'Mis tutorías',
-  SUBTITLE: 'Aministra las distintas tutorias',
+  SUBTITLE: 'Aministra las distintas tutorias y solicitudes de tutorias',
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados',
-  ABANDON_SUCCESS: 'Abandonaste el proyecto correctamente'
+  ABANDON_SUCCESS: 'Abandonaste el proyecto correctamente',
+  NEW_STEP_PROJECT_CREATED_INFO:
+    'Si aceptas la solicitud pasaras a ser el tutor de este proyecto',
+  NEW_STEP_PROJECT_ACCEPTED_INFO:
+    'Debes colaborar con tus alumnos para realizar una propuesta'
 };
 
 export const utilsMessages = {

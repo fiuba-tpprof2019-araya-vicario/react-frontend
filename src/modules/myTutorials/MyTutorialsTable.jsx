@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { CustomTable } from '../../utils/CustomTable';
-import { REQUEST_STATES } from '../../utils/services/references';
+import { STATES } from '../../utils/services/references';
 
 export class MyTutorialsTable extends React.Component {
   static propTypes = {
@@ -13,12 +13,19 @@ export class MyTutorialsTable extends React.Component {
   };
 
   getHeaders() {
-    return ['Título', 'Descripción', 'Tipo', 'Fecha de creación', 'Estado'];
+    return [
+      'Título',
+      'Descripción',
+      'Tipo',
+      'Fecha de creación',
+      'Estado del proyecto',
+      'Estado de la solicitud'
+    ];
   }
 
   render() {
     const disableButton = (request) =>
-      request.status !== REQUEST_STATES.pending;
+      request.requestStatusId !== STATES.pending;
 
     return (
       <CustomTable

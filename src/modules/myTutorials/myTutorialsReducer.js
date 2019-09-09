@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { api, getConfig } from '../../api/apiInterfaceProvider';
 import { utilsMessages, myTutorialsMessages } from '../../utils/messages';
-import { formatterDate } from '../../utils/services/functions';
+import {
+  formatterDate,
+  getDescriptionByRequestStatus
+} from '../../utils/services/functions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_MY_TUTORIALS = 'HYDRATE_MY_TUTORIALS';
@@ -153,7 +156,11 @@ const fetchMyTutorialsTable = (data) =>
     description: project.description,
     type: project.Type.name,
     created_at: formatterDate(project.createdAt),
-    status: project.State.name
+    status: project.State.name,
+    requestStatusId: project.TutorRequests[0].status,
+    requestStatus: getDescriptionByRequestStatus(
+      project.TutorRequests[0].status
+    )
   }));
 
 export default (state = initialState, action) => {

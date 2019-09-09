@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { getMyTutorial, abandonIdea, clearAlert } from './myTutorialsReducer';
 import Title from '../../utils/Title';
 import BorderScreen from '../../utils/styles/BorderScreen';
-import { myProjectMessages } from '../../utils/messages';
+import { myTutorialsMessages } from '../../utils/messages';
 import AbandonProjectModal from './modals/AbandonProjectModal';
 import ShowIdea from '../../utils/components/ShowIdea';
 import history from '../../redux/history';
@@ -38,7 +38,7 @@ export class MyProjectIndex extends React.Component {
   getActiveStep(user, project) {
     let activeStep = 0;
 
-    if (user && user.projectId && project) {
+    if (user && project) {
       activeStep = project.state_id;
     }
 
@@ -94,8 +94,8 @@ export class MyProjectIndex extends React.Component {
         <BorderScreen>
           <Row>
             <Title
-              title={myProjectMessages.TITLE}
-              subtitle={myProjectMessages.SUBTITLE}
+              title={myTutorialsMessages.TITLE}
+              subtitle={myTutorialsMessages.SUBTITLE}
             />
             <div className="step-progress">
               <Stepper
@@ -107,12 +107,29 @@ export class MyProjectIndex extends React.Component {
               />
             </div>
           </Row>
-          <ShowIdea
-            nextStepMessage={myProjectMessages.NEW_STEP_PROJECT_CREATED_INFO}
-            project={project}
-            userId={user.id}
-            showAbandonIdeaModal={this.showAbandonIdeaModal}
-          />
+          {this.state.activeStep === 1 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROJECT_CREATED_INFO
+              }
+              showBackButton
+              project={project}
+              userId={user.id}
+            />
+          ) : null}
+          {this.state.activeStep === 2 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROJECT_ACCEPTED_INFO
+              }
+              showBackButton
+              showProposal
+              showAbandonButton
+              project={project}
+              userId={user.id}
+              showAbandonIdeaModal={this.showAbandonIdeaModal}
+            />
+          ) : null}
         </BorderScreen>
         <AbandonProjectModal
           ref={(modal) => {
