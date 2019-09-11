@@ -8,6 +8,8 @@ import { getById } from '../../utils/services/functions';
 import BorderScreen from '../../utils/styles/BorderScreen';
 import RequestTable from './RequestTable';
 import CustomAlert from '../../utils/CustomAlert';
+import AcceptRequestModal from './modals/AcceptRequestModal';
+import RejectRequestModal from './modals/RejectRequestModal';
 
 export default class CreateIdea extends React.Component {
   static propTypes = {
@@ -26,10 +28,12 @@ export default class CreateIdea extends React.Component {
   acceptRequest(id) {
     const request = getById(this.props.requests, id);
 
+    console.log(request);
+
     this.AcceptModal.getRef().showModal(
       request.id,
       request.projectId,
-      request.project,
+      request.name,
       this.props.acceptRequest
     );
   }
@@ -113,9 +117,19 @@ export default class CreateIdea extends React.Component {
         </Center>
         {this.renderTable(
           this.props.requests,
-          this.acceptStudentRequest,
-          this.rejectStudentRequest
+          this.acceptRequest,
+          this.rejectRequest
         )}
+        <AcceptRequestModal
+          ref={(modal) => {
+            this.AcceptModal = modal;
+          }}
+        />
+        <RejectRequestModal
+          ref={(modal) => {
+            this.RejectModal = modal;
+          }}
+        />
       </Fragment>
     );
   }

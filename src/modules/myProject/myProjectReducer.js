@@ -270,7 +270,7 @@ export const acceptRequest = (requestId, projectId) => (dispatch) => {
     .then((res) => res.data.data)
     .then(() => {
       dispatch(ideaAccepted(projectId));
-      getRequests(dispatch);
+      getActiveProject(projectId, dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {

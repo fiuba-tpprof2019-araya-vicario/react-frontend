@@ -16,7 +16,7 @@ export default class AcceptRequestModal extends React.Component {
   render() {
     return (
       <AcceptModal
-        element="Pedido"
+        element="pedido de colaboración"
         id={this.props.id}
         onDelete={this.props.onAccept}
         message={requestMessages.ACCEPT_WARNING}

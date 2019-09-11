@@ -22,8 +22,6 @@ import CreateIdea from './CreateIdea';
 import ReviewIdea from './ReviewIdea';
 import PendingProposal from './PendingProposal';
 import AbandonProjectModal from './modals/AbandonProjectModal';
-import AcceptRequestModal from './modals/AcceptRequestModal';
-import RejectRequestModal from './modals/RejectRequestModal';
 
 export class MyProjectIndex extends React.Component {
   static propTypes = {
@@ -191,16 +189,6 @@ export class MyProjectIndex extends React.Component {
         <AbandonProjectModal
           ref={(modal) => {
             this.AbandonModal = modal;
-          }}
-        />
-        <AcceptRequestModal
-          ref={(modal) => {
-            this.AcceptModal = modal;
-          }}
-        />
-        <RejectRequestModal
-          ref={(modal) => {
-            this.RejectModal = modal;
           }}
         />
       </Fragment>
