@@ -188,13 +188,6 @@ export const uploadProposalUrl = (project, url) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
-    careers: getOnlyField(project.Careers, 'id'),
-    cotutors: getOnlyField(project.Cotutors, 'id'),
-    description: project.description,
-    name: project.name,
-    students: getOnlyField(project.Students, 'id'),
-    tutor_id: project.tutor_id,
-    type_id: project.Type.id,
     proposal_url: url
   };
 

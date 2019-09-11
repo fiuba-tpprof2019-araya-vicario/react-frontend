@@ -27,6 +27,8 @@ export class MyTutorialsTable extends React.Component {
     const disableButton = (request) =>
       request.requestStatusId !== STATES.pending;
 
+    console.log(this.props.data);
+
     return (
       <CustomTable
         headers={this.getHeaders()}

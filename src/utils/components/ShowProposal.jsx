@@ -54,7 +54,7 @@ export default class ShowIdea extends React.Component {
                 multiselect={false}
                 navHidden
                 authImmediate={false}
-                mimeTypes={['image/png', 'image/jpeg', 'image/jpg']}
+                mimeTypes={['application/pdf']}
                 viewId="DOCS"
               >
                 <Button
