@@ -9,6 +9,8 @@ import {
   getSelectOptionsWithIgnore,
   getStudentIsApproved,
   getOnlyField,
+  getDescriptionByRequestStatus,
+  formatterDate,
   getFullName
 } from '../../utils/services/functions';
 
@@ -22,6 +24,8 @@ const POST_IDEA = 'POST_IDEA';
 const ABANDON_IDEA = 'ABANDON_IDEA';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
+const HYDRATE_REQUESTS_STUDENT = 'HYDRATE_REQUESTS_STUDENT';
+const ACEPTED_IDEA = 'ACEPTED_IDEA';
 
 const initialState = {
   alert: null,
@@ -48,6 +52,16 @@ export const queryError = (err) => ({
 
 export const ideaUploaded = (data) => ({
   type: POST_IDEA,
+  data
+});
+
+export const hydrateRequests = (data) => ({
+  type: HYDRATE_REQUESTS_STUDENT,
+  data
+});
+
+const ideaAccepted = (data) => ({
+  type: ACEPTED_IDEA,
   data
 });
 
@@ -237,6 +251,61 @@ export const uploadIdea = ({
     });
 };
 
+export const getRequests = (dispatch) => {
+  const config = getConfig();
+
+  axios
+    .get(api.requestsStudents, config)
+    .then((res) => res.data.data)
+    .then((data) => {
+      dispatch(hydrateRequests(data));
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+    });
+};
+
+export const acceptRequest = (requestId, projectId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    status: 'accepted'
+  };
+
+  axios
+    .put(api.acceptStudentRequest(requestId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(ideaAccepted(projectId));
+      getRequests(dispatch);
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(queryError(err));
+    });
+};
+
+export const rejectRequest = (requestId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    status: 'rejected'
+  };
+
+  axios
+    .put(api.rejectStudentRequest(requestId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      getRequests(dispatch);
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(queryError(err));
+    });
+};
+
 export const getInitialData = (ignoreId, projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   Bluebird.join(
@@ -244,6 +313,7 @@ export const getInitialData = (ignoreId, projectId) => (dispatch) => {
     getActiveProject(projectId, dispatch),
     getProjectTypes(dispatch),
     getCareers(dispatch),
+    getRequests(dispatch),
     getCoautors(ignoreId, dispatch)
   )
     .then(() => dispatch(toggleLoading({ loading: false })))
@@ -327,6 +397,28 @@ const getFormattedProject = (project) => ({
   type: getSelectOption(project.Type, {})
 });
 
+const fetchRequestTable = (data) => {
+  const returnValue = [];
+
+  data.forEach((rowObject) => {
+    returnValue.push({
+      id: rowObject.id,
+      type: rowObject.Project.Type.name,
+      projectId: rowObject.Project.id,
+      creator: `${rowObject.Project.Creator.name} ${
+        rowObject.Project.Creator.surname
+      }`,
+      name: rowObject.Project.name,
+      description: rowObject.Project.description,
+      created_at: formatterDate(rowObject.createdAt),
+      updated_at: formatterDate(rowObject.updatedAt),
+      status: getDescriptionByRequestStatus(rowObject.status)
+    });
+  });
+
+  return returnValue;
+};
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_COAUTORS:
@@ -343,6 +435,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         projectTypes: action.data
+      };
+    case HYDRATE_REQUESTS_STUDENT:
+      return {
+        ...state,
+        requests: fetchRequestTable(action.data)
       };
     case GET_CAREERS:
       return {

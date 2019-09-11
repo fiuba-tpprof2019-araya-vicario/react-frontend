@@ -7,6 +7,8 @@ import { withRouter } from 'react-router-dom';
 import {
   uploadProposalUrl,
   uploadIdea,
+  acceptRequest,
+  rejectRequest,
   editIdea,
   abandonIdea,
   clearAlert,
@@ -20,6 +22,8 @@ import CreateIdea from './CreateIdea';
 import ReviewIdea from './ReviewIdea';
 import PendingProposal from './PendingProposal';
 import AbandonProjectModal from './modals/AbandonProjectModal';
+import AcceptRequestModal from './modals/AcceptRequestModal';
+import RejectRequestModal from './modals/RejectRequestModal';
 
 export class MyProjectIndex extends React.Component {
   static propTypes = {
@@ -27,6 +31,8 @@ export class MyProjectIndex extends React.Component {
     getInitialData: PropTypes.func,
     uploadIdea: PropTypes.func,
     editIdea: PropTypes.func,
+    acceptRequest: PropTypes.func,
+    rejectRequest: PropTypes.func,
     abandonIdea: PropTypes.func,
     uploadProposalUrl: PropTypes.func,
     user: PropTypes.object,
@@ -35,7 +41,8 @@ export class MyProjectIndex extends React.Component {
     careers: PropTypes.array,
     coautors: PropTypes.array,
     tutors: PropTypes.array,
-    projectTypes: PropTypes.array
+    projectTypes: PropTypes.array,
+    requests: PropTypes.array
   };
 
   constructor() {
@@ -137,7 +144,12 @@ export class MyProjectIndex extends React.Component {
           </Row>
           <Row>
             {this.state.activeStep === 0 ? (
-              <CreateIdea showUploadIdeaModal={this.showUploadIdeaModal} />
+              <CreateIdea
+                acceptRequest={this.props.acceptRequest}
+                rejectRequest={this.props.rejectRequest}
+                requests={this.props.requests}
+                showUploadIdeaModal={this.showUploadIdeaModal}
+              />
             ) : null}
             {this.state.activeStep === 1 ? (
               <ReviewIdea
@@ -181,6 +193,16 @@ export class MyProjectIndex extends React.Component {
             this.AbandonModal = modal;
           }}
         />
+        <AcceptRequestModal
+          ref={(modal) => {
+            this.AcceptModal = modal;
+          }}
+        />
+        <RejectRequestModal
+          ref={(modal) => {
+            this.RejectModal = modal;
+          }}
+        />
       </Fragment>
     );
   }
@@ -202,6 +224,12 @@ const mapDispatch = (dispatch) => ({
   uploadProposalUrl: (project, url) => {
     dispatch(uploadProposalUrl(project, url));
   },
+  acceptRequest: (requestId) => {
+    dispatch(acceptRequest(requestId));
+  },
+  rejectRequest: (requestId) => {
+    dispatch(rejectRequest(requestId));
+  },
   clearAlert: () => {
     dispatch(clearAlert());
   }
@@ -211,6 +239,7 @@ const mapStateToProps = (state) => ({
   loading: state.myProjectReducer.loading,
   coautors: state.myProjectReducer.coautors,
   careers: state.myProjectReducer.careers,
+  requests: state.myProjectReducer.requests,
   project: state.myProjectReducer.project,
   projectTypes: state.myProjectReducer.projectTypes,
   tutors: state.myProjectReducer.tutors,
