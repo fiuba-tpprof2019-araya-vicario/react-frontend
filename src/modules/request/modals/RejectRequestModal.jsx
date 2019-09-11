@@ -16,7 +16,7 @@ export default class DeleteRequirementModal extends React.Component {
   render() {
     return (
       <RejectModal
-        element="Requerimiento"
+        element="Pedido"
         id={this.props.id}
         onDelete={this.props.onReject}
         message={requestMessages.REJECT_WARNING}

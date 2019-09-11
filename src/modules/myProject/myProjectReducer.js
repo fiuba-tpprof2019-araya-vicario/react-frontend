@@ -174,7 +174,13 @@ export const uploadProposalUrl = (project, url) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
-    ...project,
+    careers: getOnlyField(project.Careers, 'id'),
+    cotutors: getOnlyField(project.Cotutors, 'id'),
+    description: project.description,
+    name: project.name,
+    students: getOnlyField(project.Students, 'id'),
+    tutor_id: project.tutor_id,
+    type_id: project.Type.id,
     proposal_url: url
   };
 
@@ -211,7 +217,8 @@ export const uploadIdea = ({
     tutor_id: tutorId,
     cotutors: [],
     students: getOnlyField(coautors),
-    type: type.value
+    type_id: type.value,
+    proposalUrl: null
   };
 
   axios
@@ -259,7 +266,8 @@ export const editIdea = (
     tutor_id: tutorId,
     cotutors: [],
     students: getOnlyField(coautors),
-    type: type.value
+    type_id: type.value,
+    proposal_url: null
   };
 
   axios

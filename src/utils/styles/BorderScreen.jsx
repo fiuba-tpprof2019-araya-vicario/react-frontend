@@ -11,11 +11,11 @@ export default class BorderScreen extends React.Component {
   render() {
     return (
       <Row key={this.props.key}>
-        <Col md={1} lg={1} />
-        <Col md={10} lg={10}>
+        <Col xs={1} sm={1} md={1} lg={1} />
+        <Col xs={10} sm={10} md={10} lg={10}>
           {this.props.children}
         </Col>
-        <Col md={1} lg={1} />
+        <Col xs={1} sm={1} md={1} lg={1} />
       </Row>
     );
   }

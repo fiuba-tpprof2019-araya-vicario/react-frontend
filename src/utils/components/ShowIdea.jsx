@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Glyphicon, Row } from 'react-bootstrap';
-import GooglePicker from 'react-google-picker';
 import CustomAlert from '../../utils/CustomAlert';
 import {
   formatterDate,
@@ -13,8 +12,7 @@ import {
 import history from '../../redux/history';
 import FullRow from '../../utils/styles/FullRow';
 import Itemized from '../../utils/styles/Itemized';
-import { myProjectMessages } from '../../utils/messages';
-import { CLIENT_ID, DEVELOPER_KEY, SCOPE } from '../../api/api';
+import ShowProposal from './ShowProposal';
 
 export default class ShowIdea extends React.Component {
   static propTypes = {
@@ -29,12 +27,6 @@ export default class ShowIdea extends React.Component {
     showAbandonIdeaModal: PropTypes.func,
     uploadProposalUrl: PropTypes.func
   };
-
-  constructor() {
-    super();
-
-    this.uploadProposalUrl = this.uploadProposalUrl.bind(this);
-  }
 
   getAutors() {
     const { Creator, Students } = this.props.project;
@@ -64,12 +56,6 @@ export default class ShowIdea extends React.Component {
     return tutors;
   }
 
-  uploadProposalUrl(data) {
-    if (data.action === 'picked') {
-      this.props.uploadProposalUrl(this.props.project, data.docs[0].url);
-    }
-  }
-
   render() {
     const {
       project,
@@ -77,13 +63,12 @@ export default class ShowIdea extends React.Component {
       showAbandonButton,
       userId,
       showUploadIdeaModal,
+      uploadProposalUrl,
       isUserCreator,
       showProposal,
       nextStepMessage,
       showAbandonIdeaModal
     } = this.props;
-
-    console.log(project);
 
     return (
       <Fragment>
@@ -102,14 +87,26 @@ export default class ShowIdea extends React.Component {
           <FullRow>
             <Itemized title="Autores:" items={this.getAutors()} />
             <Itemized title="Tutores:" items={this.getTutors()} />
-            <Itemized
-              title="Fecha de creación:"
-              items={[formatterDate(project.createdAt)]}
-            />
-            <Itemized
-              title="Carreras:"
-              items={project.Careers && getOnlyField(project.Careers, 'name')}
-            />
+            <Fragment>
+              <Itemized
+                title="Tipo de proyecto:"
+                items={project.Type && [project.Type.name]}
+              />
+              <Itemized
+                title="Carreras:"
+                items={project.Careers && getOnlyField(project.Careers, 'name')}
+              />
+            </Fragment>
+            <Fragment>
+              <Itemized
+                title="Fecha de creación:"
+                items={[formatterDate(project.createdAt)]}
+              />
+              <Itemized
+                title="Última modificación:"
+                items={[formatterDate(project.updatedAt)]}
+              />
+            </Fragment>
           </FullRow>
           <br />
           <Row>
@@ -117,37 +114,11 @@ export default class ShowIdea extends React.Component {
             <p>{project.description}</p>
           </Row>
           {showProposal && (
-            <Row>
-              <h4>Propuesta:</h4>
-              <Row>
-                <GooglePicker
-                  clientId={CLIENT_ID}
-                  developerKey={DEVELOPER_KEY}
-                  scope={SCOPE}
-                  onChange={this.uploadProposalUrl}
-                  onAuthFailed={() => {}}
-                  multiselect
-                  navHidden
-                  authImmediate={false}
-                  mimeTypes={['image/png', 'image/jpeg', 'image/jpg']}
-                  viewId="DOCS"
-                >
-                  <Button
-                    bsStyle="success"
-                    className="fixMarginLeft"
-                    bsSize="small"
-                  >
-                    <i className="fa fa-pencil">&nbsp;</i>&nbsp;Subir propuesta
-                  </Button>
-                  &nbsp;
-                  {project.proposal_url ? (
-                    <span>{project.proposal_url}</span>
-                  ) : (
-                    <span>{myProjectMessages.EMPTY_PROPOSAL}</span>
-                  )}
-                </GooglePicker>
-              </Row>
-            </Row>
+            <ShowProposal
+              project={project}
+              isUserCreator={isUserCreator}
+              uploadProposalUrl={uploadProposalUrl}
+            />
           )}
           <br />
           <Row className="pull-right">
@@ -180,6 +151,11 @@ export default class ShowIdea extends React.Component {
                 bsSize="small"
               >
                 <i className="fa fa-pencil">&nbsp;</i>&nbsp;Editar idea
+              </Button>
+            )}
+            {!isUserCreator && project.proposal_url && (
+              <Button bsStyle="success" onClick={() => {}} bsSize="small">
+                <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
               </Button>
             )}
           </Row>
