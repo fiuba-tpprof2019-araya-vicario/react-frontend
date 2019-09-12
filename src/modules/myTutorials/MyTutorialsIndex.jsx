@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
@@ -9,7 +9,6 @@ import {
   rejectRequest
 } from './myTutorialsReducer';
 import Title from '../../utils/Title';
-import BorderScreen from '../../utils/styles/BorderScreen';
 import { myTutorialsMessages } from '../../utils/messages';
 import { MyTutorialsTable } from './MyTutorialsTable';
 import CustomAlert from '../../utils/CustomAlert';
@@ -65,7 +64,7 @@ export class MyTutorialsIndex extends React.Component {
 
   render() {
     return (
-      <BorderScreen>
+      <Fragment>
         <Title
           title={myTutorialsMessages.TITLE}
           subtitle={myTutorialsMessages.SUBTITLE}
@@ -82,7 +81,7 @@ export class MyTutorialsIndex extends React.Component {
             this.RejectModal = modal;
           }}
         />
-      </BorderScreen>
+      </Fragment>
     );
   }
 

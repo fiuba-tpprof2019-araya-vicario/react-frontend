@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
@@ -33,9 +33,9 @@ class App extends React.Component {
 
     if (alert) {
       render.push(
-        <div key="margin">
+        <Fragment key="margin">
           <br />
-        </div>
+        </Fragment>
       );
       render.push(
         <CustomAlert
@@ -55,11 +55,11 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <NavBar />
         {this.alertRender()}
         <PersistGate loading={<Loading />} persistor={persistor}>
-          <Grid fluid>
+          <Grid fluid style={{ width: '95%' }}>
             <Switch>
               <Route path="/login" component={Log} />
               <Private exact path="/" component={Home} />
@@ -97,7 +97,7 @@ class App extends React.Component {
             </Switch>
           </Grid>
         </PersistGate>
-      </div>
+      </Fragment>
     );
   }
 }

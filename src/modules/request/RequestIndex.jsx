@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
@@ -13,7 +13,6 @@ import {
 import Title from '../../utils/Title';
 import { requestMessages } from '../../utils/messages';
 import { getById } from '../../utils/services/functions';
-import BorderScreen from '../../utils/styles/BorderScreen';
 import { RequestTable } from './RequestTable';
 import CustomAlert from '../../utils/CustomAlert';
 import AcceptRequestModal from './modals/AcceptRequestModal';
@@ -88,7 +87,7 @@ export class RequestIndex extends React.Component {
 
   render() {
     return (
-      <BorderScreen>
+      <Fragment>
         <Title
           title={requestMessages.TITLE}
           subtitle={requestMessages.SUBTITLE}
@@ -117,7 +116,7 @@ export class RequestIndex extends React.Component {
             this.RejectModal = modal;
           }}
         />
-      </BorderScreen>
+      </Fragment>
     );
   }
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Row } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 export default class Title extends React.Component {
   static propTypes = {
@@ -17,9 +17,11 @@ export default class Title extends React.Component {
 
     return (
       <Row>
-        <h1>{this.props.title}</h1>
-        {subtitle}
-        <br />
+        <Col lg={12} md={12} sm={12} xs={12}>
+          <h1>{this.props.title}</h1>
+          {subtitle}
+          <br />
+        </Col>
       </Row>
     );
   }

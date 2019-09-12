@@ -6,7 +6,6 @@ import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { getMyTutorial, abandonIdea, clearAlert } from './myTutorialsReducer';
 import Title from '../../utils/Title';
-import BorderScreen from '../../utils/styles/BorderScreen';
 import { myTutorialsMessages } from '../../utils/messages';
 import AbandonProjectModal from './modals/AbandonProjectModal';
 import ShowIdea from '../../utils/components/ShowIdea';
@@ -91,46 +90,40 @@ export class MyProjectIndex extends React.Component {
 
     return (
       <Fragment>
-        <BorderScreen>
-          <Row>
-            <Title
-              title={myTutorialsMessages.TITLE}
-              subtitle={myTutorialsMessages.SUBTITLE}
+        <Row>
+          <Title
+            title={myTutorialsMessages.TITLE}
+            subtitle={myTutorialsMessages.SUBTITLE}
+          />
+          <div className="step-progress">
+            <Stepper
+              steps={steps}
+              activeStep={this.state.activeStep}
+              defaultTitleOpacity="0.5"
+              completeTitleOpacity="0.75"
+              activeColor="#468847"
             />
-            <div className="step-progress">
-              <Stepper
-                steps={steps}
-                activeStep={this.state.activeStep}
-                defaultTitleOpacity="0.5"
-                completeTitleOpacity="0.75"
-                activeColor="#468847"
-              />
-            </div>
-          </Row>
-          {this.state.activeStep === 1 ? (
-            <ShowIdea
-              nextStepMessage={
-                myTutorialsMessages.NEW_STEP_PROJECT_CREATED_INFO
-              }
-              showBackButton
-              project={project}
-              userId={user.id}
-            />
-          ) : null}
-          {this.state.activeStep === 2 ? (
-            <ShowIdea
-              nextStepMessage={
-                myTutorialsMessages.NEW_STEP_PROJECT_ACCEPTED_INFO
-              }
-              showBackButton
-              showProposal
-              showAbandonButton
-              project={project}
-              userId={user.id}
-              showAbandonIdeaModal={this.showAbandonIdeaModal}
-            />
-          ) : null}
-        </BorderScreen>
+          </div>
+        </Row>
+        {this.state.activeStep === 1 ? (
+          <ShowIdea
+            nextStepMessage={myTutorialsMessages.NEW_STEP_PROJECT_CREATED_INFO}
+            showBackButton
+            project={project}
+            userId={user.id}
+          />
+        ) : null}
+        {this.state.activeStep === 2 ? (
+          <ShowIdea
+            nextStepMessage={myTutorialsMessages.NEW_STEP_PROJECT_ACCEPTED_INFO}
+            showBackButton
+            showProposal
+            showAbandonButton
+            project={project}
+            userId={user.id}
+            showAbandonIdeaModal={this.showAbandonIdeaModal}
+          />
+        ) : null}
         <AbandonProjectModal
           ref={(modal) => {
             this.AbandonModal = modal;

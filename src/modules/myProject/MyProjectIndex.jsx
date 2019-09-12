@@ -15,7 +15,6 @@ import {
   getInitialData
 } from './myProjectReducer';
 import Title from '../../utils/Title';
-import BorderScreen from '../../utils/styles/BorderScreen';
 import UploadIdeaModal from './modals/UploadIdeaModal';
 import { myProjectMessages } from '../../utils/messages';
 import CreateIdea from './CreateIdea';
@@ -124,52 +123,50 @@ export class MyProjectIndex extends React.Component {
 
     return (
       <Fragment>
-        <BorderScreen>
-          <Row>
-            <Title
-              title={myProjectMessages.TITLE}
-              subtitle={myProjectMessages.SUBTITLE}
+        <Title
+          title={myProjectMessages.TITLE}
+          subtitle={myProjectMessages.SUBTITLE}
+        />
+        <Row>
+          <div className="step-progress">
+            <Stepper
+              steps={steps}
+              activeStep={this.state.activeStep}
+              defaultTitleOpacity="0.5"
+              completeTitleOpacity="0.75"
+              activeColor="#468847"
             />
-            <div className="step-progress">
-              <Stepper
-                steps={steps}
-                activeStep={this.state.activeStep}
-                defaultTitleOpacity="0.5"
-                completeTitleOpacity="0.75"
-                activeColor="#468847"
-              />
-            </div>
-          </Row>
-          <Row>
-            {this.state.activeStep === 0 ? (
-              <CreateIdea
-                acceptRequest={this.props.acceptRequest}
-                rejectRequest={this.props.rejectRequest}
-                requests={this.props.requests}
-                showUploadIdeaModal={this.showUploadIdeaModal}
-              />
-            ) : null}
-            {this.state.activeStep === 1 ? (
-              <ReviewIdea
-                isUserCreator={isUserCreator}
-                userId={this.props.user.id}
-                project={this.props.project}
-                showUploadIdeaModal={this.showUploadIdeaModal}
-                showAbandonIdeaModal={this.showAbandonIdeaModal}
-              />
-            ) : null}
-            {this.state.activeStep === 2 ? (
-              <PendingProposal
-                isUserCreator={isUserCreator}
-                userId={this.props.user.id}
-                project={this.props.project}
-                uploadProposalUrl={this.uploadProposalUrl}
-                showUploadIdeaModal={this.showUploadIdeaModal}
-                showAbandonIdeaModal={this.showAbandonIdeaModal}
-              />
-            ) : null}
-          </Row>
-        </BorderScreen>
+          </div>
+        </Row>
+        <Row>
+          {this.state.activeStep === 0 ? (
+            <CreateIdea
+              acceptRequest={this.props.acceptRequest}
+              rejectRequest={this.props.rejectRequest}
+              requests={this.props.requests}
+              showUploadIdeaModal={this.showUploadIdeaModal}
+            />
+          ) : null}
+          {this.state.activeStep === 1 ? (
+            <ReviewIdea
+              isUserCreator={isUserCreator}
+              userId={this.props.user.id}
+              project={this.props.project}
+              showUploadIdeaModal={this.showUploadIdeaModal}
+              showAbandonIdeaModal={this.showAbandonIdeaModal}
+            />
+          ) : null}
+          {this.state.activeStep === 2 ? (
+            <PendingProposal
+              isUserCreator={isUserCreator}
+              userId={this.props.user.id}
+              project={this.props.project}
+              uploadProposalUrl={this.uploadProposalUrl}
+              showUploadIdeaModal={this.showUploadIdeaModal}
+              showAbandonIdeaModal={this.showAbandonIdeaModal}
+            />
+          ) : null}
+        </Row>
         {isUserCreator && (
           <UploadIdeaModal
             uploadIdea={this.uploadIdea}

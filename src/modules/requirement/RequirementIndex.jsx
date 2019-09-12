@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Button, Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
@@ -12,7 +12,6 @@ import {
 } from './requirementReducer';
 import { getById } from '../../utils/services/functions';
 import Title from '../../utils/Title';
-import BorderScreen from '../../utils/styles/BorderScreen';
 import { requirementMessages } from '../../utils/messages';
 import { RequirementTable } from './RequirementTable';
 import CustomAlert from '../../utils/CustomAlert';
@@ -58,7 +57,7 @@ export class RequirementIndex extends React.Component {
 
   render() {
     return (
-      <BorderScreen>
+      <Fragment>
         <Title
           title={requirementMessages.TITLE}
           subtitle={requirementMessages.SUBTITLE}
@@ -96,7 +95,7 @@ export class RequirementIndex extends React.Component {
             this.DeleteModal = modal;
           }}
         />
-      </BorderScreen>
+      </Fragment>
     );
   }
 
