@@ -212,8 +212,8 @@ const mapDispatch = (dispatch) => ({
   uploadProposalUrl: (project, url) => {
     dispatch(uploadProposalUrl(project, url));
   },
-  acceptRequest: (requestId) => {
-    dispatch(acceptRequest(requestId));
+  acceptRequest: (requestId, projectId) => {
+    dispatch(acceptRequest(requestId, projectId));
   },
   rejectRequest: (requestId) => {
     dispatch(rejectRequest(requestId));

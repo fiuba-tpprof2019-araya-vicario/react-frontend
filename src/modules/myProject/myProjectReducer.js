@@ -25,7 +25,6 @@ const ABANDON_IDEA = 'ABANDON_IDEA';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const HYDRATE_REQUESTS_STUDENT = 'HYDRATE_REQUESTS_STUDENT';
-const ACEPTED_IDEA = 'ACEPTED_IDEA';
 
 const initialState = {
   alert: null,
@@ -50,18 +49,13 @@ export const queryError = (err) => ({
   err
 });
 
-export const ideaUploaded = (data) => ({
+export const ideaAsigned = (data) => ({
   type: POST_IDEA,
   data
 });
 
 export const hydrateRequests = (data) => ({
   type: HYDRATE_REQUESTS_STUDENT,
-  data
-});
-
-const ideaAccepted = (data) => ({
-  type: ACEPTED_IDEA,
   data
 });
 
@@ -195,7 +189,6 @@ export const uploadProposalUrl = (project, url) => (dispatch) => {
     .put(api.project(project.id), body, config)
     .then((res) => res.data.data)
     .then(() => {
-      dispatch(ideaUploaded(project.id));
       getActiveProject(project.id, dispatch);
     })
     .then(() => {
@@ -232,7 +225,7 @@ export const uploadIdea = ({
     .post(api.projects, body, config)
     .then((res) => res.data.data)
     .then((projectId) => {
-      dispatch(ideaUploaded(projectId));
+      dispatch(ideaAsigned(projectId));
       getActiveProject(projectId, dispatch);
     })
     .then(() => {
@@ -269,7 +262,7 @@ export const acceptRequest = (requestId, projectId) => (dispatch) => {
     .put(api.acceptStudentRequest(requestId), body, config)
     .then((res) => res.data.data)
     .then(() => {
-      dispatch(ideaAccepted(projectId));
+      dispatch(ideaAsigned(projectId));
       getActiveProject(projectId, dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
@@ -337,7 +330,7 @@ export const editIdea = (
     .put(api.project(projectId), body, config)
     .then((res) => res.data.data)
     .then(() => {
-      dispatch(ideaUploaded(projectId));
+      dispatch(ideaAsigned(projectId));
       getActiveProject(projectId, dispatch);
     })
     .then(() => {
@@ -357,7 +350,7 @@ export const abandonIdea = (projectId, memberId) => (dispatch) => {
     .delete(api.abandonStudentProject(projectId, memberId), config)
     .then((res) => res.data.data)
     .then(() => {
-      dispatch(ideaUploaded(null));
+      dispatch(ideaAsigned(null));
       getActiveProject(null, dispatch);
     })
     .then(() => {

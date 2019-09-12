@@ -28,8 +28,6 @@ export default class CreateIdea extends React.Component {
   acceptRequest(id) {
     const request = getById(this.props.requests, id);
 
-    console.log(request);
-
     this.AcceptModal.getRef().showModal(
       request.id,
       request.projectId,
