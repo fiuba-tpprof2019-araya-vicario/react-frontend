@@ -11,6 +11,7 @@ import NavBar from '../layout/WebNavBar';
 import Private from '../utils/PrivateRoute';
 import MyProject from '../modules/myProject/MyProjectIndex';
 import MyTutorials from '../modules/myTutorials/MyTutorialsIndex';
+import User from '../modules/user/UserIndex';
 import MyTutorialsDetail from '../modules/myTutorials/MyTutorialsDetail';
 import Contact from '../modules/contact/ContactIndex';
 import Request from '../modules/request/RequestIndex';
@@ -92,6 +93,12 @@ class App extends React.Component {
                 path="/requirements"
                 requiredCredentials={CREDENTIALS.GET_PROJECTS}
                 component={Requirement}
+              />
+              <Private
+                exact
+                path="/users"
+                requiredCredentials={CREDENTIALS.GET_PROJECTS}
+                component={User}
               />
               <Route exact path="/contact" component={Contact} />
             </Switch>

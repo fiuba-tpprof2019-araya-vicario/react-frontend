@@ -56,6 +56,16 @@ export const myTutorialsMessages = {
     'Debes colaborar con tus alumnos para realizar una propuesta'
 };
 
+export const userMessages = {
+  TITLE: 'Administración de usuarios',
+  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados',
+  ABANDON_SUCCESS: 'Abandonaste el proyecto correctamente',
+  NEW_STEP_PROJECT_CREATED_INFO:
+    'Si aceptas la solicitud pasaras a ser el tutor de este proyecto',
+  NEW_STEP_PROJECT_ACCEPTED_INFO:
+    'Debes colaborar con tus alumnos para realizar una propuesta'
+};
+
 export const utilsMessages = {
   QUERY_ERROR:
     'Se produjo un error al comunicarse con el servidor, vuelve a intentar en unos minutos'

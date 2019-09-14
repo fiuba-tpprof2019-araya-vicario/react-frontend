@@ -16,10 +16,9 @@ const ADD_ROL = 'ADD_ROL';
 const PATCH_USUARIO = 'PATCH_USUARIO';
 
 const initialState = {
-  result: [],
+  results: [],
   alert: null,
   allRoles: [],
-  allOrganismos: [],
   activeUser: {},
   activeSearch: false
 };
@@ -53,7 +52,7 @@ export const organismosTodos = (data) => ({
   data
 });
 
-export const usuarios = (data) => ({
+export const users = (data) => ({
   type: HYDRATE_USUARIOS,
   data
 });
@@ -85,13 +84,12 @@ export const clearUsers = () => (dispatch) => {
 
 export const getUsuarioById = (id) => (dispatch) => {
   const config = getConfig();
-  const queryStringOrganismos = '?sort_by=nombre';
 
   axios
     .all([
-      axios.get(`${api.usuarios}/${id}`, config),
+      axios.get(`${api.users}/${id}`, config),
       axios.get(api.roles, config),
-      axios.get(api.organismos + queryStringOrganismos, config)
+      axios.get(api.organismos, config)
     ])
     .then(
       axios.spread((usuario, roles, organismos) => ({
@@ -108,33 +106,18 @@ export const getUsuarioById = (id) => (dispatch) => {
     });
 };
 
-export const getUsuarios = (nombre, email, organismo) => (dispatch) => {
+export const getUsers = (name, email) => (dispatch) => {
   const config = getConfig();
   let queryString = '';
 
-  if (nombre !== '') queryString += `?nombre=${nombre}`;
+  if (name !== '') queryString += `?name=${name}`;
   if (email !== '')
     queryString += queryString === '' ? `?email=${email}` : `&email=${email}`;
-  if (organismo !== '-1')
-    queryString +=
-      queryString === ''
-        ? `?organismo_id=${organismo}`
-        : `&organismo_id=${organismo}`;
-  const queryStringOrganismos = '?sort_by=nombre';
 
   axios
-    .all([
-      axios.get(api.usuarios + queryString, config),
-      axios.get(api.organismos + queryStringOrganismos, config)
-    ])
-    .then(
-      axios.spread((users, organismos) => ({
-        usuarios: usuarios.data.data,
-        organismos: organismos.data.data
-      }))
-    )
-    .then((data) => {
-      dispatch(usuarios(data));
+    .get(api.users + queryString, config)
+    .then((response) => {
+      dispatch(users(response.data.data));
     })
     .catch((err) => {
       if (err.response && err.response.status) {
@@ -145,15 +128,15 @@ export const getUsuarios = (nombre, email, organismo) => (dispatch) => {
     });
 };
 
-export const updateUsuario = (userId, nombre, email) => (dispatch) => {
+export const updateUsuario = (userId, name, email) => (dispatch) => {
   const config = getConfig();
   const body = {};
 
-  if (nombre) body.nombre = nombre;
+  if (name) body.name = name;
   if (email) body.email = email;
 
   axios
-    .patch(`${api.usuarios}/${userId}`, body, config)
+    .patch(`${api.users}/${userId}`, body, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(getUsuarioById(userId));
@@ -164,18 +147,18 @@ export const updateUsuario = (userId, nombre, email) => (dispatch) => {
     });
 };
 
-export const createUsuario = (nombre, email) => (dispatch) => {
+export const createUsuario = (name, email) => (dispatch) => {
   const config = getConfig();
   const body = {
-    nombre,
+    name,
     email
   };
 
   axios
-    .post(api.usuarios, body, config)
+    .post(api.users, body, config)
     .then((res) => res.data.data)
     .then((data) => {
-      dispatch(push(`/${api.claveUsuarios}/${data.id}`));
+      dispatch(push(`/${api.claveUsers}/${data.id}`));
     })
     .catch((err) => {
       if (err.response && err.response.status) {
@@ -188,10 +171,9 @@ export const createUsuario = (nombre, email) => (dispatch) => {
 
 export const obtenerOrganismos = () => (dispatch) => {
   const config = getConfig();
-  const queryStringOrganismos = '?sort_by=nombre';
 
   axios
-    .get(api.organismos + queryStringOrganismos, config)
+    .get(api.organismos, config)
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(organismosTodos(data));
@@ -209,7 +191,7 @@ export const deleteRol = (idUsuario, idRol) => (dispatch) => {
   const config = getConfig();
 
   axios
-    .delete(`${api.usuarios}/${idUsuario}/${api.claveRoles}/${idRol}`, config)
+    .delete(`${api.users}/${idUsuario}/${api.claveRoles}/${idRol}`, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(removerRol(idRol));
@@ -225,7 +207,7 @@ export const addRol = (idUsuario, idRol) => (dispatch) => {
   const body = { rol_id: idRol };
 
   axios
-    .post(`${api.usuarios}/${idUsuario}/${api.claveRoles}`, body, config)
+    .post(`${api.users}/${idUsuario}/${api.claveRoles}`, body, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(agregarRol(idRol));
@@ -236,12 +218,11 @@ export const addRol = (idUsuario, idRol) => (dispatch) => {
     });
 };
 
-const fetchUsuariosTable = (data) =>
+const fetchUsersTable = (data) =>
   data.map((rowObject) => ({
     id: rowObject.id,
-    nombre: rowObject.nombre,
-    email: rowObject.email,
-    organismo: rowObject.Organismo.nombre
+    name: rowObject.name,
+    email: rowObject.email
   }));
 
 // Auxiliares
@@ -265,27 +246,20 @@ const getRolAdd = (nuevoRolId, roles, allRoles) => {
 const fetchRoles = (data) =>
   data.map((rowObject) => ({
     id: rowObject.id,
-    nombre: rowObject.nombre,
+    name: rowObject.name,
     descripcion: rowObject.descripcion
-  }));
-
-const fetchOrganismos = (data) =>
-  data.map((rowObject) => ({
-    id: rowObject.id,
-    nombre: rowObject.nombre,
-    sigla: rowObject.sigla
   }));
 
 const fetchUsuario = (data) => {
   const roles = data.Roles.map((rowObject) => ({
     id: rowObject.id,
-    nombre: rowObject.nombre,
+    name: rowObject.name,
     descripcion: rowObject.descripcion
   }));
 
   return {
     id: data.id,
-    nombre: data.nombre,
+    name: data.name,
     email: data.email,
     roles,
     organismo: data.Organismo
@@ -297,23 +271,20 @@ export default (state = initialState, action) => {
     case HYDRATE_ORGANISMOS:
       return {
         ...state,
-        result: [],
-        allOrganismos: fetchOrganismos(action.data)
+        results: []
       };
     case HYDRATE_USUARIOS:
       return {
         ...state,
-        result: fetchUsuariosTable(action.data.usuarios),
-        allOrganismos: fetchOrganismos(action.data.organismos),
+        results: fetchUsersTable(action.data),
         activeSearch: true
       };
     case HYDRATE_USUARIO_BY_ID:
       return {
         ...state,
-        result: [],
+        results: [],
         activeUser: fetchUsuario(action.data.usuario),
-        allRoles: fetchRoles(action.data.roles),
-        allOrganismos: fetchOrganismos(action.data.organismos)
+        allRoles: fetchRoles(action.data.roles)
       };
     case REMOVE_ROL:
       return {
@@ -343,7 +314,7 @@ export default (state = initialState, action) => {
     case CLEAR_ALERT:
       return { ...state, alert: null };
     case CLEAR_USER_RESULT:
-      return { ...state, result: [], activeSearch: false };
+      return { ...state, results: [], activeSearch: false };
     default:
       return state;
   }

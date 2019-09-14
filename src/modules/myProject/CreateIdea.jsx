@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import Center from 'react-center';
 import history from '../../redux/history';
+import CustomAlert from '../../utils/CustomAlert';
 import { myProjectMessages, requestMessages } from '../../utils/messages';
 import { getById } from '../../utils/services/functions';
 import BorderScreen from '../../utils/styles/BorderScreen';
-import RequestTable from './RequestTable';
-import CustomAlert from '../../utils/CustomAlert';
 import AcceptRequestModal from './modals/AcceptRequestModal';
 import RejectRequestModal from './modals/RejectRequestModal';
+import RequestTable from './RequestTable';
 
 export default class CreateIdea extends React.Component {
   static propTypes = {
@@ -49,7 +49,7 @@ export default class CreateIdea extends React.Component {
   renderTable(requests, acceptRequest, rejectRequest) {
     if (requests == null || requests.length === 0) {
       return (
-        <CustomAlert size={5} message={requestMessages.NO_RESULTS_MESSAGE} />
+        <CustomAlert size={6} message={requestMessages.NO_RESULTS_MESSAGE} />
       );
     }
 
@@ -105,12 +105,15 @@ export default class CreateIdea extends React.Component {
           </Col>
         </Row>
         <br />
+        <br />
+        <br />
         <Center>
           <h3>
             <i className="fa fa-inbox" aria-hidden="true">
               &nbsp;
             </i>
-            Mis solicitudes para participar en otro proyecto
+            Mis solicitudes para participar en proyectos creados por otros
+            estudiantes
           </h3>
         </Center>
         {this.renderTable(

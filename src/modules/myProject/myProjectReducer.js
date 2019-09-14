@@ -115,19 +115,51 @@ const getCareers = (dispatch) => {
     careersLoaded([
       {
         value: 1,
-        label: 'Departamento Informática'
+        label: 'Ingeniería en Informática'
       },
       {
         value: 2,
-        label: 'Departamento Civil'
+        label: 'Ingeniería Civil'
       },
       {
         value: 3,
-        label: 'Departamento Electrónica'
+        label: 'Ingeniería Electrónica'
       },
       {
         value: 4,
-        label: 'Departamento Química'
+        label: 'Ingeniería Química'
+      },
+      {
+        value: 5,
+        label: 'Ingeniería de Alimentos'
+      },
+      {
+        value: 6,
+        label: 'Ingeniería Electricista'
+      },
+      {
+        value: 7,
+        label: 'Ingeniería en Agrimensura'
+      },
+      {
+        value: 8,
+        label: 'Ingeniería en Petróleo'
+      },
+      {
+        value: 9,
+        label: 'Ingeniería Industrial'
+      },
+      {
+        value: 10,
+        label: 'Ingeniería Mecánica'
+      },
+      {
+        value: 11,
+        label: 'Ingeniería Naval y Mecánica'
+      },
+      {
+        value: 12,
+        label: 'Lic. en Análisis de Sistemas'
       }
     ])
   );
