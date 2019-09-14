@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Col, Row } from 'react-bootstrap';
 import history from '../../redux/history';
 import { CustomTable } from '../../utils/CustomTable';
+import { userMessages } from '../../utils/messages';
 
 export default class UserTable extends React.Component {
   static propTypes = {
@@ -11,7 +12,7 @@ export default class UserTable extends React.Component {
   };
 
   editAction(id) {
-    history.push(`/usuarios/${id}`);
+    history.push(`/users/${id}`);
   }
 
   getTablaUsuarios() {
@@ -19,16 +20,20 @@ export default class UserTable extends React.Component {
 
     if (activeSearch && users.length >= 0) {
       return (
-        <CustomTable
-          data={users}
-          headers={['Nombre', 'Email', 'Perfiles']}
-          actions={{
-            detailAction: { action: this.editAction }
-          }}
-        />
+        <Row>
+          <Col md={8} lg={8}>
+            <CustomTable
+              data={users}
+              headers={['Nombre', 'Email']}
+              actions={{
+                detailAction: { action: this.editAction }
+              }}
+            />
+          </Col>
+        </Row>
       );
     } else if (this.props.activeSearch) {
-      return <Alert bsStyle="info">La búsqueda no trajo resultados</Alert>;
+      return <Alert bsStyle="info">{userMessages.NO_RESULTS_MESSAGE}</Alert>;
     }
 
     return null;

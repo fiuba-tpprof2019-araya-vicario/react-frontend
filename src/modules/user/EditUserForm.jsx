@@ -1,138 +1,168 @@
-// import React from 'react'
-// import ReactDOM from 'react-dom'
-// import { connect } from 'react-redux'
-// import { updateUsuario } from './userReducer'
-// import { getOrganismoSelectOptions } from '../../utils/utils'
+import PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
+import { FormControl } from 'react-bootstrap';
+import Field from '../../utils/forms/Field';
+import FullRow from '../../utils/styles/FullRow';
 
-// import Select from 'react-select'
-// import { Row, Col, FormControl } from 'react-bootstrap'
-// import { CustomFormField } from '../../utils/CustomFormField'
+export default class EditUserForm extends React.Component {
+  static propTypes = {
+    user: PropTypes.object,
+    editUser: PropTypes.func
+  };
 
-// export class EditarUsuarioForm extends React.Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       ready: false,
-//       updateForm: {
-//         nombre: { error: false, mensaje: '' },
-//         email: { error: false, mensaje: '' },
-//         organismo: { seleccionado: props.activeUser.organismo.id, error: false, mensaje: ''}
-//       }
-//     }
-//     this.updateOrganismoSelect = this.updateOrganismoSelect.bind(this)
-//     this.editarUsuarioSubmit = this.editarUsuarioSubmit.bind(this)
-//   }
+  constructor(props) {
+    super();
+    const user = props.user ? props.user : {};
 
-//   resetUpdateForm() {
-//     let updateForm = {
-//       nombre: { error: false, mensaje: '' },
-//       email: { error: false, mensaje: '' },
-//       organismo: { error: false, mensaje: '', seleccionado: this.state.organismo.seleccionado},
-//     }
-//     this.setState({ ...this.state, updateForm: updateForm })
-//   }
+    this.state = {
+      form: {
+        id: user.id,
+        name: {
+          error: false,
+          message: '',
+          value: user.name ? user.name : ''
+        },
+        email: {
+          error: false,
+          message: '',
+          value: user.email ? user.email : ''
+        }
+      }
+    };
+    this.onSubmit = this.onSubmit.bind(this);
+    this.updateName = this.updateName.bind(this);
+    this.updateEmail = this.updateEmail.bind(this);
+  }
 
-//   validarUpdateForm(nombre, email) {
-//     let formOk = true
+  updateName(newValue) {
+    this.setState({
+      ...this.state,
+      form: {
+        ...this.state.form,
+        name: { error: false, message: '', value: newValue.target.value }
+      }
+    });
+  }
 
-//     let updateForm = {
-//       nombre: { error: false, mensaje: '' },
-//       email: { error: false, mensaje: '' },
-//       organismo: this.state.updateForm.organismo
-//     }
+  updateEmail(newValue) {
+    this.setState({
+      ...this.state,
+      form: {
+        ...this.state.form,
+        email: { error: false, message: '', value: newValue.target.value }
+      }
+    });
+  }
 
-//     if (nombre == null || nombre == '') {
-//       updateForm.nombre.error = true
-//       updateForm.nombre.mensaje = 'Este campo es obligatorio'
-//       formOk = false
-//     } else {
-//       updateForm.nombre.error = false
-//       updateForm.nombre.mensaje = ''
-//     }
+  resetForm(props) {
+    const user = props.user ? props.user : {};
 
-//     if (email == null || email == '') {
-//       updateForm.email.error = true
-//       updateForm.email.mensaje = 'Este campo es obligatorio'
-//       formOk = false
-//     } else {
-//       updateForm.email.error = false
-//       updateForm.email.mensaje = ''
-//     }
+    this.setState({
+      form: {
+        name: {
+          error: false,
+          message: '',
+          value: user.name ? user.name : ''
+        },
+        email: {
+          error: false,
+          message: '',
+          value: user.email ? user.email : ''
+        }
+      }
+    });
+  }
 
-//     if (this.state.updateForm.organismo.seleccionado <= 0) {
-//       updateForm.organismo.error = true
-//       updateForm.organismo.mensaje = 'Este campo es obligatorio'
-//       formOk = false
-//     } else {
-//       updateForm.organismo.error = false
-//       updateForm.organismo.mensaje = ''
-//     }
+  validateForm(name, email) {
+    let formOk = true;
 
-//     this.setState({ ...this.state, updateForm: updateForm })
+    const form = {
+      name: { error: false, message: '', value: name },
+      email: { error: false, message: '', value: email }
+    };
 
-//     return formOk
-//   }
+    if (name == null || name === '') {
+      form.name.error = true;
+      form.name.message = 'Tenés que ingresar un nombre';
+      formOk = false;
+    } else {
+      form.name.error = false;
+      form.name.message = '';
+    }
 
-//   updateOrganismoSelect (newValue) {
-//     let newUpdateForm = {...this.state.updateForm}
-//     newUpdateForm.organismo.seleccionado = (newValue != null) ? newValue.value : -1
-//     this.setState({
-//       ...this.state,
-//       updateForm: newUpdateForm
-//     })
-//   }
+    if (email == null || email === '') {
+      form.email.error = true;
+      form.email.message = 'Tenés que un email';
+      formOk = false;
+    } else {
+      form.email.error = false;
+      form.email.message = '';
+    }
 
-//   editarUsuarioSubmit () {
-//     if (this.validarUpdateForm(ReactDOM.findDOMNode(this.nombreInput).value,
-//       ReactDOM.findDOMNode(this.emailInput).value)) {
-//       this.props.updateUsuario(
-//         this.props.activeUser.id,
-//         ReactDOM.findDOMNode(this.nombreInput).value,
-//         this.state.updateForm.organismo.seleccionado,
-//         ReactDOM.findDOMNode(this.emailInput).value,
-//         null, null)
-//     }
-//   }
+    this.setState({ ...this.state, form });
 
-//   render() {
-//     return (
-//       <form>
-//         <Row>
-//           <Col lg={4} md={4}>
-//             <CustomFormField  validationState={this.state.updateForm.nombre.error ? 'error' : null}
-//               validationMessage={this.state.updateForm.nombre.mensaje} bsSize="small" controlId="nombre"
-//               label="Nombre" inputComponent={
-//                 <FormControl defaultValue={this.props.activeUser.nombre} key="nombreInput" bsSize="small"
-//                   ref={nombreInput => { this.nombreInput = nombreInput }} type="text"></FormControl>
-//               }/>
-//           </Col>
-//           <Col lg={4} md={4}>
-//             <CustomFormField validationState={this.state.updateForm.organismo.error ? 'error' : null}
-//               validationMessage={this.state.updateForm.organismo.mensaje} bsSize="small" controlId="organismoSelect" label="Organismo"
-//               inputComponent={
-//                 <Select name="organismoSelect" value={this.state.updateForm.organismo.seleccionado}
-//                   options={getOrganismoSelectOptions(this.props.allOrganismos,true)} id="organismoSelect"
-//                   key="organismoSelect" onChange={this.updateOrganismoSelect} placeholder="Seleccioná un organismo"/>
-//               }/>
-//           </Col>
-//           <Col lg={4} md={4}>
-//             <CustomFormField  validationState={this.state.updateForm.email.error ? 'error' : null}
-//               validationMessage={this.state.updateForm.email.mensaje} bsSize="small" controlId="email"
-//               label="Email" inputComponent={
-//                 <FormControl defaultValue={this.props.activeUser.email} key="emailInput" bsSize="small"
-//                   ref={emailInput => { this.emailInput = emailInput }} type="text"></FormControl>
-//               }/>
-//           </Col>
-//         </Row>
-//       </form>
-//     )
-//   }
-// }
+    return formOk;
+  }
 
-// const mapDispatch = (dispatch) => ({
-//   updateUsuario: (idUsuario, nombreUsuario, organismo, email, password, confirmacionPassword) => {
-//     dispatch(updateUsuario(idUsuario, nombreUsuario, organismo, email, password, confirmacionPassword))
-//   }
-// })
+  showModal() {
+    this.setState({ show: true });
+  }
 
-// export default connect(null, mapDispatch, null, { withRef: true } )(EditarUsuarioForm)
+  hideModal() {
+    this.setState({ show: false });
+  }
+
+  onSubmit() {
+    const { id } = this.state;
+    const name = this.state.form.name.value;
+    const email = this.state.form.email.value;
+
+    if (this.validateForm(name, email)) {
+      this.props.editUser(id, {
+        name,
+        email
+      });
+    }
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <FullRow key="row1">
+          <Field
+            controlId="nameInput"
+            label="Nombre"
+            required
+            validationState={this.state.form.name.error}
+            validationMessage={this.state.form.name.message}
+            inputComponent={
+              <FormControl
+                type="text"
+                value={this.state.form.name.value}
+                disabled
+                placeholder="Ingrese un nombre"
+                onChange={this.updateName}
+              />
+            }
+          />
+          <Field
+            controlId="emailInput"
+            label="Email"
+            required
+            validationState={this.state.form.email.error}
+            validationMessage={this.state.form.email.message}
+            inputComponent={
+              <FormControl
+                type="text"
+                value={this.state.form.email.value}
+                disabled
+                placeholder="Ingrese un email"
+                onChange={this.updateEmail}
+              />
+            }
+          />
+        </FullRow>
+      </Fragment>
+    );
+  }
+}

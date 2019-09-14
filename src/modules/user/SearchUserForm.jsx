@@ -10,7 +10,8 @@ export default class BuscarUsuarioForm extends React.Component {
 
   constructor() {
     super();
-
+    this.updateEmail = this.updateEmail.bind(this);
+    this.updateName = this.updateName.bind(this);
     this.state = {
       name: '',
       email: ''

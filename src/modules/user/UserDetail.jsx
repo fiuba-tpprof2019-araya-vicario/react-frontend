@@ -6,24 +6,26 @@ import { Row, Col, Grid, Panel, Button } from 'react-bootstrap';
 import history from '../../redux/history';
 import { getUserById, clearAlert } from './userReducer';
 import LoadingModal from '../../utils/LoadingModal';
-import EditUserRoles from './EditUserRoles';
+import Title from '../../utils/Title';
+// import EditUserRoles from './EditUserRoles';
 import EditUserForm from './EditUserForm';
+import { userMessages } from '../../utils/messages';
 
-export class EditUser extends React.Component {
+export class UserDetail extends React.Component {
   constructor() {
     super();
+    console.log('lalalalala');
     this.state = {
       ready: false
     };
-    this.abrirModalCambiarPass = this.abrirModalCambiarPass.bind(this);
     this.submitEditForm = this.submitEditForm.bind(this);
   }
 
   static propTypes = {
-    userId: PropTypes.number,
+    userId: PropTypes.string,
     user: PropTypes.func,
     allRoles: PropTypes.array,
-    activeUser: PropTypes.array
+    activeUser: PropTypes.object
   };
 
   componentDidMount() {
@@ -43,26 +45,22 @@ export class EditUser extends React.Component {
     if (this.state.ready) {
       return (
         <Grid fluid>
-          <Row>
-            <Col md={12}>
-              <h4>Edit user</h4>
-            </Col>
-          </Row>
+          <Title title={userMessages.TITLE} />
           <EditUserForm
             ref={(formEdit) => {
               this.formEdit = formEdit;
             }}
             allRoles={this.props.allRoles}
-            activeUser={this.props.activeUser}
+            user={this.props.activeUser}
           />
           <Row>
             <Col md={8}>
               <Panel>
                 <Panel.Body>
-                  <EditUserRoles
+                  {/* <EditUserRoles
                     activeUser={this.props.activeUser}
                     allRoles={this.props.allRoles}
-                  />
+                  /> */}
                 </Panel.Body>
               </Panel>
             </Col>
@@ -110,5 +108,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatch
-  )(EditUser)
+  )(UserDetail)
 );

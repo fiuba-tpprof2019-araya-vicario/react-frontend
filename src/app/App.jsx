@@ -12,9 +12,10 @@ import Private from '../utils/PrivateRoute';
 import MyProject from '../modules/myProject/MyProjectIndex';
 import MyTutorials from '../modules/myTutorials/MyTutorialsIndex';
 import User from '../modules/user/UserIndex';
+import UserView from '../modules/user/UserDetail';
 import MyTutorialsDetail from '../modules/myTutorials/MyTutorialsDetail';
 import Contact from '../modules/contact/ContactIndex';
-import Request from '../modules/request/RequestIndex';
+// import Request from '../modules/request/RequestIndex';
 import Requirement from '../modules/requirement/RequirementIndex';
 import { persistor } from '../redux/store';
 import CustomAlert from '../utils/CustomAlert';
@@ -82,12 +83,12 @@ class App extends React.Component {
                 requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
                 component={MyTutorialsDetail}
               />
-              <Private
+              {/* <Private
                 exact
                 path="/requests"
                 requiredCredentials={CREDENTIALS.GET_PROJECTS}
                 component={Request}
-              />
+              /> */}
               <Private
                 exact
                 path="/requirements"
@@ -97,8 +98,16 @@ class App extends React.Component {
               <Private
                 exact
                 path="/users"
-                requiredCredentials={CREDENTIALS.GET_PROJECTS}
+                requiredCredentials={CREDENTIALS.GET_USERS}
+                // requiredCredentials={CREDENTIALS.EDIT_USERS}
                 component={User}
+              />
+              <Private
+                exact={false}
+                path="/users/:id"
+                requiredCredentials={CREDENTIALS.GET_USERS}
+                // requiredCredentials={CREDENTIALS.EDIT_USERS}
+                component={UserView}
               />
               <Route exact path="/contact" component={Contact} />
             </Switch>

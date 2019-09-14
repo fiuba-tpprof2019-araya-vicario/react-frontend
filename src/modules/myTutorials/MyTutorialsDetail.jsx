@@ -11,7 +11,7 @@ import AbandonProjectModal from './modals/AbandonProjectModal';
 import ShowIdea from '../../utils/components/ShowIdea';
 import history from '../../redux/history';
 
-export class MyProjectIndex extends React.Component {
+export class MyProjectDetail extends React.Component {
   static propTypes = {
     clearAlert: PropTypes.func,
     getMyTutorial: PropTypes.func,
@@ -158,5 +158,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatch
-  )(MyProjectIndex)
+  )(MyProjectDetail)
 );
