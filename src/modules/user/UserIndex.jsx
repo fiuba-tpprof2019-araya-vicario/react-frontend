@@ -22,49 +22,14 @@ export class UserIndex extends React.Component {
     results: PropTypes.array
   };
 
-  // constructor() {
-  //   super();
-  //   this.abrirModalCrearUsuario = this.abrirModalCrearUsuario.bind(this);
-  // }
-
-  componentDidMount() {
-    // this.props.obtenerOrganismos();
-  }
-
-  // openModalCreateUser() {
-  //   this.crearUsuarioModal.wrappedInstance.abrirModal();
-  // }
-
   render() {
     const { activeSearch, results, users } = this.props;
 
     return (
       <Fragment>
         <Title title={userMessages.TITLE} />
-        {/* <Row>
-          <Col lg={4} md={4} sm={4} xs={4}>
-            <br />
-            <Button
-              bsStyle="success"
-              bsSize="xsmall"
-              className="pull-right"
-              onClick={this.abrirModalCrearUsuario}
-            >
-              <i className="fa fa-plus" aria-hidden="true">
-                &nbsp;
-              </i>
-              Nuevo usuario
-            </Button>
-          </Col>
-        </Row> */}
         <SearchUserForm getUsuarios={users} />
         <UserTable activeSearch={activeSearch} users={results} />
-        {/*
-        <CrearUsuarioModal
-          ref={(modal) => {
-            this.crearUsuarioModal = modal;
-          }}
-        /> */}
       </Fragment>
     );
   }

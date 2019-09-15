@@ -44,6 +44,7 @@ export class CustomTable extends React.Component {
       editAction,
       deleteAction,
       acceptAction,
+      removeAction,
       rejectAction
     } = actions;
     let detailRender;
@@ -51,6 +52,7 @@ export class CustomTable extends React.Component {
     let deleteRender;
     let acceptRender;
     let rejectRender;
+    let removeRender;
 
     if (this.actionEnabled(editAction, row)) {
       editRender = (
@@ -71,6 +73,18 @@ export class CustomTable extends React.Component {
             className="fa fa-trash"
             title="Editar"
             onClick={() => deleteAction.action(row.id)}
+          />
+        </a>
+      );
+    }
+
+    if (this.actionEnabled(removeAction, row)) {
+      removeRender = (
+        <a role="button">
+          <i
+            className="fa fa-times"
+            title="Editar"
+            onClick={() => removeAction.action(row.id)}
           />
         </a>
       );
@@ -113,12 +127,13 @@ export class CustomTable extends React.Component {
     }
 
     return (
-      <td key="actions" className="actionsColumn pull-right">
-        {editRender}
-        {deleteRender}
-        {acceptRender}
-        {rejectRender}
+      <td key="actions" className="actionsColumn">
+        {removeRender}
         {detailRender}
+        {rejectRender}
+        {acceptRender}
+        {deleteRender}
+        {editRender}
       </td>
     );
   }

@@ -4,27 +4,30 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Row, Col, Grid, Panel, Button } from 'react-bootstrap';
 import history from '../../redux/history';
-import { getUserById, clearAlert } from './userReducer';
+import { getUserById, clearAlert, editUser } from './userReducer';
 import LoadingModal from '../../utils/LoadingModal';
 import Title from '../../utils/Title';
-// import EditUserRoles from './EditUserRoles';
+import EditUserProfiles from './EditUserProfiles';
 import EditUserForm from './EditUserForm';
 import { userMessages } from '../../utils/messages';
+import { getOnlyField } from '../../utils/services/functions';
 
 export class UserDetail extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
-    console.log('lalalalala');
     this.state = {
-      ready: false
+      ready: false,
+      profiles: props.profiles
     };
     this.submitEditForm = this.submitEditForm.bind(this);
+    this.refreshProfiles = this.refreshProfiles.bind(this);
   }
 
   static propTypes = {
     userId: PropTypes.string,
     user: PropTypes.func,
-    allRoles: PropTypes.array,
+    editUser: PropTypes.func,
+    profiles: PropTypes.array,
     activeUser: PropTypes.object
   };
 
@@ -37,8 +40,18 @@ export class UserDetail extends React.Component {
     this.state.ready = true;
   }
 
+  refreshProfiles(newProfiles) {
+    this.setState({
+      ...this.state,
+      profiles: newProfiles
+    });
+  }
+
   submitEditForm() {
-    this.formEdit.wrappedInstance.editarUserSubmit();
+    // this.formEdit.wrappedInstance.editarUserSubmit();
+    const profiles = getOnlyField(this.state.profiles, 'id');
+
+    this.props.editUser(this.props.userId, profiles);
   }
 
   render() {
@@ -50,17 +63,18 @@ export class UserDetail extends React.Component {
             ref={(formEdit) => {
               this.formEdit = formEdit;
             }}
-            allRoles={this.props.allRoles}
+            profiles={this.props.profiles}
             user={this.props.activeUser}
           />
           <Row>
             <Col md={8}>
               <Panel>
                 <Panel.Body>
-                  {/* <EditUserRoles
+                  <EditUserProfiles
                     activeUser={this.props.activeUser}
-                    allRoles={this.props.allRoles}
-                  /> */}
+                    profiles={this.props.profiles}
+                    refresh={this.refreshProfiles}
+                  />
                 </Panel.Body>
               </Panel>
             </Col>
@@ -94,6 +108,9 @@ const mapDispatch = (dispatch) => ({
   },
   clearAlert: () => {
     dispatch(clearAlert());
+  },
+  editUser: (userId, profiles) => {
+    dispatch(editUser(userId, profiles));
   }
 });
 
@@ -101,7 +118,7 @@ const mapStateToProps = (state, ownProps) => ({
   alert: state.userReducer.alert,
   activeUser: state.userReducer.activeUser,
   userId: ownProps.match.params.id,
-  allRoles: state.userReducer.allRoles
+  profiles: state.userReducer.profiles
 });
 
 export default withRouter(

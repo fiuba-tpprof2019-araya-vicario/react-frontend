@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
-export class Dialogue extends React.Component {
+export default class Dialogue extends React.Component {
   static propTypes = {
     show: PropTypes.bool,
-    body: PropTypes.element,
+    body: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
     title: PropTypes.string,
-    buttons: PropTypes.object
+    buttons: PropTypes.oneOfType([PropTypes.array, PropTypes.element])
   };
 
   constructor(props) {

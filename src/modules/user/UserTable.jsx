@@ -18,10 +18,10 @@ export default class UserTable extends React.Component {
   getTablaUsuarios() {
     const { activeSearch, users } = this.props;
 
-    if (activeSearch && users.length >= 0) {
+    if (activeSearch && users && users.length > 0) {
       return (
         <Row>
-          <Col md={8} lg={8}>
+          <Col md={6} lg={6}>
             <CustomTable
               data={users}
               headers={['Nombre', 'Email']}

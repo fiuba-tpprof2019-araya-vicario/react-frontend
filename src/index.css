@@ -91,10 +91,15 @@ body {
 
 .actionsColumn :not(:first-child) {
   margin-left: 0.5em;
+  margin-right: 0.5em;
+  margin-top: 0.1em;
+  float: right;
 }
 
 .actionsColumn :first-child {
   margin-left: 0em;
+  margin-top: 0.1em;
+  float: right;
 }
 
 .loading {

@@ -4,6 +4,7 @@ import { BASE } from './api';
 const LOGIN = 'auth';
 const PROJECTS = 'projects';
 const USERS = 'users';
+const PROFIlES = 'profiles';
 const REQUESTS = 'requests';
 const REQUIREMENTS = 'requirements';
 const CONTACT = 'contacts';
@@ -15,6 +16,7 @@ export const api = {
   projects: BASE + PROJECTS,
   projectsTutor: `${BASE + PROJECTS}/tutors`,
   users: BASE + USERS,
+  profiles: BASE + PROFIlES,
   requestsTutors: `${BASE + REQUESTS}/tutors`,
   requestsStudents: `${BASE + REQUESTS}/students`,
   requirements: BASE + REQUIREMENTS,

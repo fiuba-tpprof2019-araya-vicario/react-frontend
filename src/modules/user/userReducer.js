@@ -13,12 +13,13 @@ const CLEAR_USER_RESULT = 'CLEAR_USER_RESULT';
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const REMOVE_ROL = 'REMOVE_ROL';
 const ADD_ROL = 'ADD_ROL';
+const USER_EDITED = 'USER_EDITED';
 const PATCH_USER = 'PATCH_USER';
 
 const initialState = {
   results: [],
   alert: null,
-  allRoles: [],
+  profiles: [],
   activeUser: {},
   activeSearch: false
 };
@@ -57,6 +58,10 @@ export const users = (data) => ({
   data
 });
 
+export const userEdited = () => ({
+  type: USER_EDITED
+});
+
 export const userById = (data) => ({
   type: HYDRATE_USER_BY_ID,
   data
@@ -87,21 +92,21 @@ export const getUserById = (id) => (dispatch) => {
 
   axios
     .all([
-      axios.get(`${api.users}/${id}`, config)
-      // axios.get(api.roles, config),
+      axios.get(`${api.users}/${id}`, config),
+      axios.get(api.profiles, config)
     ])
     .then(
-      axios.spread((user /* roles */) => ({
-        user: user.data.data
-        // roles: roles.data.data,
+      axios.spread((user, profiles) => ({
+        user: user.data.data,
+        profiles: profiles.data.data
       }))
     )
     .then((data) => {
       dispatch(userById(data));
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
     });
-  // .catch((err) => {
-  //   dispatch(queryError(err));
-  // });
 };
 
 export const getUsers = (name, email) => (dispatch) => {
@@ -185,7 +190,7 @@ export const obtenerOrganismos = () => (dispatch) => {
     });
 };
 
-export const deleteRol = (idUser, idRol) => (dispatch) => {
+export const removeProfile = (idUser, idRol) => (dispatch) => {
   const config = getConfig();
 
   axios
@@ -200,7 +205,23 @@ export const deleteRol = (idUser, idRol) => (dispatch) => {
     });
 };
 
-export const addRol = (idUser, idRol) => (dispatch) => {
+export const editUser = (idUser, profiles) => (dispatch) => {
+  const config = getConfig();
+  const body = { profiles };
+
+  axios
+    .put(`${api.users}/${idUser}`, body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(userEdited());
+      dispatch(successful('El usuario se agregó correctamente'));
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+    });
+};
+
+export const addProfile = (idUser, idRol) => (dispatch) => {
   const config = getConfig();
   const body = { rol_id: idRol };
 
@@ -230,24 +251,24 @@ const getRolRemover = (rolId, activeUser) => {
   return nuevosRoles;
 };
 
-const getRolAdd = (nuevoRolId, roles, allRoles) => {
+const getRolAdd = (nuevoRolId, roles, profiles) => {
   // eslint-disable-next-line radix
-  const nuevoRol = _.find(allRoles, { id: parseInt(nuevoRolId) });
+  const nuevoRol = _.find(profiles, { id: parseInt(nuevoRolId) });
 
   roles.push(nuevoRol);
 
   return roles;
 };
 
-// const fetchRoles = (data) =>
-//   data.map((rowObject) => ({
-//     id: rowObject.id,
-//     name: rowObject.name,
-//     descripcion: rowObject.descripcion
-//   }));
+const fetchRoles = (data) =>
+  data.map((rowObject) => ({
+    id: rowObject.id,
+    name: rowObject.name,
+    description: rowObject.description
+  }));
 
 const fetchUser = (data) => {
-  const roles = data.Profiles.map((rowObject) => ({
+  const profiles = data.Profiles.map((rowObject) => ({
     id: rowObject.id,
     name: rowObject.name,
     description: rowObject.description
@@ -257,13 +278,11 @@ const fetchUser = (data) => {
     id: data.id,
     name: `${data.name} ${data.surname}`,
     email: data.email,
-    roles
+    profiles
   };
 };
 
 export default (state = initialState, action) => {
-  console.log(action.data);
-
   switch (action.type) {
     case HYDRATE_ORGANISMOS:
       return {
@@ -281,7 +300,7 @@ export default (state = initialState, action) => {
         ...state,
         results: [],
         activeUser: fetchUser(action.data.user),
-        // allRoles: fetchRoles(action.data.roles)
+        profiles: fetchRoles(action.data.profiles)
       };
     case REMOVE_ROL:
       return {
@@ -296,18 +315,32 @@ export default (state = initialState, action) => {
         ...state,
         activeUser: {
           ...state.activeUser,
-          roles: getRolAdd(action.data, state.activeUser.roles, state.allRoles)
+          roles: getRolAdd(action.data, state.activeUser.roles, state.profiles)
         }
       };
     case QUERY_ERROR:
-      return { ...state, alert: { style: 'danger', text: action.err.message } };
+      return {
+        ...state,
+        alert: {
+          style: 'danger',
+          message: action.err.message,
+          onDismiss: clearAlert
+        }
+      };
     case INTERNAL_ERROR:
       return {
         ...state,
-        alert: { style: 'danger', text: 'Ocurrió un error inesperado' }
+        alert: {
+          style: 'danger',
+          message: 'Ocurrió un error inesperado',
+          onDismiss: clearAlert
+        }
       };
     case SUCCESSFUL:
-      return { ...state, alert: { style: 'success', text: action.text } };
+      return {
+        ...state,
+        alert: { style: 'success', message: action.text, onDismiss: clearAlert }
+      };
     case CLEAR_ALERT:
       return { ...state, alert: null };
     case CLEAR_USER_RESULT:
