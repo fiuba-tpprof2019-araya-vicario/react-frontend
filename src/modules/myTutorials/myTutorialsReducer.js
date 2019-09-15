@@ -152,6 +152,7 @@ export const getInitialData = () => (dispatch) => {
 const fetchMyTutorialsTable = (data) =>
   data.map((project) => ({
     id: project.id,
+    requestId: project.TutorRequests[0].id,
     name: project.name,
     description: project.description,
     type: project.Type.name,

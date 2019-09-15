@@ -98,15 +98,13 @@ class App extends React.Component {
               <Private
                 exact
                 path="/users"
-                requiredCredentials={CREDENTIALS.GET_USERS}
-                // requiredCredentials={CREDENTIALS.EDIT_USERS}
+                requiredCredentials={CREDENTIALS.EDIT_USERS}
                 component={User}
               />
               <Private
                 exact={false}
                 path="/users/:id"
-                requiredCredentials={CREDENTIALS.GET_USERS}
-                // requiredCredentials={CREDENTIALS.EDIT_USERS}
+                requiredCredentials={CREDENTIALS.EDIT_USERS}
                 component={UserView}
               />
               <Route exact path="/contact" component={Contact} />

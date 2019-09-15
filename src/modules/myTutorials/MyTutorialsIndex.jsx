@@ -45,9 +45,9 @@ export class MyTutorialsIndex extends React.Component {
     const request = getById(this.props.myTutorials, id);
 
     this.AcceptModal.getRef().showModal(
+      request.requestId,
       request.id,
-      request.projectId,
-      request.project,
+      request.name,
       this.props.acceptRequest
     );
   }

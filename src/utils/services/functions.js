@@ -31,12 +31,16 @@ export function getSelectOptionsWithIgnore(
   options,
   ignoreValue,
   valueString = 'id',
-  labelString = 'name'
+  labelString = 'name',
+  surlabelString = 'surname'
 ) {
   return (
     options &&
     options
-      .map((elem) => ({ value: elem[valueString], label: elem[labelString] }))
+      .map((elem) => ({
+        value: elem[valueString],
+        label: `${elem[labelString]} ${elem[surlabelString]}`
+      }))
       .filter((elem) => elem.value !== ignoreValue)
   );
 }

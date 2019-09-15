@@ -20,23 +20,25 @@ export const Home = () => {
       <br />
       <Row className="text-center">
         <Center>
-          <Col md={2} lg={2}>
-            <Row>
-              <Center>
-                <button className="onlyIcon">
-                  <i
-                    className="fa fa-user-circle bigIcon"
-                    aria-hidden="true"
-                    onClick={() => access('/my_projects')}
-                  />
-                </button>
-              </Center>
-            </Row>
-            <Row>
-              <h4>Mi perfil</h4>
-            </Row>
-            <Row>Edita tu información personal</Row>
-          </Col>
+          <WithAuthorization requiredCredentials={CREDENTIALS.EDIT_USERS}>
+            <Col md={2} lg={2}>
+              <Row>
+                <Center>
+                  <button className="onlyIcon">
+                    <i
+                      className="fa fa-user-circle bigIcon"
+                      aria-hidden="true"
+                      onClick={() => access('/users')}
+                    />
+                  </button>
+                </Center>
+              </Row>
+              <Row>
+                <h4>Administrar usuarios</h4>
+              </Row>
+              <Row>Edita los perfiles de los usuarios</Row>
+            </Col>
+          </WithAuthorization>
           {/* <WithAuthorization requiredCredentials={CREDENTIALS.GET_PROJECTS}>
           <Col md={2} lg={2}>
             <Row>
