@@ -53,7 +53,30 @@ export const myTutorialsMessages = {
   NEW_STEP_PROJECT_CREATED_INFO:
     'Si aceptas la solicitud pasaras a ser el tutor de este proyecto',
   NEW_STEP_PROJECT_ACCEPTED_INFO:
-    'Debes colaborar con tus alumnos para realizar una propuesta'
+    'Debes colaborar con los integrantes del proyecto para realizar una propuesta'
+};
+
+export const commissionsMessages = {
+  TITLE: 'Mis comisiones',
+  SUBTITLE: 'Aministra los distintas projectos en curso',
+  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados',
+  ABANDON_SUCCESS: 'Abandonaste el proyecto correctamente',
+  NEW_STEP_PROJECT_CREATED_INFO:
+    'Si aceptas la solicitud pasaras a ser el tutor de este proyecto',
+  NEW_STEP_PROJECT_ACCEPTED_INFO:
+    'Debes colaborar con los integrantes del proyecto para realizar una propuesta'
+};
+
+export const ideasMessages = {
+  TITLE: 'Ideas',
+  SUBTITLE:
+    'Conocé los distintas ideas que se estan llevando a cabo por otros estudiantes',
+  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados',
+  ABANDON_SUCCESS: 'Abandonaste el proyecto correctamente',
+  NEW_STEP_PROJECT_CREATED_INFO:
+    'Si aceptas la solicitud pasaras a ser el tutor de este proyecto',
+  NEW_STEP_PROJECT_ACCEPTED_INFO:
+    'Debes colaborar con los integrantes del proyecto para realizar una propuesta'
 };
 
 export const userMessages = {

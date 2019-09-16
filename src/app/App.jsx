@@ -12,6 +12,7 @@ import Private from '../utils/PrivateRoute';
 import MyProject from '../modules/myProject/MyProjectIndex';
 import MyTutorials from '../modules/myTutorials/MyTutorialsIndex';
 import User from '../modules/user/UserIndex';
+import Idea from '../modules/idea/IdeasIndex';
 import UserView from '../modules/user/UserDetail';
 import MyTutorialsDetail from '../modules/myTutorials/MyTutorialsDetail';
 import Contact from '../modules/contact/ContactIndex';
@@ -94,6 +95,12 @@ class App extends React.Component {
                 path="/requirements"
                 requiredCredentials={CREDENTIALS.GET_PROJECTS}
                 component={Requirement}
+              />
+              <Private
+                exact
+                path="/ideas"
+                requiredCredentials={CREDENTIALS.GET_PROJECTS}
+                component={Idea}
               />
               <Private
                 exact

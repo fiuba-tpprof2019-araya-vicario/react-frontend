@@ -19,8 +19,13 @@ export class UserIndex extends React.Component {
   static propTypes = {
     activeSearch: PropTypes.bool,
     users: PropTypes.func,
-    results: PropTypes.array
+    results: PropTypes.array,
+    clearResult: PropTypes.func
   };
+
+  componentDidMount() {
+    this.props.clearResult();
+  }
 
   render() {
     const { activeSearch, results, users } = this.props;

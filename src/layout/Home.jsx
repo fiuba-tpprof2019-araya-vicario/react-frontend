@@ -88,7 +88,7 @@ export const Home = () => {
                     <i
                       className="fa fa-lightbulb-o bigIcon"
                       aria-hidden="true"
-                      onClick={() => access('/my_projects')}
+                      onClick={() => access('/ideas')}
                     />
                   </button>
                 </Center>
@@ -116,6 +116,25 @@ export const Home = () => {
                 <h4>Requerimientos</h4>
               </Row>
               <Row>Colabora con los distintos requerimientos solicitados</Row>
+            </Col>
+          </WithAuthorization>
+          <WithAuthorization requiredCredentials={CREDENTIALS.APPROVE_PROJECTS}>
+            <Col md={2} lg={2}>
+              <Row>
+                <Center>
+                  <button className="onlyIcon">
+                    <i
+                      className="fa fa-gavel bigIcon"
+                      aria-hidden="true"
+                      onClick={() => access('/users')}
+                    />
+                  </button>
+                </Center>
+              </Row>
+              <Row>
+                <h4>Comisión curricular</h4>
+              </Row>
+              <Row>Administrá los proyectos en curso</Row>
             </Col>
           </WithAuthorization>
           <Col md={2} lg={2}>

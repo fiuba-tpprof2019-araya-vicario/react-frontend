@@ -7,23 +7,23 @@ import {
   getInitialData,
   acceptRequest,
   rejectRequest
-} from './myTutorialsReducer';
+} from './commissionsReducer';
 import Title from '../../utils/Title';
-import { myTutorialsMessages } from '../../utils/messages';
-import MyTutorialsTable from './MyTutorialsTable';
+import { commissionsMessages } from '../../utils/messages';
+import CommissionsTable from './CommissionsTable';
 import CustomAlert from '../../utils/CustomAlert';
 import { getById } from '../../utils/services/functions';
 import history from '../../redux/history';
 import AcceptRequestModal from './modals/AcceptRequestModal';
 import RejectRequestModal from './modals/RejectRequestModal';
 
-export class MyTutorialsIndex extends React.Component {
+export class CommissionsIndex extends React.Component {
   static propTypes = {
     clearAlert: PropTypes.func,
     getInitialData: PropTypes.func,
     acceptRequest: PropTypes.func,
     rejectRequest: PropTypes.func,
-    myTutorials: PropTypes.array
+    projects: PropTypes.array
   };
 
   constructor() {
@@ -38,11 +38,11 @@ export class MyTutorialsIndex extends React.Component {
   }
 
   detailAction(id) {
-    history.push(`/my_tutorials/${id}`);
+    history.push(`/commissions/${id}`);
   }
 
   acceptRequest(id) {
-    const request = getById(this.props.myTutorials, id);
+    const request = getById(this.props.projects, id);
 
     this.AcceptModal.getRef().showModal(
       request.requestId,
@@ -53,7 +53,7 @@ export class MyTutorialsIndex extends React.Component {
   }
 
   rejectRequest(id) {
-    const request = getById(this.props.myTutorials, id);
+    const request = getById(this.props.projects, id);
 
     this.RejectModal.getRef().showModal(
       request.id,
@@ -66,8 +66,8 @@ export class MyTutorialsIndex extends React.Component {
     return (
       <Fragment>
         <Title
-          title={myTutorialsMessages.TITLE}
-          subtitle={myTutorialsMessages.SUBTITLE}
+          title={commissionsMessages.TITLE}
+          subtitle={commissionsMessages.SUBTITLE}
         />
         <br />
         {this.renderTable()}
@@ -86,13 +86,13 @@ export class MyTutorialsIndex extends React.Component {
   }
 
   renderTable() {
-    if (this.props.myTutorials == null || this.props.myTutorials.length === 0) {
-      return <CustomAlert message={myTutorialsMessages.NO_RESULTS_MESSAGE} />;
+    if (this.props.projects == null || this.props.projects.length === 0) {
+      return <CustomAlert message={commissionsMessages.NO_RESULTS_MESSAGE} />;
     }
 
     return (
-      <MyTutorialsTable
-        data={this.props.myTutorials}
+      <CommissionsTable
+        data={this.props.projects}
         show={this.detailAction}
         accept={this.acceptRequest}
         reject={this.rejectRequest}
@@ -102,8 +102,8 @@ export class MyTutorialsIndex extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  loading: state.myTutorialsReducer.loading,
-  myTutorials: state.myTutorialsReducer.myTutorials
+  loading: state.commissionsReducer.loading,
+  projects: state.commissionsReducer.projects
 });
 
 const mapDispatch = (dispatch) => ({
@@ -125,5 +125,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatch
-  )(MyTutorialsIndex)
+  )(CommissionsIndex)
 );

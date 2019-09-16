@@ -2,14 +2,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { CustomTable } from '../../utils/CustomTable';
-import { STATES } from '../../utils/services/references';
+// import { STATES } from '../../utils/services/references';
 
-export default class MyTutorialsTable extends React.Component {
+export default class IdeasTable extends React.Component {
   static propTypes = {
     data: PropTypes.array,
-    show: PropTypes.func,
-    accept: PropTypes.func,
-    reject: PropTypes.func
+    show: PropTypes.func
+    // accept: PropTypes.func,
+    // reject: PropTypes.func
   };
 
   getHeaders() {
@@ -24,17 +24,17 @@ export default class MyTutorialsTable extends React.Component {
   }
 
   render() {
-    const disableButton = (request) =>
-      request.requestStatusId !== STATES.pending;
+    // const disableButton = (request) =>
+    //   request.requestStatusId !== STATES.pending;
 
     return (
       <CustomTable
         headers={this.getHeaders()}
         data={this.props.data}
         actions={{
-          detailAction: { action: this.props.show },
-          acceptAction: { action: this.props.accept, disabled: disableButton },
-          rejectAction: { action: this.props.reject, disabled: disableButton }
+          detailAction: { action: this.props.show }
+          // acceptAction: { action: this.props.accept, disabled: disableButton },
+          // rejectAction: { action: this.props.reject, disabled: disableButton }
         }}
       />
     );
