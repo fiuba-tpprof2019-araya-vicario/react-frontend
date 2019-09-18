@@ -10,7 +10,7 @@ export default class PendingProposal extends React.Component {
     isUserCreator: PropTypes.bool,
     showUploadIdeaModal: PropTypes.func,
     showAbandonIdeaModal: PropTypes.func,
-    uploadProposalUrl: PropTypes.func
+    uploadProposal: PropTypes.func
   };
 
   render() {
@@ -20,12 +20,12 @@ export default class PendingProposal extends React.Component {
       isUserCreator,
       showUploadIdeaModal,
       showAbandonIdeaModal,
-      uploadProposalUrl
+      uploadProposal
     } = this.props;
 
     return (
       <ShowIdea
-        nextStepMessage={myProjectMessages.NEW_STEP_PROJECT_CREATED_INFO}
+        nextStepMessage={myProjectMessages.NEW_STEP_PROJECT_ACCEPTED_INFO}
         project={project}
         userId={userId}
         isUserCreator={isUserCreator}
@@ -33,7 +33,7 @@ export default class PendingProposal extends React.Component {
         showAbandonButton
         showUploadIdeaModal={showUploadIdeaModal}
         showAbandonIdeaModal={showAbandonIdeaModal}
-        uploadProposalUrl={uploadProposalUrl}
+        uploadProposal={uploadProposal}
       />
     );
   }

@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, FormControl, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import Field from '../../../utils/forms/Field';
-import { getFullName } from '../../../utils/services/functions';
+import { getFullName, getOnlyField } from '../../../utils/services/functions';
 import FullRow from '../../../utils/styles/FullRow';
 
 export default class UploadIdeaModal extends React.Component {
@@ -56,7 +56,8 @@ export default class UploadIdeaModal extends React.Component {
       tutors: [],
       projectType: project.type ? project.type : null,
       autor: project.creator ? getFullName(project.creator) : user.name,
-      show: false
+      show: false,
+      selectedUsers: []
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -68,12 +69,23 @@ export default class UploadIdeaModal extends React.Component {
     this.updateTutorSelect = this.updateTutorSelect.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
     this.updateDescription = this.updateDescription.bind(this);
+    this.refreshSelectedUsers = this.refreshSelectedUsers.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.project !== this.props.project) {
       this.resetForm(this.props);
     }
+  }
+
+  refreshSelectedUsers(tutor, coautors) {
+    console.log('>>>>', this.state);
+
+    const selectedUsers = [...getOnlyField(coautors), tutor];
+
+    console.log(selectedUsers);
+
+    return selectedUsers;
   }
 
   updateProjectTypeSelect(newValue) {
@@ -87,19 +99,30 @@ export default class UploadIdeaModal extends React.Component {
   }
 
   updateAutorsSelect(newValue) {
+    const tutor = this.state.tutor ? this.state.tutor.value : null;
+    const selectedUsers = this.refreshSelectedUsers(tutor, newValue);
+
     this.setState({
       ...this.state,
       form: {
         ...this.state.form,
         coautors: { error: false, message: '', value: newValue }
-      }
+      },
+      selectedUsers
     });
   }
 
   updateTutorSelect(newValue) {
+    const coautors = this.state.form.coautors.value;
+    const selectedUsers = this.refreshSelectedUsers(
+      newValue ? newValue.value : null,
+      coautors
+    );
+
     this.setState({
       ...this.state,
-      tutor: newValue
+      tutor: newValue,
+      selectedUsers
     });
   }
 
@@ -145,6 +168,7 @@ export default class UploadIdeaModal extends React.Component {
     const user = props.user ? props.user : {};
 
     this.setState({
+      selectedUsers: [],
       file: null,
       id: props.project.id,
       form: {
@@ -372,6 +396,9 @@ export default class UploadIdeaModal extends React.Component {
                     (element) => !element.isFixed
                   )}
                   options={this.props.coautors}
+                  // options={this.props.coautors.filter(
+                  //   (x) => this.state.selectedUsers.indexOf(x) < 0
+                  // )}
                   id="coautorsSelect"
                   placeholder="Seleccione coautores"
                   name="coautorsSelect"
@@ -393,6 +420,9 @@ export default class UploadIdeaModal extends React.Component {
                   value={this.state.tutor}
                   onChange={this.updateTutorSelect}
                   options={this.props.tutors}
+                  // options={this.props.tutors.filter(
+                  //   (x) => this.state.selectedUsers.indexOf(x) < 0
+                  // )}
                   isSearchable
                   id="tutorSelect"
                   placeholder="Seleccione un tutor"

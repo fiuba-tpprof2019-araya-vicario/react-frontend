@@ -20,6 +20,14 @@ export const PROFILES = {
   INTERESTED: 5
 };
 
+export const USER_TYPE = {
+  ADMIN: 'admin',
+  STUDENT: 'student',
+  TUTOR: 'tutor',
+  COMMISSION: 'commission',
+  INTERESTED: 'interested'
+};
+
 export const PROJECT_TYPES = {
   TRABAJO_PROFESIONAL: 1,
   TESIS: 2,

@@ -22,6 +22,7 @@ export const api = {
   requirements: BASE + REQUIREMENTS,
   requirement: (id) => `${BASE + REQUIREMENTS}/${id}`,
   project: (id) => `${BASE + PROJECTS}/${id}`,
+  proposal: (id) => `${BASE + PROJECTS}/${id}/proposal`,
   abandonStudentProject: (projectId, memberId) =>
     `${BASE + PROJECTS}/${projectId}/students/${memberId}`,
   abandonTutorProject: (projectId, memberId) =>
@@ -55,7 +56,7 @@ export const getFirebaseConfig = () => ({
   }
 });
 
-export const getMultipartFormDataConfig = () => ({
+export const getConfigMultipart = () => ({
   headers: {
     Authorization: getStoredToken(),
     'content-type': 'multipart/form-data'

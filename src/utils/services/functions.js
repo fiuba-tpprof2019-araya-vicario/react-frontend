@@ -10,6 +10,12 @@ export function isValidEmail(email) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 }
 
+export function hasDuplicates(array) {
+  const set = new Set(array);
+
+  return set.size !== array.length;
+}
+
 export const formatterDate = (data) => {
   if (!data) {
     return '';
@@ -24,7 +30,9 @@ export const formatterDate = (data) => {
 };
 
 export function getOnlyField(values, valueString = 'value') {
-  return values.map((elem) => elem[valueString]);
+  return values && values.length > 0
+    ? values.map((elem) => elem[valueString])
+    : [];
 }
 
 export function getSelectOptionsWithIgnore(

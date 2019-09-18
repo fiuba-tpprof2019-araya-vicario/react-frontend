@@ -25,7 +25,7 @@ export default class ShowIdea extends React.Component {
     isUserCreator: PropTypes.bool,
     showUploadIdeaModal: PropTypes.func,
     showAbandonIdeaModal: PropTypes.func,
-    uploadProposalUrl: PropTypes.func
+    uploadProposal: PropTypes.func
   };
 
   getAutors() {
@@ -63,7 +63,7 @@ export default class ShowIdea extends React.Component {
       showAbandonButton,
       userId,
       showUploadIdeaModal,
-      uploadProposalUrl,
+      uploadProposal,
       isUserCreator,
       showProposal,
       nextStepMessage,
@@ -117,7 +117,7 @@ export default class ShowIdea extends React.Component {
             <ShowProposal
               project={project}
               isUserCreator={isUserCreator}
-              uploadProposalUrl={uploadProposalUrl}
+              uploadProposal={uploadProposal}
             />
           )}
           <br />

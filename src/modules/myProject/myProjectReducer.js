@@ -1,8 +1,12 @@
 import axios from 'axios';
 import Bluebird from 'bluebird';
-import { getConfig, api } from '../../api/apiInterfaceProvider';
+import {
+  getConfig,
+  api,
+  getConfigMultipart
+} from '../../api/apiInterfaceProvider';
 import { utilsMessages } from '../../utils/messages';
-import { PROFILES } from '../../utils/services/references';
+import { USER_TYPE } from '../../utils/services/references';
 import {
   getSelectOption,
   getSelectOptions,
@@ -186,7 +190,7 @@ const getTutors = (ignoreId, dispatch) => {
   const config = getConfig();
 
   return axios
-    .get(`${api.users}?profile_id=${PROFILES.TUTOR}`, config)
+    .get(`${api.users}?type=${USER_TYPE.TUTOR}`, config)
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(tutorsUploaded(data, ignoreId));
@@ -200,7 +204,7 @@ const getCoautors = (ignoreId, dispatch) => {
   const config = getConfig();
 
   return axios
-    .get(`${api.users}?profile_id=${PROFILES.STUDENT}`, config)
+    .get(`${api.users}?type=${USER_TYPE.STUDENT}`, config)
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(coautorsUploaded(data, ignoreId));
@@ -210,18 +214,19 @@ const getCoautors = (ignoreId, dispatch) => {
     });
 };
 
-export const uploadProposalUrl = (project, url) => (dispatch) => {
+export const uploadProposal = (projectId, form) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
-  const body = {
-    proposal_url: url
-  };
+  const config = getConfigMultipart();
+
+  const formData = new FormData();
+
+  formData.append('file', form.file);
 
   axios
-    .put(api.project(project.id), body, config)
+    .put(api.proposal(projectId), formData, config)
     .then((res) => res.data.data)
     .then(() => {
-      getActiveProject(project.id, dispatch);
+      getActiveProject(projectId, dispatch);
     })
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
