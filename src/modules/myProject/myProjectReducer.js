@@ -28,6 +28,7 @@ const POST_IDEA = 'POST_IDEA';
 const ABANDON_IDEA = 'ABANDON_IDEA';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
+const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 const HYDRATE_REQUESTS_STUDENT = 'HYDRATE_REQUESTS_STUDENT';
 
 const initialState = {
@@ -66,6 +67,10 @@ export const hydrateRequests = (data) => ({
 export const ideaAbandoned = (data) => ({
   type: ABANDON_IDEA,
   data
+});
+
+export const acceptedProposal = () => ({
+  type: ACCEPTED_PROPOSAL
 });
 
 export const projectTypesLoaded = (data) => ({
@@ -285,6 +290,26 @@ export const getRequests = (dispatch) => {
     })
     .catch((err) => {
       dispatch(queryError(err));
+    });
+};
+
+export const acceptProposal = (requestId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    accepted_proposal: 'accepted'
+  };
+
+  axios
+    .put(api.acceptProposalByStudent(requestId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(acceptedProposal());
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
     });
 };
 

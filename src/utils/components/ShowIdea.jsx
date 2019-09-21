@@ -8,6 +8,7 @@ import {
   getFullName,
   getOnlyField,
   getStudentFullName,
+  getRequestFromUser,
   getTutorFullName
 } from '../../utils/services/functions';
 import FullRow from '../../utils/styles/FullRow';
@@ -45,7 +46,6 @@ export default class ShowIdea extends React.Component {
       autors.push(`Creador: ${getFullName(Creator)}`);
       Students.forEach((student) => {
         const fullName = getStudentFullName(student);
-        console.log(student);
 
         autors.push(
           <span>
@@ -72,7 +72,10 @@ export default class ShowIdea extends React.Component {
       tutors.push(
         <span>
           Tutor: {fullName}
-          {getStatusIcon(`tutor ${fullName}`, Tutor.TutorRequests[0].status)}
+          {getStatusIcon(
+            `tutor ${fullName}`,
+            Tutor.TutorRequests[0].accepted_proposal
+          )}
         </span>
       );
       Cotutors.forEach((tutor) => {
@@ -85,14 +88,6 @@ export default class ShowIdea extends React.Component {
 
   showAcceptProposalModal() {
     this.AcceptProposal.showModal();
-  }
-
-  getRequestFromUser(userId, project) {
-    if (project.Tutor.id === userId) {
-      return project.Tutor.TutorRequests[0];
-    }
-
-    return null;
   }
 
   render() {
@@ -110,7 +105,7 @@ export default class ShowIdea extends React.Component {
       showAbandonIdeaModal
     } = this.props;
 
-    const request = this.getRequestFromUser(userId, project);
+    const request = getRequestFromUser(userId, project);
 
     return (
       <Fragment>

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { REQUEST_STATES, REQUIREMENT_STATES } from './references';
+import { REQUEST_STATES, REQUIREMENT_STATES, STATES } from './references';
 
 export function getById(objects, id) {
   return _.find(objects, (object) => object.id === id);
@@ -87,11 +87,13 @@ export function getFullName(user) {
 }
 
 export function getFullNameWithDescription(user, description) {
-  return user ? `${user.name} ${user.surname} (${description})` : '';
+  return user ? `${user.name} ${user.surname}${description}` : '';
 }
 
 export function getDescriptionByRequestStatus(stateRequest) {
-  return stateRequest ? REQUEST_STATES[stateRequest] : '';
+  return stateRequest && stateRequest !== STATES.accepted
+    ? ` (${REQUEST_STATES[stateRequest]}) `
+    : '';
 }
 
 export function getDescriptionByRequirementStatus(status) {
@@ -121,4 +123,28 @@ export function getStudentFullName(user) {
 
 export function getStudentIsApproved(student) {
   return student.StudentRequests.status === REQUEST_STATES.accepted;
+}
+
+export function getRequestFromUser(userId, project) {
+  if (project.Tutor.id === userId) {
+    return project.Tutor.TutorRequests[0];
+  }
+
+  const studentUser = project.Students.filter(
+    (student) => student.id === userId
+  );
+
+  if (studentUser && studentUser.length) {
+    return studentUser[0].StudentRequests[0];
+  }
+
+  const cotutorUser = project.Students.filter(
+    (cotutor) => cotutor.id === userId
+  );
+
+  if (cotutorUser && cotutorUser.length) {
+    return cotutorUser[0].TutorRequests[0];
+  }
+
+  return null;
 }

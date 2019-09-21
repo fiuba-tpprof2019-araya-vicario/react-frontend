@@ -1,7 +1,6 @@
 import React from 'react';
 import { STATES } from '../services/references';
 
-
 export default function getStatusIcon(type, status) {
   let icon;
 

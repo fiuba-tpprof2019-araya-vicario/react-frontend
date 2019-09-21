@@ -10,6 +10,7 @@ import {
   acceptRequest,
   rejectRequest,
   editIdea,
+  acceptProposal,
   abandonIdea,
   clearAlert,
   getInitialData
@@ -20,6 +21,7 @@ import { myProjectMessages } from '../../utils/messages';
 import CreateIdea from './CreateIdea';
 import ReviewIdea from './ReviewIdea';
 import PendingProposal from './PendingProposal';
+import ProposalUnderRevision from './ProposalUnderRevision';
 import AbandonProjectModal from './modals/AbandonProjectModal';
 
 export class MyProjectIndex extends React.Component {
@@ -32,6 +34,7 @@ export class MyProjectIndex extends React.Component {
     rejectRequest: PropTypes.func,
     abandonIdea: PropTypes.func,
     uploadProposal: PropTypes.func,
+    acceptProposal: PropTypes.func,
     user: PropTypes.object,
     project: PropTypes.object,
     isAuthenticated: PropTypes.bool,
@@ -162,8 +165,16 @@ export class MyProjectIndex extends React.Component {
               userId={this.props.user.id}
               project={this.props.project}
               uploadProposal={this.uploadProposal}
+              acceptProposal={this.props.acceptProposal}
               showUploadIdeaModal={this.showUploadIdeaModal}
               showAbandonIdeaModal={this.showAbandonIdeaModal}
+            />
+          ) : null}
+          {this.state.activeStep === 3 ? (
+            <ProposalUnderRevision
+              isUserCreator={isUserCreator}
+              userId={this.props.user.id}
+              project={this.props.project}
             />
           ) : null}
         </Row>
@@ -211,6 +222,9 @@ const mapDispatch = (dispatch) => ({
   },
   acceptRequest: (requestId, projectId) => {
     dispatch(acceptRequest(requestId, projectId));
+  },
+  acceptProposal: (requestId) => {
+    dispatch(acceptProposal(requestId));
   },
   rejectRequest: (requestId) => {
     dispatch(rejectRequest(requestId));

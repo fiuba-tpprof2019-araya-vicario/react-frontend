@@ -70,7 +70,7 @@ export class WebNavBar extends React.Component {
                     </LinkContainer>
                   </WithAuthorization>
                   <WithAuthorization
-                    requiredCredentials={CREDENTIALS.GET_PROJECTS}
+                    requiredCredentials={CREDENTIALS.EDIT_USERS}
                   >
                     <LinkContainer to="/users">
                       <NavItem eventKey={5}>Usuarios</NavItem>

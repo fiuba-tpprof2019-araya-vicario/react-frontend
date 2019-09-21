@@ -12,6 +12,7 @@ const HYDRATE_MY_TUTORIAL = 'HYDRATE_MY_TUTORIAL';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const ABANDON_IDEA = 'ABANDON_IDEA';
+const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 
 const initialState = {
   alert: null,
@@ -37,6 +38,10 @@ export const queryError = (err) => ({
 
 export const abandonedIdea = () => ({
   type: ABANDON_IDEA
+});
+
+export const acceptedProposal = () => ({
+  type: ACCEPTED_PROPOSAL
 });
 
 export const hydrateMyTutorial = (data) => ({
@@ -77,11 +82,11 @@ export const acceptProposal = (requestId) => (dispatch) => {
   };
 
   axios
-    .put(api.acceptProposal(requestId), body, config)
+    .put(api.acceptProposalByTutor(requestId), body, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(abandonedIdea());
+      dispatch(acceptedProposal());
     })
     .catch((err) => {
       dispatch(queryError(err));
