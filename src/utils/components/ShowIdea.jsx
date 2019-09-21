@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Glyphicon, Row } from 'react-bootstrap';
+import history from '../../redux/history';
 import CustomAlert from '../../utils/CustomAlert';
 import {
   formatterDate,
@@ -9,10 +10,11 @@ import {
   getStudentFullName,
   getTutorFullName
 } from '../../utils/services/functions';
-import history from '../../redux/history';
 import FullRow from '../../utils/styles/FullRow';
 import Itemized from '../../utils/styles/Itemized';
+import AcceptProposalModal from './modals/AcceptProposalModal';
 import ShowProposal from './ShowProposal';
+import getStatusIcon from '../forms/StatusIcon';
 
 export default class ShowIdea extends React.Component {
   static propTypes = {
@@ -24,9 +26,16 @@ export default class ShowIdea extends React.Component {
     showAbandonButton: PropTypes.bool,
     isUserCreator: PropTypes.bool,
     showUploadIdeaModal: PropTypes.func,
+    acceptProposal: PropTypes.func,
     showAbandonIdeaModal: PropTypes.func,
     uploadProposal: PropTypes.func
   };
+
+  constructor() {
+    super();
+
+    this.showAcceptProposalModal = this.showAcceptProposalModal.bind(this);
+  }
 
   getAutors() {
     const { Creator, Students } = this.props.project;
@@ -35,7 +44,18 @@ export default class ShowIdea extends React.Component {
     if (Creator && Students) {
       autors.push(`Creador: ${getFullName(Creator)}`);
       Students.forEach((student) => {
-        autors.push(`Participante: ${getStudentFullName(student)}`);
+        const fullName = getStudentFullName(student);
+        console.log(student);
+
+        autors.push(
+          <span>
+            Participante: {fullName}
+            {getStatusIcon(
+              `estudiante ${fullName}`,
+              student.StudentRequests[0].accepted_proposal
+            )}
+          </span>
+        );
       });
     }
 
@@ -47,13 +67,32 @@ export default class ShowIdea extends React.Component {
     const tutors = [];
 
     if (Tutor && Cotutors) {
-      tutors.push(`Tutor: ${getTutorFullName(Tutor)}`);
+      const fullName = getTutorFullName(Tutor);
+
+      tutors.push(
+        <span>
+          Tutor: {fullName}
+          {getStatusIcon(`tutor ${fullName}`, Tutor.TutorRequests[0].status)}
+        </span>
+      );
       Cotutors.forEach((tutor) => {
         tutors.push(`Cotutor: ${getTutorFullName(tutor)}`);
       });
     }
 
     return tutors;
+  }
+
+  showAcceptProposalModal() {
+    this.AcceptProposal.showModal();
+  }
+
+  getRequestFromUser(userId, project) {
+    if (project.Tutor.id === userId) {
+      return project.Tutor.TutorRequests[0];
+    }
+
+    return null;
   }
 
   render() {
@@ -64,11 +103,14 @@ export default class ShowIdea extends React.Component {
       userId,
       showUploadIdeaModal,
       uploadProposal,
+      acceptProposal,
       isUserCreator,
       showProposal,
       nextStepMessage,
       showAbandonIdeaModal
     } = this.props;
+
+    const request = this.getRequestFromUser(userId, project);
 
     return (
       <Fragment>
@@ -153,13 +195,27 @@ export default class ShowIdea extends React.Component {
                 <i className="fa fa-pencil">&nbsp;</i>&nbsp;Editar idea
               </Button>
             )}
-            {!isUserCreator && project.proposal_url && (
-              <Button bsStyle="success" onClick={() => {}} bsSize="small">
-                <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
-              </Button>
-            )}
+            {!isUserCreator &&
+              project.proposal_url &&
+              request &&
+              request.accepted_proposal !== 'accepted' && (
+                <Button
+                  bsStyle="success"
+                  onClick={() => this.showAcceptProposalModal()}
+                  bsSize="small"
+                >
+                  <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
+                </Button>
+              )}
           </Row>
         </Row>
+        <AcceptProposalModal
+          acceptProposal={acceptProposal}
+          requestId={request && request.id}
+          ref={(modal) => {
+            this.AcceptProposal = modal;
+          }}
+        />
       </Fragment>
     );
   }

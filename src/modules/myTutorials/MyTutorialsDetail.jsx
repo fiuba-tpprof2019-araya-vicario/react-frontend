@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import Stepper from 'react-stepper-horizontal';
 import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import { getMyTutorial, abandonIdea, clearAlert } from './myTutorialsReducer';
+import {
+  getMyTutorial,
+  abandonIdea,
+  clearAlert,
+  acceptProposal
+} from './myTutorialsReducer';
 import Title from '../../utils/Title';
 import { myTutorialsMessages } from '../../utils/messages';
 import AbandonProjectModal from './modals/AbandonProjectModal';
@@ -15,6 +20,7 @@ export class MyProjectDetail extends React.Component {
   static propTypes = {
     clearAlert: PropTypes.func,
     getMyTutorial: PropTypes.func,
+    accept: PropTypes.func,
     projectId: PropTypes.string,
     abandonIdea: PropTypes.func,
     user: PropTypes.object,
@@ -86,7 +92,7 @@ export class MyProjectDetail extends React.Component {
       { title: 'Pendiente de publicación' },
       { title: 'Propuesta publicada' }
     ];
-    const { user, project } = this.props;
+    const { user, project, accept } = this.props;
 
     return (
       <Fragment>
@@ -118,6 +124,7 @@ export class MyProjectDetail extends React.Component {
             nextStepMessage={myTutorialsMessages.NEW_STEP_PROJECT_ACCEPTED_INFO}
             showBackButton
             showProposal
+            acceptProposal={accept}
             showAbandonButton
             project={project}
             userId={user.id}
@@ -137,6 +144,9 @@ export class MyProjectDetail extends React.Component {
 const mapDispatch = (dispatch) => ({
   getMyTutorial: (projectId) => {
     dispatch(getMyTutorial(projectId));
+  },
+  accept: (requestId) => {
+    dispatch(acceptProposal(requestId));
   },
   clearAlert: () => {
     dispatch(clearAlert());

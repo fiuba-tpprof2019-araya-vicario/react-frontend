@@ -79,11 +79,7 @@ export default class UploadIdeaModal extends React.Component {
   }
 
   refreshSelectedUsers(tutor, coautors) {
-    console.log('>>>>', this.state);
-
     const selectedUsers = [...getOnlyField(coautors), tutor];
-
-    console.log(selectedUsers);
 
     return selectedUsers;
   }

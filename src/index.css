@@ -7,8 +7,8 @@ body {
 /* Starts - Fiuba CSS */
 
 .navbar {
-  background-color: #00AEE6;
-  border-color: #0196DC;
+  background-color: #00aee6;
+  border-color: #0196dc;
   color: #ededed;
   -webkit-border-radius: 0 !important;
   -moz-border-radius: 0 !important;
@@ -38,7 +38,7 @@ body {
 .navbar-inverse .navbar-nav > .open > a,
 .navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus {
-  background-color: #0196DC;
+  background-color: #0196dc;
 }
 
 .navbar-inverse .navbar-brand {
@@ -61,12 +61,12 @@ body {
 
 .bigIcon {
   font-size: 8em;
-  color: #0196DC;
+  color: #0196dc;
 }
 
 .inmenseIcon {
   font-size: 12em;
-  color: #0196DC;
+  color: #0196dc;
 }
 
 .onlyIcon {
@@ -80,6 +80,16 @@ body {
 
 .flexContainer {
   display: flex;
+}
+
+.successText {
+  color: #5cb85c;
+}
+
+.successContainer {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
 }
 
 .flexBottom {

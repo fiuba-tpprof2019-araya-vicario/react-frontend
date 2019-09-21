@@ -16,7 +16,8 @@ export const myProjectMessages = {
   NEW_IDEA_DESCRIPTION:
     'No se ha creado una idea aún, agregue una para dar comienzo a su propuesta. En la misma debe describir brevemente el proposito de su proyecto (En caso de no tener un tutor asignado puede realizarlo en pasos posteriores).',
   GO_TO_REQUERIMENT_DESCRIPTION: 'Puedes tomar un requerimiento.',
-  EMPTY_PROPOSAL: 'Todavia no has subido ninguna propuesta.',
+  EMPTY_PROPOSAL: 'No se ha subido ninguna propuesta.',
+  ACCEPT_PROPOSAL: '¿Estas seguro que deseas aceptar la propuesta?',
   NEW_STEP_PROJECT_CREATED_INFO:
     'Para avanzar al siguiente paso el proyecto debe tener un tutor asignado a tu proyecto, que haya aceptado la solicitud de tutoría.',
   NEW_STEP_PROJECT_ACCEPTED_INFO:

@@ -69,6 +69,26 @@ export const abandonIdea = (projectId, memberId, postAction = () => {}) => (
     });
 };
 
+export const acceptProposal = (requestId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    accepted_proposal: 'accepted'
+  };
+
+  axios
+    .put(api.acceptProposal(requestId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(abandonedIdea());
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
 export const getMyTutorial = (projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
