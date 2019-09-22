@@ -3,7 +3,8 @@ import { api, getConfig } from '../../api/apiInterfaceProvider';
 import { utilsMessages, ideasMessages } from '../../utils/messages';
 import {
   formatterDate,
-  getDescriptionByRequestStatus
+  getStudentsNames,
+  getTutorsNames
 } from '../../utils/services/functions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
@@ -90,7 +91,7 @@ export const getProjects = (dispatch) => {
   const config = getConfig();
 
   axios
-    .get(api.projects, config)
+    .get(api.projectsCreated, config)
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(toggleLoading({ loading: false }));
@@ -151,16 +152,12 @@ export const getInitialData = () => (dispatch) => {
 const fetchProjectsTable = (data) =>
   data.map((project) => ({
     id: project.id,
-    requestId: project.TutorRequests[0].id,
     name: project.name,
     description: project.description,
+    students: getStudentsNames(project.Creator, project.Students),
+    tutors: getTutorsNames(project.Tutor, project.Cotutors),
     type: project.Type.name,
-    created_at: formatterDate(project.createdAt),
-    status: project.State.name,
-    requestStatusId: project.TutorRequests[0].status,
-    requestStatus: getDescriptionByRequestStatus(
-      project.TutorRequests[0].status
-    )
+    created_at: formatterDate(project.createdAt)
   }));
 
 export default (state = initialState, action) => {
@@ -168,7 +165,7 @@ export default (state = initialState, action) => {
     case HYDRATE_IDEAS:
       return {
         ...state,
-        projects: fetchProjectsTable(action.data.Tutorials)
+        projects: fetchProjectsTable(action.data)
       };
     case HYDRATE_IDEA:
       return {

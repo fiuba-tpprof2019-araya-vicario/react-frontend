@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
   clearAlert,
-  clearUsers,
-  getUsers,
-  obtenerOrganismos
+  // clearUsers,
+  getUsers
 } from './userReducer';
 import SearchUserForm from './SearchUserForm';
 import UserTable from './UserTable';
@@ -20,11 +19,13 @@ export class UserIndex extends React.Component {
     activeSearch: PropTypes.bool,
     users: PropTypes.func,
     results: PropTypes.array,
-    clearResult: PropTypes.func
+    clearAlert: PropTypes.func
+    // clearResult: PropTypes.func
   };
 
   componentDidMount() {
-    this.props.clearResult();
+    // this.props.clearResult();
+    this.props.clearAlert();
   }
 
   render() {
@@ -41,14 +42,11 @@ export class UserIndex extends React.Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  clearResult: () => {
-    dispatch(clearUsers());
-  },
+  // clearResult: () => {
+  //   dispatch(clearUsers());
+  // },
   clearAlert: () => {
     dispatch(clearAlert());
-  },
-  obtenerOrganismos: () => {
-    dispatch(obtenerOrganismos());
   },
   users: (name, email) => {
     dispatch(getUsers(name, email));

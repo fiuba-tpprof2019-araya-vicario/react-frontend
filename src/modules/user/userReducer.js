@@ -1,18 +1,14 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
-import _ from 'lodash';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 
 const HYDRATE_USERS = 'HYDRATE_USERS';
 const HYDRATE_USER_BY_ID = 'HYDRATE_USER_BY_ID';
-const HYDRATE_ORGANISMOS = 'HYDRATE_ORGANISMOS';
 const QUERY_ERROR = 'QUERY_ERROR';
 const INTERNAL_ERROR = 'INTERNAL_ERROR';
 const SUCCESSFUL = 'SUCCESSFUL';
 const CLEAR_USER_RESULT = 'CLEAR_USER_RESULT';
 const CLEAR_ALERT = 'CLEAR_ALERT';
-const REMOVE_ROL = 'REMOVE_ROL';
-const ADD_ROL = 'ADD_ROL';
 const USER_EDITED = 'USER_EDITED';
 const PATCH_USER = 'PATCH_USER';
 
@@ -47,12 +43,6 @@ export const successful = (text) => ({
   text
 });
 
-// normal action creators
-export const organismosTodos = (data) => ({
-  type: HYDRATE_ORGANISMOS,
-  data
-});
-
 export const users = (data) => ({
   type: HYDRATE_USERS,
   data
@@ -67,22 +57,11 @@ export const userById = (data) => ({
   data
 });
 
-export const removerRol = (data) => ({
-  type: REMOVE_ROL,
-  data
-});
-
-export const agregarRol = (data) => ({
-  type: ADD_ROL,
-  data
-});
-
 export const patchUser = (data) => ({
   type: PATCH_USER,
   data
 });
 
-// thunks
 export const clearUsers = () => (dispatch) => {
   dispatch(clearUserResult());
 };
@@ -172,39 +151,6 @@ export const createUser = (name, email) => (dispatch) => {
     });
 };
 
-export const obtenerOrganismos = () => (dispatch) => {
-  const config = getConfig();
-
-  axios
-    .get(api.organismos, config)
-    .then((res) => res.data.data)
-    .then((data) => {
-      dispatch(organismosTodos(data));
-    })
-    .catch((err) => {
-      if (err.response && err.response.status) {
-        dispatch(queryError(err));
-      } else {
-        dispatch(internalError(err));
-      }
-    });
-};
-
-export const removeProfile = (idUser, idRol) => (dispatch) => {
-  const config = getConfig();
-
-  axios
-    .delete(`${api.users}/${idUser}/${api.claveRoles}/${idRol}`, config)
-    .then((res) => res.data.data)
-    .then(() => {
-      dispatch(removerRol(idRol));
-      dispatch(successful('El rol se eliminó correctamente'));
-    })
-    .catch((err) => {
-      dispatch(queryError(err));
-    });
-};
-
 export const editUser = (idUser, profiles) => (dispatch) => {
   const config = getConfig();
   const body = { profiles };
@@ -214,23 +160,7 @@ export const editUser = (idUser, profiles) => (dispatch) => {
     .then((res) => res.data.data)
     .then(() => {
       dispatch(userEdited());
-      dispatch(successful('El usuario se agregó correctamente'));
-    })
-    .catch((err) => {
-      dispatch(queryError(err));
-    });
-};
-
-export const addProfile = (idUser, idRol) => (dispatch) => {
-  const config = getConfig();
-  const body = { rol_id: idRol };
-
-  axios
-    .post(`${api.users}/${idUser}/${api.claveRoles}`, body, config)
-    .then((res) => res.data.data)
-    .then(() => {
-      dispatch(agregarRol(idRol));
-      dispatch(successful('El rol se agregó correctamente'));
+      dispatch(successful('El usuario se editó correctamente'));
     })
     .catch((err) => {
       dispatch(queryError(err));
@@ -243,22 +173,6 @@ const fetchUsersTable = (data) =>
     name: `${rowObject.name} ${rowObject.surname}`,
     email: rowObject.email
   }));
-
-const getRolRemover = (rolId, activeUser) => {
-  const rolesActuales = activeUser.roles;
-  const nuevosRoles = _.differenceBy(rolesActuales, [{ id: rolId }], 'id');
-
-  return nuevosRoles;
-};
-
-const getRolAdd = (nuevoRolId, roles, profiles) => {
-  // eslint-disable-next-line radix
-  const nuevoRol = _.find(profiles, { id: parseInt(nuevoRolId) });
-
-  roles.push(nuevoRol);
-
-  return roles;
-};
 
 const fetchRoles = (data) =>
   data.map((rowObject) => ({
@@ -284,11 +198,6 @@ const fetchUser = (data) => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case HYDRATE_ORGANISMOS:
-      return {
-        ...state,
-        results: []
-      };
     case HYDRATE_USERS:
       return {
         ...state,
@@ -298,25 +207,8 @@ export default (state = initialState, action) => {
     case HYDRATE_USER_BY_ID:
       return {
         ...state,
-        results: [],
         activeUser: fetchUser(action.data.user),
         profiles: fetchRoles(action.data.profiles)
-      };
-    case REMOVE_ROL:
-      return {
-        ...state,
-        activeUser: {
-          ...state.activeUser,
-          roles: getRolRemover(action.data, state.activeUser)
-        }
-      };
-    case ADD_ROL:
-      return {
-        ...state,
-        activeUser: {
-          ...state.activeUser,
-          roles: getRolAdd(action.data, state.activeUser.roles, state.profiles)
-        }
       };
     case QUERY_ERROR:
       return {

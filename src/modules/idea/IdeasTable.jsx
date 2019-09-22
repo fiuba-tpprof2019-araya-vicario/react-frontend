@@ -16,10 +16,10 @@ export default class IdeasTable extends React.Component {
     return [
       'Título',
       'Descripción',
+      'Estudiandtes',
+      'Tutores',
       'Tipo',
-      'Fecha de creación',
-      'Estado del proyecto',
-      'Estado de la solicitud'
+      'Fecha de creación'
     ];
   }
 

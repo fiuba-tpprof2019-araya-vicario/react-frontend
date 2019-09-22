@@ -56,7 +56,9 @@ export const myTutorialsMessages = {
   NEW_STEP_PROJECT_CREATED_INFO:
     'Si aceptas la solicitud pasaras a ser el tutor de este proyecto',
   NEW_STEP_PROJECT_ACCEPTED_INFO:
-    'Debes colaborar con los integrantes del proyecto para realizar una propuesta'
+    'Debes colaborar con los integrantes del proyecto para realizar una propuesta',
+  NEW_STEP_PROPOSAL_UNDER_REVISION_INFO:
+    'La comisión curricular esta revisando la propuesta ingresada.'
 };
 
 export const commissionsMessages = {

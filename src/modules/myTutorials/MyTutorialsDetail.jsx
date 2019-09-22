@@ -131,6 +131,16 @@ export class MyProjectDetail extends React.Component {
             showAbandonIdeaModal={this.showAbandonIdeaModal}
           />
         ) : null}
+        {this.state.activeStep === 3 ? (
+          <ShowIdea
+            nextStepMessage={
+              myTutorialsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
+            }
+            project={project}
+            userId={user.id}
+            showProposal
+          />
+        ) : null}
         <AbandonProjectModal
           ref={(modal) => {
             this.AbandonModal = modal;

@@ -39,7 +39,7 @@ export default class ShowIdea extends React.Component {
   }
 
   getAutors() {
-    const { Creator, Students } = this.props.project;
+    const { Creator, Students, State } = this.props.project;
     const autors = [];
 
     if (Creator && Students) {
@@ -50,10 +50,11 @@ export default class ShowIdea extends React.Component {
         autors.push(
           <span>
             Participante: {fullName}
-            {getStatusIcon(
-              `estudiante ${fullName}`,
-              student.StudentRequests[0].accepted_proposal
-            )}
+            {State.id <= 2 &&
+              getStatusIcon(
+                `estudiante ${fullName}`,
+                student.StudentRequests[0].accepted_proposal
+              )}
           </span>
         );
       });
@@ -63,23 +64,36 @@ export default class ShowIdea extends React.Component {
   }
 
   getTutors() {
-    const { Tutor, Cotutors } = this.props.project;
+    const { Tutor, Cotutors, State } = this.props.project;
+
     const tutors = [];
+    let fullName;
 
     if (Tutor && Cotutors) {
-      const fullName = getTutorFullName(Tutor);
+      fullName = getTutorFullName(Tutor);
 
       tutors.push(
         <span>
           Tutor: {fullName}
-          {getStatusIcon(
-            `tutor ${fullName}`,
-            Tutor.TutorRequests[0].accepted_proposal
-          )}
+          {State.id <= 2 &&
+            getStatusIcon(
+              `tutor ${fullName}`,
+              Tutor.TutorRequests[0].accepted_proposal
+            )}
         </span>
       );
       Cotutors.forEach((tutor) => {
-        tutors.push(`Cotutor: ${getTutorFullName(tutor)}`);
+        fullName = getTutorFullName(tutor);
+        tutors.push(
+          <span>
+            Cotutor: {fullName}
+            {State.id <= 2 &&
+              getStatusIcon(
+                `cotutor ${fullName}`,
+                tutor.TutorRequests[0].accepted_proposal
+              )}
+          </span>
+        );
       });
     }
 

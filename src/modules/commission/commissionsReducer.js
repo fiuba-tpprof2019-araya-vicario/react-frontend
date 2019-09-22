@@ -91,7 +91,7 @@ export const getProjects = (dispatch) => {
   const config = getConfig();
 
   axios
-    .get(api.projects, config)
+    .get(api.projectsInAppreciation, config)
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(toggleLoading({ loading: false }));
