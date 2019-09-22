@@ -60,14 +60,11 @@ export const myTutorialsMessages = {
 };
 
 export const commissionsMessages = {
-  TITLE: 'Mis comisiones',
+  TITLE: 'Comisión curricular',
   SUBTITLE: 'Aministra los distintas projectos en curso',
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados',
-  ABANDON_SUCCESS: 'Abandonaste el proyecto correctamente',
-  NEW_STEP_PROJECT_CREATED_INFO:
-    'Si aceptas la solicitud pasaras a ser el tutor de este proyecto',
-  NEW_STEP_PROJECT_ACCEPTED_INFO:
-    'Debes colaborar con los integrantes del proyecto para realizar una propuesta'
+  NEW_STEP_PROPOSAL_UNDER_REVISION_INFO:
+    'La comisión curricular esta revisando la propuesta ingresada.'
 };
 
 export const ideasMessages = {

@@ -16,6 +16,7 @@ import Idea from '../modules/idea/IdeasIndex';
 import UserView from '../modules/user/UserDetail';
 import MyTutorialsDetail from '../modules/myTutorials/MyTutorialsDetail';
 import Commission from '../modules/commission/CommissionsIndex';
+import CommissionDetail from '../modules/commission/CommissionsDetail';
 import Contact from '../modules/contact/ContactIndex';
 // import Request from '../modules/request/RequestIndex';
 import Requirement from '../modules/requirement/RequirementIndex';
@@ -96,6 +97,12 @@ class App extends React.Component {
                 path="/commissions"
                 requiredCredentials={CREDENTIALS.APPROVE_PROJECTS}
                 component={Commission}
+              />
+              <Private
+                exact={false}
+                path="/commissions/:id"
+                requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
+                component={CommissionDetail}
               />
               <Private
                 exact

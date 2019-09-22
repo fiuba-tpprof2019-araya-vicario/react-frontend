@@ -49,7 +49,7 @@ export const hydrateProjects = (data) => ({
   data
 });
 
-export const abandonIdea = (projectId, memberId, postAction = () => {}) => (
+export const rejectIdea = (projectId, memberId, postAction = () => {}) => (
   dispatch
 ) => {
   dispatch(toggleLoading({ loading: true }));
@@ -95,7 +95,6 @@ export const getProjects = (dispatch) => {
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(toggleLoading({ loading: false }));
-      console.log(data);
       dispatch(hydrateProjects(data));
     })
     .catch((err) => {
