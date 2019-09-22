@@ -15,6 +15,7 @@ import User from '../modules/user/UserIndex';
 import Idea from '../modules/idea/IdeasIndex';
 import UserView from '../modules/user/UserDetail';
 import MyTutorialsDetail from '../modules/myTutorials/MyTutorialsDetail';
+import Commission from '../modules/commission/CommissionsIndex';
 import Contact from '../modules/contact/ContactIndex';
 // import Request from '../modules/request/RequestIndex';
 import Requirement from '../modules/requirement/RequirementIndex';
@@ -90,6 +91,12 @@ class App extends React.Component {
                 requiredCredentials={CREDENTIALS.GET_PROJECTS}
                 component={Request}
               /> */}
+              <Private
+                exact
+                path="/commissions"
+                requiredCredentials={CREDENTIALS.APPROVE_PROJECTS}
+                component={Commission}
+              />
               <Private
                 exact
                 path="/requirements"

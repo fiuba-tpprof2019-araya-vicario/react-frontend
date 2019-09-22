@@ -148,3 +148,17 @@ export function getRequestFromUser(userId, project) {
 
   return null;
 }
+
+export function getStudentsNames(Creator, Students) {
+  return [
+    getFullName(Creator),
+    ...Students.map((student) => `, ${getFullName(student)}`)
+  ];
+}
+
+export function getTutorsNames(Tutor, Cotutors) {
+  return [
+    getFullName(Tutor),
+    ...Cotutors.map((cotutor) => `, ${getFullName(cotutor)}`)
+  ];
+}

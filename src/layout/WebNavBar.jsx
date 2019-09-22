@@ -55,6 +55,13 @@ export class WebNavBar extends React.Component {
                       <NavItem eventKey={3}>Ideas</NavItem>
                     </LinkContainer>
                   </WithAuthorization>
+                  <WithAuthorization
+                    requiredCredentials={CREDENTIALS.APPROVE_PROJECTS}
+                  >
+                    <LinkContainer to="/commissions">
+                      <NavItem eventKey={3}>Comisión Curricular</NavItem>
+                    </LinkContainer>
+                  </WithAuthorization>
                   {/* <WithAuthorization
                     requiredCredentials={CREDENTIALS.GET_PROJECTS}
                   >

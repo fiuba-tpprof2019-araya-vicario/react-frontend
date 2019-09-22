@@ -126,7 +126,7 @@ export const Home = () => {
                     <i
                       className="fa fa-gavel bigIcon"
                       aria-hidden="true"
-                      onClick={() => access('/users')}
+                      onClick={() => access('/commissions')}
                     />
                   </button>
                 </Center>
