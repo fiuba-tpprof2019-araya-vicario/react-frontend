@@ -313,7 +313,9 @@ export default class UploadIdeaModal extends React.Component {
       <Modal
         show={this.state.show}
         onHide={this.hideModal}
+        backdrop="static"
         dialogClassName="custom-modal"
+        bsSize="lg"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-lg">
@@ -354,7 +356,6 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
             <Field
-              key="projectTypeGroup"
               bsSize="small"
               controlId="projectTypeSelect"
               label="Tipo"
@@ -379,7 +380,6 @@ export default class UploadIdeaModal extends React.Component {
           </FullRow>
           <FullRow key="formCreateRow2">
             <Field
-              key="coautorsGroup"
               bsSize="small"
               controlId="coautorsSelect"
               label="Coautores"
@@ -405,7 +405,6 @@ export default class UploadIdeaModal extends React.Component {
           </FullRow>
           <FullRow key="formCreateRow3">
             <Field
-              key="tutorGroup"
               bsSize="small"
               controlId="tutorSelect"
               label="Tutor"
@@ -430,7 +429,6 @@ export default class UploadIdeaModal extends React.Component {
           </FullRow>
           <FullRow key="formCreateRow6">
             <Field
-              key="careersGroup"
               bsSize="small"
               required
               controlId="careersSelect"

@@ -3,19 +3,10 @@ import React, { Fragment } from 'react';
 import { Button, Glyphicon, Row } from 'react-bootstrap';
 import history from '../../redux/history';
 import CustomAlert from '../../utils/CustomAlert';
-import {
-  formatterDate,
-  getFullName,
-  getOnlyField,
-  getStudentFullName,
-  getRequestFromUser,
-  getTutorFullName
-} from '../../utils/services/functions';
-import FullRow from '../../utils/styles/FullRow';
-import Itemized from '../../utils/styles/Itemized';
+import { getRequestFromUser } from '../../utils/services/functions';
 import AcceptProposalModal from './modals/AcceptProposalModal';
 import ShowProposal from './ShowProposal';
-import getStatusIcon from '../forms/StatusIcon';
+import ShowIdeaInfo from './ShowIdeaInfo';
 
 export default class ShowIdea extends React.Component {
   static propTypes = {
@@ -38,68 +29,6 @@ export default class ShowIdea extends React.Component {
     this.showAcceptProposalModal = this.showAcceptProposalModal.bind(this);
   }
 
-  getAutors() {
-    const { Creator, Students, State } = this.props.project;
-    const autors = [];
-
-    if (Creator && Students) {
-      autors.push(`Creador: ${getFullName(Creator)}`);
-      Students.forEach((student) => {
-        const fullName = getStudentFullName(student);
-
-        autors.push(
-          <span>
-            Participante: {fullName}
-            {State.id <= 2 &&
-              getStatusIcon(
-                `estudiante ${fullName}`,
-                student.StudentRequests[0].accepted_proposal
-              )}
-          </span>
-        );
-      });
-    }
-
-    return autors;
-  }
-
-  getTutors() {
-    const { Tutor, Cotutors, State } = this.props.project;
-
-    const tutors = [];
-    let fullName;
-
-    if (Tutor && Cotutors) {
-      fullName = getTutorFullName(Tutor);
-
-      tutors.push(
-        <span>
-          Tutor: {fullName}
-          {State.id <= 2 &&
-            getStatusIcon(
-              `tutor ${fullName}`,
-              Tutor.TutorRequests[0].accepted_proposal
-            )}
-        </span>
-      );
-      Cotutors.forEach((tutor) => {
-        fullName = getTutorFullName(tutor);
-        tutors.push(
-          <span>
-            Cotutor: {fullName}
-            {State.id <= 2 &&
-              getStatusIcon(
-                `cotutor ${fullName}`,
-                tutor.TutorRequests[0].accepted_proposal
-              )}
-          </span>
-        );
-      });
-    }
-
-    return tutors;
-  }
-
   showAcceptProposalModal() {
     this.AcceptProposal.showModal();
   }
@@ -120,103 +49,81 @@ export default class ShowIdea extends React.Component {
     } = this.props;
 
     const request = getRequestFromUser(userId, project);
+    const isEditableProject = project.State.id <= 2;
 
     return (
       <Fragment>
-        <Row>
-          <br />
+        <br />
+        {nextStepMessage && (
           <CustomAlert
             rowKey="infoNextStep"
             bsStyle="info"
             message={nextStepMessage}
           />
-          <br />
-          <Row>
-            <h3>Título: {project.name}</h3>
-          </Row>
-          <br />
-          <FullRow>
-            <Itemized title="Autores:" items={this.getAutors()} />
-            <Itemized title="Tutores:" items={this.getTutors()} />
-            <Fragment>
-              <Itemized
-                title="Tipo de proyecto:"
-                items={project.Type && [project.Type.name]}
-              />
-              <Itemized
-                title="Carreras:"
-                items={project.Careers && getOnlyField(project.Careers, 'name')}
-              />
-            </Fragment>
-            <Fragment>
-              <Itemized
-                title="Fecha de creación:"
-                items={[formatterDate(project.createdAt)]}
-              />
-              <Itemized
-                title="Última modificación:"
-                items={[formatterDate(project.updatedAt)]}
-              />
-            </Fragment>
-          </FullRow>
-          <br />
-          <Row>
-            <h4>Descripción:</h4>
-            <p>{project.description}</p>
-          </Row>
-          {showProposal && (
-            <ShowProposal
-              project={project}
-              isUserCreator={isUserCreator}
-              uploadProposal={uploadProposal}
-            />
+        )}
+        <br />
+        <Row>
+          <h3>Título: {project.name}</h3>
+        </Row>
+        <br />
+        <ShowIdeaInfo project={project} />
+        <br />
+        <Row>
+          <h4>Descripción:</h4>
+          <p>{project.description}</p>
+        </Row>
+        {showProposal && (
+          <ShowProposal
+            project={project}
+            isUserCreator={isUserCreator}
+            uploadProposal={uploadProposal}
+          />
+        )}
+        <br />
+        <Row className="pull-right">
+          {showBackButton && (
+            <Button
+              className="pull-left"
+              bsStyle="default"
+              bsSize="small"
+              onClick={history.goBack}
+            >
+              Volver
+            </Button>
           )}
-          <br />
-          <Row className="pull-right">
-            {showBackButton && (
+          &nbsp;
+          {showAbandonButton && (
+            <Button
+              bsStyle="danger"
+              onClick={() => showAbandonIdeaModal(userId)}
+              bsSize="small"
+            >
+              <Glyphicon glyph="log-out">&nbsp;</Glyphicon>
+              Abandonar idea
+            </Button>
+          )}
+          &nbsp;
+          {isUserCreator && isEditableProject && (
+            <Button
+              bsStyle="primary"
+              onClick={showUploadIdeaModal}
+              bsSize="small"
+            >
+              <i className="fa fa-pencil">&nbsp;</i>&nbsp;Editar idea
+            </Button>
+          )}
+          {!isUserCreator &&
+            project.proposal_url &&
+            request &&
+            request.accepted_proposal !== 'accepted' && (
               <Button
-                className="pull-left"
-                bsStyle="default"
+                bsStyle="success"
+                onClick={() => this.showAcceptProposalModal()}
                 bsSize="small"
-                onClick={history.goBack}
               >
-                Volver
+                <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
               </Button>
             )}
-            &nbsp;
-            {showAbandonButton && (
-              <Button
-                bsStyle="danger"
-                onClick={() => showAbandonIdeaModal(userId)}
-                bsSize="small"
-              >
-                <Glyphicon glyph="log-out">&nbsp;</Glyphicon>
-                Abandonar idea
-              </Button>
-            )}
-            &nbsp;
-            {isUserCreator && (
-              <Button
-                bsStyle="primary"
-                onClick={showUploadIdeaModal}
-                bsSize="small"
-              >
-                <i className="fa fa-pencil">&nbsp;</i>&nbsp;Editar idea
-              </Button>
-            )}
-            {!isUserCreator &&
-              project.proposal_url &&
-              request &&
-              request.accepted_proposal !== 'accepted' && (
-                <Button
-                  bsStyle="success"
-                  onClick={() => this.showAcceptProposalModal()}
-                  bsSize="small"
-                >
-                  <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
-                </Button>
-              )}
-          </Row>
         </Row>
         <AcceptProposalModal
           acceptProposal={acceptProposal}

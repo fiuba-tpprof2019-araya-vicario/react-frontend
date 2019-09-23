@@ -13,6 +13,7 @@ import MyProject from '../modules/myProject/MyProjectIndex';
 import MyTutorials from '../modules/myTutorials/MyTutorialsIndex';
 import User from '../modules/user/UserIndex';
 import Idea from '../modules/idea/IdeasIndex';
+import IdeaView from '../modules/idea/IdeasDetail';
 import UserView from '../modules/user/UserDetail';
 import MyTutorialsDetail from '../modules/myTutorials/MyTutorialsDetail';
 import Commission from '../modules/commission/CommissionsIndex';
@@ -115,6 +116,12 @@ class App extends React.Component {
                 path="/ideas"
                 requiredCredentials={CREDENTIALS.GET_PROJECTS}
                 component={Idea}
+              />
+              <Private
+                exact={false}
+                path="/ideas/:id"
+                requiredCredentials={CREDENTIALS.GET_PROJECTS}
+                component={IdeaView}
               />
               <Private
                 exact

@@ -90,6 +90,10 @@ export function getFullNameWithDescription(user, description) {
   return user ? `${user.name} ${user.surname}${description}` : '';
 }
 
+export function getFullNameWithEmail(user) {
+  return user ? `${user.name} ${user.surname} (${user.email})` : '';
+}
+
 export function getDescriptionByRequestStatus(stateRequest) {
   return stateRequest && stateRequest !== STATES.accepted
     ? ` (${REQUEST_STATES[stateRequest]}) `
@@ -126,21 +130,21 @@ export function getStudentIsApproved(student) {
 }
 
 export function getRequestFromUser(userId, project) {
-  if (project.Tutor.id === userId) {
+  if (project.Tutor && project.Tutor.id === userId) {
     return project.Tutor.TutorRequests[0];
   }
 
-  const studentUser = project.Students.filter(
-    (student) => student.id === userId
-  );
+  const studentUser =
+    project.Students &&
+    project.Students.filter((student) => student.id === userId);
 
   if (studentUser && studentUser.length) {
     return studentUser[0].StudentRequests[0];
   }
 
-  const cotutorUser = project.Students.filter(
-    (cotutor) => cotutor.id === userId
-  );
+  const cotutorUser =
+    project.Cotutors &&
+    project.Cotutors.filter((cotutor) => cotutor.id === userId);
 
   if (cotutorUser && cotutorUser.length) {
     return cotutorUser[0].TutorRequests[0];

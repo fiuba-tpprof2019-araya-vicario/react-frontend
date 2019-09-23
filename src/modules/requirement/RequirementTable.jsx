@@ -7,6 +7,7 @@ import { REQUIREMENT_STATES } from '../../utils/services/references';
 export class RequirementTable extends React.Component {
   static propTypes = {
     data: PropTypes.array,
+    canEdit: PropTypes.bool,
     editRequirement: PropTypes.func,
     deleteRequirement: PropTypes.func
   };
@@ -30,16 +31,20 @@ export class RequirementTable extends React.Component {
       <CustomTable
         headers={this.getHeaders()}
         data={this.props.data}
-        actions={{
-          editAction: {
-            action: this.props.editRequirement,
-            disabled: disableButton
-          },
-          deleteAction: {
-            action: this.props.deleteRequirement,
-            disabled: disableButton
-          }
-        }}
+        actions={
+          this.props.canEdit
+            ? {
+                editAction: {
+                  action: this.props.editRequirement,
+                  disabled: disableButton
+                },
+                deleteAction: {
+                  action: this.props.deleteRequirement,
+                  disabled: disableButton
+                }
+              }
+            : {}
+        }
       />
     );
   }

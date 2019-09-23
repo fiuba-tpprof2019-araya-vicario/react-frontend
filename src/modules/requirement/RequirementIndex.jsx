@@ -13,14 +13,17 @@ import {
 import { getById } from '../../utils/services/functions';
 import Title from '../../utils/Title';
 import { requirementMessages } from '../../utils/messages';
+import { CREDENTIALS } from '../../utils/services/references';
 import { RequirementTable } from './RequirementTable';
 import CustomAlert from '../../utils/CustomAlert';
 import CreateRequirementModal from './modals/CreateRequirementModal';
 import EditRequirementModal from './modals/EditRequirementModal';
 import DeleteRequirementModal from './modals/DeleteRequirementModal';
+import WithAuthorization from '../../utils/WithAuthorization';
 
 export class RequirementIndex extends React.Component {
   static propTypes = {
+    canEdit: PropTypes.bool,
     clearAlert: PropTypes.func,
     getRequirements: PropTypes.func,
     uploadRequirement: PropTypes.func,
@@ -63,17 +66,21 @@ export class RequirementIndex extends React.Component {
           subtitle={requirementMessages.SUBTITLE}
         />
         <Row>
-          <Button
-            bsStyle="success"
-            bsSize="small"
-            className="pull-right"
-            onClick={() => this.createRequirement()}
+          <WithAuthorization
+            requiredCredentials={CREDENTIALS.EDIT_REQUIREMENTS}
           >
-            <i className="fa fa-plus" aria-hidden="true">
-              &nbsp;
-            </i>
-            Crear Requerimiento
-          </Button>
+            <Button
+              bsStyle="success"
+              bsSize="small"
+              className="pull-right"
+              onClick={() => this.createRequirement()}
+            >
+              <i className="fa fa-plus" aria-hidden="true">
+                &nbsp;
+              </i>
+              Crear Requerimiento
+            </Button>
+          </WithAuthorization>
         </Row>
         <br />
         {this.renderTable()}
@@ -112,13 +119,17 @@ export class RequirementIndex extends React.Component {
         data={this.props.requirements}
         editRequirement={this.editRequirement}
         deleteRequirement={this.deleteRequirement}
+        canEdit={this.props.canEdit}
       />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  requirements: state.requirementReducer.requirements
+  requirements: state.requirementReducer.requirements,
+  canEdit: state.authReducer.user.credentials.includes(
+    CREDENTIALS.EDIT_REQUIREMENTS
+  )
 });
 
 const mapDispatch = (dispatch) => ({
