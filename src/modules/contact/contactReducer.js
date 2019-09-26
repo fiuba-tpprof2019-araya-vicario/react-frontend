@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { api } from '../../api/apiInterfaceProvider';
-import { contactMessages, utilsMessages } from '../../utils/messages';
+import { contactMessages } from '../../utils/messages';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const UPLOAD_FORM = 'UPLOAD_FORM';
@@ -63,17 +63,6 @@ export default (state = initialState, action) => {
           onDismiss: clearAlert
         }
       };
-    case QUERY_ERROR:
-      return {
-        ...state,
-        alert: {
-          message: utilsMessages.QUERY_ERROR,
-          style: 'danger',
-          onDismiss: clearAlert
-        }
-      };
-    case CLEAR_ALERT:
-      return { ...state, alert: null };
     default:
       return state;
   }

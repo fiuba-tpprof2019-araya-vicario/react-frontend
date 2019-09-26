@@ -5,7 +5,6 @@ import {
   api,
   getConfigMultipart
 } from '../../api/apiInterfaceProvider';
-import { utilsMessages } from '../../utils/messages';
 import { USER_TYPE } from '../../utils/services/references';
 import {
   getSelectOption,
@@ -499,17 +498,6 @@ export default (state = initialState, action) => {
         ...state,
         tutors: getSelectOptionsWithIgnore(action.data, action.ignoreId)
       };
-    case QUERY_ERROR:
-      return {
-        ...state,
-        alert: {
-          message: utilsMessages.QUERY_ERROR,
-          style: 'danger',
-          onDismiss: clearAlert
-        }
-      };
-    case CLEAR_ALERT:
-      return { ...state, alert: null };
     default:
       return state;
   }

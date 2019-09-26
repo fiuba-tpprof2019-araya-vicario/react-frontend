@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
-import { utilsMessages } from '../../utils/messages';
 import {
   formatterDate,
   getDescriptionByRequirementStatus
@@ -142,17 +141,6 @@ export default (state = initialState, action) => {
         ...state,
         requirements: fetchRequirementTable(action.data)
       };
-    case QUERY_ERROR:
-      return {
-        ...state,
-        alert: {
-          message: utilsMessages.QUERY_ERROR,
-          style: 'danger',
-          onDismiss: clearAlert
-        }
-      };
-    case CLEAR_ALERT:
-      return { ...state, alert: null };
     default:
       return state;
   }

@@ -1,7 +1,12 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
 import { api } from '../../api/apiInterfaceProvider';
+import { utilsMessages } from '../../utils/messages';
 
+const QUERY_ERROR = 'QUERY_ERROR';
+const CLEAR_ALERT = 'CLEAR_ALERT';
+const SUCCESSFUL = 'SUCCESSFUL';
+const INTERNAL_ERROR = 'INTERNAL_ERROR';
 const LOGIN_USER = 'LOGIN_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
@@ -16,10 +21,28 @@ const initialState = {
   isAuthenticated: false
 };
 
-// Action creators
+export const clearAlert = () => ({
+  type: CLEAR_ALERT
+});
+
+export const queryError = (err) => ({
+  type: QUERY_ERROR,
+  err
+});
+
 export const loginError = (err) => ({
   type: LOGIN_ERROR,
   err
+});
+
+export const internalError = (err) => ({
+  type: INTERNAL_ERROR,
+  err
+});
+
+export const successful = (text) => ({
+  type: SUCCESSFUL,
+  text
 });
 
 export const clearErrors = () => ({
@@ -113,6 +136,31 @@ export default (state = initialState, action) => {
       };
     case CLEAR_ERRORS:
       return { ...state, error: {}, alert: null };
+    case QUERY_ERROR:
+      return {
+        ...state,
+        alert: {
+          message: utilsMessages.QUERY_ERROR,
+          style: 'danger',
+          onDismiss: clearAlert
+        }
+      };
+    case CLEAR_ALERT:
+      return { ...state, alert: null };
+    case INTERNAL_ERROR:
+      return {
+        ...state,
+        alert: {
+          style: 'danger',
+          message: 'Ocurrió un error inesperado',
+          onDismiss: clearAlert
+        }
+      };
+    case SUCCESSFUL:
+      return {
+        ...state,
+        alert: { style: 'success', message: action.text, onDismiss: clearAlert }
+      };
     case TOGGLE_LOADING:
       return { ...state, loading: action.loading };
     default:

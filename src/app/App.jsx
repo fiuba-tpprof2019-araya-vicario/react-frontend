@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
-import { filter } from 'lodash';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Home } from '../layout/Home';
 import Log from '../modules/login/Login';
@@ -30,14 +29,14 @@ import { CREDENTIALS } from '../utils/services/references';
 
 class App extends React.Component {
   static propTypes = {
-    alerts: PropTypes.array,
+    alert: PropTypes.object,
     execute: PropTypes.func,
     loading: PropTypes.bool
   };
 
   alertRender() {
+    const { alert, execute } = this.props;
     const render = [];
-    const alert = this.props.alerts[0];
 
     if (alert) {
       render.push(
@@ -51,9 +50,7 @@ class App extends React.Component {
           rowKey="centralAlert"
           bsStyle={alert.style}
           message={alert.message}
-          onDismiss={() =>
-            alert.onDismiss && this.props.execute(alert.onDismiss)
-          }
+          onDismiss={() => alert.onDismiss && execute(alert.onDismiss)}
         />
       );
     }
@@ -148,9 +145,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  alerts: filter(state, (reducer) => reducer && reducer.alert).map(
-    (reducer) => reducer && reducer.alert
-  ),
+  alert: state.authReducer.alert,
   loading: state.authReducer.loading
 });
 

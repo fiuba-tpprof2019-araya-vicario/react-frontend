@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { api, getConfig } from '../../api/apiInterfaceProvider';
-import { utilsMessages, myTutorialsMessages } from '../../utils/messages';
+import { myTutorialsMessages } from '../../utils/messages';
 import {
   formatterDate,
   getDescriptionByRequestStatus
@@ -215,17 +215,6 @@ export default (state = initialState, action) => {
           onDismiss: clearAlert
         }
       };
-    case QUERY_ERROR:
-      return {
-        ...state,
-        alert: {
-          message: utilsMessages.QUERY_ERROR,
-          style: 'danger',
-          onDismiss: clearAlert
-        }
-      };
-    case CLEAR_ALERT:
-      return { ...state, alert: null };
     default:
       return state;
   }

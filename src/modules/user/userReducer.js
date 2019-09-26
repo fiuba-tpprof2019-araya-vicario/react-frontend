@@ -210,31 +210,6 @@ export default (state = initialState, action) => {
         activeUser: fetchUser(action.data.user),
         profiles: fetchRoles(action.data.profiles)
       };
-    case QUERY_ERROR:
-      return {
-        ...state,
-        alert: {
-          style: 'danger',
-          message: action.err.message,
-          onDismiss: clearAlert
-        }
-      };
-    case INTERNAL_ERROR:
-      return {
-        ...state,
-        alert: {
-          style: 'danger',
-          message: 'Ocurrió un error inesperado',
-          onDismiss: clearAlert
-        }
-      };
-    case SUCCESSFUL:
-      return {
-        ...state,
-        alert: { style: 'success', message: action.text, onDismiss: clearAlert }
-      };
-    case CLEAR_ALERT:
-      return { ...state, alert: null };
     case CLEAR_USER_RESULT:
       return { ...state, results: [], activeSearch: false };
     default:
