@@ -39,11 +39,11 @@ export default class ShowIdea extends React.Component {
   }
 
   showReprobateProposalModal() {
-    this.AcceptProject.showModal();
+    this.ReprobateProposal.showModal();
   }
 
   showApproveProposalModal() {
-    this.AcceptProject.showModal();
+    this.ApproveProposal.showModal();
   }
 
   render() {

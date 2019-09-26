@@ -36,7 +36,7 @@ export default class AcceptProposalModal extends React.Component {
       <Button
         key="reprobateButton"
         bsSize="small"
-        bsStyle="success"
+        bsStyle="danger"
         onClick={() => {
           const { projectId } = this.props;
 
