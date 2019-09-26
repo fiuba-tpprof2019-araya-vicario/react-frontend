@@ -6,8 +6,7 @@ import { myProjectMessages } from '../../messages.js';
 
 export default class AcceptProposalModal extends React.Component {
   static propTypes = {
-    acceptProposal: PropTypes.func,
-    requestId: PropTypes.number,
+    reprobateProposal: PropTypes.func,
     projectId: PropTypes.number
   };
 
@@ -24,7 +23,7 @@ export default class AcceptProposalModal extends React.Component {
     return (
       <Row key="body">
         <Col md={12} lg={12}>
-          {myProjectMessages.ACCEPT_PROPOSAL}
+          {myProjectMessages.REPROBATE_PROPOSAL}
         </Col>
       </Row>
     );
@@ -35,17 +34,17 @@ export default class AcceptProposalModal extends React.Component {
 
     buttons.push(
       <Button
-        key="uploadButton"
+        key="reprobateButton"
         bsSize="small"
         bsStyle="success"
         onClick={() => {
-          const { requestId, projectId } = this.props;
+          const { projectId } = this.props;
 
-          this.props.acceptProposal(requestId, projectId);
+          this.props.reprobateProposal(projectId);
           this.modal.hideModal();
         }}
       >
-        Aceptar propuesta
+        Reprobar propuesta
       </Button>
     );
 
@@ -55,8 +54,8 @@ export default class AcceptProposalModal extends React.Component {
   render() {
     return (
       <Dialogue
-        key="acceptProposal"
-        title="Subir una propuesta"
+        key="reprobateProposal"
+        title="Reprobar la propuesta"
         body={this.getModalBody()}
         buttons={this.getModalButtons()}
         ref={(modal) => {

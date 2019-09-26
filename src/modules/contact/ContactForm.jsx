@@ -13,13 +13,11 @@ import {
 } from 'react-bootstrap';
 import Center from 'react-center';
 import { isValidEmail } from '../../utils/services/functions';
-import LoadingModal from '../../utils/LoadingModal';
 import MandatoryField from '../../utils/forms/MandatoryField';
 
 export default class ContactForm extends React.Component {
   static propTypes = {
     uploadForm: PropTypes.func,
-    loading: PropTypes.bool,
     user: PropTypes.object
   };
 
@@ -104,7 +102,6 @@ export default class ContactForm extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.props.loading && <LoadingModal show />}
         <Row>
           <Row key="uploadFormRow2">
             <Col md={12} lg={12}>

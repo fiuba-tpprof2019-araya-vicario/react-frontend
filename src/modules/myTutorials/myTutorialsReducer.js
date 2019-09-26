@@ -74,27 +74,7 @@ export const abandonIdea = (projectId, memberId, postAction = () => {}) => (
     });
 };
 
-export const acceptProposal = (requestId) => (dispatch) => {
-  dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
-  const body = {
-    accepted_proposal: 'accepted'
-  };
-
-  axios
-    .put(api.acceptProposalByTutor(requestId), body, config)
-    .then((res) => res.data.data)
-    .then(() => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(acceptedProposal());
-    })
-    .catch((err) => {
-      dispatch(queryError(err));
-      dispatch(toggleLoading({ loading: false }));
-    });
-};
-
-export const getMyTutorial = (projectId) => (dispatch) => {
+const getActiveTutorial = (dispatch, projectId) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
 
@@ -108,6 +88,30 @@ export const getMyTutorial = (projectId) => (dispatch) => {
     .catch((err) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(queryError(err));
+    });
+};
+
+export const getMyTutorial = (projectId) => (dispatch) =>
+  getActiveTutorial(dispatch, projectId);
+
+export const acceptProposal = (requestId, projectId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    accepted_proposal: 'accepted'
+  };
+
+  axios
+    .put(api.acceptProposalByTutor(requestId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+      dispatch(acceptedProposal());
+      getActiveTutorial(dispatch, projectId);
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
     });
 };
 
@@ -222,8 +226,6 @@ export default (state = initialState, action) => {
       };
     case CLEAR_ALERT:
       return { ...state, alert: null };
-    case TOGGLE_LOADING:
-      return { ...state, loading: action.loading };
     default:
       return state;
   }

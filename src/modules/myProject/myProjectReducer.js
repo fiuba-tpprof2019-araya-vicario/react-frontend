@@ -510,8 +510,6 @@ export default (state = initialState, action) => {
       };
     case CLEAR_ALERT:
       return { ...state, alert: null };
-    case TOGGLE_LOADING:
-      return { ...state, loading: action.loading };
     default:
       return state;
   }

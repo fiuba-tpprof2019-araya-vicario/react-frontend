@@ -33,7 +33,7 @@ export default function getStatusIcon(type, status, element) {
 
   return (
     <OverlayTrigger
-      key={placement}
+      key={`placement-${element}`}
       placement={placement}
       overlay={<Tooltip id={placement}>{title}</Tooltip>}
     >

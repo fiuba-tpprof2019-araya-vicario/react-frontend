@@ -142,6 +142,7 @@ export class CustomTable extends React.Component {
     return (
       key !== 'id' &&
       key !== 'projectId' &&
+      key !== 'requestId' &&
       key !== 'project' &&
       key !== 'requestStatusId'
     );

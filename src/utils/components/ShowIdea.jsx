@@ -5,6 +5,8 @@ import history from '../../redux/history';
 import CustomAlert from '../../utils/CustomAlert';
 import { getRequestFromUser } from '../../utils/services/functions';
 import AcceptProposalModal from './modals/AcceptProposalModal';
+import ApproveProposalModal from './modals/ApproveProposalModal';
+import ReprobateProjectModal from './modals/ReprobateProposalModal';
 import ShowProposal from './ShowProposal';
 import ShowIdeaInfo from './ShowIdeaInfo';
 
@@ -16,9 +18,12 @@ export default class ShowIdea extends React.Component {
     showProposal: PropTypes.bool,
     showBackButton: PropTypes.bool,
     showAbandonButton: PropTypes.bool,
+    showApprovalButtons: PropTypes.bool,
     isUserCreator: PropTypes.bool,
     showUploadIdeaModal: PropTypes.func,
     acceptProposal: PropTypes.func,
+    approveProposal: PropTypes.func,
+    reprobateProposal: PropTypes.func,
     showAbandonIdeaModal: PropTypes.func,
     uploadProposal: PropTypes.func
   };
@@ -33,6 +38,14 @@ export default class ShowIdea extends React.Component {
     this.AcceptProposal.showModal();
   }
 
+  showReprobateProposalModal() {
+    this.AcceptProject.showModal();
+  }
+
+  showApproveProposalModal() {
+    this.AcceptProject.showModal();
+  }
+
   render() {
     const {
       project,
@@ -40,8 +53,11 @@ export default class ShowIdea extends React.Component {
       showAbandonButton,
       userId,
       showUploadIdeaModal,
+      showApprovalButtons,
       uploadProposal,
       acceptProposal,
+      approveProposal,
+      reprobateProposal,
       isUserCreator,
       showProposal,
       nextStepMessage,
@@ -124,12 +140,46 @@ export default class ShowIdea extends React.Component {
                 <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
               </Button>
             )}
+          {showApprovalButtons && (
+            <Fragment>
+              <Button
+                bsStyle="danger"
+                onClick={() => this.showReprobateProposalModal()}
+                bsSize="small"
+              >
+                <i className="fa fa-remove">&nbsp;</i>&nbsp; Reprobar propuesta
+              </Button>
+              &nbsp;&nbsp;
+              <Button
+                bsStyle="success"
+                onClick={() => this.showApproveProposalModal()}
+                bsSize="small"
+              >
+                <i className="fa fa-check">&nbsp;</i>&nbsp; Aprobar propuesta
+              </Button>
+            </Fragment>
+          )}
         </Row>
         <AcceptProposalModal
           acceptProposal={acceptProposal}
-          requestId={request && request.id}
+          requestId={request ? request.id : undefined}
+          projectId={project ? project.id : undefined}
           ref={(modal) => {
             this.AcceptProposal = modal;
+          }}
+        />
+        <ApproveProposalModal
+          acceptProposal={approveProposal}
+          projectId={project ? project.id : undefined}
+          ref={(modal) => {
+            this.ApproveProposal = modal;
+          }}
+        />
+        <ReprobateProjectModal
+          acceptProposal={reprobateProposal}
+          projectId={project ? project.id : undefined}
+          ref={(modal) => {
+            this.ReprobateProposal = modal;
           }}
         />
       </Fragment>

@@ -4,10 +4,9 @@ import { Row, Col, Button } from 'react-bootstrap';
 import Dialogue from '../../Dialogue';
 import { myProjectMessages } from '../../messages.js';
 
-export default class AcceptProposalModal extends React.Component {
+export default class ApproveProposalModal extends React.Component {
   static propTypes = {
-    acceptProposal: PropTypes.func,
-    requestId: PropTypes.number,
+    approbateProposal: PropTypes.func,
     projectId: PropTypes.number
   };
 
@@ -24,7 +23,7 @@ export default class AcceptProposalModal extends React.Component {
     return (
       <Row key="body">
         <Col md={12} lg={12}>
-          {myProjectMessages.ACCEPT_PROPOSAL}
+          {myProjectMessages.APPROBATE_PROPOSAL}
         </Col>
       </Row>
     );
@@ -39,9 +38,9 @@ export default class AcceptProposalModal extends React.Component {
         bsSize="small"
         bsStyle="success"
         onClick={() => {
-          const { requestId, projectId } = this.props;
+          const { projectId } = this.props;
 
-          this.props.acceptProposal(requestId, projectId);
+          this.props.approbateProposal(projectId);
           this.modal.hideModal();
         }}
       >
@@ -55,8 +54,8 @@ export default class AcceptProposalModal extends React.Component {
   render() {
     return (
       <Dialogue
-        key="acceptProposal"
-        title="Subir una propuesta"
+        key="approveProposal"
+        title="Aprovar una propuesta"
         body={this.getModalBody()}
         buttons={this.getModalButtons()}
         ref={(modal) => {

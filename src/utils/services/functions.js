@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { REQUEST_STATES, REQUIREMENT_STATES, STATES } from './references';
+import { REQUEST_STATES, REQUIREMENT_STATES } from './references';
 
 export function getById(objects, id) {
   return _.find(objects, (object) => object.id === id);
@@ -95,9 +95,7 @@ export function getFullNameWithEmail(user) {
 }
 
 export function getDescriptionByRequestStatus(stateRequest) {
-  return stateRequest && stateRequest !== STATES.accepted
-    ? ` (${REQUEST_STATES[stateRequest]}) `
-    : '';
+  return stateRequest ? REQUEST_STATES[stateRequest] : '';
 }
 
 export function getDescriptionByRequirementStatus(status) {
@@ -110,9 +108,9 @@ export function getDescriptionByProjectStatus(status) {
 
 export function getFullNameWithStatus(user, label) {
   const requests = user[label];
-  const description = getDescriptionByRequestStatus(
+  const description = ` (${getDescriptionByRequestStatus(
     requests[requests.length - 1].status
-  );
+  )}) `;
 
   return getFullNameWithDescription(user, description);
 }

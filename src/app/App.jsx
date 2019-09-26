@@ -23,6 +23,7 @@ import Contact from '../modules/contact/ContactIndex';
 import Requirement from '../modules/requirement/RequirementIndex';
 import { persistor } from '../redux/store';
 import CustomAlert from '../utils/CustomAlert';
+import LoadingModal from '../utils/LoadingModal';
 import './App.css';
 import Loading from '../utils/Loading';
 import { CREDENTIALS } from '../utils/services/references';
@@ -30,7 +31,8 @@ import { CREDENTIALS } from '../utils/services/references';
 class App extends React.Component {
   static propTypes = {
     alerts: PropTypes.array,
-    execute: PropTypes.func
+    execute: PropTypes.func,
+    loading: PropTypes.bool
   };
 
   alertRender() {
@@ -64,6 +66,7 @@ class App extends React.Component {
       <Fragment>
         <NavBar />
         {this.alertRender()}
+        <LoadingModal show={this.props.loading} />
         <PersistGate loading={<Loading />} persistor={persistor}>
           <Grid fluid style={{ width: '95%' }}>
             <Switch>
@@ -147,7 +150,8 @@ class App extends React.Component {
 const mapStateToProps = (state) => ({
   alerts: filter(state, (reducer) => reducer && reducer.alert).map(
     (reducer) => reducer && reducer.alert
-  )
+  ),
+  loading: state.authReducer.loading
 });
 
 const mapDispatch = (dispatch) => ({

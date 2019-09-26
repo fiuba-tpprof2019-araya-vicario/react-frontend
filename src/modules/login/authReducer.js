@@ -4,6 +4,7 @@ import { api } from '../../api/apiInterfaceProvider';
 
 const LOGIN_USER = 'LOGIN_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
+const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const LOGIN_ERROR = 'LOGIN_ERROR';
 const CLEAR_ERRORS = 'CLEAR_ERRORS';
 const POST_IDEA = 'POST_IDEA';
@@ -112,6 +113,8 @@ export default (state = initialState, action) => {
       };
     case CLEAR_ERRORS:
       return { ...state, error: {}, alert: null };
+    case TOGGLE_LOADING:
+      return { ...state, loading: action.loading };
     default:
       return state;
   }

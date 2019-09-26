@@ -235,7 +235,6 @@ const mapDispatch = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  loading: state.myProjectReducer.loading,
   coautors: state.myProjectReducer.coautors,
   careers: state.myProjectReducer.careers,
   requests: state.myProjectReducer.requests,

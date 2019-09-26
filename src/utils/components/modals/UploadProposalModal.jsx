@@ -72,7 +72,7 @@ export default class UploadProposalModal extends React.Component {
 
   getModalBody() {
     return (
-      <Row key="agregarInformeModalRow1">
+      <Row key="body">
         <Col md={12}>
           <Field
             controlId="fileInput"
@@ -126,7 +126,7 @@ export default class UploadProposalModal extends React.Component {
   render() {
     return (
       <Dialogue
-        key="nuevoInformeModal"
+        key="uploadProposal"
         title="Subir una propuesta"
         body={this.getModalBody()}
         buttons={this.getModalButtons()}

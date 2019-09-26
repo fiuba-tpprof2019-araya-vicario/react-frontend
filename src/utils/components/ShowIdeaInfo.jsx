@@ -24,7 +24,7 @@ export default class ShowIdeaInfo extends React.Component {
         const fullName = getFullNameWithEmail(student);
 
         autors.push(
-          <span>
+          <span key={student.id}>
             Participante: {fullName}
             &nbsp;
             {State.id <= 2 &&
@@ -34,6 +34,7 @@ export default class ShowIdeaInfo extends React.Component {
                 'solicitud'
               )}
             {State.id === 2 &&
+              student.StudentRequests[0].status !== 'pending' &&
               getStatusIcon(
                 'estudiante',
                 student.StudentRequests[0].accepted_proposal,
@@ -57,12 +58,13 @@ export default class ShowIdeaInfo extends React.Component {
       fullName = getFullNameWithEmail(Tutor);
 
       tutors.push(
-        <span>
+        <span key={Tutor.id}>
           Tutor: {fullName}
           &nbsp;
           {State.id <= 2 &&
             getStatusIcon('tutor', Tutor.TutorRequests[0].status, 'solicitud')}
           {State.id === 2 &&
+            Tutor.TutorRequests[0].status !== 'pending' &&
             getStatusIcon(
               'tutor',
               Tutor.TutorRequests[0].accepted_proposal,
@@ -70,21 +72,22 @@ export default class ShowIdeaInfo extends React.Component {
             )}
         </span>
       );
-      Cotutors.forEach((tutor) => {
-        fullName = getFullNameWithEmail(tutor);
+      Cotutors.forEach((cotutor) => {
+        fullName = getFullNameWithEmail(cotutor);
         tutors.push(
-          <span>
+          <span key={cotutor.id}>
             Cotutor: {fullName}
             {State.id <= 2 &&
               getStatusIcon(
                 `cotutor ${fullName}`,
-                tutor.TutorRequests[0].status,
+                cotutor.TutorRequests[0].status,
                 'solicitud'
               )}
             {State.id <= 2 &&
+              cotutor.TutorRequests[0].status !== 'pending' &&
               getStatusIcon(
                 `cotutor ${fullName}`,
-                tutor.TutorRequests[0].accepted_proposal,
+                cotutor.TutorRequests[0].accepted_proposal,
                 'propuesta'
               )}
           </span>

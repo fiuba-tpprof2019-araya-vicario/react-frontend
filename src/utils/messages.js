@@ -17,7 +17,9 @@ export const myProjectMessages = {
     'No se ha creado una idea aún, agregue una para dar comienzo a su propuesta. En la misma debe describir brevemente el proposito de su proyecto (En caso de no tener un tutor asignado puede realizarlo en pasos posteriores).',
   GO_TO_REQUERIMENT_DESCRIPTION: 'Puedes tomar un requerimiento.',
   EMPTY_PROPOSAL: 'No se ha subido ninguna propuesta.',
-  ACCEPT_PROPOSAL: '¿Estas seguro que deseas aceptar la propuesta?',
+  ACCEPT_PROPOSAL: '¿Estás seguro que deseas aceptar la propuesta?',
+  REPROBATE_PROPOSAL: '¿Estás seguro que deseas reprobar la propuesta?',
+  APPROBATE_PROPOSAL: '¿Estás seguro que deseas aprobar la propuesta?',
   NEW_STEP_PROJECT_CREATED_INFO:
     'Para avanzar al siguiente paso el proyecto debe tener un tutor asignado a tu proyecto, que haya aceptado la solicitud de tutoría.',
   NEW_STEP_PROJECT_ACCEPTED_INFO:
@@ -25,7 +27,7 @@ export const myProjectMessages = {
   NEW_STEP_PROPOSAL_UNDER_REVISION_INFO:
     'La comision curricular esta revisando la propuesta ingresada.',
   ABANDON_WARNING: (proyect) =>
-    `¿Estas seguro de que quieres abandonar el proyecto ${proyect}?`
+    `¿Estás seguro de que quieres abandonar el proyecto ${proyect}?`
 };
 
 export const requestMessages = {
@@ -34,9 +36,9 @@ export const requestMessages = {
   NO_RESULTS_MESSAGE:
     'No te han llegado solicitudes para colaborar en otros proyectos',
   ACCEPT_WARNING: (request) =>
-    `¿Estas seguro de que quieres aceptar el pedido para trabajar en el proyecto ${request}?`,
+    `¿Estás seguro de que quieres aceptar el pedido para trabajar en el proyecto ${request}?`,
   REJECT_WARNING: (request) =>
-    `¿Estas seguro de que quieres rechazar el pedido para trabajr en el proyecto ${request}?`
+    `¿Estás seguro de que quieres rechazar el pedido para trabajr en el proyecto ${request}?`
 };
 
 export const requirementMessages = {
@@ -44,7 +46,7 @@ export const requirementMessages = {
   SUBTITLE: 'Colabora con los distintos requerimientos solicitados',
   EDIT_TITLE: 'Editar Requerimiento',
   DELETE_WARNING: (requirement) =>
-    `¿Estas seguro que quieres borrar el requerimiento ${requirement}?`,
+    `¿Estás seguro que quieres borrar el requerimiento ${requirement}?`,
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
 };
 

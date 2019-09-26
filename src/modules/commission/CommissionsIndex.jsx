@@ -102,7 +102,6 @@ export class CommissionsIndex extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  loading: state.commissionsReducer.loading,
   projects: state.commissionsReducer.projects
 });
 

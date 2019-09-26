@@ -66,6 +66,7 @@ export class CommissionsDetail extends React.Component {
             }
             showBackButton
             showProposal
+            showApprovalButtons
             project={project}
             userId={user.id}
           />
@@ -88,7 +89,6 @@ const mapDispatch = (dispatch) => ({
 });
 
 const mapStateToProps = (state, ownProps) => ({
-  loading: state.commissionsReducer.loading,
   projectId: ownProps.match.params.id,
   project: state.commissionsReducer.project,
   user: state.authReducer.user

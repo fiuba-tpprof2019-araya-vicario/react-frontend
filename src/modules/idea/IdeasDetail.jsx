@@ -45,7 +45,6 @@ const mapDispatch = (dispatch) => ({
 });
 
 const mapStateToProps = (state, ownProps) => ({
-  loading: state.ideasReducer.loading,
   projectId: ownProps.match.params.id,
   project: state.ideasReducer.project,
   user: state.authReducer.user

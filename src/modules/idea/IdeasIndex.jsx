@@ -99,7 +99,6 @@ export class IdeasIndex extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  loading: state.ideasReducer.loading,
   projects: state.ideasReducer.projects
 });
 

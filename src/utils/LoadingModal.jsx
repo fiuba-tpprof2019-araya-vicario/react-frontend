@@ -8,29 +8,9 @@ export default class LoadingModal extends React.Component {
     show: PropTypes.bool
   };
 
-  constructor(props) {
-    super();
-    this.state = { show: props.show };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-  }
-
-  showModal() {
-    this.setState({ show: true });
-  }
-
-  hideModal() {
-    this.setState({ show: false });
-  }
-
   render() {
     return (
-      <Modal
-        {...this.props}
-        show={this.state.show}
-        onHide={this.hideModal}
-        dialogClassName="custom-modal loadingModal"
-      >
+      <Modal show={this.props.show} dialogClassName="custom-modal loadingModal">
         <Modal.Body>
           <Row className="expandedRow">
             <Center>

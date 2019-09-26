@@ -12,7 +12,6 @@ export class ContactIndex extends React.Component {
   static propTypes = {
     clearAlert: PropTypes.func,
     upload: PropTypes.func,
-    loading: PropTypes.bool,
     isAuthenticated: PropTypes.bool,
     user: PropTypes.object
   };
@@ -41,7 +40,6 @@ export class ContactIndex extends React.Component {
               subtitle={contactMessages.SUBTITLE}
             />
             <ContactForm
-              loading={this.props.loading}
               uploadForm={this.uploadForm}
               user={this.props.isAuthenticated && this.props.user}
             />
@@ -63,7 +61,6 @@ const mapDispatch = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  loading: state.contactReducer.loading,
   user: state.authReducer.user,
   isAuthenticated: state.authReducer.isAuthenticated
 });

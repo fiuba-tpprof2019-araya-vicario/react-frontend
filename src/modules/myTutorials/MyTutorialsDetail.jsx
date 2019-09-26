@@ -155,8 +155,8 @@ const mapDispatch = (dispatch) => ({
   getMyTutorial: (projectId) => {
     dispatch(getMyTutorial(projectId));
   },
-  accept: (requestId) => {
-    dispatch(acceptProposal(requestId));
+  accept: (requestId, projectId) => {
+    dispatch(acceptProposal(requestId, projectId));
   },
   clearAlert: () => {
     dispatch(clearAlert());
@@ -167,7 +167,6 @@ const mapDispatch = (dispatch) => ({
 });
 
 const mapStateToProps = (state, ownProps) => ({
-  loading: state.myTutorialsReducer.loading,
   projectId: ownProps.match.params.id,
   project: state.myTutorialsReducer.project,
   user: state.authReducer.user,
