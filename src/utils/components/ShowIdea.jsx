@@ -169,14 +169,14 @@ export default class ShowIdea extends React.Component {
           }}
         />
         <ApproveProposalModal
-          acceptProposal={approveProposal}
+          approveProposal={approveProposal}
           projectId={project ? project.id : undefined}
           ref={(modal) => {
             this.ApproveProposal = modal;
           }}
         />
         <ReprobateProjectModal
-          acceptProposal={reprobateProposal}
+          reprobateProposal={reprobateProposal}
           projectId={project ? project.id : undefined}
           ref={(modal) => {
             this.ReprobateProposal = modal;

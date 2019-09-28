@@ -20,11 +20,9 @@ export class UserIndex extends React.Component {
     users: PropTypes.func,
     results: PropTypes.array,
     clearAlert: PropTypes.func
-    // clearResult: PropTypes.func
   };
 
   componentDidMount() {
-    // this.props.clearResult();
     this.props.clearAlert();
   }
 
@@ -42,9 +40,6 @@ export class UserIndex extends React.Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  // clearResult: () => {
-  //   dispatch(clearUsers());
-  // },
   clearAlert: () => {
     dispatch(clearAlert());
   },

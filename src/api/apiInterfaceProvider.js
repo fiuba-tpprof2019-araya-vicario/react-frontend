@@ -8,6 +8,7 @@ const PROFIlES = 'profiles';
 const REQUESTS = 'requests';
 const REQUIREMENTS = 'requirements';
 const CONTACT = 'contacts';
+const CAREERS = 'careers';
 
 export const api = {
   base: BASE,
@@ -19,12 +20,14 @@ export const api = {
   projectsTutor: `${BASE + PROJECTS}/tutors`,
   users: BASE + USERS,
   profiles: BASE + PROFIlES,
+  careers: BASE + CAREERS,
   requestsTutors: `${BASE + REQUESTS}/tutors`,
   requestsStudents: `${BASE + REQUESTS}/students`,
   requirements: BASE + REQUIREMENTS,
   requirement: (id) => `${BASE + REQUIREMENTS}/${id}`,
   project: (id) => `${BASE + PROJECTS}/${id}`,
   proposal: (id) => `${BASE + PROJECTS}/${id}/proposal`,
+  assessment: (id) => `${BASE + PROJECTS}/${id}/assessments`,
   abandonStudentProject: (projectId, memberId) =>
     `${BASE + PROJECTS}/${projectId}/students/${memberId}`,
   abandonTutorProject: (projectId, memberId) =>

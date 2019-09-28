@@ -24,17 +24,12 @@ export default class CommissionsTable extends React.Component {
   }
 
   render() {
-    // const disableButton = (request) =>
-    //   request.requestStatusId !== STATES.pending;
-
     return (
       <CustomTable
         headers={this.getHeaders()}
         data={this.props.data}
         actions={{
           detailAction: { action: this.props.show }
-          // acceptAction: { action: this.props.accept, disabled: disableButton },
-          // rejectAction: { action: this.props.reject, disabled: disableButton }
         }}
       />
     );

@@ -16,6 +16,7 @@ const initialState = {
   results: [],
   alert: null,
   profiles: [],
+  careers: [],
   activeUser: {},
   activeSearch: false
 };
@@ -72,12 +73,14 @@ export const getUserById = (id) => (dispatch) => {
   axios
     .all([
       axios.get(`${api.users}/${id}`, config),
-      axios.get(api.profiles, config)
+      axios.get(api.profiles, config),
+      axios.get(api.careers, config)
     ])
     .then(
-      axios.spread((user, profiles) => ({
+      axios.spread((user, profiles, careers) => ({
         user: user.data.data,
-        profiles: profiles.data.data
+        profiles: profiles.data.data,
+        careers: careers.data.data
       }))
     )
     .then((data) => {
@@ -151,9 +154,9 @@ export const createUser = (name, email) => (dispatch) => {
     });
 };
 
-export const editUser = (idUser, profiles) => (dispatch) => {
+export const editUser = (idUser, profiles, careers) => (dispatch) => {
   const config = getConfig();
-  const body = { profiles };
+  const body = { profiles, careers };
 
   axios
     .put(`${api.users}/${idUser}`, body, config)
@@ -174,7 +177,14 @@ const fetchUsersTable = (data) =>
     email: rowObject.email
   }));
 
-const fetchRoles = (data) =>
+const fetchCareers = (data) =>
+  data.map((rowObject) => ({
+    id: rowObject.id,
+    name: rowObject.name,
+    description: rowObject.description
+  }));
+
+const fetchProfiles = (data) =>
   data.map((rowObject) => ({
     id: rowObject.id,
     name: rowObject.name,
@@ -188,11 +198,18 @@ const fetchUser = (data) => {
     description: rowObject.description
   }));
 
+  const careers = data.Careers.map((rowObject) => ({
+    id: rowObject.id,
+    name: rowObject.name,
+    description: rowObject.description
+  }));
+
   return {
     id: data.id,
     name: `${data.name} ${data.surname}`,
     email: data.email,
-    profiles
+    profiles,
+    careers
   };
 };
 
@@ -208,7 +225,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         activeUser: fetchUser(action.data.user),
-        profiles: fetchRoles(action.data.profiles)
+        profiles: fetchProfiles(action.data.profiles),
+        careers: fetchCareers(action.data.careers)
       };
     case CLEAR_USER_RESULT:
       return { ...state, results: [], activeSearch: false };

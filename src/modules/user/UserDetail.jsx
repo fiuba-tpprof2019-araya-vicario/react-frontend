@@ -8,6 +8,7 @@ import { getUserById, clearAlert, editUser } from './userReducer';
 import LoadingModal from '../../utils/LoadingModal';
 import Title from '../../utils/Title';
 import EditUserProfiles from './EditUserProfiles';
+import EditUserCareers from './EditUserCareers';
 import EditUserForm from './EditUserForm';
 import { userMessages } from '../../utils/messages';
 import { getOnlyField } from '../../utils/services/functions';
@@ -17,16 +18,19 @@ export class UserDetail extends React.Component {
     super();
     this.state = {
       ready: false,
-      profiles: props.profiles
+      profiles: props.activeUser.profiles,
+      careers: props.activeUser.careers
     };
     this.submitEditForm = this.submitEditForm.bind(this);
     this.refreshProfiles = this.refreshProfiles.bind(this);
+    this.refreshCareers = this.refreshCareers.bind(this);
   }
 
   static propTypes = {
     userId: PropTypes.string,
     user: PropTypes.func,
     editUser: PropTypes.func,
+    careers: PropTypes.array,
     profiles: PropTypes.array,
     activeUser: PropTypes.object
   };
@@ -47,11 +51,18 @@ export class UserDetail extends React.Component {
     });
   }
 
-  submitEditForm() {
-    // this.formEdit.wrappedInstance.editarUserSubmit();
-    const profiles = getOnlyField(this.state.profiles, 'id');
+  refreshCareers(newCareer) {
+    this.setState({
+      ...this.state,
+      careers: newCareer
+    });
+  }
 
-    this.props.editUser(this.props.userId, profiles);
+  submitEditForm() {
+    const profiles = getOnlyField(this.state.profiles, (profile) => profile.id);
+    const careers = getOnlyField(this.state.careers, (career) => career.id);
+
+    this.props.editUser(this.props.userId, profiles, careers);
   }
 
   render() {
@@ -67,13 +78,24 @@ export class UserDetail extends React.Component {
             user={this.props.activeUser}
           />
           <Row>
-            <Col md={8}>
+            <Col md={6}>
               <Panel>
                 <Panel.Body>
                   <EditUserProfiles
                     activeUser={this.props.activeUser}
                     profiles={this.props.profiles}
                     refresh={this.refreshProfiles}
+                  />
+                </Panel.Body>
+              </Panel>
+            </Col>
+            <Col md={6}>
+              <Panel>
+                <Panel.Body>
+                  <EditUserCareers
+                    activeUser={this.props.activeUser}
+                    careers={this.props.careers}
+                    refresh={this.refreshCareers}
                   />
                 </Panel.Body>
               </Panel>
@@ -109,8 +131,8 @@ const mapDispatch = (dispatch) => ({
   clearAlert: () => {
     dispatch(clearAlert());
   },
-  editUser: (userId, profiles) => {
-    dispatch(editUser(userId, profiles));
+  editUser: (userId, profiles, careers) => {
+    dispatch(editUser(userId, profiles, careers));
   }
 });
 
@@ -118,7 +140,8 @@ const mapStateToProps = (state, ownProps) => ({
   alert: state.userReducer.alert,
   activeUser: state.userReducer.activeUser,
   userId: ownProps.match.params.id,
-  profiles: state.userReducer.profiles
+  profiles: state.userReducer.profiles,
+  careers: state.userReducer.careers
 });
 
 export default withRouter(

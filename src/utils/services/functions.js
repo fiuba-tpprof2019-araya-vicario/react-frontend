@@ -29,9 +29,9 @@ export const formatterDate = (data) => {
   return fullDate;
 };
 
-export function getOnlyField(values, valueString = 'value') {
+export function getOnlyField(values, getValue = (element) => element.value) {
   return values && values.length > 0
-    ? values.map((elem) => elem[valueString])
+    ? values.map((elem) => getValue(elem))
     : [];
 }
 
@@ -55,14 +55,14 @@ export function getSelectOptionsWithIgnore(
 
 export function getSelectOptions(
   options,
-  { valueString = 'id', getLabel = (e) => e.name, getFixed = () => {} }
+  { getValue = (e) => e.id, getLabel = (e) => e.name, getFixed = () => {} }
 ) {
   if (!options || options.length === 0) {
     return [];
   }
 
   return options.map((elem) => ({
-    value: elem[valueString],
+    value: getValue(elem),
     label: getLabel(elem),
     isFixed: getFixed(elem)
   }));

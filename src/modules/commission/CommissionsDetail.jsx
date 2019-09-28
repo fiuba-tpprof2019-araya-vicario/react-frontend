@@ -3,7 +3,12 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import { getProject, rejectIdea, clearAlert } from './commissionsReducer';
+import {
+  getProject,
+  approve,
+  reprobate,
+  clearAlert
+} from './commissionsReducer';
 import Title from '../../utils/Title';
 import { commissionsMessages } from '../../utils/messages';
 import ShowIdea from '../../utils/components/ShowIdea';
@@ -13,43 +18,20 @@ export class CommissionsDetail extends React.Component {
   static propTypes = {
     clearAlert: PropTypes.func,
     getProject: PropTypes.func,
+    approveProposal: PropTypes.func,
+    reprobateProposal: PropTypes.func,
     projectId: PropTypes.string,
-    rejectIdea: PropTypes.func,
     user: PropTypes.object,
     project: PropTypes.object
   };
-
-  constructor() {
-    super();
-    this.showRejectModal = this.showRejectModal.bind(this);
-    this.rejectPostAction = this.rejectPostAction.bind(this);
-  }
 
   componentDidMount() {
     this.props.clearAlert();
     this.props.getProject(this.props.projectId);
   }
 
-  rejectPostAction() {
-    history.push('/ideas/');
-  }
-
-  showRejectModal(memberId) {
-    this.AbandonModal.getRef().showModal(
-      this.props.project.id,
-      memberId,
-      this.props.project.name,
-      this.props.rejectIdea,
-      this.abandonPostAction
-    );
-  }
-
-  showUploadIdeaModal() {
-    this.UploadIdeaModal.showModal();
-  }
-
   render() {
-    const { user, project } = this.props;
+    const { user, project, approveProposal, reprobateProposal } = this.props;
 
     return (
       <Fragment>
@@ -67,6 +49,8 @@ export class CommissionsDetail extends React.Component {
             showBackButton
             showProposal
             showApprovalButtons
+            approveProposal={approveProposal}
+            reprobateProposal={reprobateProposal}
             project={project}
             userId={user.id}
           />
@@ -83,8 +67,11 @@ const mapDispatch = (dispatch) => ({
   clearAlert: () => {
     dispatch(clearAlert());
   },
-  rejectIdea: (projectId, memberId, postAction) => {
-    dispatch(rejectIdea(projectId, memberId, postAction));
+  approveProposal: (projectId) => {
+    dispatch(approve(projectId));
+  },
+  reprobateProposal: (projectId) => {
+    dispatch(reprobate(projectId, history.push('/commissions/')));
   }
 });
 

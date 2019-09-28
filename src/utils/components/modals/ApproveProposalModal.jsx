@@ -6,7 +6,7 @@ import { myProjectMessages } from '../../messages.js';
 
 export default class ApproveProposalModal extends React.Component {
   static propTypes = {
-    approbateProposal: PropTypes.func,
+    approveProposal: PropTypes.func,
     projectId: PropTypes.number
   };
 
@@ -40,7 +40,7 @@ export default class ApproveProposalModal extends React.Component {
         onClick={() => {
           const { projectId } = this.props;
 
-          this.props.approbateProposal(projectId);
+          this.props.approveProposal(projectId);
           this.modal.hideModal();
         }}
       >

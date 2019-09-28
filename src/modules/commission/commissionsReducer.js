@@ -69,7 +69,7 @@ export const rejectIdea = (projectId, memberId, postAction = () => {}) => (
     });
 };
 
-export const getProject = (projectId) => (dispatch) => {
+export const getActiveProject = (projectId, dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
 
@@ -84,6 +84,10 @@ export const getProject = (projectId) => (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(queryError(err));
     });
+};
+
+export const getProject = (projectId) => (dispatch) => {
+  getActiveProject(projectId, dispatch);
 };
 
 export const getProjects = (dispatch) => {
@@ -103,19 +107,19 @@ export const getProjects = (dispatch) => {
     });
 };
 
-export const acceptRequest = (requestId) => (dispatch) => {
+export const approve = (projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
-    type: 'tutor',
+    career: 1,
     status: 'accepted'
   };
 
   axios
-    .put(api.acceptTutorRequest(requestId), body, config)
+    .put(api.assessment(projectId), body, config)
     .then((res) => res.data.data)
     .then(() => {
-      getProjects(dispatch);
+      getActiveProject(projectId, dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {
@@ -124,19 +128,19 @@ export const acceptRequest = (requestId) => (dispatch) => {
     });
 };
 
-export const rejectRequest = (requestId) => (dispatch) => {
+export const reprobate = (projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
-    type: 'tutor',
+    career: 1,
     status: 'rejected'
   };
 
   axios
-    .put(api.rejectTutorRequest(requestId), body, config)
+    .put(api.assessment(projectId), body, config)
     .then((res) => res.data.data)
     .then(() => {
-      getProjects(dispatch);
+      getActiveProject(projectId, dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {

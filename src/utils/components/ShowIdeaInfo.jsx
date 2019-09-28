@@ -112,7 +112,13 @@ export default class ShowIdeaInfo extends React.Component {
           />
           <Itemized
             title="Carreras:"
-            items={project.Careers && getOnlyField(project.Careers, 'name')}
+            items={
+              project.ProjectCareers &&
+              getOnlyField(
+                project.ProjectCareers,
+                (projectCareer) => projectCareer.Career.name
+              )
+            }
           />
         </Fragment>
         <Fragment>

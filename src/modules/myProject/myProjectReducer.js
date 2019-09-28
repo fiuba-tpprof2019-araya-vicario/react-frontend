@@ -430,8 +430,9 @@ const getFormattedProject = (project) => ({
     getLabel: getFullName,
     getFixed: getStudentIsApproved
   }),
-  careers: getSelectOptions(project.Careers, {
-    getLabel: (careers) => careers.name
+  careers: getSelectOptions(project.ProjectCareers, {
+    getValue: (projectCareers) => projectCareers.Career.id,
+    getLabel: (projectCareers) => projectCareers.Career.name
   }),
   tutor: {
     ...project.Tutor,
