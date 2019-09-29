@@ -16,7 +16,7 @@ import {
   getInitialData
 } from './myProjectReducer';
 import Title from '../../utils/Title';
-import UploadIdeaModal from './modals/UploadIdeaModal';
+import UploadIdeaModal from '../../utils/components/uploadIdea/UploadIdeaModal';
 import { myProjectMessages } from '../../utils/messages';
 import CreateIdea from './CreateIdea';
 import ReviewIdea from './ReviewIdea';

@@ -11,7 +11,7 @@ import {
 } from './commissionsReducer';
 import Title from '../../utils/Title';
 import { commissionsMessages } from '../../utils/messages';
-import ShowIdea from '../../utils/components/ShowIdea';
+import ShowIdea from '../../utils/components/showIdea/ShowIdea';
 import history from '../../redux/history';
 
 export class CommissionsDetail extends React.Component {
@@ -68,10 +68,12 @@ const mapDispatch = (dispatch) => ({
     dispatch(clearAlert());
   },
   approveProposal: (projectId, careerId) => {
-    dispatch(approve(projectId, careerId));
+    dispatch(approve(projectId, careerId, () => history.push('/commissions/')));
   },
-  reprobateProposal: (projectId) => {
-    dispatch(reprobate(projectId, history.push('/commissions/')));
+  reprobateProposal: (projectId, careerId) => {
+    dispatch(
+      reprobate(projectId, careerId, () => history.push('/commissions/'))
+    );
   }
 });
 

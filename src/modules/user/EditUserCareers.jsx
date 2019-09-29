@@ -157,14 +157,16 @@ export default class EditUserCareers extends React.Component {
         bsStyle="danger"
         bsSize="small"
         onClick={() => {
+          const filteredCareers = this.state.careers.filter(
+            (career) => career.id !== this.state.removeCareerClicked
+          );
+
           this.setState({
             ...this.state,
-            careers: this.state.careers.filter(
-              (career) => career.id !== this.state.removeCareerClicked
-            )
+            careers: filteredCareers
           });
           this.removeCareerModal.hideModal();
-          this.props.refresh(this.state.careers);
+          this.props.refresh(filteredCareers);
         }}
       >
         Eliminar

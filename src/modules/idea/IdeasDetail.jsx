@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { getProject, clearAlert } from './ideasReducer';
 import Title from '../../utils/Title';
 import { ideasMessages } from '../../utils/messages';
-import ShowIdea from '../../utils/components/ShowIdea';
+import ShowIdea from '../../utils/components/showIdea/ShowIdea';
 
 export class IdeasDetail extends React.Component {
   static propTypes = {

@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Glyphicon, Row } from 'react-bootstrap';
-import history from '../../redux/history';
-import CustomAlert from '../../utils/CustomAlert';
+import history from '../../../redux/history';
+import CustomAlert from '../../../utils/CustomAlert';
 import {
   getRequestFromUser,
   getSelectOptions
-} from '../../utils/services/functions';
+} from '../../../utils/services/functions';
 import AcceptProposalModal from './modals/AcceptProposalModal';
 import ApproveProposalModal from './modals/ApproveProposalModal';
 import ReprobateProjectModal from './modals/ReprobateProposalModal';
@@ -186,6 +186,11 @@ export default class ShowIdea extends React.Component {
         <ReprobateProjectModal
           reprobateProposal={reprobateProposal}
           projectId={project ? project.id : undefined}
+          options={
+            user && user.careers
+              ? getSelectOptions(user.careers, {})
+              : undefined
+          }
           ref={(modal) => {
             this.ReprobateProposal = modal;
           }}

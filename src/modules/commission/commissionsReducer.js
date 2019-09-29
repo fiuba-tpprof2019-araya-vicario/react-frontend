@@ -107,7 +107,7 @@ export const getProjects = (dispatch) => {
     });
 };
 
-export const approve = (projectId, careerId) => (dispatch) => {
+export const approve = (projectId, careerId, postAction) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
@@ -120,6 +120,7 @@ export const approve = (projectId, careerId) => (dispatch) => {
     .then((res) => res.data.data)
     .then(() => {
       getActiveProject(projectId, dispatch);
+      postAction();
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {
@@ -128,11 +129,11 @@ export const approve = (projectId, careerId) => (dispatch) => {
     });
 };
 
-export const reprobate = (projectId) => (dispatch) => {
+export const reprobate = (projectId, careerId, postAction) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
-    career: 1,
+    career: careerId,
     status: 'rejected'
   };
 
@@ -141,6 +142,7 @@ export const reprobate = (projectId) => (dispatch) => {
     .then((res) => res.data.data)
     .then(() => {
       getActiveProject(projectId, dispatch);
+      postAction();
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {

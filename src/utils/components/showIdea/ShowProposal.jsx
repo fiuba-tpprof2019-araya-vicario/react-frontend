@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Row } from 'react-bootstrap';
 // import GooglePicker from 'react-google-picker';
-import { myProjectMessages } from '../../utils/messages';
+import { myProjectMessages } from '../../../utils/messages';
 import UploadProposalModal from './modals/UploadProposalModal';
 // import { CLIENT_ID, DEVELOPER_KEY, SCOPE } from '../../api/api';
 

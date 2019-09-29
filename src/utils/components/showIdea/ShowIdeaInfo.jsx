@@ -4,10 +4,10 @@ import {
   formatterDate,
   getFullNameWithEmail,
   getOnlyField
-} from '../../utils/services/functions';
-import FullRow from '../../utils/styles/FullRow';
-import Itemized from '../../utils/styles/Itemized';
-import getStatusIcon from '../forms/StatusIcon';
+} from '../../../utils/services/functions';
+import FullRow from '../../../utils/styles/FullRow';
+import Itemized from '../../../utils/styles/Itemized';
+import getStatusIcon from '../../forms/StatusIcon';
 
 export default class ShowIdeaInfo extends React.Component {
   static propTypes = {

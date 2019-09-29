@@ -119,6 +119,7 @@ export class RequirementIndex extends React.Component {
         data={this.props.requirements}
         editRequirement={this.editRequirement}
         deleteRequirement={this.deleteRequirement}
+        uploadProject={this.uploadProject}
         canEdit={this.props.canEdit}
       />
     );

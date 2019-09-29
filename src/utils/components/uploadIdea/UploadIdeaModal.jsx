@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, FormControl, Modal } from 'react-bootstrap';
 import Select from 'react-select';
-import Field from '../../../utils/forms/Field';
-import { getFullName, getOnlyField } from '../../../utils/services/functions';
-import FullRow from '../../../utils/styles/FullRow';
+import Field from '../../forms/Field';
+import { getFullName, getOnlyField } from '../../services/functions';
+import FullRow from '../../styles/FullRow';
 
 export default class UploadIdeaModal extends React.Component {
   static propTypes = {

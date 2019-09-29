@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import Dialogue from '../../Dialogue';
-import { myProjectMessages } from '../../messages.js';
+import Dialogue from '../../../Dialogue';
+import { myProjectMessages } from '../../../messages.js';
 
 export default class AcceptProposalModal extends React.Component {
   static propTypes = {
-    reprobateProposal: PropTypes.func,
+    acceptProposal: PropTypes.func,
+    requestId: PropTypes.number,
     projectId: PropTypes.number
   };
 
@@ -23,7 +24,7 @@ export default class AcceptProposalModal extends React.Component {
     return (
       <Row key="body">
         <Col md={12} lg={12}>
-          {myProjectMessages.REPROBATE_PROPOSAL}
+          {myProjectMessages.ACCEPT_PROPOSAL}
         </Col>
       </Row>
     );
@@ -34,17 +35,17 @@ export default class AcceptProposalModal extends React.Component {
 
     buttons.push(
       <Button
-        key="reprobateButton"
+        key="uploadButton"
         bsSize="small"
-        bsStyle="danger"
+        bsStyle="success"
         onClick={() => {
-          const { projectId } = this.props;
+          const { requestId, projectId } = this.props;
 
-          this.props.reprobateProposal(projectId);
+          this.props.acceptProposal(requestId, projectId);
           this.modal.hideModal();
         }}
       >
-        Reprobar propuesta
+        Aceptar propuesta
       </Button>
     );
 
@@ -54,8 +55,8 @@ export default class AcceptProposalModal extends React.Component {
   render() {
     return (
       <Dialogue
-        key="reprobateProposal"
-        title="Reprobar la propuesta"
+        key="acceptProposal"
+        title="Subir una propuesta"
         body={this.getModalBody()}
         buttons={this.getModalButtons()}
         ref={(modal) => {

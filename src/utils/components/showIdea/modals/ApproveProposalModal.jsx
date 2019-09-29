@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import Select from 'react-select';
-import Dialogue from '../../Dialogue';
-import Field from '../../forms/Field';
-import { myProjectMessages } from '../../messages.js';
+import Dialogue from '../../../Dialogue';
+import Field from '../../../forms/Field';
+import { myProjectMessages } from '../../../messages.js';
 
 export default class ApproveProposalModal extends React.Component {
   static propTypes = {
@@ -91,7 +91,7 @@ export default class ApproveProposalModal extends React.Component {
           }
         }}
       >
-        Aceptar propuesta
+        Aprobar propuesta
       </Button>
     );
 
