@@ -94,6 +94,7 @@ export const loginWithGoogle = (response) => (dispatch) => {
             email: body.email,
             name: body.name,
             credentials: data.credentials,
+            careers: data.careers,
             projectId: data.projectId
           }
         })

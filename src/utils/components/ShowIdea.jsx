@@ -3,18 +3,21 @@ import React, { Fragment } from 'react';
 import { Button, Glyphicon, Row } from 'react-bootstrap';
 import history from '../../redux/history';
 import CustomAlert from '../../utils/CustomAlert';
-import { getRequestFromUser } from '../../utils/services/functions';
+import {
+  getRequestFromUser,
+  getSelectOptions
+} from '../../utils/services/functions';
 import AcceptProposalModal from './modals/AcceptProposalModal';
 import ApproveProposalModal from './modals/ApproveProposalModal';
 import ReprobateProjectModal from './modals/ReprobateProposalModal';
-import ShowProposal from './ShowProposal';
 import ShowIdeaInfo from './ShowIdeaInfo';
+import ShowProposal from './ShowProposal';
 
 export default class ShowIdea extends React.Component {
   static propTypes = {
     project: PropTypes.object,
     nextStepMessage: PropTypes.string,
-    userId: PropTypes.number,
+    user: PropTypes.object,
     showProposal: PropTypes.bool,
     showBackButton: PropTypes.bool,
     showAbandonButton: PropTypes.bool,
@@ -51,7 +54,7 @@ export default class ShowIdea extends React.Component {
       project,
       showBackButton,
       showAbandonButton,
-      userId,
+      user,
       showUploadIdeaModal,
       showApprovalButtons,
       uploadProposal,
@@ -64,7 +67,7 @@ export default class ShowIdea extends React.Component {
       showAbandonIdeaModal
     } = this.props;
 
-    const request = getRequestFromUser(userId, project);
+    const request = getRequestFromUser(user ? user.id : null, project);
     const isEditableProject = project.State.id <= 2;
 
     return (
@@ -111,7 +114,7 @@ export default class ShowIdea extends React.Component {
           {showAbandonButton && (
             <Button
               bsStyle="danger"
-              onClick={() => showAbandonIdeaModal(userId)}
+              onClick={() => showAbandonIdeaModal(user.id)}
               bsSize="small"
             >
               <Glyphicon glyph="log-out">&nbsp;</Glyphicon>
@@ -171,6 +174,11 @@ export default class ShowIdea extends React.Component {
         <ApproveProposalModal
           approveProposal={approveProposal}
           projectId={project ? project.id : undefined}
+          options={
+            user && user.careers
+              ? getSelectOptions(user.careers, {})
+              : undefined
+          }
           ref={(modal) => {
             this.ApproveProposal = modal;
           }}

@@ -28,7 +28,7 @@ export class IdeasDetail extends React.Component {
       <Fragment>
         <Title title={ideasMessages.TITLE} subtitle={ideasMessages.SUBTITLE} />
         {project.id && (
-          <ShowIdea showBackButton project={project} userId={user.id} />
+          <ShowIdea showBackButton project={project} user={user} />
         )}
       </Fragment>
     );

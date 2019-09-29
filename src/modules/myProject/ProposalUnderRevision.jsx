@@ -6,12 +6,12 @@ import { myProjectMessages } from '../../utils/messages';
 export default class ProposalUnderRevision extends React.Component {
   static propTypes = {
     project: PropTypes.object,
-    userId: PropTypes.number,
+    user: PropTypes.object,
     isUserCreator: PropTypes.bool
   };
 
   render() {
-    const { project, userId, isUserCreator } = this.props;
+    const { project, user, isUserCreator } = this.props;
 
     return (
       <ShowIdea
@@ -19,7 +19,7 @@ export default class ProposalUnderRevision extends React.Component {
           myProjectMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
         }
         project={project}
-        userId={userId}
+        user={user}
         isUserCreator={isUserCreator}
         showProposal
       />

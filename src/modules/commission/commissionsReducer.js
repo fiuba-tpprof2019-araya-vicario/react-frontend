@@ -107,11 +107,11 @@ export const getProjects = (dispatch) => {
     });
 };
 
-export const approve = (projectId) => (dispatch) => {
+export const approve = (projectId, careerId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
-    career: 1,
+    career: careerId,
     status: 'accepted'
   };
 

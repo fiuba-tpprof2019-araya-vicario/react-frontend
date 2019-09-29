@@ -52,7 +52,7 @@ export class CommissionsDetail extends React.Component {
             approveProposal={approveProposal}
             reprobateProposal={reprobateProposal}
             project={project}
-            userId={user.id}
+            user={user}
           />
         )}
       </Fragment>
@@ -67,8 +67,8 @@ const mapDispatch = (dispatch) => ({
   clearAlert: () => {
     dispatch(clearAlert());
   },
-  approveProposal: (projectId) => {
-    dispatch(approve(projectId));
+  approveProposal: (projectId, careerId) => {
+    dispatch(approve(projectId, careerId));
   },
   reprobateProposal: (projectId) => {
     dispatch(reprobate(projectId, history.push('/commissions/')));

@@ -6,7 +6,7 @@ import { myProjectMessages } from '../../utils/messages';
 export default class ReviewIdea extends React.Component {
   static propTypes = {
     project: PropTypes.object,
-    userId: PropTypes.number,
+    user: PropTypes.object,
     isUserCreator: PropTypes.bool,
     showUploadIdeaModal: PropTypes.func,
     showAbandonIdeaModal: PropTypes.func
@@ -15,7 +15,7 @@ export default class ReviewIdea extends React.Component {
   render() {
     const {
       project,
-      userId,
+      user,
       isUserCreator,
       showUploadIdeaModal,
       showAbandonIdeaModal
@@ -25,7 +25,7 @@ export default class ReviewIdea extends React.Component {
       <ShowIdea
         nextStepMessage={myProjectMessages.NEW_STEP_PROJECT_CREATED_INFO}
         project={project}
-        userId={userId}
+        user={user}
         isUserCreator={isUserCreator}
         showAbandonButton
         showUploadIdeaModal={showUploadIdeaModal}

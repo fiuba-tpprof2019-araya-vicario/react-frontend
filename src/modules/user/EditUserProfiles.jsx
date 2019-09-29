@@ -93,7 +93,8 @@ export default class EditUserProfiles extends React.Component {
         key="perfilField"
         bsSize="small"
         controlId="perfilSelect"
-        label="Rol"
+        label="Perfil"
+        required
         validationMessage={this.state.formSelect.message}
         inputComponent={
           <Select

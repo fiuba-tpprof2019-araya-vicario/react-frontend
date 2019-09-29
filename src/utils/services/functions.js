@@ -128,7 +128,7 @@ export function getStudentIsApproved(student) {
 }
 
 export function getRequestFromUser(userId, project) {
-  if (project.Tutor && project.Tutor.id === userId) {
+  if (project.Tutor && userId && project.Tutor.id === userId) {
     return project.Tutor.TutorRequests[0];
   }
 

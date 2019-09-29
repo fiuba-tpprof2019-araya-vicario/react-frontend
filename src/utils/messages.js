@@ -19,7 +19,8 @@ export const myProjectMessages = {
   EMPTY_PROPOSAL: 'No se ha subido ninguna propuesta.',
   ACCEPT_PROPOSAL: '¿Estás seguro que deseas aceptar la propuesta?',
   REPROBATE_PROPOSAL: '¿Estás seguro que deseas reprobar la propuesta?',
-  APPROBATE_PROPOSAL: '¿Estás seguro que deseas aprobar la propuesta?',
+  APPROBATE_PROPOSAL:
+    '¿Estás seguro que deseas aprobar la propuesta con la carrera seleccionada?',
   NEW_STEP_PROJECT_CREATED_INFO:
     'Para avanzar al siguiente paso el proyecto debe tener un tutor asignado a tu proyecto, que haya aceptado la solicitud de tutoría.',
   NEW_STEP_PROJECT_ACCEPTED_INFO:

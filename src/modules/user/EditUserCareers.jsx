@@ -94,7 +94,8 @@ export default class EditUserCareers extends React.Component {
         key="carreraField"
         bsSize="small"
         controlId="carreraSelect"
-        label="Rol"
+        label="Carrera"
+        required
         validationMessage={this.state.formSelect.message}
         inputComponent={
           <Select

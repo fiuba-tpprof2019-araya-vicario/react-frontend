@@ -6,7 +6,7 @@ import { myProjectMessages } from '../../utils/messages';
 export default class PendingProposal extends React.Component {
   static propTypes = {
     project: PropTypes.object,
-    userId: PropTypes.number,
+    user: PropTypes.object,
     isUserCreator: PropTypes.bool,
     showUploadIdeaModal: PropTypes.func,
     showAbandonIdeaModal: PropTypes.func,
@@ -17,7 +17,7 @@ export default class PendingProposal extends React.Component {
   render() {
     const {
       project,
-      userId,
+      user,
       isUserCreator,
       showUploadIdeaModal,
       showAbandonIdeaModal,
@@ -29,7 +29,7 @@ export default class PendingProposal extends React.Component {
       <ShowIdea
         nextStepMessage={myProjectMessages.NEW_STEP_PROJECT_ACCEPTED_INFO}
         project={project}
-        userId={userId}
+        user={user}
         isUserCreator={isUserCreator}
         acceptProposal={acceptProposal}
         showProposal

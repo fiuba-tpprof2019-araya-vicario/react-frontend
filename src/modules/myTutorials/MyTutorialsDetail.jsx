@@ -116,7 +116,7 @@ export class MyProjectDetail extends React.Component {
             nextStepMessage={myTutorialsMessages.NEW_STEP_PROJECT_CREATED_INFO}
             showBackButton
             project={project}
-            userId={user.id}
+            user={user}
           />
         ) : null}
         {this.state.activeStep === 2 ? (
@@ -127,7 +127,7 @@ export class MyProjectDetail extends React.Component {
             acceptProposal={accept}
             showAbandonButton
             project={project}
-            userId={user.id}
+            user={user}
             showAbandonIdeaModal={this.showAbandonIdeaModal}
           />
         ) : null}
@@ -137,7 +137,7 @@ export class MyProjectDetail extends React.Component {
               myTutorialsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
             }
             project={project}
-            userId={user.id}
+            user={user}
             showProposal
           />
         ) : null}
