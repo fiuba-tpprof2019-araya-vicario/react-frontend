@@ -264,8 +264,8 @@ export default class UploadIdeaModal extends React.Component {
     return formOk;
   }
 
-  showModal() {
-    this.setState({ show: true });
+  showModal(requirement) {
+    this.setState({ show: true, requirement });
   }
 
   hideModal() {
@@ -323,7 +323,15 @@ export default class UploadIdeaModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FullRow key="formCreateRow0">
+          {this.state.requirement && (
+            <FullRow key="form0">
+              <p>
+                <b>{this.state.requirement.name}</b>
+              </p>
+              <p>{this.state.requirement.description}</p>
+            </FullRow>
+          )}
+          <FullRow key="form1">
             <Field
               controlId="titleInput"
               label="Título"
@@ -340,7 +348,7 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
           </FullRow>
-          <FullRow key="formCreateRow5">
+          <FullRow key="form2">
             <Field
               controlId="autorInput"
               label="Autor"
@@ -378,7 +386,7 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
           </FullRow>
-          <FullRow key="formCreateRow2">
+          <FullRow key="form3">
             <Field
               bsSize="small"
               controlId="coautorsSelect"
@@ -403,7 +411,7 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
           </FullRow>
-          <FullRow key="formCreateRow3">
+          <FullRow key="form4">
             <Field
               bsSize="small"
               controlId="tutorSelect"
@@ -427,7 +435,7 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
           </FullRow>
-          <FullRow key="formCreateRow6">
+          <FullRow key="form5">
             <Field
               bsSize="small"
               required
@@ -450,7 +458,7 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
           </FullRow>
-          <FullRow key="formCreateRow4">
+          <FullRow key="form6">
             <Field
               controlId="descriptionInput"
               label="Descripción de la idea"

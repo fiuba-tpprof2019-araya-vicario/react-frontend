@@ -16,6 +16,7 @@ import { requirementMessages } from '../../utils/messages';
 import { CREDENTIALS } from '../../utils/services/references';
 import { RequirementTable } from './RequirementTable';
 import CustomAlert from '../../utils/CustomAlert';
+import UploadIdeaModal from '../../utils/components/uploadIdea/UploadIdeaModal';
 import CreateRequirementModal from './modals/CreateRequirementModal';
 import EditRequirementModal from './modals/EditRequirementModal';
 import DeleteRequirementModal from './modals/DeleteRequirementModal';
@@ -50,6 +51,10 @@ export class RequirementIndex extends React.Component {
 
   editRequirement(id) {
     this.EditModal.showModal(getById(this.props.requirements, id));
+  }
+
+  showUploadIdea(id) {
+    this.UploadIdeaModal.showModal(getById(this.props.requirements, id));
   }
 
   deleteRequirement(id) {
@@ -102,6 +107,20 @@ export class RequirementIndex extends React.Component {
             this.DeleteModal = modal;
           }}
         />
+        <UploadIdeaModal
+          // uploadIdea={this.uploadIdea}
+          // editIdea={this.editIdea}
+          // careers={this.props.careers}
+          // coautors={this.props.coautors}
+          // tutors={this.props.tutors}
+          // projectTypes={this.props.projectTypes}
+          // project={this.props.project}
+          // editMode={this.state.activeStep}
+          ref={(modal) => {
+            this.UploadIdeaModal = modal;
+          }}
+          // user={this.props.isAuthenticated && this.props.user}
+        />
       </Fragment>
     );
   }
@@ -120,6 +139,7 @@ export class RequirementIndex extends React.Component {
         editRequirement={this.editRequirement}
         deleteRequirement={this.deleteRequirement}
         uploadProject={this.uploadProject}
+        uploadIdea={this.showUploadIdea}
         canEdit={this.props.canEdit}
       />
     );

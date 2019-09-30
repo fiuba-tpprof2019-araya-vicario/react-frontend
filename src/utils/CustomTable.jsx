@@ -45,7 +45,8 @@ export class CustomTable extends React.Component {
       deleteAction,
       acceptAction,
       removeAction,
-      rejectAction
+      rejectAction,
+      uploadAction
     } = actions;
     let detailRender;
     let editRender;
@@ -53,6 +54,7 @@ export class CustomTable extends React.Component {
     let acceptRender;
     let rejectRender;
     let removeRender;
+    let uploadRender;
 
     if (this.actionEnabled(editAction, row)) {
       editRender = (
@@ -126,6 +128,18 @@ export class CustomTable extends React.Component {
       );
     }
 
+    if (this.actionEnabled(uploadAction, row)) {
+      uploadRender = (
+        <a role="button">
+          <i
+            className="fa fa-file"
+            title="Subir una propuesta"
+            onClick={() => uploadAction.action(row.id)}
+          />
+        </a>
+      );
+    }
+
     return (
       <td key="actions" className="actionsColumn">
         {removeRender}
@@ -134,6 +148,7 @@ export class CustomTable extends React.Component {
         {acceptRender}
         {deleteRender}
         {editRender}
+        {uploadRender}
       </td>
     );
   }

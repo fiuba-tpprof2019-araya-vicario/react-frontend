@@ -9,7 +9,8 @@ export class RequirementTable extends React.Component {
     data: PropTypes.array,
     canEdit: PropTypes.bool,
     editRequirement: PropTypes.func,
-    deleteRequirement: PropTypes.func
+    deleteRequirement: PropTypes.func,
+    uploadIdea: PropTypes.func
   };
 
   getHeaders() {
@@ -41,9 +42,18 @@ export class RequirementTable extends React.Component {
                 deleteAction: {
                   action: this.props.deleteRequirement,
                   disabled: disableButton
+                },
+                uploadAction: {
+                  action: this.props.uploadIdea,
+                  disabled: disableButton
                 }
               }
-            : {}
+            : {
+                uploadAction: {
+                  action: this.props.uploadIdea,
+                  disabled: disableButton
+                }
+              }
         }
       />
     );
