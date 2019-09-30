@@ -3,7 +3,7 @@ const API_PORT = '3050';
 const ROOT =
   process.env.REACT_APP_LOCAL === '1'
     ? `localhost:${API_PORT}`
-    : 'brain-search-api.herokuapp.com/';
+    : 'brain-search-api.herokuapp.com';
 const API_VERSION = 'v0';
 
 export const CLIENT_ID =
