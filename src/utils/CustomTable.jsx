@@ -2,6 +2,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
 
 export class CustomTable extends React.Component {
   static propTypes = {
@@ -130,12 +132,12 @@ export class CustomTable extends React.Component {
 
     if (this.actionEnabled(uploadAction, row)) {
       uploadRender = (
-        <a role="button">
-          <i
-            className="fa fa-file"
-            title="Subir una propuesta"
-            onClick={() => uploadAction.action(row.id)}
-          />
+        <a
+          title="Subir una propuesta"
+          onClick={() => uploadAction.action(row.id)}
+          role="button"
+        >
+          <FontAwesomeIcon icon={faFileUpload} />
         </a>
       );
     }

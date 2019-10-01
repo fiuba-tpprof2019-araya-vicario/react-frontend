@@ -5,11 +5,12 @@ import { Button, Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
   clearAlert,
-  getRequirements,
+  getInitialData,
   deleteRequirement,
   editRequirement,
   uploadRequirement
 } from './requirementReducer';
+import { uploadIdea } from '../myProject/myProjectReducer';
 import { getById } from '../../utils/services/functions';
 import Title from '../../utils/Title';
 import { requirementMessages } from '../../utils/messages';
@@ -21,16 +22,24 @@ import CreateRequirementModal from './modals/CreateRequirementModal';
 import EditRequirementModal from './modals/EditRequirementModal';
 import DeleteRequirementModal from './modals/DeleteRequirementModal';
 import WithAuthorization from '../../utils/WithAuthorization';
+import history from '../../redux/history';
 
 export class RequirementIndex extends React.Component {
   static propTypes = {
     canEdit: PropTypes.bool,
     clearAlert: PropTypes.func,
-    getRequirements: PropTypes.func,
+    uploadIdea: PropTypes.func,
+    getInitialData: PropTypes.func,
     uploadRequirement: PropTypes.func,
     editRequirement: PropTypes.func,
     deleteRequirement: PropTypes.func,
-    requirements: PropTypes.array
+    requirements: PropTypes.array,
+    coautors: PropTypes.array,
+    careers: PropTypes.array,
+    projectTypes: PropTypes.array,
+    tutors: PropTypes.array,
+    user: PropTypes.object,
+    isAuthenticated: PropTypes.bool
   };
 
   constructor() {
@@ -38,11 +47,15 @@ export class RequirementIndex extends React.Component {
     this.createRequirement = this.createRequirement.bind(this);
     this.editRequirement = this.editRequirement.bind(this);
     this.deleteRequirement = this.deleteRequirement.bind(this);
+    this.showUploadIdea = this.showUploadIdea.bind(this);
+    this.uploadIdea = this.uploadIdea.bind(this);
   }
 
   componentDidMount() {
     this.props.clearAlert();
-    this.props.getRequirements();
+    if (this.props.user) {
+      this.props.getInitialData(this.props.user.id);
+    }
   }
 
   createRequirement() {
@@ -61,6 +74,10 @@ export class RequirementIndex extends React.Component {
     const requirement = getById(this.props.requirements, id);
 
     this.DeleteModal.getRef().showModal(requirement.id, requirement.name);
+  }
+
+  uploadIdea(form) {
+    this.props.uploadIdea(form);
   }
 
   render() {
@@ -108,18 +125,15 @@ export class RequirementIndex extends React.Component {
           }}
         />
         <UploadIdeaModal
-          // uploadIdea={this.uploadIdea}
-          // editIdea={this.editIdea}
-          // careers={this.props.careers}
-          // coautors={this.props.coautors}
-          // tutors={this.props.tutors}
-          // projectTypes={this.props.projectTypes}
-          // project={this.props.project}
-          // editMode={this.state.activeStep}
+          uploadIdea={this.uploadIdea}
+          careers={this.props.careers}
+          coautors={this.props.coautors}
+          tutors={this.props.tutors}
+          projectTypes={this.props.projectTypes}
           ref={(modal) => {
             this.UploadIdeaModal = modal;
           }}
-          // user={this.props.isAuthenticated && this.props.user}
+          user={this.props.isAuthenticated && this.props.user}
         />
       </Fragment>
     );
@@ -150,18 +164,27 @@ const mapStateToProps = (state) => ({
   requirements: state.requirementReducer.requirements,
   canEdit: state.authReducer.user.credentials.includes(
     CREDENTIALS.EDIT_REQUIREMENTS
-  )
+  ),
+  coautors: state.myProjectReducer.coautors,
+  careers: state.myProjectReducer.careers,
+  projectTypes: state.myProjectReducer.projectTypes,
+  tutors: state.myProjectReducer.tutors,
+  user: state.authReducer.user,
+  isAuthenticated: state.authReducer.isAuthenticated
 });
 
 const mapDispatch = (dispatch) => ({
-  getRequirements: () => {
-    dispatch(getRequirements());
+  getInitialData: (userId) => {
+    dispatch(getInitialData(userId));
   },
   uploadRequirement: (form) => {
     dispatch(uploadRequirement(form));
   },
   editRequirement: (id, form) => {
     dispatch(editRequirement(id, form));
+  },
+  uploadIdea: (form) => {
+    dispatch(uploadIdea(form, () => history.push('/my_projects/')));
   },
   deleteRequirement: (id, form) => {
     dispatch(deleteRequirement(id, form));

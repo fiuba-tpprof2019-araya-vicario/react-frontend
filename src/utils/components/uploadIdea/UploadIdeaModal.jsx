@@ -280,6 +280,9 @@ export default class UploadIdeaModal extends React.Component {
     const type = this.state.form.projectType.value;
     const coautors = this.state.form.coautors.value;
     const tutorId = this.state.tutor ? this.state.tutor.value : null;
+    const requirementId = this.state.requirement
+      ? this.state.requirement.id
+      : null;
 
     if (this.validateForm(title, description, autor, careers, type)) {
       if (this.props.editMode) {
@@ -290,7 +293,8 @@ export default class UploadIdeaModal extends React.Component {
           coautors,
           type,
           autor,
-          tutorId
+          tutorId,
+          requirementId
         });
       } else {
         this.props.uploadIdea({
@@ -300,7 +304,8 @@ export default class UploadIdeaModal extends React.Component {
           coautors,
           type,
           autor,
-          tutorId
+          tutorId,
+          requirementId
         });
       }
 
@@ -326,9 +331,9 @@ export default class UploadIdeaModal extends React.Component {
           {this.state.requirement && (
             <FullRow key="form0">
               <p>
-                <b>{this.state.requirement.name}</b>
+                <b>Requerimiento:</b>
+                {` ${this.state.requirement.name}`}
               </p>
-              <p>{this.state.requirement.description}</p>
             </FullRow>
           )}
           <FullRow key="form1">
