@@ -70,9 +70,11 @@ const mapDispatch = (dispatch) => ({
   approveProposal: (projectId, careerId) => {
     dispatch(approve(projectId, careerId, () => history.push('/commissions/')));
   },
-  reprobateProposal: (projectId, careerId) => {
+  reprobateProposal: (projectId, careerId, rejectionReason) => {
     dispatch(
-      reprobate(projectId, careerId, () => history.push('/commissions/'))
+      reprobate(projectId, careerId, rejectionReason, () =>
+        history.push('/commissions/')
+      )
     );
   }
 });

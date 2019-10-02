@@ -4,6 +4,8 @@ import { Button, Row } from 'react-bootstrap';
 // import GooglePicker from 'react-google-picker';
 import { myProjectMessages } from '../../../utils/messages';
 import UploadProposalModal from './modals/UploadProposalModal';
+import Itemized from '../../../utils/styles/Itemized';
+import FullRow from '../../../utils/styles/FullRow';
 // import { CLIENT_ID, DEVELOPER_KEY, SCOPE } from '../../api/api';
 
 export default class ShowIdea extends React.Component {
@@ -13,22 +15,32 @@ export default class ShowIdea extends React.Component {
     uploadProposal: PropTypes.func
   };
 
-  constructor() {
-    super();
-
-    this.showUploadProposalModal = this.showUploadProposalModal.bind(this);
-    // this.uploadProposal = this.uploadProposal.bind(this);
-  }
-
   // uploadProposal(data) {
   //   if (data.action === 'picked') {
   //     this.props.uploadProposal(this.props.project, data.docs[0].url);
   //   }
   // }
 
-  showUploadProposalModal() {
+  showRejectionReasons = () => {
+    const { project } = this.props;
+
+    return (
+      project.ProjectCareers.some(({ status }) => status === 'rejected') && (
+        <Itemized
+          inline
+          title="Motivos de rechazo de la propuesta:"
+          items={project.ProjectCareers.map(
+            (projectCareer) =>
+              `${projectCareer.Career.name}: ${projectCareer.reject_reason}`
+          )}
+        />
+      )
+    );
+  };
+
+  showUploadProposalModal = () => {
     this.UploadProposal.showModal();
-  }
+  };
 
   render() {
     const { project, isUserCreator, uploadProposal } = this.props;
@@ -46,56 +58,60 @@ export default class ShowIdea extends React.Component {
     );
 
     return (
-      <Row>
-        <h4>Propuesta:</h4>
-        <Row>
-          {isUserCreator ? (
-            <Fragment>
-              {/* <GooglePicker
-                clientId={CLIENT_ID}
-                developerKey={DEVELOPER_KEY}
-                scope={SCOPE}
-                onChange={this.uploadProposal}
-                onAuthFailed={() => {}}
-                multiselect={false}
-                navHidden
-                authImmediate={false}
-                mimeTypes={['application/pdf']}
-                viewId="DOCS"
-              >
+      <FullRow>
+        <Fragment>
+          <h4>Propuesta:</h4>
+          <Row>
+            {isUserCreator ? (
+              <Fragment>
+                {/* <GooglePicker
+                  clientId={CLIENT_ID}
+                  developerKey={DEVELOPER_KEY}
+                  scope={SCOPE}
+                  onChange={this.uploadProposal}
+                  onAuthFailed={() => {}}
+                  multiselect={false}
+                  navHidden
+                  authImmediate={false}
+                  mimeTypes={['application/pdf']}
+                  viewId="DOCS"
+                >
+                  <Button
+                    bsStyle="success"
+                    className="fixMarginLeft"
+                    bsSize="small"
+                  >
+                    <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir propuesta
+                  </Button>
+                  &nbsp;
+                  {proposal}
+                </GooglePicker> */}
                 <Button
                   bsStyle="success"
                   className="fixMarginLeft"
                   bsSize="small"
+                  onClick={() => this.showUploadProposalModal()}
                 >
                   <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir propuesta
                 </Button>
                 &nbsp;
                 {proposal}
-              </GooglePicker> */}
-              <Button
-                bsStyle="success"
-                className="fixMarginLeft"
-                bsSize="small"
-                onClick={() => this.showUploadProposalModal()}
-              >
-                <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir propuesta
-              </Button>
-              &nbsp;
-              {proposal}
-            </Fragment>
-          ) : (
-            <Fragment>{proposal}</Fragment>
-          )}
-        </Row>
-        <UploadProposalModal
-          uploadProposal={uploadProposal}
-          projectId={project.id}
-          ref={(modal) => {
-            this.UploadProposal = modal;
-          }}
-        />
-      </Row>
+                &nbsp;
+              </Fragment>
+            ) : (
+              <Fragment>{proposal}</Fragment>
+            )}
+          </Row>
+          <UploadProposalModal
+            uploadProposal={uploadProposal}
+            projectId={project.id}
+            ref={(modal) => {
+              this.UploadProposal = modal;
+            }}
+          />
+        </Fragment>
+        {this.showRejectionReasons()}
+      </FullRow>
     );
   }
 }

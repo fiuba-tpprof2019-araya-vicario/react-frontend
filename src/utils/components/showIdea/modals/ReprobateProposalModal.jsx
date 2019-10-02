@@ -19,36 +19,56 @@ export default class AcceptProposalModal extends React.Component {
 
     this.state = {
       option: options && options.length === 1 ? options[0] : null,
-      message: null
+      careerMessage: null,
+      reason: '',
+      reasonMessage: null
     };
-    this.showModal = this.showModal.bind(this);
-    this.updateCareerSelect = this.updateCareerSelect.bind(this);
   }
 
-  showModal() {
+  showModal = () => {
     this.modal.showModal();
-  }
+  };
 
-  updateCareerSelect(value) {
+  updateCareerSelect = (value) => {
     this.setState({
       ...this.state,
       option: value,
-      message: null
+      careerMessage: null
     });
-  }
+  };
+
+  updateReason = ({ target }) => {
+    this.setState({
+      ...this.state,
+      reason: target.value,
+      reasonMessage: null
+    });
+  };
+
+  updateInvalidMessages = (option, reason) => {
+    this.setState({
+      ...this.state,
+      careerMessage: option
+        ? null
+        : 'Tenés que ingresar la carrera con la cúal aprobar la propuesta',
+      reasonMessage: reason
+        ? null
+        : 'Tenés que ingresar el motivo por el cúal vas a rechazar la propuesta'
+    });
+  };
 
   getModalBody(options) {
     return (
       <Row key="body">
         <Col md={12} lg={12}>
           <Field
-            validationState={this.state.message ? 'error' : null}
             key="careerField"
             bsSize="small"
             controlId="careerSelect"
             label="Carrera"
             required
-            validationMessage={this.state.message}
+            validationState={!!this.state.careerMessage}
+            validationMessage={this.state.careerMessage}
             inputComponent={
               <Select
                 key="careerSelect"
@@ -61,13 +81,30 @@ export default class AcceptProposalModal extends React.Component {
               />
             }
           />
+          <Field
+            controlId="reasonInput"
+            label="Motivo de rechazo"
+            required
+            validationState={!!this.state.reasonMessage}
+            validationMessage={this.state.reasonMessage}
+            inputComponent={
+              <textarea
+                value={this.state.reason}
+                onChange={this.updateReason}
+                className="form-control"
+                style={{ resize: 'vertical' }}
+                rows="5"
+                placeholder="Ingrese una motivo de rechazo de la propuesta..."
+              />
+            }
+          />
           {myProjectMessages.REPROBATE_PROPOSAL}
         </Col>
       </Row>
     );
   }
 
-  getModalButtons() {
+  getModalButtons = () => {
     const buttons = [];
 
     buttons.push(
@@ -77,16 +114,12 @@ export default class AcceptProposalModal extends React.Component {
         bsStyle="danger"
         onClick={() => {
           const { projectId } = this.props;
-          const { option } = this.state;
+          const { option, reason } = this.state;
 
-          if (!this.state.option) {
-            this.setState({
-              ...this.state,
-              message:
-                'Tenés que ingresar la carrera con la cúal aprobar la propuesta'
-            });
+          if (!option || !reason) {
+            this.updateInvalidMessages(option, reason);
           } else {
-            this.props.reprobateProposal(projectId, option.value);
+            this.props.reprobateProposal(projectId, option.value, reason);
             this.modal.hideModal();
           }
         }}
@@ -96,7 +129,7 @@ export default class AcceptProposalModal extends React.Component {
     );
 
     return buttons;
-  }
+  };
 
   render() {
     const { options } = this.props;

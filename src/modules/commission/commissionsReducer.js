@@ -129,12 +129,15 @@ export const approve = (projectId, careerId, postAction) => (dispatch) => {
     });
 };
 
-export const reprobate = (projectId, careerId, postAction) => (dispatch) => {
+export const reprobate = (projectId, careerId, rejectionReason, postAction) => (
+  dispatch
+) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
     career: careerId,
-    status: 'rejected'
+    status: 'rejected',
+    reject_reason: rejectionReason
   };
 
   axios

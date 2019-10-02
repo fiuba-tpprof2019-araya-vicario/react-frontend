@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { Button, Glyphicon, Row } from 'react-bootstrap';
+import { Button, Glyphicon, Row, Col } from 'react-bootstrap';
 import history from '../../../redux/history';
 import CustomAlert from '../../../utils/CustomAlert';
 import {
   getRequestFromUser,
   getSelectOptions
 } from '../../../utils/services/functions';
+import FullRow from '../../../utils/styles/FullRow';
 import AcceptProposalModal from './modals/AcceptProposalModal';
 import ApproveProposalModal from './modals/ApproveProposalModal';
 import ReprobateProjectModal from './modals/ReprobateProposalModal';
@@ -81,16 +82,22 @@ export default class ShowIdea extends React.Component {
           />
         )}
         <br />
-        <Row>
+        <FullRow>
           <h3>Título: {project.name}</h3>
-        </Row>
+        </FullRow>
         <br />
-        <ShowIdeaInfo project={project} />
+        <FullRow>
+          <Col md={12}>
+            <ShowIdeaInfo project={project} />
+          </Col>
+        </FullRow>
         <br />
-        <Row>
-          <h4>Descripción:</h4>
-          <p>{project.description}</p>
-        </Row>
+        <FullRow>
+          <Fragment>
+            <h4>Descripción:</h4>
+            <p>{project.description}</p>
+          </Fragment>
+        </FullRow>
         {showProposal && (
           <ShowProposal
             project={project}
