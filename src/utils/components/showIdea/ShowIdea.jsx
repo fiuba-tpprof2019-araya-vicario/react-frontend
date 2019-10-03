@@ -71,6 +71,8 @@ export default class ShowIdea extends React.Component {
     const request = getRequestFromUser(user ? user.id : null, project);
     const isEditableProject = project.State.id <= 2;
 
+    console.log(project);
+
     return (
       <Fragment>
         <br />
@@ -82,8 +84,27 @@ export default class ShowIdea extends React.Component {
           />
         )}
         <br />
+        {project.Requirement && (
+          <Fragment>
+            <FullRow>
+              <h3>Requerimiento: {project.Requirement.name}</h3>
+            </FullRow>
+            <FullRow>
+              <Fragment>
+                <h4>Descripción:</h4>
+                <p>{project.Requirement.description}</p>
+              </Fragment>
+            </FullRow>
+          </Fragment>
+        )}
         <FullRow>
-          <h3>Título: {project.name}</h3>
+          <h3>Proyecto: {project.name}</h3>
+        </FullRow>
+        <FullRow>
+          <Fragment>
+            <h4>Descripción:</h4>
+            <p>{project.description}</p>
+          </Fragment>
         </FullRow>
         <br />
         <FullRow>
@@ -92,12 +113,6 @@ export default class ShowIdea extends React.Component {
           </Col>
         </FullRow>
         <br />
-        <FullRow>
-          <Fragment>
-            <h4>Descripción:</h4>
-            <p>{project.description}</p>
-          </Fragment>
-        </FullRow>
         {showProposal && (
           <ShowProposal
             project={project}

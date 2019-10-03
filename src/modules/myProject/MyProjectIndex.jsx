@@ -153,7 +153,7 @@ export class MyProjectIndex extends React.Component {
           {this.state.activeStep === 1 ? (
             <ReviewIdea
               isUserCreator={isUserCreator}
-              userId={this.props.user.id}
+              user={this.props.user}
               project={this.props.project}
               showUploadIdeaModal={this.showUploadIdeaModal}
               showAbandonIdeaModal={this.showAbandonIdeaModal}
@@ -162,7 +162,7 @@ export class MyProjectIndex extends React.Component {
           {this.state.activeStep === 2 ? (
             <PendingProposal
               isUserCreator={isUserCreator}
-              userId={this.props.user.id}
+              user={this.props.user}
               project={this.props.project}
               uploadProposal={this.uploadProposal}
               acceptProposal={this.props.acceptProposal}
@@ -173,7 +173,7 @@ export class MyProjectIndex extends React.Component {
           {this.state.activeStep === 3 ? (
             <ProposalUnderRevision
               isUserCreator={isUserCreator}
-              userId={this.props.user.id}
+              user={this.props.user}
               project={this.props.project}
             />
           ) : null}
