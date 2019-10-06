@@ -1,6 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { Button, Glyphicon, Row, Col } from 'react-bootstrap';
+import {
+  Button,
+  Glyphicon,
+  Row,
+  Col,
+  Panel,
+  ListGroup,
+  ListGroupItem
+} from 'react-bootstrap';
 import history from '../../../redux/history';
 import CustomAlert from '../../../utils/CustomAlert';
 import {
@@ -32,23 +40,62 @@ export default class ShowIdea extends React.Component {
     uploadProposal: PropTypes.func
   };
 
-  constructor() {
-    super();
+  showAcceptProposalModal = () => this.AcceptProposal.showModal();
 
-    this.showAcceptProposalModal = this.showAcceptProposalModal.bind(this);
-  }
+  showReprobateProposalModal = () => this.ReprobateProposal.showModal();
 
-  showAcceptProposalModal() {
-    this.AcceptProposal.showModal();
-  }
+  showApproveProposalModal = () => this.ApproveProposal.showModal();
 
-  showReprobateProposalModal() {
-    this.ReprobateProposal.showModal();
-  }
+  getRequerimentInfo = (project) => (
+    <Panel>
+      <Panel.Heading>
+        <FullRow>
+          <h4>Título del requerimiento: {project.Requirement.name}</h4>
+        </FullRow>
+      </Panel.Heading>
+      <Panel.Body>
+        <Row>
+          <Col md={1}>
+            <h4 className="panelText">Descripción:</h4>
+          </Col>
+          <Col md={11}>
+            <p className="panelText">{project.Requirement.description}</p>
+          </Col>
+        </Row>
+      </Panel.Body>
+    </Panel>
+  );
 
-  showApproveProposalModal() {
-    this.ApproveProposal.showModal();
-  }
+  getProjectInfo = (project, showProposal, isUserCreator, uploadProposal) => (
+    <Panel>
+      <Panel.Heading>
+        <FullRow>
+          <h4>Título del proyecto: {project.name}</h4>
+        </FullRow>
+      </Panel.Heading>
+      <Panel.Body>
+        <Row>
+          <Col md={1}>
+            <h4 className="panelText">Descripción:</h4>
+          </Col>
+          <Col md={11}>
+            <p className="panelText">{project.description}</p>
+          </Col>
+        </Row>
+      </Panel.Body>
+      {showProposal && (
+        <ListGroup>
+          <ListGroupItem>
+            <ShowProposal
+              project={project}
+              isUserCreator={isUserCreator}
+              uploadProposal={uploadProposal}
+            />
+          </ListGroupItem>
+        </ListGroup>
+      )}
+    </Panel>
+  );
 
   render() {
     const {
@@ -80,110 +127,92 @@ export default class ShowIdea extends React.Component {
           <CustomAlert
             rowKey="infoNextStep"
             bsStyle="info"
+            size={12}
             message={nextStepMessage}
           />
         )}
-        <br />
-        {project.Requirement && (
-          <Fragment>
-            <FullRow>
-              <h3>Requerimiento: {project.Requirement.name}</h3>
-            </FullRow>
-            <FullRow>
-              <Fragment>
-                <h4>Descripción:</h4>
-                <p>{project.Requirement.description}</p>
-              </Fragment>
-            </FullRow>
-          </Fragment>
+        {project.Requirement && this.getRequerimentInfo(project)}
+        {this.getProjectInfo(
+          project,
+          showProposal,
+          isUserCreator,
+          uploadProposal
         )}
-        <FullRow>
-          <h3>Proyecto: {project.name}</h3>
-        </FullRow>
-        <FullRow>
-          <Fragment>
-            <h4>Descripción:</h4>
-            <p>{project.description}</p>
-          </Fragment>
-        </FullRow>
-        <br />
-        <FullRow>
-          <Col md={12}>
-            <ShowIdeaInfo project={project} />
-          </Col>
-        </FullRow>
-        <br />
-        {showProposal && (
-          <ShowProposal
-            project={project}
-            isUserCreator={isUserCreator}
-            uploadProposal={uploadProposal}
-          />
-        )}
-        <br />
+        <Panel>
+          <Panel.Body>
+            <FullRow>
+              <Col md={12}>
+                <ShowIdeaInfo project={project} />
+              </Col>
+            </FullRow>
+          </Panel.Body>
+        </Panel>
         <Row className="pull-right">
-          {showBackButton && (
-            <Button
-              className="pull-left"
-              bsStyle="default"
-              bsSize="small"
-              onClick={history.goBack}
-            >
-              Volver
-            </Button>
-          )}
-          &nbsp;
-          {showAbandonButton && (
-            <Button
-              bsStyle="danger"
-              onClick={() => showAbandonIdeaModal(user.id)}
-              bsSize="small"
-            >
-              <Glyphicon glyph="log-out">&nbsp;</Glyphicon>
-              Abandonar idea
-            </Button>
-          )}
-          &nbsp;
-          {isUserCreator && isEditableProject && (
-            <Button
-              bsStyle="primary"
-              onClick={showUploadIdeaModal}
-              bsSize="small"
-            >
-              <i className="fa fa-pencil">&nbsp;</i>&nbsp;Editar idea
-            </Button>
-          )}
-          {!isUserCreator &&
-            project.proposal_url &&
-            request &&
-            request.accepted_proposal !== 'accepted' && (
+          <Col md={12}>
+            {showBackButton && (
               <Button
-                bsStyle="success"
-                onClick={() => this.showAcceptProposalModal()}
+                className="pull-left"
+                bsStyle="default"
                 bsSize="small"
+                onClick={history.goBack}
               >
-                <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
+                Volver
               </Button>
             )}
-          {showApprovalButtons && (
-            <Fragment>
+            &nbsp;
+            {showAbandonButton && (
               <Button
                 bsStyle="danger"
-                onClick={() => this.showReprobateProposalModal()}
+                onClick={() => showAbandonIdeaModal(user.id)}
                 bsSize="small"
               >
-                <i className="fa fa-remove">&nbsp;</i>&nbsp; Reprobar propuesta
+                <Glyphicon glyph="log-out">&nbsp;</Glyphicon>
+                Abandonar idea
               </Button>
-              &nbsp;&nbsp;
+            )}
+            &nbsp;
+            {isUserCreator && isEditableProject && (
               <Button
-                bsStyle="success"
-                onClick={() => this.showApproveProposalModal()}
+                bsStyle="primary"
+                onClick={showUploadIdeaModal}
                 bsSize="small"
               >
-                <i className="fa fa-check">&nbsp;</i>&nbsp; Aprobar propuesta
+                <i className="fa fa-pencil">&nbsp;</i>&nbsp;Editar idea
               </Button>
-            </Fragment>
-          )}
+            )}
+            {!isUserCreator &&
+              project.proposal_url &&
+              request &&
+              request.accepted_proposal !== 'accepted' && (
+                <Button
+                  bsStyle="success"
+                  onClick={() => this.showAcceptProposalModal()}
+                  bsSize="small"
+                >
+                  <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
+                </Button>
+              )}
+            {showApprovalButtons && (
+              <Fragment>
+                <Button
+                  bsStyle="danger"
+                  onClick={() => this.showReprobateProposalModal()}
+                  bsSize="small"
+                >
+                  <i className="fa fa-remove">&nbsp;</i>&nbsp; Reprobar
+                  propuesta
+                </Button>
+                &nbsp;&nbsp;
+                <Button
+                  bsStyle="success"
+                  onClick={() => this.showApproveProposalModal()}
+                  bsSize="small"
+                >
+                  <i className="fa fa-check">&nbsp;</i>&nbsp; Aprobar propuesta
+                </Button>
+              </Fragment>
+            )}
+          </Col>
         </Row>
         <AcceptProposalModal
           acceptProposal={acceptProposal}

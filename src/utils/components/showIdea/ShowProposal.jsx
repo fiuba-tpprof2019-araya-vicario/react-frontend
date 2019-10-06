@@ -6,6 +6,7 @@ import { myProjectMessages } from '../../../utils/messages';
 import UploadProposalModal from './modals/UploadProposalModal';
 import Itemized from '../../../utils/styles/Itemized';
 import FullRow from '../../../utils/styles/FullRow';
+import { getIconWithOverlay } from '../../../utils/forms/StatusIcon';
 // import { CLIENT_ID, DEVELOPER_KEY, SCOPE } from '../../api/api';
 
 export default class ShowIdea extends React.Component {
@@ -27,12 +28,19 @@ export default class ShowIdea extends React.Component {
     return (
       project.ProjectCareers.some(({ status }) => status === 'rejected') && (
         <Itemized
-          inline
           title="Motivos de rechazo de la propuesta:"
-          items={project.ProjectCareers.map(
-            (projectCareer) =>
-              `${projectCareer.Career.name}: ${projectCareer.reject_reason}`
-          )}
+          items={project.ProjectCareers.map((projectCareer) => (
+            <Fragment>
+              {getIconWithOverlay(
+                `Carrera: ${projectCareer.Career.name}\n
+                Miembro de la comisión: ${projectCareer.Judge.name} ${
+                  projectCareer.Judge.surname
+                } (${projectCareer.Judge.email})\n`,
+                <i className="fa fa-info-circle">&nbsp;</i>
+              )}
+              {projectCareer.reject_reason}
+            </Fragment>
+          ))}
         />
       )
     );

@@ -7,7 +7,7 @@ import {
 } from '../../../utils/services/functions';
 import FullRow from '../../../utils/styles/FullRow';
 import Itemized from '../../../utils/styles/Itemized';
-import getStatusIcon from '../../forms/StatusIcon';
+import { getStatusIcon } from '../../forms/StatusIcon';
 
 export default class wShowIdeaInfo extends React.Component {
   static propTypes = {

@@ -115,7 +115,7 @@ export const uploadRequirement = (form) => (dispatch) => {
     .then((res) => res.data.data)
     .then(() => {
       dispatch(requirementsUploaded());
-      dispatch(getRequirements(dispatch));
+      getRequirements(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {

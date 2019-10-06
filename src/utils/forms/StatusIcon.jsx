@@ -2,7 +2,19 @@ import React from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { STATES } from '../services/references';
 
-export default function getStatusIcon(type, status, element) {
+export function getIconWithOverlay(message, icon, placement = 'top') {
+  return (
+    <OverlayTrigger
+      key={`placement-${placement}`}
+      placement={placement}
+      overlay={<Tooltip id={placement}>{message}</Tooltip>}
+    >
+      {icon}
+    </OverlayTrigger>
+  );
+}
+
+export function getStatusIcon(type, status, element) {
   let icon;
   let title;
   const placement = 'top';
