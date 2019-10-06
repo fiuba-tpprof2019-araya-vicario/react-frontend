@@ -47,53 +47,61 @@ export default class ShowIdea extends React.Component {
   showApproveProposalModal = () => this.ApproveProposal.showModal();
 
   getRequerimentInfo = (project) => (
-    <Panel>
+    <Panel defaultExpanded>
       <Panel.Heading>
-        <FullRow>
-          <h4>Título del requerimiento: {project.Requirement.name}</h4>
-        </FullRow>
+        <Panel.Title toggle>
+          <FullRow>
+            <h4>Título del requerimiento: {project.Requirement.name}</h4>
+          </FullRow>
+        </Panel.Title>
       </Panel.Heading>
-      <Panel.Body>
-        <Row>
-          <Col md={1}>
-            <h4 className="panelText">Descripción:</h4>
-          </Col>
-          <Col md={11}>
-            <p className="panelText">{project.Requirement.description}</p>
-          </Col>
-        </Row>
-      </Panel.Body>
+      <Panel.Collapse>
+        <Panel.Body>
+          <Row>
+            <Col md={1}>
+              <h4 className="panelText">Descripción:</h4>
+            </Col>
+            <Col md={11}>
+              <p className="panelText">{project.Requirement.description}</p>
+            </Col>
+          </Row>
+        </Panel.Body>
+      </Panel.Collapse>
     </Panel>
   );
 
   getProjectInfo = (project, showProposal, isUserCreator, uploadProposal) => (
-    <Panel>
+    <Panel defaultExpanded>
       <Panel.Heading>
-        <FullRow>
-          <h4>Título del proyecto: {project.name}</h4>
-        </FullRow>
+        <Panel.Title toggle>
+          <FullRow>
+            <h4>Título del proyecto: {project.name}</h4>
+          </FullRow>
+        </Panel.Title>
       </Panel.Heading>
-      <Panel.Body>
-        <Row>
-          <Col md={1}>
-            <h4 className="panelText">Descripción:</h4>
-          </Col>
-          <Col md={11}>
-            <p className="panelText">{project.description}</p>
-          </Col>
-        </Row>
-      </Panel.Body>
-      {showProposal && (
-        <ListGroup>
-          <ListGroupItem>
-            <ShowProposal
-              project={project}
-              isUserCreator={isUserCreator}
-              uploadProposal={uploadProposal}
-            />
-          </ListGroupItem>
-        </ListGroup>
-      )}
+      <Panel.Collapse>
+        <Panel.Body>
+          <Row>
+            <Col md={1}>
+              <h4 className="panelText">Descripción:</h4>
+            </Col>
+            <Col md={11}>
+              <p className="panelText">{project.description}</p>
+            </Col>
+          </Row>
+        </Panel.Body>
+        {showProposal && (
+          <ListGroup>
+            <ListGroupItem>
+              <ShowProposal
+                project={project}
+                isUserCreator={isUserCreator}
+                uploadProposal={uploadProposal}
+              />
+            </ListGroupItem>
+          </ListGroup>
+        )}
+      </Panel.Collapse>
     </Panel>
   );
 
@@ -138,14 +146,23 @@ export default class ShowIdea extends React.Component {
           isUserCreator,
           uploadProposal
         )}
-        <Panel>
-          <Panel.Body>
-            <FullRow>
-              <Col md={12}>
-                <ShowIdeaInfo project={project} />
-              </Col>
-            </FullRow>
-          </Panel.Body>
+        <Panel defaultExpanded>
+          <Panel.Heading>
+            <Panel.Title toggle>
+              <FullRow>
+                <h4>Información general</h4>
+              </FullRow>
+            </Panel.Title>
+          </Panel.Heading>
+          <Panel.Collapse>
+            <Panel.Body>
+              <FullRow>
+                <Col md={12}>
+                  <ShowIdeaInfo project={project} />
+                </Col>
+              </FullRow>
+            </Panel.Body>
+          </Panel.Collapse>
         </Panel>
         <Row className="pull-right">
           <Col md={12}>

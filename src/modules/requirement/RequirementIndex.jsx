@@ -150,6 +150,7 @@ export class RequirementIndex extends React.Component {
     return (
       <RequirementTable
         data={this.props.requirements}
+        projectId={this.props.user.projectId}
         editRequirement={this.editRequirement}
         deleteRequirement={this.deleteRequirement}
         uploadProject={this.uploadProject}

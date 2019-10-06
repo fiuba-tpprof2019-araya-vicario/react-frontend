@@ -125,7 +125,13 @@ export default (state = initialState, action) => {
         }
       };
     case LOGOUT_USER:
-      return { ...state, user: {}, error: {}, isAuthenticated: false };
+      return {
+        ...state,
+        user: {},
+        alert: null,
+        error: {},
+        isAuthenticated: false
+      };
     case LOGIN_ERROR:
       return {
         ...state,

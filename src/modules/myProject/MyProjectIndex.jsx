@@ -223,8 +223,8 @@ const mapDispatch = (dispatch) => ({
   acceptRequest: (requestId, projectId) => {
     dispatch(acceptRequest(requestId, projectId));
   },
-  acceptProposal: (requestId) => {
-    dispatch(acceptProposal(requestId));
+  acceptProposal: (requestId, projectId) => {
+    dispatch(acceptProposal(requestId, projectId));
   },
   rejectRequest: (requestId) => {
     dispatch(rejectRequest(requestId));

@@ -290,7 +290,7 @@ export const getRequests = (dispatch) => {
     });
 };
 
-export const acceptProposal = (requestId) => (dispatch) => {
+export const acceptProposal = (requestId, projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
@@ -303,6 +303,7 @@ export const acceptProposal = (requestId) => (dispatch) => {
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(acceptedProposal());
+      getActiveProject(projectId, dispatch);
     })
     .catch((err) => {
       dispatch(queryError(err));

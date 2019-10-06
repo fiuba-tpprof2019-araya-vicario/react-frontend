@@ -38,12 +38,18 @@ export class UserDetail extends React.Component {
   componentDidMount() {
     this.state.ready = false;
     this.props.user(this.props.userId);
-    this.refreshProfiles(this.props.activeUser.profiles);
-    this.refreshCareers(this.props.activeUser.careers);
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     this.state.ready = true;
+    const newProfiles = nextProps.activeUser.profiles;
+    const newCareers = nextProps.activeUser.careers;
+
+    this.setState({
+      ...this.state,
+      profiles: newProfiles,
+      careers: newCareers
+    });
   }
 
   refreshProfiles(newProfiles) {
