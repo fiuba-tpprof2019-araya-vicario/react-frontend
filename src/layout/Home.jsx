@@ -2,6 +2,15 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Center from 'react-center';
 import FittedImage from 'react-fitted-image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faListAlt,
+  faUserCircle,
+  faFile,
+  faLightbulb,
+  faGavel,
+  faArchive
+} from '@fortawesome/free-solid-svg-icons';
 import history from '../redux/history';
 import imagenPortada from '../images/imagen_portada.png';
 import { CREDENTIALS } from '../utils/services/references';
@@ -24,12 +33,11 @@ export const Home = () => {
             <Col md={2} lg={2}>
               <Row>
                 <Center>
-                  <button className="onlyIcon">
-                    <i
-                      className="fa fa-user-circle bigIcon"
-                      aria-hidden="true"
-                      onClick={() => access('/users')}
-                    />
+                  <button
+                    className="onlyIcon bigIcon"
+                    onClick={() => access('/users')}
+                  >
+                    <FontAwesomeIcon icon={faUserCircle} />
                   </button>
                 </Center>
               </Row>
@@ -65,12 +73,11 @@ export const Home = () => {
             <Col md={2} lg={2}>
               <Row>
                 <Center>
-                  <button className="onlyIcon">
-                    <i
-                      className="fa fa-file bigIcon"
-                      aria-hidden="true"
-                      onClick={() => access('/my_projects')}
-                    />
+                  <button
+                    className="onlyIcon bigIcon"
+                    onClick={() => access('/my_projects')}
+                  >
+                    <FontAwesomeIcon icon={faFile} />
                   </button>
                 </Center>
               </Row>
@@ -86,12 +93,11 @@ export const Home = () => {
             <Col md={2} lg={2}>
               <Row>
                 <Center>
-                  <button className="onlyIcon">
-                    <i
-                      className="fa fa-lightbulb-o bigIcon"
-                      aria-hidden="true"
-                      onClick={() => access('/ideas')}
-                    />
+                  <button
+                    className="onlyIcon bigIcon"
+                    onClick={() => access('/ideas')}
+                  >
+                    <FontAwesomeIcon icon={faLightbulb} />
                   </button>
                 </Center>
               </Row>
@@ -107,12 +113,8 @@ export const Home = () => {
             <Col md={2} lg={2}>
               <Row>
                 <Center>
-                  <button className="onlyIcon">
-                    <i
-                      className="fa fa-clipboard bigIcon"
-                      aria-hidden="true"
-                      onClick={() => access('/requirements')}
-                    />
+                  <button className="onlyIcon bigIcon">
+                    <FontAwesomeIcon icon={faListAlt} />
                   </button>
                 </Center>
               </Row>
@@ -126,12 +128,11 @@ export const Home = () => {
             <Col md={2} lg={2}>
               <Row>
                 <Center>
-                  <button className="onlyIcon">
-                    <i
-                      className="fa fa-gavel bigIcon"
-                      aria-hidden="true"
-                      onClick={() => access('/commissions')}
-                    />
+                  <button
+                    className="onlyIcon bigIcon"
+                    onClick={() => access('/commissions')}
+                  >
+                    <FontAwesomeIcon icon={faGavel} />
                   </button>
                 </Center>
               </Row>
@@ -146,12 +147,11 @@ export const Home = () => {
           <Col md={2} lg={2}>
             <Row>
               <Center>
-                <button className="onlyIcon">
-                  <i
-                    className="fa fa-archive bigIcon"
-                    aria-hidden="true"
-                    onClick={() => access('/my_projects')}
-                  />
+                <button
+                  className="onlyIcon bigIcon"
+                  onClick={() => access('/my_projects')}
+                >
+                  <FontAwesomeIcon icon={faArchive} />
                 </button>
               </Center>
             </Row>
