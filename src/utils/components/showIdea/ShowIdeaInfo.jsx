@@ -9,12 +9,14 @@ import FullRow from '../../../utils/styles/FullRow';
 import Itemized from '../../../utils/styles/Itemized';
 import { getStatusIcon } from '../../forms/StatusIcon';
 
-export default class wShowIdeaInfo extends React.Component {
+export default class ShowIdeaInfo extends React.Component {
   static propTypes = {
-    project: PropTypes.object
+    project: PropTypes.object,
+    showUsersStatus: PropTypes.bool
   };
 
   getAutors() {
+    const { showUsersStatus } = this.props;
     const { Creator, Students, State } = this.props.project;
     const autors = [];
 
@@ -27,13 +29,15 @@ export default class wShowIdeaInfo extends React.Component {
           <span key={student.id}>
             Participante: {fullName}
             &nbsp;
-            {State.id <= 2 &&
+            {showUsersStatus &&
+              State.id <= 2 &&
               getStatusIcon(
                 'estudiante',
                 student.StudentRequests[0].status,
                 'solicitud'
               )}
-            {State.id === 2 &&
+            {showUsersStatus &&
+              State.id === 2 &&
               student.StudentRequests[0].status !== 'pending' &&
               getStatusIcon(
                 'estudiante',
@@ -49,6 +53,7 @@ export default class wShowIdeaInfo extends React.Component {
   }
 
   getTutors() {
+    const { showUsersStatus } = this.props;
     const { Tutor, Cotutors, State } = this.props.project;
 
     const tutors = [];
@@ -61,9 +66,11 @@ export default class wShowIdeaInfo extends React.Component {
         <span key={Tutor.id}>
           Tutor: {fullName}
           &nbsp;
-          {State.id <= 2 &&
+          {showUsersStatus &&
+            State.id <= 2 &&
             getStatusIcon('tutor', Tutor.TutorRequests[0].status, 'solicitud')}
-          {State.id === 2 &&
+          {showUsersStatus &&
+            State.id === 2 &&
             Tutor.TutorRequests[0].status !== 'pending' &&
             getStatusIcon(
               'tutor',
@@ -77,13 +84,15 @@ export default class wShowIdeaInfo extends React.Component {
         tutors.push(
           <span key={cotutor.id}>
             Cotutor: {fullName}
-            {State.id <= 2 &&
+            {showUsersStatus &&
+              State.id <= 2 &&
               getStatusIcon(
                 `cotutor ${fullName}`,
                 cotutor.TutorRequests[0].status,
                 'solicitud'
               )}
-            {State.id <= 2 &&
+            {showUsersStatus &&
+              State.id <= 2 &&
               cotutor.TutorRequests[0].status !== 'pending' &&
               getStatusIcon(
                 `cotutor ${fullName}`,

@@ -28,6 +28,7 @@ export default class ShowIdea extends React.Component {
     nextStepMessage: PropTypes.string,
     user: PropTypes.object,
     showProposal: PropTypes.bool,
+    showUsersStatus: PropTypes.bool,
     showBackButton: PropTypes.bool,
     showAbandonButton: PropTypes.bool,
     showApprovalButtons: PropTypes.bool,
@@ -39,6 +40,8 @@ export default class ShowIdea extends React.Component {
     showAbandonIdeaModal: PropTypes.func,
     uploadProposal: PropTypes.func
   };
+
+  static defaultProps = { showUsersStatus: true, isUserCreator: false };
 
   showAcceptProposalModal = () => this.AcceptProposal.showModal();
 
@@ -113,6 +116,7 @@ export default class ShowIdea extends React.Component {
       user,
       showUploadIdeaModal,
       showApprovalButtons,
+      showUsersStatus,
       uploadProposal,
       acceptProposal,
       approveProposal,
@@ -158,7 +162,10 @@ export default class ShowIdea extends React.Component {
             <Panel.Body>
               <FullRow>
                 <Col md={12}>
-                  <ShowIdeaInfo project={project} />
+                  <ShowIdeaInfo
+                    project={project}
+                    showUsersStatus={showUsersStatus}
+                  />
                 </Col>
               </FullRow>
             </Panel.Body>

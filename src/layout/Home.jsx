@@ -36,7 +36,7 @@ export const Home = () => {
               <Row>
                 <h4>Administrar usuarios</h4>
               </Row>
-              <Row>Edita los perfiles de los usuarios</Row>
+              <Row>Edita los perfiles de los usuarios de la plataforma</Row>
             </Col>
           </WithAuthorization>
           {/* <WithAuthorization requiredCredentials={CREDENTIALS.GET_PROJECTS}>
@@ -77,7 +77,9 @@ export const Home = () => {
               <Row>
                 <h4>Mi proyecto</h4>
               </Row>
-              <Row>Revisa el historial de tu proyecto</Row>
+              <Row>
+                Crea o acepta una invitación para trabajar en un proyecto
+              </Row>
             </Col>
           </WithAuthorization>
           <WithAuthorization requiredCredentials={CREDENTIALS.GET_PROJECTS}>
@@ -96,7 +98,9 @@ export const Home = () => {
               <Row>
                 <h4>Ideas</h4>
               </Row>
-              <Row>Explora y sumate a las ideas propuestas</Row>
+              <Row>
+                Explora y sumate a las ideas propuestas por otros estudiantes
+              </Row>
             </Col>
           </WithAuthorization>
           <WithAuthorization requiredCredentials={CREDENTIALS.GET_PROJECTS}>
@@ -134,7 +138,9 @@ export const Home = () => {
               <Row>
                 <h4>Comisión curricular</h4>
               </Row>
-              <Row>Administrá los proyectos en curso</Row>
+              <Row>
+                Administrá los distintos proyectos creados según tus carreras
+              </Row>
             </Col>
           </WithAuthorization>
           <Col md={2} lg={2}>
@@ -152,7 +158,10 @@ export const Home = () => {
             <Row>
               <h4>Proyectos</h4>
             </Row>
-            <Row>Explora los distintos proyectos finalizados</Row>
+            <Row>
+              Explora los distintos proyectos finalizados por los estudiantes de
+              la FIUBA
+            </Row>
           </Col>
         </Center>
       </Row>
