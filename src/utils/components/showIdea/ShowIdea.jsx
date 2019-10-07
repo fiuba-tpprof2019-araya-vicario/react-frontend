@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import {
   Button,
-  Glyphicon,
-  Row,
   Col,
-  Panel,
+  Glyphicon,
   ListGroup,
-  ListGroupItem
+  ListGroupItem,
+  Panel,
+  Row
 } from 'react-bootstrap';
 import history from '../../../redux/history';
 import CustomAlert from '../../../utils/CustomAlert';
@@ -54,7 +54,10 @@ export default class ShowIdea extends React.Component {
       <Panel.Heading>
         <Panel.Title toggle>
           <FullRow>
-            <h4>Título del requerimiento: {project.Requirement.name}</h4>
+            <h4>
+              <i className="fa fa-chevron-down" />
+              &nbsp;Título del requerimiento: {project.Requirement.name}
+            </h4>
           </FullRow>
         </Panel.Title>
       </Panel.Heading>
@@ -78,7 +81,10 @@ export default class ShowIdea extends React.Component {
       <Panel.Heading>
         <Panel.Title toggle>
           <FullRow>
-            <h4>Título del proyecto: {project.name}</h4>
+            <h4>
+              <i className="fa fa-chevron-down" />
+              &nbsp;Título del proyecto: {project.name}
+            </h4>
           </FullRow>
         </Panel.Title>
       </Panel.Heading>
@@ -154,7 +160,10 @@ export default class ShowIdea extends React.Component {
           <Panel.Heading>
             <Panel.Title toggle>
               <FullRow>
-                <h4>Información general</h4>
+                <h4>
+                  <i className="fa fa-chevron-down" />
+                  &nbsp;Información general
+                </h4>
               </FullRow>
             </Panel.Title>
           </Panel.Heading>
