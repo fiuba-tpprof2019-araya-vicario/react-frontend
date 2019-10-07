@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
   getProject,
@@ -35,12 +34,10 @@ export class CommissionsDetail extends React.Component {
 
     return (
       <Fragment>
-        <Row>
-          <Title
-            title={commissionsMessages.TITLE}
-            subtitle={commissionsMessages.SUBTITLE}
-          />
-        </Row>
+        <Title
+          title={commissionsMessages.TITLE}
+          subtitle={commissionsMessages.SUBTITLE}
+        />
         {project.id && (
           <ShowIdea
             nextStepMessage={

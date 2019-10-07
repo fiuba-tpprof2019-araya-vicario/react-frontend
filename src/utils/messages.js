@@ -15,7 +15,8 @@ export const myProjectMessages = {
   SUBTITLE: '',
   NEW_IDEA_DESCRIPTION:
     'No se ha creado una idea aún, agregue una para dar comienzo a su propuesta. En la misma debe describir brevemente el proposito de su proyecto (En caso de no tener un tutor asignado puede realizarlo en pasos posteriores).',
-  GO_TO_REQUERIMENT_DESCRIPTION: 'Puedes tomar un requerimiento.',
+  GO_TO_REQUERIMENT_DESCRIPTION:
+    'Puedes crear una idea, a partir de un requerimiento. Los mismos son posibles proyectos propuestos por profesores, no docentes o personas ajenas a la FIUBA.',
   EMPTY_PROPOSAL: 'No se ha subido ninguna propuesta.',
   ACCEPT_PROPOSAL: '¿Estás seguro que deseas aceptar la propuesta?',
   REPROBATE_PROPOSAL: '¿Estás seguro que deseas reprobar la propuesta?',
@@ -35,7 +36,7 @@ export const requestMessages = {
   TITLE: 'Mis solicitudes',
   SUBTITLE: 'Administra todas tus solicitudes para formar parte de un proyecto',
   NO_RESULTS_MESSAGE:
-    'No te han llegado solicitudes para colaborar en otros proyectos',
+    'No te han llegado solicitudes para colaborar en otros proyectos. Puedes enviar solicitudes creando un nuevo proyecto e invitando a otros estudiantes para que sean tus colaboradores.',
   ACCEPT_WARNING: (request) =>
     `¿Estás seguro de que quieres aceptar el pedido para trabajar en el proyecto ${request}?`,
   REJECT_WARNING: (request) =>
@@ -69,7 +70,7 @@ export const commissionsMessages = {
   SUBTITLE: 'Aministra los distintas projectos en curso',
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados',
   NEW_STEP_PROPOSAL_UNDER_REVISION_INFO:
-    'Puedes aprobar o rechazar la propuesta. En caso de rechazar debes ingresar el motivo de rechazo.'
+    'Puedes aprobar o rechazar la propuesta, en cualquiera de los casos debes especificar la carrera que estas evaluando, entre las carreras del proyecto. En caso de rechazar debes ingresar el motivo de rechazo.'
 };
 
 export const ideasMessages = {

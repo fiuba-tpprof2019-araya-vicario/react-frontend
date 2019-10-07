@@ -114,6 +114,19 @@ export default class ShowIdea extends React.Component {
     </Panel>
   );
 
+  getApprovalOptions = (user, project) => {
+    const careers =
+      user &&
+      user.careers &&
+      user.careers.filter((career) =>
+        project.ProjectCareers.some(
+          (projectCareer) => projectCareer.Career.id === career.id
+        )
+      );
+
+    return careers ? getSelectOptions(careers, {}) : undefined;
+  };
+
   render() {
     const {
       project,
@@ -135,6 +148,7 @@ export default class ShowIdea extends React.Component {
 
     const request = getRequestFromUser(user ? user.id : null, project);
     const isEditableProject = project.State.id <= 2;
+    const careersOptions = this.getApprovalOptions(user, project);
 
     console.log(project);
 
@@ -258,11 +272,7 @@ export default class ShowIdea extends React.Component {
         <ApproveProposalModal
           approveProposal={approveProposal}
           projectId={project ? project.id : undefined}
-          options={
-            user && user.careers
-              ? getSelectOptions(user.careers, {})
-              : undefined
-          }
+          options={careersOptions}
           ref={(modal) => {
             this.ApproveProposal = modal;
           }}
@@ -270,11 +280,7 @@ export default class ShowIdea extends React.Component {
         <ReprobateProjectModal
           reprobateProposal={reprobateProposal}
           projectId={project ? project.id : undefined}
-          options={
-            user && user.careers
-              ? getSelectOptions(user.careers, {})
-              : undefined
-          }
+          options={careersOptions}
           ref={(modal) => {
             this.ReprobateProposal = modal;
           }}

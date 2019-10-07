@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faListAlt,
   faUserCircle,
-  faFile,
+  faFileAlt,
   faLightbulb,
   faGavel,
   faArchive
@@ -77,7 +77,7 @@ export const Home = () => {
                     className="onlyIcon bigIcon"
                     onClick={() => access('/my_projects')}
                   >
-                    <FontAwesomeIcon icon={faFile} />
+                    <FontAwesomeIcon icon={faFileAlt} />
                   </button>
                 </Center>
               </Row>
