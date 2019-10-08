@@ -97,7 +97,7 @@ export default class ShowIdea extends React.Component {
                 <Button
                   bsStyle="success"
                   className="fixMarginLeft"
-                  bsSize="small"
+                  bsSize="xs"
                   onClick={() => this.showUploadProposalModal()}
                 >
                   <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir propuesta
