@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import Center from 'react-center';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle, faListAlt } from '@fortawesome/free-solid-svg-icons';
 import history from '../../redux/history';
 import CustomAlert from '../../utils/CustomAlert';
 import { myProjectMessages, requestMessages } from '../../utils/messages';
@@ -49,7 +51,7 @@ export default class CreateIdea extends React.Component {
   renderTable(requests, acceptRequest, rejectRequest) {
     if (requests == null || requests.length === 0) {
       return (
-        <CustomAlert size={6} message={requestMessages.NO_RESULTS_MESSAGE} />
+        <CustomAlert size={10} message={requestMessages.NO_RESULTS_MESSAGE} />
       );
     }
 
@@ -73,10 +75,10 @@ export default class CreateIdea extends React.Component {
             <Row>
               <Center>
                 <button
-                  className="onlyIcon"
+                  className="onlyIcon inmenseIcon"
                   onClick={this.props.showUploadIdeaModal}
                 >
-                  <i className="fa fa-plus-circle inmenseIcon" />
+                  <FontAwesomeIcon icon={faPlusCircle} />
                 </button>
               </Center>
             </Row>
@@ -90,10 +92,10 @@ export default class CreateIdea extends React.Component {
             <Row>
               <Center>
                 <button
-                  className="onlyIcon"
+                  className="onlyIcon inmenseIcon"
                   onClick={() => history.push('/requirements')}
                 >
-                  <i className="fa fa-clipboard inmenseIcon" />
+                  <FontAwesomeIcon icon={faListAlt} />
                 </button>
               </Center>
             </Row>

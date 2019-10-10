@@ -241,14 +241,10 @@ export const uploadProposal = (projectId, form) => (dispatch) => {
     });
 };
 
-export const uploadIdea = ({
-  title,
-  careers,
-  description,
-  coautors,
-  type,
-  tutorId
-}) => (dispatch) => {
+export const uploadIdea = (
+  { title, careers, description, coautors, type, tutorId, requirementId },
+  postAction = () => {}
+) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
@@ -259,7 +255,8 @@ export const uploadIdea = ({
     cotutors: [],
     students: getOnlyField(coautors),
     type_id: type.value,
-    proposalUrl: null
+    proposalUrl: null,
+    requirement_id: requirementId
   };
 
   axios
@@ -271,6 +268,7 @@ export const uploadIdea = ({
     })
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
+      postAction();
     })
     .catch((err) => {
       dispatch(queryError(err));
@@ -292,7 +290,7 @@ export const getRequests = (dispatch) => {
     });
 };
 
-export const acceptProposal = (requestId) => (dispatch) => {
+export const acceptProposal = (requestId, projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const body = {
@@ -305,6 +303,7 @@ export const acceptProposal = (requestId) => (dispatch) => {
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(acceptedProposal());
+      getActiveProject(projectId, dispatch);
     })
     .catch((err) => {
       dispatch(queryError(err));

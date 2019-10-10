@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, FormControl, Modal } from 'react-bootstrap';
 import Select from 'react-select';
-import Field from '../../../utils/forms/Field';
-import { getFullName, getOnlyField } from '../../../utils/services/functions';
-import FullRow from '../../../utils/styles/FullRow';
+import Field from '../../forms/Field';
+import { getFullName, getOnlyField } from '../../services/functions';
+import FullRow from '../../styles/FullRow';
 
 export default class UploadIdeaModal extends React.Component {
   static propTypes = {
@@ -264,8 +264,8 @@ export default class UploadIdeaModal extends React.Component {
     return formOk;
   }
 
-  showModal() {
-    this.setState({ show: true });
+  showModal(requirement) {
+    this.setState({ show: true, requirement });
   }
 
   hideModal() {
@@ -280,6 +280,9 @@ export default class UploadIdeaModal extends React.Component {
     const type = this.state.form.projectType.value;
     const coautors = this.state.form.coautors.value;
     const tutorId = this.state.tutor ? this.state.tutor.value : null;
+    const requirementId = this.state.requirement
+      ? this.state.requirement.id
+      : null;
 
     if (this.validateForm(title, description, autor, careers, type)) {
       if (this.props.editMode) {
@@ -290,7 +293,8 @@ export default class UploadIdeaModal extends React.Component {
           coautors,
           type,
           autor,
-          tutorId
+          tutorId,
+          requirementId
         });
       } else {
         this.props.uploadIdea({
@@ -300,7 +304,8 @@ export default class UploadIdeaModal extends React.Component {
           coautors,
           type,
           autor,
-          tutorId
+          tutorId,
+          requirementId
         });
       }
 
@@ -323,7 +328,15 @@ export default class UploadIdeaModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FullRow key="formCreateRow0">
+          {this.state.requirement && (
+            <FullRow key="form0">
+              <p>
+                <b>Requerimiento:</b>
+                {` ${this.state.requirement.name}`}
+              </p>
+            </FullRow>
+          )}
+          <FullRow key="form1">
             <Field
               controlId="titleInput"
               label="Título"
@@ -340,7 +353,7 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
           </FullRow>
-          <FullRow key="formCreateRow5">
+          <FullRow key="form2">
             <Field
               controlId="autorInput"
               label="Autor"
@@ -378,7 +391,7 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
           </FullRow>
-          <FullRow key="formCreateRow2">
+          <FullRow key="form3">
             <Field
               bsSize="small"
               controlId="coautorsSelect"
@@ -403,7 +416,7 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
           </FullRow>
-          <FullRow key="formCreateRow3">
+          <FullRow key="form4">
             <Field
               bsSize="small"
               controlId="tutorSelect"
@@ -427,7 +440,7 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
           </FullRow>
-          <FullRow key="formCreateRow6">
+          <FullRow key="form5">
             <Field
               bsSize="small"
               required
@@ -450,7 +463,7 @@ export default class UploadIdeaModal extends React.Component {
               }
             />
           </FullRow>
-          <FullRow key="formCreateRow4">
+          <FullRow key="form6">
             <Field
               controlId="descriptionInput"
               label="Descripción de la idea"

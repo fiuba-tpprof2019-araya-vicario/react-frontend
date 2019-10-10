@@ -48,6 +48,7 @@ export const REQUEST_STATES = {
 
 export const REQUIREMENT_STATES = {
   inactive: 'Inactivo',
+  active: 'Activo',
   accepted: 'Aceptado',
   requested: 'Solicitado',
   implemented: 'Implementado',

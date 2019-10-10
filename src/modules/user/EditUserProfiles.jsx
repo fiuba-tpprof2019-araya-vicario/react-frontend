@@ -156,14 +156,16 @@ export default class EditUserProfiles extends React.Component {
         bsStyle="danger"
         bsSize="small"
         onClick={() => {
+          const filteredProfiles = this.state.profiles.filter(
+            (profile) => profile.id !== this.state.removeProfileClicked
+          );
+
           this.setState({
             ...this.state,
-            profiles: this.state.profiles.filter(
-              (profile) => profile.id !== this.state.removeProfileClicked
-            )
+            profiles: filteredProfiles
           });
           this.removeProfileModal.hideModal();
-          this.props.refresh(this.state.profiles);
+          this.props.refresh(filteredProfiles);
         }}
       >
         Eliminar

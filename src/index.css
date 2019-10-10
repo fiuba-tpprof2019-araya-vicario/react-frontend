@@ -74,12 +74,20 @@ body {
   border-width: 0px;
 }
 
+.fixMargin {
+  margin: 1em;
+}
+
 .fixMarginLeft {
   margin-left: 1em;
 }
 
 .flexContainer {
   display: flex;
+}
+
+.panelText {
+  margin: 0em;
 }
 
 .successText {

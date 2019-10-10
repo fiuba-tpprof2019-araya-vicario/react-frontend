@@ -16,7 +16,7 @@ import {
   getInitialData
 } from './myProjectReducer';
 import Title from '../../utils/Title';
-import UploadIdeaModal from './modals/UploadIdeaModal';
+import UploadIdeaModal from '../../utils/components/uploadIdea/UploadIdeaModal';
 import { myProjectMessages } from '../../utils/messages';
 import CreateIdea from './CreateIdea';
 import ReviewIdea from './ReviewIdea';
@@ -153,7 +153,7 @@ export class MyProjectIndex extends React.Component {
           {this.state.activeStep === 1 ? (
             <ReviewIdea
               isUserCreator={isUserCreator}
-              userId={this.props.user.id}
+              user={this.props.user}
               project={this.props.project}
               showUploadIdeaModal={this.showUploadIdeaModal}
               showAbandonIdeaModal={this.showAbandonIdeaModal}
@@ -162,7 +162,7 @@ export class MyProjectIndex extends React.Component {
           {this.state.activeStep === 2 ? (
             <PendingProposal
               isUserCreator={isUserCreator}
-              userId={this.props.user.id}
+              user={this.props.user}
               project={this.props.project}
               uploadProposal={this.uploadProposal}
               acceptProposal={this.props.acceptProposal}
@@ -173,7 +173,7 @@ export class MyProjectIndex extends React.Component {
           {this.state.activeStep === 3 ? (
             <ProposalUnderRevision
               isUserCreator={isUserCreator}
-              userId={this.props.user.id}
+              user={this.props.user}
               project={this.props.project}
             />
           ) : null}
@@ -223,8 +223,8 @@ const mapDispatch = (dispatch) => ({
   acceptRequest: (requestId, projectId) => {
     dispatch(acceptRequest(requestId, projectId));
   },
-  acceptProposal: (requestId) => {
-    dispatch(acceptProposal(requestId));
+  acceptProposal: (requestId, projectId) => {
+    dispatch(acceptProposal(requestId, projectId));
   },
   rejectRequest: (requestId) => {
     dispatch(rejectRequest(requestId));

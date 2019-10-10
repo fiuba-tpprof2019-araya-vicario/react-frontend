@@ -9,7 +9,9 @@ export class RequirementTable extends React.Component {
     data: PropTypes.array,
     canEdit: PropTypes.bool,
     editRequirement: PropTypes.func,
-    deleteRequirement: PropTypes.func
+    deleteRequirement: PropTypes.func,
+    uploadIdea: PropTypes.func,
+    projectId: PropTypes.number
   };
 
   getHeaders() {
@@ -24,8 +26,11 @@ export class RequirementTable extends React.Component {
   }
 
   render() {
-    const disableButton = (requirement) =>
+    const disableEditButtons = (requirement) =>
       requirement.status !== REQUIREMENT_STATES.inactive;
+    const disableUploadButton = (requirement) =>
+      requirement.status !== REQUIREMENT_STATES.inactive ||
+      this.props.projectId;
 
     return (
       <CustomTable
@@ -36,14 +41,23 @@ export class RequirementTable extends React.Component {
             ? {
                 editAction: {
                   action: this.props.editRequirement,
-                  disabled: disableButton
+                  disabled: disableEditButtons
                 },
                 deleteAction: {
                   action: this.props.deleteRequirement,
-                  disabled: disableButton
+                  disabled: disableEditButtons
+                },
+                uploadAction: {
+                  action: this.props.uploadIdea,
+                  disabled: disableUploadButton
                 }
               }
-            : {}
+            : {
+                uploadAction: {
+                  action: this.props.uploadIdea,
+                  disabled: disableUploadButton
+                }
+              }
         }
       />
     );

@@ -102,7 +102,7 @@ class App extends React.Component {
               <Private
                 exact={false}
                 path="/commissions/:id"
-                requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
+                requiredCredentials={CREDENTIALS.APPROVE_PROJECTS}
                 component={CommissionDetail}
               />
               <Private

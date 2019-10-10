@@ -2,6 +2,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
 
 export class CustomTable extends React.Component {
   static propTypes = {
@@ -45,7 +47,8 @@ export class CustomTable extends React.Component {
       deleteAction,
       acceptAction,
       removeAction,
-      rejectAction
+      rejectAction,
+      uploadAction
     } = actions;
     let detailRender;
     let editRender;
@@ -53,6 +56,7 @@ export class CustomTable extends React.Component {
     let acceptRender;
     let rejectRender;
     let removeRender;
+    let uploadRender;
 
     if (this.actionEnabled(editAction, row)) {
       editRender = (
@@ -126,6 +130,18 @@ export class CustomTable extends React.Component {
       );
     }
 
+    if (this.actionEnabled(uploadAction, row)) {
+      uploadRender = (
+        <a
+          title="Subir una propuesta"
+          onClick={() => uploadAction.action(row.id)}
+          role="button"
+        >
+          <FontAwesomeIcon icon={faFileUpload} />
+        </a>
+      );
+    }
+
     return (
       <td key="actions" className="actionsColumn">
         {removeRender}
@@ -134,6 +150,7 @@ export class CustomTable extends React.Component {
         {acceptRender}
         {deleteRender}
         {editRender}
+        {uploadRender}
       </td>
     );
   }

@@ -1,9 +1,11 @@
 import axios from 'axios';
+import Bluebird from 'bluebird';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import {
   formatterDate,
   getDescriptionByRequirementStatus
 } from '../../utils/services/functions';
+import { getInitialData as loadCreateProjectData } from '../myProject/myProjectReducer';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUIREMENTS = 'HYDRATE_REQUIREMENTS';
@@ -45,7 +47,7 @@ export const requirementsEdited = () => ({
   type: EDIT_REQUIREMENT
 });
 
-export const getRequirements = () => (dispatch) => {
+export const getRequirements = (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
 
@@ -62,6 +64,12 @@ export const getRequirements = () => (dispatch) => {
     });
 };
 
+export const getInitialData = (userId) => (dispatch) =>
+  Bluebird.join(
+    dispatch(loadCreateProjectData(userId)),
+    getRequirements(dispatch)
+  );
+
 export const editRequirement = (id, form) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
@@ -71,7 +79,7 @@ export const editRequirement = (id, form) => (dispatch) => {
     .then((res) => res.data.data)
     .then(() => {
       dispatch(requirementsEdited());
-      dispatch(getRequirements());
+      dispatch(getRequirements(dispatch));
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {
@@ -89,7 +97,7 @@ export const deleteRequirement = (id) => (dispatch) => {
     .then((res) => res.data.data)
     .then(() => {
       dispatch(requirementsEdited());
-      dispatch(getRequirements());
+      dispatch(getRequirements(dispatch));
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {
@@ -107,7 +115,7 @@ export const uploadRequirement = (form) => (dispatch) => {
     .then((res) => res.data.data)
     .then(() => {
       dispatch(requirementsUploaded());
-      dispatch(getRequirements());
+      getRequirements(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {

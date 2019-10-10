@@ -13,7 +13,7 @@ import {
 import Title from '../../utils/Title';
 import { myTutorialsMessages } from '../../utils/messages';
 import AbandonProjectModal from './modals/AbandonProjectModal';
-import ShowIdea from '../../utils/components/ShowIdea';
+import ShowIdea from '../../utils/components/showIdea/ShowIdea';
 import history from '../../redux/history';
 
 export class MyProjectDetail extends React.Component {

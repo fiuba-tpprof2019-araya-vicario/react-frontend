@@ -16,7 +16,9 @@ export default class Itemized extends React.Component {
     return (
       <Row>
         <h4>{this.props.title}</h4>
-        <ul>{this.props.items && this.renderItems(this.props.items)}</ul>
+        <ul style={{ listStyleType: 'disc' }}>
+          {this.props.items && this.renderItems(this.props.items)}
+        </ul>
       </Row>
     );
   }

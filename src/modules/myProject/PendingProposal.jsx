@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ShowIdea from '../../utils/components/ShowIdea';
+import ShowIdea from '../../utils/components/showIdea/ShowIdea';
 import { myProjectMessages } from '../../utils/messages';
 
 export default class PendingProposal extends React.Component {

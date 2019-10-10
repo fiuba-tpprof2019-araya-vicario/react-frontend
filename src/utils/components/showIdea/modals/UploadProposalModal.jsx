@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Row, Col, Button, FormControl } from 'react-bootstrap';
-import Dialogue from '../../Dialogue';
-import Field from '../../forms/Field';
+import Dialogue from '../../../Dialogue';
+import Field from '../../../forms/Field';
 
 export default class UploadProposalModal extends React.Component {
   static propTypes = {

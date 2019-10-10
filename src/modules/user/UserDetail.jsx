@@ -40,8 +40,16 @@ export class UserDetail extends React.Component {
     this.props.user(this.props.userId);
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     this.state.ready = true;
+    const newProfiles = nextProps.activeUser.profiles;
+    const newCareers = nextProps.activeUser.careers;
+
+    this.setState({
+      ...this.state,
+      profiles: newProfiles,
+      careers: newCareers
+    });
   }
 
   refreshProfiles(newProfiles) {
@@ -51,10 +59,10 @@ export class UserDetail extends React.Component {
     });
   }
 
-  refreshCareers(newCareer) {
+  refreshCareers(newCareers) {
     this.setState({
       ...this.state,
-      careers: newCareer
+      careers: newCareers
     });
   }
 

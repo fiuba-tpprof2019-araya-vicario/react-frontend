@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
-import Dialogue from '../../Dialogue';
-import { myProjectMessages } from '../../messages.js';
+import { Row, Col, Button, Checkbox } from 'react-bootstrap';
+import Dialogue from '../../../Dialogue';
+import { myProjectMessages } from '../../../messages.js';
 
 export default class AcceptProposalModal extends React.Component {
   static propTypes = {
@@ -14,17 +14,34 @@ export default class AcceptProposalModal extends React.Component {
   constructor() {
     super();
     this.showModal = this.showModal.bind(this);
+    this.state = {
+      valid: false,
+      error: null
+    };
   }
 
-  showModal() {
+  showModal = () => {
     this.modal.showModal();
-  }
+  };
+
+  onChangeCheck = () => {
+    this.setState({
+      valid: !this.state.valid,
+      error: null
+    });
+  };
 
   getModalBody() {
     return (
       <Row key="body">
         <Col md={12} lg={12}>
           {myProjectMessages.ACCEPT_PROPOSAL}
+          <Checkbox
+            onChange={this.onChangeCheck}
+            validationState={this.state.error}
+          >
+            {myProjectMessages.ACCEPT_PROPOSAL_WARNING}
+          </Checkbox>
         </Col>
       </Row>
     );
@@ -41,8 +58,15 @@ export default class AcceptProposalModal extends React.Component {
         onClick={() => {
           const { requestId, projectId } = this.props;
 
-          this.props.acceptProposal(requestId, projectId);
-          this.modal.hideModal();
+          if (!this.state.valid) {
+            this.setState({
+              valid: false,
+              error: 'error'
+            });
+          } else {
+            this.props.acceptProposal(requestId, projectId);
+            this.modal.hideModal();
+          }
         }}
       >
         Aceptar propuesta
