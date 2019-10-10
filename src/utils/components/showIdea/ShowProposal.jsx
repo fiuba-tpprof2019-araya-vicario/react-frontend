@@ -22,6 +22,29 @@ export default class ShowIdea extends React.Component {
   //   }
   // }
 
+  showApprobals = () => {
+    const { project } = this.props;
+
+    return (
+      project.ProjectCareers.some(({ status }) => status === 'accepted') && (
+        <Itemized
+          title="Aprobaciónes de la propuesta:"
+          items={project.ProjectCareers.map((projectCareer) => (
+            <Fragment>
+              {getIconWithOverlay(
+                `Miembro de la comisión: ${projectCareer.Judge.name} ${
+                  projectCareer.Judge.surname
+                } (${projectCareer.Judge.email})\n`,
+                <i className="fa fa-info-circle">&nbsp;</i>
+              )}
+              {projectCareer.Career.name}
+            </Fragment>
+          ))}
+        />
+      )
+    );
+  };
+
   showRejectionReasons = () => {
     const { project } = this.props;
 
@@ -119,6 +142,7 @@ export default class ShowIdea extends React.Component {
           />
         </Fragment>
         {this.showRejectionReasons()}
+        {this.showApprobals()}
       </FullRow>
     );
   }

@@ -177,6 +177,13 @@ export class MyProjectIndex extends React.Component {
               project={this.props.project}
             />
           ) : null}
+          {this.state.activeStep === 4 ? (
+            <ProposalUnderRevision
+              isUserCreator={isUserCreator}
+              user={this.props.user}
+              project={this.props.project}
+            />
+          ) : null}
         </Row>
         {isUserCreator && (
           <UploadIdeaModal
