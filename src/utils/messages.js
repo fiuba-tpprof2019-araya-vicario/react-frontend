@@ -18,7 +18,10 @@ export const myProjectMessages = {
   GO_TO_REQUERIMENT_DESCRIPTION:
     'Puedes crear una idea, a partir de un requerimiento. Los mismos son posibles proyectos propuestos por profesores, no docentes o personas ajenas a la FIUBA.',
   EMPTY_PROPOSAL: 'No se ha subido ninguna propuesta.',
-  ACCEPT_PROPOSAL: '¿Estás seguro que deseas aceptar la propuesta?',
+  ACCEPT_PROPOSAL:
+    '¿Estás seguro que deseas aceptar la propuesta?  Recordamos que una vez aceptada la propuesta, esta será entregada a la comisioón curricular y no podrá ser modificada.',
+  ACCEPT_PROPOSAL_WARNING:
+    'He leído y corroborado la propuesta entregada por los alumnos.',
   REPROBATE_PROPOSAL: '¿Estás seguro que deseas reprobar la propuesta?',
   APPROBATE_PROPOSAL:
     '¿Estás seguro que deseas aprobar la propuesta con la carrera seleccionada?',
