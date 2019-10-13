@@ -7,7 +7,10 @@ import history from '../redux/history';
 
 class CustomTabs extends Component {
   static propTypes = {
-    defaultActiveKey: PropTypes.number,
+    defaultActiveKey: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.number.isRequired
+    ]),
     match: PropTypes.object,
     keys: PropTypes.array,
     children: PropTypes.node,
@@ -16,15 +19,9 @@ class CustomTabs extends Component {
     location: PropTypes.string
   };
 
-  constructor() {
-    super();
-    this.handleSelect = this.handleSelect.bind(this);
-    this.renderTabs = this.renderTabs.bind(this);
-  }
-
-  handleSelect(key) {
+  handleSelect = (key) => {
     history.push(`${this.props.match.url}/${key}`);
-  }
+  };
 
   componentDidMount() {
     const { defaultActiveKey } = this.props;
@@ -37,15 +34,15 @@ class CustomTabs extends Component {
     }
   }
 
-  activeTab(url) {
+  activeTab = (url) => {
     const { keys, defaultActiveKey } = this.props;
     const splittedUrl = url.split('/');
     const actualKey = splittedUrl.slice(-1)[0].toLowerCase();
 
     return _.includes(keys, actualKey) ? actualKey : defaultActiveKey;
-  }
+  };
 
-  renderTabs() {}
+  renderTabs = (children) => children;
 
   render() {
     const { children, defaultActiveKey, animation, id, location } = this.props;

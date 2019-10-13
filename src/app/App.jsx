@@ -5,6 +5,7 @@ import { Route, withRouter, Switch } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Home } from '../layout/Home';
+import { clearAlert } from '../modules/login/authReducer';
 import Log from '../modules/login/Login';
 import NavBar from '../layout/WebNavBar';
 import Private from '../utils/PrivateRoute';
@@ -38,6 +39,8 @@ class App extends React.Component {
     const { alert, execute } = this.props;
     const render = [];
 
+    console.log(alert);
+
     if (alert) {
       render.push(
         <Fragment key="margin">
@@ -50,7 +53,9 @@ class App extends React.Component {
           rowKey="centralAlert"
           bsStyle={alert.style}
           message={alert.message}
-          onDismiss={() => alert.onDismiss && execute(alert.onDismiss)}
+          onDismiss={() =>
+            alert.onDismiss ? execute(alert.onDismiss) : execute(clearAlert)
+          }
         />
       );
     }

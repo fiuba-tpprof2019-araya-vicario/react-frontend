@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Row, Col, Grid, Panel, Button } from 'react-bootstrap';
 import history from '../../redux/history';
-import { getUserById, clearAlert, editUser } from './userReducer';
+import { getUserById, editUser } from './userReducer';
 import LoadingModal from '../../utils/LoadingModal';
 import Title from '../../utils/Title';
 import EditUserProfiles from './EditUserProfiles';
@@ -136,16 +136,12 @@ const mapDispatch = (dispatch) => ({
   user: (userId) => {
     dispatch(getUserById(userId));
   },
-  clearAlert: () => {
-    dispatch(clearAlert());
-  },
   editUser: (userId, profiles, careers) => {
     dispatch(editUser(userId, profiles, careers));
   }
 });
 
 const mapStateToProps = (state, ownProps) => ({
-  alert: state.userReducer.alert,
   activeUser: state.userReducer.activeUser,
   userId: ownProps.match.params.id,
   profiles: state.userReducer.profiles,

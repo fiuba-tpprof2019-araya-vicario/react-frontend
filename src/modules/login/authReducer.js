@@ -18,6 +18,7 @@ const initialState = {
   token: {},
   user: {},
   error: { message: '' },
+  alert: null,
   isAuthenticated: false
 };
 
@@ -85,7 +86,6 @@ export const loginWithGoogle = (response) => (dispatch) => {
     .then((res) => res.data)
     .then(({ data }) => {
       console.log(data);
-      // window.gapi.auth.setToken({ access_token: response.accessToken });
       dispatch(
         login({
           token: data.token,

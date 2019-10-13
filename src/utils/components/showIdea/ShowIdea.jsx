@@ -1,26 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import {
-  Button,
-  Col,
-  Glyphicon,
-  ListGroup,
-  ListGroupItem,
-  Panel,
-  Row
-} from 'react-bootstrap';
+import { Button, Col, Glyphicon, Row } from 'react-bootstrap';
 import history from '../../../redux/history';
-import CustomAlert from '../../../utils/CustomAlert';
-import {
-  getRequestFromUser,
-  getSelectOptions
-} from '../../../utils/services/functions';
-import FullRow from '../../../utils/styles/FullRow';
+import CustomAlert from '../../CustomAlert';
+import { getRequestFromUser, getSelectOptions } from '../../services/functions';
+import FullRow from '../../styles/FullRow';
+import CustomAccordion from '../../CustomAccordion';
 import AcceptProposalModal from './modals/AcceptProposalModal';
 import ApproveProposalModal from './modals/ApproveProposalModal';
 import ReprobateProjectModal from './modals/ReprobateProposalModal';
-import ShowIdeaInfo from './ShowIdeaInfo';
+import ShowGeneralInformation from './ShowGeneralInformation';
 import ShowProposal from './ShowProposal';
+import ShowPresentation from './ShowPresentation';
 
 export default class ShowIdea extends React.Component {
   static propTypes = {
@@ -28,6 +19,7 @@ export default class ShowIdea extends React.Component {
     nextStepMessage: PropTypes.string,
     user: PropTypes.object,
     showProposal: PropTypes.bool,
+    showPresentation: PropTypes.bool,
     showUsersStatus: PropTypes.bool,
     showBackButton: PropTypes.bool,
     showAbandonButton: PropTypes.bool,
@@ -41,7 +33,13 @@ export default class ShowIdea extends React.Component {
     uploadProposal: PropTypes.func
   };
 
-  static defaultProps = { showUsersStatus: true, isUserCreator: false };
+  static defaultProps = {
+    showUsersStatus: true,
+    showPresentation: false,
+    isUserCreator: false,
+    user: {},
+    project: {}
+  };
 
   showAcceptProposalModal = () => this.AcceptProposal.showModal();
 
@@ -50,68 +48,69 @@ export default class ShowIdea extends React.Component {
   showApproveProposalModal = () => this.ApproveProposal.showModal();
 
   getRequerimentInfo = (project) => (
-    <Panel defaultExpanded>
-      <Panel.Heading>
-        <Panel.Title toggle>
-          <FullRow>
-            <h4>
-              <i className="fa fa-chevron-down" />
-              &nbsp;Título del requerimiento: {project.Requirement.name}
-            </h4>
-          </FullRow>
-        </Panel.Title>
-      </Panel.Heading>
-      <Panel.Collapse>
-        <Panel.Body>
-          <Row>
-            <Col md={1}>
-              <h4 className="panelText">Descripción:</h4>
-            </Col>
-            <Col md={11}>
-              <p className="panelText">{project.Requirement.description}</p>
-            </Col>
-          </Row>
-        </Panel.Body>
-      </Panel.Collapse>
-    </Panel>
+    <CustomAccordion
+      title={`Título del requerimiento: ${project.Requirement.name}`}
+    >
+      <Row>
+        <Col md={1}>
+          <h4 className="panelText">Descripción:</h4>
+        </Col>
+        <Col md={11}>
+          <p className="panelText">{project.Requirement.description}</p>
+        </Col>
+      </Row>
+    </CustomAccordion>
   );
 
-  getProjectInfo = (project, showProposal, isUserCreator, uploadProposal) => (
-    <Panel defaultExpanded>
-      <Panel.Heading>
-        <Panel.Title toggle>
-          <FullRow>
-            <h4>
-              <i className="fa fa-chevron-down" />
-              &nbsp;Título del proyecto: {project.name}
-            </h4>
-          </FullRow>
-        </Panel.Title>
-      </Panel.Heading>
-      <Panel.Collapse>
-        <Panel.Body>
-          <Row>
-            <Col md={1}>
-              <h4 className="panelText">Descripción:</h4>
-            </Col>
-            <Col md={11}>
-              <p className="panelText">{project.description}</p>
-            </Col>
-          </Row>
-        </Panel.Body>
-        {showProposal && (
-          <ListGroup>
-            <ListGroupItem>
-              <ShowProposal
-                project={project}
-                isUserCreator={isUserCreator}
-                uploadProposal={uploadProposal}
-              />
-            </ListGroupItem>
-          </ListGroup>
-        )}
-      </Panel.Collapse>
-    </Panel>
+  getProjectInfo = (
+    project,
+    showProposal,
+    showPresentation,
+    isUserCreator,
+    isEditableProject,
+    uploadProposal
+  ) => (
+    <CustomAccordion
+      title={`Título del proyecto: ${project.name}`}
+      annexes={[
+        showProposal && (
+          <ShowProposal
+            project={project}
+            canEditProposal={isUserCreator && isEditableProject}
+            uploadProposal={uploadProposal}
+          />
+        ),
+        showPresentation && (
+          <ShowPresentation
+            project={project}
+            canEditProposal={isUserCreator && isEditableProject}
+            uploadProposal={uploadProposal}
+          />
+        )
+      ]}
+    >
+      <Row>
+        <Col md={1}>
+          <h4 className="panelText">Descripción:</h4>
+        </Col>
+        <Col md={11}>
+          <p className="panelText">{project.description}</p>
+        </Col>
+      </Row>
+    </CustomAccordion>
+  );
+
+  getGeneralInfo = (project, showUsersStatus) => (
+    <CustomAccordion title="Información general">
+      <FullRow>
+        <Col md={12}>
+          <ShowGeneralInformation
+            project={project}
+            showUsersStatus={showUsersStatus}
+          />
+        </Col>
+      </FullRow>
+    </CustomAccordion>
   );
 
   getApprovalOptions = (user, project) => {
@@ -134,6 +133,7 @@ export default class ShowIdea extends React.Component {
       showAbandonButton,
       user,
       showUploadIdeaModal,
+      showPresentation,
       showApprovalButtons,
       showUsersStatus,
       uploadProposal,
@@ -167,33 +167,12 @@ export default class ShowIdea extends React.Component {
         {this.getProjectInfo(
           project,
           showProposal,
+          showPresentation,
           isUserCreator,
+          isEditableProject,
           uploadProposal
         )}
-        <Panel defaultExpanded>
-          <Panel.Heading>
-            <Panel.Title toggle>
-              <FullRow>
-                <h4>
-                  <i className="fa fa-chevron-down" />
-                  &nbsp;Información general
-                </h4>
-              </FullRow>
-            </Panel.Title>
-          </Panel.Heading>
-          <Panel.Collapse>
-            <Panel.Body>
-              <FullRow>
-                <Col md={12}>
-                  <ShowIdeaInfo
-                    project={project}
-                    showUsersStatus={showUsersStatus}
-                  />
-                </Col>
-              </FullRow>
-            </Panel.Body>
-          </Panel.Collapse>
-        </Panel>
+        {this.getGeneralInfo(project, showUsersStatus)}
         <Row className="pull-right">
           <Col md={12}>
             {showBackButton && (

@@ -148,7 +148,7 @@ export function getRequestFromUser(userId, project) {
     return cotutorUser[0].TutorRequests[0];
   }
 
-  return null;
+  return {};
 }
 
 export function getStudentsNames(Creator, Students) {
