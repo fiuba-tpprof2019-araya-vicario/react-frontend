@@ -15,13 +15,12 @@ export default class PendingPresentation extends React.Component {
 
     return (
       <ShowIdea
-        nextStepMessage={
-          myProjectMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
-        }
+        nextStepMessage={myProjectMessages.NEW_STEP_PENDING_PRESENTATION_INFO}
         project={project}
         user={user}
         isUserCreator={isUserCreator}
         showProposal
+        showPresentation
       />
     );
   }

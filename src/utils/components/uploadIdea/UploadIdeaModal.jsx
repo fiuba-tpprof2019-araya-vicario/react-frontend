@@ -321,6 +321,8 @@ export default class UploadIdeaModal extends React.Component {
         backdrop="static"
         dialogClassName="custom-modal"
         bsSize="lg"
+        autoFocus
+        keyboard={false}
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-lg">

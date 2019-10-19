@@ -22,6 +22,7 @@ import CreateIdea from './CreateIdea';
 import ReviewIdea from './ReviewIdea';
 import PendingProposal from './PendingProposal';
 import ProposalUnderRevision from './ProposalUnderRevision';
+import PendingPresentation from './PendingPresentation';
 import AbandonProjectModal from './modals/AbandonProjectModal';
 
 export class MyProjectIndex extends React.Component {
@@ -178,7 +179,7 @@ export class MyProjectIndex extends React.Component {
             />
           ) : null}
           {this.state.activeStep === 4 ? (
-            <ProposalUnderRevision
+            <PendingPresentation
               isUserCreator={isUserCreator}
               user={this.props.user}
               project={this.props.project}

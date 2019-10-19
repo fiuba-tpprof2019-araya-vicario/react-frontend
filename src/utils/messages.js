@@ -28,9 +28,11 @@ export const myProjectMessages = {
   NEW_STEP_PROJECT_CREATED_INFO:
     'Para avanzar al siguiente paso el proyecto debe tener un tutor asignado a tu proyecto que haya aceptado la solicitud de tutoría. Los coautores pueden aceptar en este paso o en el siguiente.',
   NEW_STEP_PROJECT_ACCEPTED_INFO:
-    'Para avanzar al siguiente paso el proyecto debe tener una propuesta aceptada por todos los miembros del proyecto.',
+    'Para avanzar al siguiente paso, debes tener una propuesta aceptada por todos los miembros del proyecto. Una vez que todos acepten la misma pasará a la comisión curricular.',
   NEW_STEP_PROPOSAL_UNDER_REVISION_INFO:
-    'La comision curricular esta revisando la propuesta ingresada. En caso de ser aprobada avanzaras al siguiente paso.',
+    'La comisión curricular esta revisando la propuesta ingresada. En caso de ser aprobada avanzaras al siguiente paso.',
+  NEW_STEP_PENDING_PRESENTATION_INFO:
+    'La comisión curricular aprobo tu propuesta',
   ABANDON_WARNING: (proyect) =>
     `¿Estás seguro de que quieres abandonar el proyecto ${proyect}?`
 };

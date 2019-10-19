@@ -1,6 +1,10 @@
 import axios from 'axios';
 import Bluebird from 'bluebird';
-import { getConfig, api } from '../../api/apiInterfaceProvider';
+import {
+  getConfig,
+  getConfigMultipart,
+  api
+} from '../../api/apiInterfaceProvider';
 import {
   formatterDate,
   getDescriptionByRequirementStatus
@@ -108,10 +112,15 @@ export const deleteRequirement = (id) => (dispatch) => {
 
 export const uploadRequirement = (form) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
+  const config = getConfigMultipart();
+  const formData = new FormData();
+
+  formData.append('file', form.file);
+  formData.append('name', form.name);
+  formData.append('description', form.description);
 
   axios
-    .post(api.requirements, form, config)
+    .post(api.requirements, formData, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(requirementsUploaded());
@@ -133,6 +142,7 @@ const fetchRequirementTable = (data) => {
       creator: `${rowObject.Creator.name} ${rowObject.Creator.surname}`,
       name: rowObject.name,
       description: rowObject.description,
+      file_url: rowObject.file_url,
       created_at: formatterDate(rowObject.createdAt),
       updated_at: formatterDate(rowObject.updatedAt),
       status: getDescriptionByRequirementStatus(rowObject.status)
