@@ -3,9 +3,12 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Tab, Tabs } from 'react-bootstrap';
+import Select from 'react-select';
 import { clearAlert, getInitialData } from './commissionsReducer';
 import Title from '../../utils/Title';
+import Field from '../../utils/forms/Field';
 import { commissionsMessages } from '../../utils/messages';
+import { getSelectOptions } from '../../utils/services/functions';
 import CommissionsTable from './CommissionsTable';
 import CustomAlert from '../../utils/CustomAlert';
 import history from '../../redux/history';
@@ -14,19 +17,56 @@ export class CommissionsIndex extends React.Component {
   static propTypes = {
     clearAlert: PropTypes.func,
     getInitialData: PropTypes.func,
-    projects: PropTypes.array
+    pendingProjects: PropTypes.array,
+    approvedProjects: PropTypes.array,
+    user: PropTypes.object
+  };
+
+  state = {
+    approved: false,
+    selectedCareer: -1
   };
 
   componentDidMount() {
+    const { approved, selectedCareer } = this.state;
+
     this.props.clearAlert();
-    this.props.getInitialData();
+    this.props.getInitialData(approved, selectedCareer);
   }
 
-  detailAction(id) {
+  detailAction = (id) => {
     history.push(`/commissions/${id}`);
-  }
+  };
+
+  handleSelect = (select) => {
+    const approved = select === 2;
+
+    this.setState({
+      ...this.state,
+      approved
+    });
+    this.props.getInitialData(approved, this.state.selectedCareer);
+  };
+
+  getCareerOptions = () => {
+    const { careers } = this.props.user;
+
+    return careers ? getSelectOptions(careers, {}) : [];
+  };
+
+  updateCareerSelect = (newValue) => {
+    const selectedCareer = newValue != null ? newValue.value : -1;
+
+    this.setState({
+      ...this.state,
+      selectedCareer
+    });
+    this.props.getInitialData(this.state.approved, selectedCareer);
+  };
 
   render() {
+    const { pendingProjects, approvedProjects } = this.props;
+
     return (
       <Fragment>
         <Title
@@ -34,36 +74,64 @@ export class CommissionsIndex extends React.Component {
           subtitle={commissionsMessages.SUBTITLE}
         />
         <br />
-        <Tabs defaultActiveKey={1} id="tab">
+        <Tabs defaultActiveKey={1} id="tab" onSelect={this.handleSelect}>
+          <br />
+          <Field
+            key="careerField"
+            bsSize="small"
+            label="Carrera"
+            controlId="careerSelect"
+            inputComponent={
+              <Select
+                key="careerSelect"
+                name="careerelect"
+                value={this.state.selectedCareer}
+                options={this.getCareerOptions()}
+                id="careerSelect"
+                onChange={this.updateCareerSelect}
+                placeholder="Filtra por una carrera"
+              />
+            }
+          />
           <Tab eventKey={1} title="Proyectos pendientes">
-            {this.renderTable()}
+            {this.renderTable(pendingProjects)}
           </Tab>
           <Tab eventKey={2} title="Proyectos aprovados">
-            {this.renderTable()}
+            {this.renderTable(approvedProjects)}
           </Tab>
         </Tabs>
       </Fragment>
     );
   }
 
-  renderTable() {
-    if (this.props.projects == null || this.props.projects.length === 0) {
-      return <CustomAlert message={commissionsMessages.NO_RESULTS_MESSAGE} />;
+  renderTable(projects) {
+    if (projects == null || projects.length === 0) {
+      return (
+        <Fragment>
+          <br />
+          <CustomAlert message={commissionsMessages.NO_RESULTS_MESSAGE} />
+        </Fragment>
+      );
     }
 
     return (
-      <CommissionsTable data={this.props.projects} show={this.detailAction} />
+      <Fragment>
+        <br />
+        <CommissionsTable data={projects} show={this.detailAction} />
+      </Fragment>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  projects: state.commissionsReducer.projects
+  pendingProjects: state.commissionsReducer.pendingProjects,
+  approvedProjects: state.commissionsReducer.approvedProjects,
+  user: state.authReducer.user
 });
 
 const mapDispatch = (dispatch) => ({
-  getInitialData: () => {
-    dispatch(getInitialData());
+  getInitialData: (approved, selectedCareer) => {
+    dispatch(getInitialData(approved, selectedCareer));
   },
   clearAlert: () => {
     dispatch(clearAlert());

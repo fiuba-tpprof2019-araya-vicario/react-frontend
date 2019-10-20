@@ -18,6 +18,7 @@ export default class CommissionsTable extends React.Component {
       'Descripción',
       'Estudiandtes',
       'Tutores',
+      'Carreras',
       'Tipo',
       'Fecha de creación'
     ];

@@ -22,10 +22,12 @@ export default class Field extends React.Component {
         controlId={this.props.controlId}
         bsSize={this.props.bsSize}
       >
-        <ControlLabel key={`${this.props.controlId}label`}>
-          {this.props.label}
-          {this.props.required ? <MandatoryField /> : ''}
-        </ControlLabel>
+        {!!this.props.label && (
+          <ControlLabel key={`${this.props.controlId}label`}>
+            {this.props.label}
+            {this.props.required ? <MandatoryField /> : ''}
+          </ControlLabel>
+        )}
         {this.props.inputComponent}
         {this.props.validationState && (
           <HelpBlock key={`${this.props.controlId}help`} bsSize="small">

@@ -17,6 +17,7 @@ export const api = {
   projects: BASE + PROJECTS,
   projectsCreated: `${BASE + PROJECTS}?state=1`,
   projectsInAppreciation: `${BASE + PROJECTS}?state=3`,
+  projectsForCommissions: `${BASE + PROJECTS}/commissions`,
   projectsTutor: `${BASE + PROJECTS}/tutors`,
   users: BASE + USERS,
   profiles: BASE + PROFIlES,
