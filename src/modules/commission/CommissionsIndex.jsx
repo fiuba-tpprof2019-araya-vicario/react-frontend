@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Tab, Tabs } from 'react-bootstrap';
 import { clearAlert, getInitialData } from './commissionsReducer';
 import Title from '../../utils/Title';
 import { commissionsMessages } from '../../utils/messages';
@@ -33,7 +34,14 @@ export class CommissionsIndex extends React.Component {
           subtitle={commissionsMessages.SUBTITLE}
         />
         <br />
-        {this.renderTable()}
+        <Tabs defaultActiveKey={1} id="tab">
+          <Tab eventKey={1} title="Proyectos pendientes">
+            {this.renderTable()}
+          </Tab>
+          <Tab eventKey={2} title="Proyectos aprovados">
+            {this.renderTable()}
+          </Tab>
+        </Tabs>
       </Fragment>
     );
   }

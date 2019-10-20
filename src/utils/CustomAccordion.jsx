@@ -34,9 +34,9 @@ export default class CustomAccordion extends React.Component {
         <Panel.Collapse>
           <Panel.Body>{children}</Panel.Body>
           {annexes.map(
-            (annex) =>
+            (annex, index) =>
               !!annex && (
-                <ListGroup>
+                <ListGroup key={index}>
                   <ListGroupItem>{annex}</ListGroupItem>
                 </ListGroup>
               )

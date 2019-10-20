@@ -1,45 +1,47 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Tabs, Row, Col } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
-import _ from 'lodash';
 import history from '../redux/history';
 
-class CustomTabs extends Component {
+export default class CustomTabs extends Component {
   static propTypes = {
     defaultActiveKey: PropTypes.oneOfType([
       PropTypes.string.isRequired,
       PropTypes.number.isRequired
     ]),
     match: PropTypes.object,
-    keys: PropTypes.array,
     children: PropTypes.node,
-    animation: PropTypes.string,
-    id: PropTypes.number,
-    location: PropTypes.string
+    animation: PropTypes.bool,
+    id: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.number.isRequired
+    ]),
+    location: PropTypes.object
+  };
+
+  static defaultProps = {
+    animation: false,
+    id: 'tab-navigator'
   };
 
   handleSelect = (key) => {
-    history.push(`${this.props.match.url}/${key}`);
+    if (key) {
+      history.push(`${this.props.match.url}${key}`);
+    }
   };
 
   componentDidMount() {
-    const { defaultActiveKey } = this.props;
+    const { defaultActiveKey, match } = this.props;
 
     if (defaultActiveKey) {
-      history.replace(
-        `${this.props.match.url}/${defaultActiveKey}`,
-        this.props.match.url
-      );
+      history.replace(`${match.url}${defaultActiveKey}`, this.props.match.url);
     }
   }
 
-  activeTab = (url) => {
-    const { keys, defaultActiveKey } = this.props;
-    const splittedUrl = url.split('/');
-    const actualKey = splittedUrl.slice(-1)[0].toLowerCase();
+  activeTab = (hash) => {
+    const { defaultActiveKey } = this.props;
 
-    return _.includes(keys, actualKey) ? actualKey : defaultActiveKey;
+    return hash || defaultActiveKey;
   };
 
   renderTabs = (children) => children;
@@ -51,7 +53,7 @@ class CustomTabs extends Component {
       <Row key="tabs">
         <Col md={12}>
           <Tabs
-            activeKey={this.activeTab(location.pathname)}
+            activeKey={this.activeTab(location.hash)}
             defaultActiveKey={defaultActiveKey}
             animation={animation}
             id={id}
@@ -65,5 +67,3 @@ class CustomTabs extends Component {
     );
   }
 }
-
-export default withRouter(CustomTabs);

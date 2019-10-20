@@ -50,6 +50,22 @@ export default class ShowIdea extends React.Component {
   getRequerimentInfo = (project) => (
     <CustomAccordion
       title={`Título del requerimiento: ${project.Requirement.name}`}
+      annexes={[
+        project.Requirement.file_url && (
+          <Row>
+            <Col md={1}>
+              <h4 className="panelText">Anexo:</h4>
+            </Col>
+            <Col md={11}>
+              <p className="panelText">
+                <a href={project.Requirement.file_url} target="_blank">
+                  {project.Requirement.file_name}
+                </a>
+              </p>
+            </Col>
+          </Row>
+        )
+      ]}
     >
       <Row>
         <Col md={1}>

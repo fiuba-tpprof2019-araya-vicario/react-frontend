@@ -125,7 +125,10 @@ export default class ShowProposal extends React.Component {
                   bsSize="xs"
                   onClick={() => this.showUploadProposalModal()}
                 >
-                  <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir propuesta
+                  <i className="fa fa-upload">&nbsp;</i>&nbsp;
+                  {project.proposal_url
+                    ? 'Editar propuesta'
+                    : 'Subir propuesta'}
                 </Button>
                 &nbsp;
                 {proposal}

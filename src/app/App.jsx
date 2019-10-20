@@ -39,8 +39,6 @@ class App extends React.Component {
     const { alert, execute } = this.props;
     const render = [];
 
-    console.log(alert);
-
     if (alert) {
       render.push(
         <Fragment key="margin">

@@ -119,6 +119,10 @@ body {
 
 /* Ends - Fiuba CSS */
 
+.actionsColumn {
+  min-width: 6em;
+}
+
 .actionsColumn :not(:first-child) {
   margin-left: 0.5em;
   margin-right: 0.5em;
