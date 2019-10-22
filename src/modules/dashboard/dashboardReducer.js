@@ -9,17 +9,10 @@ import {
 } from '../../api/apiInterfaceProvider';
 
 const HYDRATE_DASHBOARD = 'HYDRATE_DASHBOARD';
-const HYDRATE_USUARIO_BY_ID = 'HYDRATE_USUARIO_BY_ID';
-const HYDRATE_POSICION = 'HYDRATE_POSICION';
-const HYDRATE_TIPO_DASHBOARD = 'HYDRATE_TIPO_DASHBOARD';
 const QUERY_ERROR = 'QUERY_ERROR';
 const INTERNAL_ERROR = 'INTERNAL_ERROR';
 const SUCCESSFUL = 'SUCCESSFUL';
-const CLEAR_USUARIO_RESULT = 'CLEAR_USUARIO_RESULT';
 const CLEAR_ALERT = 'CLEAR_ALERT';
-const REMOVE_ROL = 'REMOVE_ROL';
-const ADD_ROL = 'ADD_ROL';
-const PATCH_USUARIO = 'PATCH_USUARIO';
 
 const initialState = {
   result: [],
@@ -28,10 +21,6 @@ const initialState = {
   activeUsuario: {},
   activeSearch: false
 };
-
-export const clearUsuarioResult = () => ({
-  type: CLEAR_USUARIO_RESULT
-});
 
 export const clearAlert = () => ({
   type: CLEAR_ALERT
@@ -52,43 +41,11 @@ export const successful = (text) => ({
   text
 });
 
-// normal action creators
-export const tipoDashboardTodos = (data) => ({
-  type: HYDRATE_TIPO_DASHBOARD,
-  data
-});
-
 export const dashboard = (data) => ({
   type: HYDRATE_DASHBOARD,
   data
 });
 
-export const usuarioById = (data) => ({
-  type: HYDRATE_USUARIO_BY_ID,
-  data
-});
-
-export const posicion = (data) => ({
-  type: HYDRATE_POSICION,
-  data
-});
-
-export const removerRol = (data) => ({
-  type: REMOVE_ROL,
-  data
-});
-
-export const agregarRol = (data) => ({
-  type: ADD_ROL,
-  data
-});
-
-export const patchUsuario = (data) => ({
-  type: PATCH_USUARIO,
-  data
-});
-
-// thunks
 export const resetDashboard = () => (dispatch) => {
   const config = getNullConfig();
 
@@ -115,7 +72,6 @@ export const resetDashboard = () => (dispatch) => {
         dispatch(internalError(err));
       }
     });
-  dispatch(clearUsuarioResult());
 };
 
 const fetchUsuarios = () => {
@@ -219,8 +175,6 @@ export default (state = initialState, action) => {
       return { ...state, alert: { style: 'success', text: action.text } };
     case CLEAR_ALERT:
       return { ...state, alert: {} };
-    case CLEAR_USUARIO_RESULT:
-      return { ...state, result: [], activeSearch: false };
     default:
       return state;
   }

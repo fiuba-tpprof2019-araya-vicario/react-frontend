@@ -78,6 +78,11 @@ export const commissionsMessages = {
     'Puedes aprobar o rechazar la propuesta, en cualquiera de los casos debes especificar la carrera que estas evaluando, entre las carreras del proyecto. En caso de rechazar debes ingresar el motivo de rechazo.'
 };
 
+export const dashboardMessages = {
+  TITLE: 'Tablero de control',
+  SUBTITLE: 'Monitorea la evolución de los proyectos en la plataforma'
+};
+
 export const ideasMessages = {
   TITLE: 'Ideas',
   SUBTITLE:
