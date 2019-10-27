@@ -58,6 +58,7 @@ export class DashboardIndex extends React.Component {
                 <Select
                   key="yearSelect"
                   name="yearSelect"
+                  clearable={false}
                   value={this.state.selectedYear}
                   options={this.getOptions()}
                   id="yearSelect"
@@ -67,11 +68,11 @@ export class DashboardIndex extends React.Component {
               }
             />
           </Col>
-          <Col md={6}>
+          <Col className="flexContainer" lg={2} md={2}>
             <Button
-              bsStyle="success"
-              bsSize="small"
-              className="pull-right"
+              className="flexBottomMedium"
+              bsStyle="primary"
+              bsSize="medium"
               onClick={this.recargar}
             >
               <Glyphicon glyph="repeat" /> Recargar

@@ -171,14 +171,13 @@ export default class ShowIdea extends React.Component {
     return (
       <Fragment>
         <br />
-        {nextStepMessage && (
-          <CustomAlert
-            rowKey="infoNextStep"
-            bsStyle="info"
-            size={12}
-            message={nextStepMessage}
-          />
-        )}
+        <CustomAlert
+          display-if={!!nextStepMessage}
+          rowKey="infoNextStep"
+          bsStyle="info"
+          size={12}
+          message={nextStepMessage}
+        />
         {project.Requirement && this.getRequerimentInfo(project)}
         {this.getProjectInfo(
           project,
@@ -191,69 +190,64 @@ export default class ShowIdea extends React.Component {
         {this.getGeneralInfo(project, showUsersStatus)}
         <Row className="pull-right">
           <Col md={12}>
-            {showBackButton && (
-              <Button
-                className="pull-left"
-                bsStyle="default"
-                bsSize="small"
-                onClick={history.goBack}
-              >
-                Volver
-              </Button>
-            )}
+            <Button
+              display-if={showBackButton}
+              className="pull-left"
+              bsStyle="default"
+              bsSize="small"
+              onClick={history.goBack}
+            >
+              Volver
+            </Button>
             &nbsp;
-            {showAbandonButton && (
+            <Button
+              display-if={showAbandonButton}
+              bsStyle="danger"
+              onClick={() => showAbandonIdeaModal(user.id)}
+              bsSize="small"
+            >
+              <Glyphicon glyph="log-out">&nbsp;</Glyphicon>
+              Abandonar idea
+            </Button>
+            &nbsp;
+            <Button
+              display-if={isUserCreator && isEditableProject}
+              bsStyle="primary"
+              onClick={showUploadIdeaModal}
+              bsSize="small"
+            >
+              <i className="fa fa-pencil">&nbsp;</i>&nbsp;Editar idea
+            </Button>
+            <Button
+              display-if={
+                !isUserCreator &&
+                project.proposal_url &&
+                request &&
+                request.accepted_proposal !== 'accepted'
+              }
+              bsStyle="success"
+              onClick={() => this.showAcceptProposalModal()}
+              bsSize="small"
+            >
+              <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
+            </Button>
+            <Fragment display-if={showApprovalButtons}>
               <Button
                 bsStyle="danger"
-                onClick={() => showAbandonIdeaModal(user.id)}
+                onClick={() => this.showReprobateProposalModal()}
                 bsSize="small"
               >
-                <Glyphicon glyph="log-out">&nbsp;</Glyphicon>
-                Abandonar idea
+                <i className="fa fa-remove">&nbsp;</i>&nbsp; Reprobar propuesta
               </Button>
-            )}
-            &nbsp;
-            {isUserCreator && isEditableProject && (
+              &nbsp;&nbsp;
               <Button
-                bsStyle="primary"
-                onClick={showUploadIdeaModal}
+                bsStyle="success"
+                onClick={() => this.showApproveProposalModal()}
                 bsSize="small"
               >
-                <i className="fa fa-pencil">&nbsp;</i>&nbsp;Editar idea
+                <i className="fa fa-check">&nbsp;</i>&nbsp; Aprobar propuesta
               </Button>
-            )}
-            {!isUserCreator &&
-              project.proposal_url &&
-              request &&
-              request.accepted_proposal !== 'accepted' && (
-                <Button
-                  bsStyle="success"
-                  onClick={() => this.showAcceptProposalModal()}
-                  bsSize="small"
-                >
-                  <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
-                </Button>
-              )}
-            {showApprovalButtons && (
-              <Fragment>
-                <Button
-                  bsStyle="danger"
-                  onClick={() => this.showReprobateProposalModal()}
-                  bsSize="small"
-                >
-                  <i className="fa fa-remove">&nbsp;</i>&nbsp; Reprobar
-                  propuesta
-                </Button>
-                &nbsp;&nbsp;
-                <Button
-                  bsStyle="success"
-                  onClick={() => this.showApproveProposalModal()}
-                  bsSize="small"
-                >
-                  <i className="fa fa-check">&nbsp;</i>&nbsp; Aprobar propuesta
-                </Button>
-              </Fragment>
-            )}
+            </Fragment>
           </Col>
         </Row>
         <AcceptProposalModal

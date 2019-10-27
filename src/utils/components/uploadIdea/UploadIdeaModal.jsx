@@ -59,17 +59,6 @@ export default class UploadIdeaModal extends React.Component {
       show: false,
       selectedUsers: []
     };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.updateAutorsSelect = this.updateAutorsSelect.bind(this);
-    this.updateCareersSelect = this.updateCareersSelect.bind(this);
-    this.updateAutor = this.updateAutor.bind(this);
-    this.updateProjectTypeSelect = this.updateProjectTypeSelect.bind(this);
-    this.updateTutorSelect = this.updateTutorSelect.bind(this);
-    this.updateTitle = this.updateTitle.bind(this);
-    this.updateDescription = this.updateDescription.bind(this);
-    this.refreshSelectedUsers = this.refreshSelectedUsers.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -78,13 +67,13 @@ export default class UploadIdeaModal extends React.Component {
     }
   }
 
-  refreshSelectedUsers(tutor, coautors) {
+  refreshSelectedUsers = (tutor, coautors) => {
     const selectedUsers = [...getOnlyField(coautors), tutor];
 
     return selectedUsers;
-  }
+  };
 
-  updateProjectTypeSelect(newValue) {
+  updateProjectTypeSelect = (newValue) => {
     this.setState({
       ...this.state,
       form: {
@@ -92,9 +81,9 @@ export default class UploadIdeaModal extends React.Component {
         projectType: { error: false, message: '', value: newValue }
       }
     });
-  }
+  };
 
-  updateAutorsSelect(newValue) {
+  updateAutorsSelect = (newValue) => {
     const tutor = this.state.tutor ? this.state.tutor.value : null;
     const selectedUsers = this.refreshSelectedUsers(tutor, newValue);
 
@@ -106,9 +95,9 @@ export default class UploadIdeaModal extends React.Component {
       },
       selectedUsers
     });
-  }
+  };
 
-  updateTutorSelect(newValue) {
+  updateTutorSelect = (newValue) => {
     const coautors = this.state.form.coautors.value;
     const selectedUsers = this.refreshSelectedUsers(
       newValue ? newValue.value : null,
@@ -120,9 +109,9 @@ export default class UploadIdeaModal extends React.Component {
       tutor: newValue,
       selectedUsers
     });
-  }
+  };
 
-  updateTitle(newValue) {
+  updateTitle = (newValue) => {
     this.setState({
       ...this.state,
       form: {
@@ -130,9 +119,9 @@ export default class UploadIdeaModal extends React.Component {
         title: { error: false, message: '', value: newValue.target.value }
       }
     });
-  }
+  };
 
-  updateCareersSelect(newValue) {
+  updateCareersSelect = (newValue) => {
     this.setState({
       ...this.state,
       form: {
@@ -140,9 +129,9 @@ export default class UploadIdeaModal extends React.Component {
         careers: { error: false, message: '', value: newValue }
       }
     });
-  }
+  };
 
-  updateDescription(newValue) {
+  updateDescription = (newValue) => {
     this.setState({
       ...this.state,
       form: {
@@ -150,16 +139,9 @@ export default class UploadIdeaModal extends React.Component {
         description: { error: false, message: '', value: newValue.target.value }
       }
     });
-  }
+  };
 
-  updateAutor(newValue) {
-    this.setState({
-      ...this.state,
-      autor: newValue.target.value
-    });
-  }
-
-  resetForm(props) {
+  resetForm = (props) => {
     const project = props.project ? props.project : {};
     const user = props.user ? props.user : {};
 
@@ -199,9 +181,9 @@ export default class UploadIdeaModal extends React.Component {
       tutor: project.tutor ? project.tutor : null,
       autor: project.creator ? getFullName(project.creator) : user.name
     });
-  }
+  };
 
-  validateForm(title, description, autor, careers, type) {
+  validateForm = (title, description, autor, careers, type) => {
     let formOk = true;
 
     const form = {
@@ -262,17 +244,17 @@ export default class UploadIdeaModal extends React.Component {
     this.setState({ ...this.state, form });
 
     return formOk;
-  }
+  };
 
-  showModal(requirement) {
+  showModal = (requirement) => {
     this.setState({ show: true, requirement });
-  }
+  };
 
-  hideModal() {
+  hideModal = () => {
     this.setState({ show: false });
-  }
+  };
 
-  onSubmit() {
+  onSubmit = () => {
     const { autor, id } = this.state;
     const title = this.state.form.title.value;
     const careers = this.state.form.careers.value;
@@ -311,7 +293,7 @@ export default class UploadIdeaModal extends React.Component {
 
       this.hideModal();
     }
-  }
+  };
 
   render() {
     return (
@@ -330,14 +312,12 @@ export default class UploadIdeaModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {this.state.requirement && (
-            <FullRow key="form0">
-              <p>
-                <b>Requerimiento:</b>
-                {` ${this.state.requirement.name}`}
-              </p>
-            </FullRow>
-          )}
+          <FullRow display-if={this.state.requirement} key="form0">
+            <p>
+              <b>Requerimiento:</b>
+              {` ${this.state.requirement.name}`}
+            </p>
+          </FullRow>
           <FullRow key="form1">
             <Field
               controlId="titleInput"

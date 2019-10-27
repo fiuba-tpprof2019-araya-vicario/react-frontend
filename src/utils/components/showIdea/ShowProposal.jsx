@@ -95,9 +95,8 @@ export default class ShowProposal extends React.Component {
         <Fragment>
           <h4>Propuesta:</h4>
           <Row>
-            {canEditProposal ? (
-              <Fragment>
-                {/* <GooglePicker
+            <Fragment display-if={canEditProposal}>
+              {/* <GooglePicker
                   clientId={CLIENT_ID}
                   developerKey={DEVELOPER_KEY}
                   scope={SCOPE}
@@ -119,24 +118,20 @@ export default class ShowProposal extends React.Component {
                   &nbsp;
                   {proposal}
                 </GooglePicker> */}
-                <Button
-                  bsStyle="success"
-                  className="fixMarginLeft"
-                  bsSize="xs"
-                  onClick={() => this.showUploadProposalModal()}
-                >
-                  <i className="fa fa-upload">&nbsp;</i>&nbsp;
-                  {project.proposal_url
-                    ? 'Editar propuesta'
-                    : 'Subir propuesta'}
-                </Button>
-                &nbsp;
-                {proposal}
-                &nbsp;
-              </Fragment>
-            ) : (
-              <Fragment>{proposal}</Fragment>
-            )}
+              <Button
+                bsStyle="success"
+                className="fixMarginLeft"
+                bsSize="xs"
+                onClick={() => this.showUploadProposalModal()}
+              >
+                <i className="fa fa-upload">&nbsp;</i>&nbsp;
+                {project.proposal_url ? 'Editar propuesta' : 'Subir propuesta'}
+              </Button>
+              &nbsp;
+              {proposal}
+              &nbsp;
+            </Fragment>
+            <Fragment display-if={!canEditProposal}>{proposal}</Fragment>
           </Row>
           <UploadProposalModal
             uploadProposal={uploadProposal}

@@ -114,6 +114,12 @@ body {
 
 .flexBottom {
   margin-top: 2.1em;
+  margin-bottom: 2.1em;
+  align-self: flex-end;
+}
+
+.flexBottomMedium {
+  margin-top: 1.85em;
   align-self: flex-end;
 }
 
