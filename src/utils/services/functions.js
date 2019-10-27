@@ -180,3 +180,18 @@ export const getLast30Days = () => {
 
   return days;
 };
+
+export const getYearMap = () => {
+  const months = [];
+
+  for (let i = 11; i >= 0; i -= 1) {
+    months.push({
+      x: moment()
+        .add(-i, 'days')
+        .valueOf(),
+      y: 0
+    });
+  }
+
+  return months;
+};

@@ -21,6 +21,7 @@ import CommissionDetail from '../modules/commission/CommissionsDetail';
 import Contact from '../modules/contact/ContactIndex';
 // import Request from '../modules/request/RequestIndex';
 import Requirement from '../modules/requirement/RequirementIndex';
+import Dashboard from '../modules/dashboard/DashboardIndex';
 import { persistor } from '../redux/store';
 import CustomAlert from '../utils/CustomAlert';
 import LoadingModal from '../utils/LoadingModal';
@@ -137,6 +138,12 @@ class App extends React.Component {
                 path="/users/:id"
                 requiredCredentials={CREDENTIALS.EDIT_USERS}
                 component={UserView}
+              />
+              <Private
+                exact
+                path="/dashboard"
+                requiredCredentials={CREDENTIALS.EDIT_USERS}
+                component={Dashboard}
               />
               <Route exact path="/contact" component={Contact} />
             </Switch>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import React from 'react';
 import 'react-vis/dist/style.css';
@@ -10,18 +11,22 @@ import {
   HorizontalGridLines,
   VerticalGridLines,
   LineSeries,
+  VerticalBarSeries,
   Crosshair
 } from 'react-vis';
 
 export class CustomGraphic extends React.Component {
   static propTypes = {
-    YAxis: PropTypes.string,
+    XAxisLabel: PropTypes.string,
+    YAxisLabel: PropTypes.string,
     desc1: PropTypes.string,
     desc2: PropTypes.string,
     data: PropTypes.array
   };
 
-  state = { crosshairValues: [], w: null, z: null };
+  static defaultProps = { XAxisLabel: 'Mes' };
+
+  state = { crosshair1: [], crosshair2: [], w: null, z: null };
 
   showModal = () => {
     this.setState({ show: true });
@@ -35,36 +40,46 @@ export class CustomGraphic extends React.Component {
     this.setState({ crosshairValues: [], w: null, z: null });
   };
 
-  onNearestX2 = (value) => {
-    const w = value.x;
-    const z = value.y;
-
-    this.setState({ w, z });
+  onNearestX1 = (value) => {
+    this.setState({ ...this.state, crosshair1: [value] });
   };
 
-  onNearestX1 = (value) => {
-    this.setState({ ...this.state, crosshairValues: [value] });
+  onNearestX2 = (value) => {
+    this.setState({ ...this.state, crosshair2: [value] });
   };
 
   render() {
+    const { XAxisLabel, YAxisLabel, data } = this.props;
+
     return (
       <FlexibleWidthXYPlot
         onMouseLeave={this.onMouseLeave}
-        xType="time"
-        height={200}
+        // xType="time"
+        height={250}
+        stackBy="y"
       >
         <HorizontalGridLines />
         <VerticalGridLines />
-        <XAxis title="Día" position="start" />
-        <YAxis title={this.props.YAxis} />
-        <LineSeries
+        <XAxis title={XAxisLabel} position="start" />
+        <YAxis title={YAxisLabel} />
+        <VerticalBarSeries
+          onNearestX={this.onNearestX1}
+          className="first-series"
+          data={[{ x: 2, y: 10 }, { x: 4, y: 5 }, { x: 5, y: 15 }]}
+        />
+        <VerticalBarSeries
+          onNearestX={this.onNearestX2}
+          className="first-series"
+          data={[{ x: 2, y: 12 }, { x: 4, y: 2 }, { x: 5, y: 11 }]}
+        />
+        {/* <LineSeries
           id="primeros"
           name="primeros"
           stroke="#449d44"
           onNearestX={this.onNearestX1}
           className="first-series"
-          data={this.props.data}
-        />
+          data={data[0]}
+        /> */}
         {/* <LineSeries
           id="segundos"
           name="segundos"
@@ -72,15 +87,28 @@ export class CustomGraphic extends React.Component {
           onNearestX={this._onNearestX2}
           className="first-series"
           data={this.props.pedidos.cancelados} /> */}
-        <Crosshair values={this.state.crosshairValues}>
+        <Crosshair values={this.state.crosshair1}>
           <div>
-            {this.state.crosshairValues.length > 0 && (
+            {this.state.crosshair1.length > 0 && (
               <h4>
                 <Label>
-                  {moment(this.state.crosshairValues[0].x).format('YYYY/MM/DD')}
-                  : {this.props.desc2}
-                  {this.state.crosshairValues[0].y} {this.props.desc1}
-                  {/* - {this.state.z} {this.props.desc2} */}
+                  {moment(this.state.crosshair1[0].x).format('YYYY/MM/DD')}:{' '}
+                  {this.props.desc2}
+                  {this.state.crosshair1[0].y} {this.props.desc1}
+                  {this.state.crosshair2[0].y} {this.props.desc1}
+                </Label>
+              </h4>
+            )}
+          </div>
+        </Crosshair>
+        <Crosshair values={this.state.crosshair2}>
+          <div>
+            {this.state.crosshair2.length > 0 && (
+              <h4>
+                <Label>
+                  {moment(this.state.crosshair2[0].x).format('YYYY/MM/DD')}:{' '}
+                  {this.props.desc2}
+                  {this.state.crosshair2[0].y} {this.props.desc1}
                 </Label>
               </h4>
             )}
