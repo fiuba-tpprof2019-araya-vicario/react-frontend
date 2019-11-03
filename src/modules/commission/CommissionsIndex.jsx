@@ -85,6 +85,7 @@ export class CommissionsIndex extends React.Component {
               <Select
                 key="careerSelect"
                 name="careerelect"
+                clearable={false}
                 value={this.state.selectedCareer}
                 options={this.getCareerOptions()}
                 id="careerSelect"

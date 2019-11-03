@@ -3,16 +3,18 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Glyphicon, Panel } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import Center from 'react-center';
 import Select from 'react-select';
 import Field from '../../utils/forms/Field';
 import { resetDashboard } from './dashboardReducer';
-import { CustomGraphic } from '../../utils/CustomGraphic';
+import VerticalBarGraphic from '../../utils/graphics/VerticalBarGraphic';
+import RadialGraphic from '../../utils/graphics/RadialGraphic';
 import { dashboardMessages } from '../../utils/messages';
 import Title from '../../utils/Title';
 
 export class DashboardIndex extends React.Component {
   static propTypes = {
-    clearResult: PropTypes.func,
+    resetDashboard: PropTypes.func,
     projects: PropTypes.object
   };
 
@@ -21,25 +23,30 @@ export class DashboardIndex extends React.Component {
   };
 
   componentDidMount() {
-    this.props.clearResult();
+    this.recargar();
   }
 
   updateYearSelected = (newValue) => {
-    this.setState({
-      ...this.state,
-      selectedCareer: newValue != null ? newValue.value : -1
-    });
+    const selectedYear = newValue != null ? newValue.value : -1;
+
+    this.setState(
+      {
+        ...this.state,
+        selectedYear
+      },
+      this.props.resetDashboard(selectedYear)
+    );
   };
 
   getOptions = () => [{ value: 2019, label: 2019 }];
 
   recargar = () => {
-    this.props.clearResult();
+    const { selectedYear } = this.state;
+
+    this.props.resetDashboard(selectedYear);
   };
 
   render() {
-    console.log(this.props.projects);
-
     return (
       <Fragment>
         <Title
@@ -72,7 +79,6 @@ export class DashboardIndex extends React.Component {
             <Button
               className="flexBottomMedium"
               bsStyle="primary"
-              bsSize="medium"
               onClick={this.recargar}
             >
               <Glyphicon glyph="repeat" /> Recargar
@@ -82,14 +88,27 @@ export class DashboardIndex extends React.Component {
         <br />
         <Row>
           <Col lg={12}>
-            <Panel style={{ backgroundColor: '#FFFFFF' }}>
+            <Center>
+              {this.props.projects && (
+                <RadialGraphic data={this.props.projects.total} />
+              )}
+            </Center>
+          </Col>
+        </Row>
+        <br />
+        <Row>
+          <Col lg={12}>
+            <Panel>
               <Panel.Body>
                 {this.props.projects && (
-                  <CustomGraphic
-                    YAxisLabel="Proyectos terminados"
-                    desc1="terminados"
-                    desc2=""
-                    data={[this.props.projects.terminated]}
+                  <VerticalBarGraphic
+                    YAxisLabel="Proyectos"
+                    desc1="en progreso"
+                    desc2="terminados"
+                    data={[
+                      this.props.projects.progress,
+                      this.props.projects.terminated
+                    ]}
                   />
                 )}
               </Panel.Body>
@@ -102,8 +121,8 @@ export class DashboardIndex extends React.Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  clearResult: () => {
-    dispatch(resetDashboard());
+  resetDashboard: (year) => {
+    dispatch(resetDashboard(year));
   }
 });
 

@@ -364,7 +364,7 @@ export default class UploadIdeaModal extends React.Component {
                   onChange={this.updateProjectTypeSelect}
                   options={this.props.projectTypes}
                   isSearchable
-                  isClearable={false}
+                  clearable={false}
                   id="projectTypeSelect"
                   placeholder="Seleccione un tipo de proyecto"
                   name="projectTypeSelect"
@@ -390,6 +390,7 @@ export default class UploadIdeaModal extends React.Component {
                   // options={this.props.coautors.filter(
                   //   (x) => this.state.selectedUsers.indexOf(x) < 0
                   // )}
+                  clearable={false}
                   id="coautorsSelect"
                   placeholder="Seleccione coautores"
                   name="coautorsSelect"
@@ -414,6 +415,7 @@ export default class UploadIdeaModal extends React.Component {
                   //   (x) => this.state.selectedUsers.indexOf(x) < 0
                   // )}
                   isSearchable
+                  clearable={false}
                   id="tutorSelect"
                   placeholder="Seleccione un tutor"
                   name="tutorSelect"
@@ -437,6 +439,7 @@ export default class UploadIdeaModal extends React.Component {
                   onChange={this.updateCareersSelect}
                   options={this.props.careers}
                   isSearchable
+                  clearable={false}
                   id="careersSelect"
                   placeholder="Seleccione los carreras a los que pertence la idea"
                   name="careersSelect"

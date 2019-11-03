@@ -1,12 +1,6 @@
-/* eslint-disable array-callback-return */
-// import axios from 'axios';
-// import moment from 'moment';
-import { getLast30Days } from '../../utils/services/functions';
-import {
-  // api,
-  getNullConfig
-  // getErrorResponse
-} from '../../api/apiInterfaceProvider';
+import axios from 'axios';
+import { api, getNullConfig } from '../../api/apiInterfaceProvider';
+import { getMonthFromNumber } from '../../utils/services/functions';
 
 const HYDRATE_DASHBOARD = 'HYDRATE_DASHBOARD';
 const QUERY_ERROR = 'QUERY_ERROR';
@@ -44,33 +38,42 @@ export const dashboard = (data) => ({
   data
 });
 
-export const resetDashboard = () => (dispatch) => {
+export const resetDashboard = (year) => (dispatch) => {
   const config = getNullConfig();
 
-  dispatch(dashboard(config));
-
-  // axios
-  //   .get(api.dashboard, config)
-  //   .then((data) => {
-  //     dispatch(dashboard(data));
-  //   })
-  //   .catch((err) => {
-  //     if (err.response && err.response.status) {
-  //       dispatch(queryError(getErrorResponse(err)));
-  //     } else {
-  //       dispatch(internalError(err));
-  //     }
-  //   });
+  axios
+    .get(`${api.dashboard}?year=${year}`, config)
+    .then(({ data }) => {
+      dispatch(dashboard(data.data));
+    })
+    .catch((err) => {
+      dispatch(internalError(err));
+    });
 };
 
-const fetchProjects = () => {
+const fetchProjects = (data) => {
   const projects = {
-    terminated: getLast30Days(),
-    inProgress: getLast30Days()
+    progress: data.map((project) => ({
+      x: getMonthFromNumber(project.month),
+      y: parseInt(project.progress, 10) + Math.random()
+    })),
+    terminated: data.map((project) => ({
+      x: getMonthFromNumber(project.month),
+      y: parseInt(project.terminated, 10) + Math.random()
+    })),
+    total: [
+      {
+        angle: data.reduce((acum, value) => acum + value.progress, 0) + 2,
+        label: 'en progreso'
+      },
+      {
+        angle: data.reduce((acum, value) => acum + value.terminated, 0) + 7,
+        label: 'terminados'
+      }
+    ]
   };
 
-  // const fechaPedido = moment(pedido.fecha, 'YYYY/MM/DD');
-  // const diasDiferencia = diaDeHoy.diff(fechaPedido, 'days');
+  console.log(projects);
 
   return projects;
 };
