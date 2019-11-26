@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import React from 'react';
 import 'react-vis/dist/style.css';
@@ -9,24 +8,9 @@ export default class RadialGraphic extends React.Component {
   static propTypes = {
     data: PropTypes.array
   };
+
   state = {
     value: false
-  };
-
-  onMouseLeave = () => {
-    this.setState((prevState) => ({
-      ...prevState,
-      crosshair1: null,
-      crosshair2: null
-    }));
-  };
-
-  onNearestX1 = (value) => {
-    this.setState((prevState) => ({ ...prevState, crosshair1: value || null }));
-  };
-
-  onNearestX2 = (value) => {
-    this.setState((prevState) => ({ ...prevState, crosshair2: value || null }));
   };
 
   render() {
@@ -56,7 +40,9 @@ export default class RadialGraphic extends React.Component {
         {value !== false && (
           <Hint value={value}>
             <div style={{ background: 'black' }}>
-              <p>{`${hintValue.label}: ${hintValue.angle}`}</p>
+              <h4>
+                <Label>{`${hintValue.label}: ${hintValue.angle}`} </Label>
+              </h4>
             </div>
           </Hint>
         )}
