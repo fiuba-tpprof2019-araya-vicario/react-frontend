@@ -30,9 +30,6 @@ export class MyProjectDetail extends React.Component {
   constructor() {
     super();
     this.state = { activeStep: 0 };
-    this.showUploadIdeaModal = this.showUploadIdeaModal.bind(this);
-    this.showAbandonIdeaModal = this.showAbandonIdeaModal.bind(this);
-    this.abandonPostAction = this.abandonPostAction.bind(this);
   }
 
   componentDidMount() {
@@ -64,11 +61,11 @@ export class MyProjectDetail extends React.Component {
     }
   }
 
-  abandonPostAction() {
+  abandonPostAction = () => {
     history.push('/my_tutorials/');
-  }
+  };
 
-  showAbandonIdeaModal(memberId) {
+  showAbandonIdeaModal = (memberId) => {
     this.AbandonModal.getRef().showModal(
       this.props.project.id,
       memberId,
@@ -76,11 +73,11 @@ export class MyProjectDetail extends React.Component {
       this.props.abandonIdea,
       this.abandonPostAction
     );
-  }
+  };
 
-  showUploadIdeaModal() {
+  showUploadIdeaModal = () => {
     this.UploadIdeaModal.showModal();
-  }
+  };
 
   render() {
     const steps = [

@@ -14,16 +14,13 @@ export default class AcceptModal extends React.Component {
     this.state = {
       show: false
     };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.onAccept = this.onAccept.bind(this);
   }
 
-  showModal(id, projectId, name, action) {
+  showModal = (id, projectId, name, action) => {
     this.setState({ show: true, id, projectId, name, action });
-  }
+  };
 
-  hideModal() {
+  hideModal = () => {
     this.setState({
       show: false,
       id: null,
@@ -31,12 +28,12 @@ export default class AcceptModal extends React.Component {
       name: '',
       action: null
     });
-  }
+  };
 
-  onAccept() {
+  onAccept = () => {
     this.state.action(this.state.id, this.state.projectId);
     this.hideModal();
-  }
+  };
 
   render() {
     return (

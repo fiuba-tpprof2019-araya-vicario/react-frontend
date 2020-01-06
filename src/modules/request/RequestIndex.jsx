@@ -30,20 +30,12 @@ export class RequestIndex extends React.Component {
     rejectTutorRequest: PropTypes.func
   };
 
-  constructor() {
-    super();
-    this.acceptStudentRequest = this.acceptStudentRequest.bind(this);
-    this.rejectStudentRequest = this.rejectStudentRequest.bind(this);
-    this.acceptTutorRequest = this.acceptTutorRequest.bind(this);
-    this.rejectTutorRequest = this.rejectTutorRequest.bind(this);
-  }
-
   componentDidMount() {
     this.props.clearAlert();
     this.props.getRequests();
   }
 
-  acceptStudentRequest(id) {
+  acceptStudentRequest = (id) => {
     const request = getById(this.props.studentRequests, id);
 
     this.AcceptModal.getRef().showModal(
@@ -52,9 +44,9 @@ export class RequestIndex extends React.Component {
       request.project,
       this.props.acceptStudentRequest
     );
-  }
+  };
 
-  rejectStudentRequest(id) {
+  rejectStudentRequest = (id) => {
     const request = getById(this.props.studentRequests, id);
 
     this.RejectModal.getRef().showModal(
@@ -62,9 +54,9 @@ export class RequestIndex extends React.Component {
       request.name,
       this.props.rejectStudentRequest
     );
-  }
+  };
 
-  acceptTutorRequest(id) {
+  acceptTutorRequest = (id) => {
     const request = getById(this.props.tutorRequests, id);
 
     this.AcceptModal.getRef().showModal(
@@ -73,9 +65,9 @@ export class RequestIndex extends React.Component {
       request.project,
       this.props.acceptTutorRequest
     );
-  }
+  };
 
-  rejectTutorRequest(id) {
+  rejectTutorRequest = (id) => {
     const request = getById(this.props.tutorRequests, id);
 
     this.RejectModal.getRef().showModal(
@@ -83,7 +75,7 @@ export class RequestIndex extends React.Component {
       request.name,
       this.props.rejectTutorRequest
     );
-  }
+  };
 
   render() {
     return (

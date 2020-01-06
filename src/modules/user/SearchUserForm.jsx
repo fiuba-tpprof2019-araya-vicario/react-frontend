@@ -10,27 +10,25 @@ export default class BuscarUsuarioForm extends React.Component {
 
   constructor() {
     super();
-    this.updateEmail = this.updateEmail.bind(this);
-    this.updateName = this.updateName.bind(this);
     this.state = {
       name: '',
       email: ''
     };
   }
 
-  updateEmail(newValue) {
+  updateEmail = (newValue) => {
     this.setState({
       ...this.state,
       email: newValue.target.value
     });
-  }
+  };
 
-  updateName(newValue) {
+  updateName = (newValue) => {
     this.setState({
       ...this.state,
       name: newValue.target.value
     });
-  }
+  };
 
   render() {
     return (

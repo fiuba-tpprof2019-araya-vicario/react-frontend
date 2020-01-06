@@ -14,23 +14,20 @@ export default class RejectModal extends React.Component {
     this.state = {
       show: false
     };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.onReject = this.onReject.bind(this);
   }
 
-  showModal(id, name, action) {
+  showModal = (id, name, action) => {
     this.setState({ show: true, id, name, action });
-  }
+  };
 
-  hideModal() {
+  hideModal = () => {
     this.setState({ show: false, id: null, name: '', action: null });
-  }
+  };
 
-  onReject() {
+  onReject = () => {
     this.state.action(this.state.id);
     this.hideModal();
-  }
+  };
 
   render() {
     return (

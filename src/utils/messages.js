@@ -100,6 +100,11 @@ export const userMessages = {
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
 };
 
+export const myUserMessages = {
+  TITLE: 'Mi perfil',
+  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
+};
+
 export const utilsMessages = {
   QUERY_ERROR:
     'Se produjo un error al comunicarse con el servidor, vuelve a intentar en unos minutos'

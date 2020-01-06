@@ -18,14 +18,9 @@ export class Login extends React.Component {
     errorMessage: PropTypes.string
   };
 
-  constructor() {
-    super();
-    this.responseGoogle = this.responseGoogle.bind(this);
-  }
-
-  responseGoogle(response) {
+  responseGoogle = (response) => {
     this.props.loginWithGoogle(response);
-  }
+  };
 
   componentDidMount() {
     this.props.clearErrors();

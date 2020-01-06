@@ -21,13 +21,7 @@ export default class CreateIdea extends React.Component {
     requests: PropTypes.array
   };
 
-  constructor() {
-    super();
-    this.acceptRequest = this.acceptRequest.bind(this);
-    this.rejectRequest = this.rejectRequest.bind(this);
-  }
-
-  acceptRequest(id) {
+  acceptRequest = (id) => {
     const request = getById(this.props.requests, id);
 
     this.AcceptModal.getRef().showModal(
@@ -36,9 +30,9 @@ export default class CreateIdea extends React.Component {
       request.name,
       this.props.acceptRequest
     );
-  }
+  };
 
-  rejectRequest(id) {
+  rejectRequest = (id) => {
     const request = getById(this.props.requests, id);
 
     this.RejectModal.getRef().showModal(
@@ -46,9 +40,9 @@ export default class CreateIdea extends React.Component {
       request.name,
       this.props.rejectRequest
     );
-  }
+  };
 
-  renderTable(requests, acceptRequest, rejectRequest) {
+  renderTable = (requests, acceptRequest, rejectRequest) => {
     if (requests == null || requests.length === 0) {
       return (
         <CustomAlert size={10} message={requestMessages.NO_RESULTS_MESSAGE} />
@@ -62,7 +56,7 @@ export default class CreateIdea extends React.Component {
         reject={rejectRequest}
       />
     );
-  }
+  };
 
   render() {
     return (

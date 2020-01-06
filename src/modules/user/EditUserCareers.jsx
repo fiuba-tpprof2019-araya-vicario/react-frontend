@@ -23,31 +23,24 @@ export default class EditUserCareers extends React.Component {
       formSelect: { error: false, message: '' },
       careers: props.activeUser.careers
     };
-    this.showAddCareerModal = this.showAddCareerModal.bind(this);
-    this.showRemoveCareerModal = this.showRemoveCareerModal.bind(this);
-    this.getDeleteCareerModalButtons = this.getDeleteCareerModalButtons.bind(
-      this
-    );
-    this.getAddCareerModalButtons = this.getAddCareerModalButtons.bind(this);
-    this.updateCareerSelect = this.updateCareerSelect.bind(this);
   }
 
-  showAddCareerModal() {
+  showAddCareerModal = () => {
     this.resetCareerForm();
     this.addCareerModal.showModal();
-  }
+  };
 
-  showRemoveCareerModal(id) {
+  showRemoveCareerModal = (id) => {
     this.setState({ removeCareerClicked: id });
     this.removeCareerModal.showModal();
-  }
+  };
 
-  updateCareerSelect(newValue) {
+  updateCareerSelect = (newValue) => {
     this.setState({
       ...this.state,
       selectedCareer: newValue != null ? newValue.value : -1
     });
-  }
+  };
 
   resetCareerForm() {
     const formSelect = {
@@ -115,7 +108,7 @@ export default class EditUserCareers extends React.Component {
     return selectRender;
   }
 
-  getAddCareerModalButtons() {
+  getAddCareerModalButtons = () => {
     const buttons = [];
 
     buttons.push(
@@ -138,7 +131,7 @@ export default class EditUserCareers extends React.Component {
     );
 
     return buttons;
-  }
+  };
 
   getDeleteCareerModalBody() {
     return (
@@ -149,7 +142,7 @@ export default class EditUserCareers extends React.Component {
     );
   }
 
-  getDeleteCareerModalButtons() {
+  getDeleteCareerModalButtons = () => {
     const buttons = [];
 
     buttons.push(
@@ -175,7 +168,7 @@ export default class EditUserCareers extends React.Component {
     );
 
     return buttons;
-  }
+  };
 
   getCareerNameById(id) {
     const career =
