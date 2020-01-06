@@ -26,22 +26,16 @@ export class IdeasIndex extends React.Component {
     projects: PropTypes.array
   };
 
-  constructor() {
-    super();
-    this.acceptRequest = this.acceptRequest.bind(this);
-    this.rejectRequest = this.rejectRequest.bind(this);
-  }
-
   componentDidMount() {
     this.props.clearAlert();
     this.props.getInitialData();
   }
 
-  detailAction(id) {
+  detailAction = (id) => {
     history.push(`/ideas/${id}`);
-  }
+  };
 
-  acceptRequest(id) {
+  acceptRequest = (id) => {
     const request = getById(this.props.projects, id);
 
     this.AcceptModal.getRef().showModal(
@@ -50,9 +44,9 @@ export class IdeasIndex extends React.Component {
       request.name,
       this.props.acceptRequest
     );
-  }
+  };
 
-  rejectRequest(id) {
+  rejectRequest = (id) => {
     const request = getById(this.props.projects, id);
 
     this.RejectModal.getRef().showModal(
@@ -60,7 +54,7 @@ export class IdeasIndex extends React.Component {
       request.name,
       this.props.rejectRequest
     );
-  }
+  };
 
   render() {
     return (

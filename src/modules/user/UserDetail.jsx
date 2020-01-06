@@ -21,9 +21,6 @@ export class UserDetail extends React.Component {
       profiles: props.activeUser.profiles,
       careers: props.activeUser.careers
     };
-    this.submitEditForm = this.submitEditForm.bind(this);
-    this.refreshProfiles = this.refreshProfiles.bind(this);
-    this.refreshCareers = this.refreshCareers.bind(this);
   }
 
   static propTypes = {
@@ -52,26 +49,26 @@ export class UserDetail extends React.Component {
     });
   }
 
-  refreshProfiles(newProfiles) {
+  refreshProfiles = (newProfiles) => {
     this.setState({
       ...this.state,
       profiles: newProfiles
     });
-  }
+  };
 
-  refreshCareers(newCareers) {
+  refreshCareers = (newCareers) => {
     this.setState({
       ...this.state,
       careers: newCareers
     });
-  }
+  };
 
-  submitEditForm() {
+  submitEditForm = () => {
     const profiles = getOnlyField(this.state.profiles, (profile) => profile.id);
     const careers = getOnlyField(this.state.careers, (career) => career.id);
 
     this.props.editUser(this.props.userId, profiles, careers);
-  }
+  };
 
   render() {
     if (this.state.ready) {

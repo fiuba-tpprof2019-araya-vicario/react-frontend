@@ -16,18 +16,13 @@ export class ContactIndex extends React.Component {
     user: PropTypes.object
   };
 
-  constructor() {
-    super();
-    this.uploadForm = this.uploadForm.bind(this);
-  }
-
   componentDidMount() {
     this.props.clearAlert();
   }
 
-  uploadForm(form) {
+  uploadForm = (form) => {
     this.props.upload(form);
-  }
+  };
 
   render() {
     return (

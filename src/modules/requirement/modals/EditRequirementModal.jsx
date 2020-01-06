@@ -18,14 +18,9 @@ export default class EditRequirementModal extends React.Component {
         title: { error: false, mensaje: '', value: '' }
       }
     };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.updateTitle = this.updateTitle.bind(this);
-    this.updateDescription = this.updateDescription.bind(this);
   }
 
-  updateTitle(newValue) {
+  updateTitle = (newValue) => {
     this.setState({
       ...this.state,
       form: {
@@ -33,9 +28,9 @@ export default class EditRequirementModal extends React.Component {
         title: { error: false, mensaje: '', value: newValue.target.value }
       }
     });
-  }
+  };
 
-  updateDescription(newValue) {
+  updateDescription = (newValue) => {
     this.setState({
       ...this.state,
       form: {
@@ -43,7 +38,7 @@ export default class EditRequirementModal extends React.Component {
         description: { error: false, mensaje: '', value: newValue.target.value }
       }
     });
-  }
+  };
 
   resetForm(requirement) {
     const form = {
@@ -89,16 +84,16 @@ export default class EditRequirementModal extends React.Component {
     return formOk;
   }
 
-  showModal(requirement) {
+  showModal = (requirement) => {
     this.resetForm(requirement);
     this.setState({ show: true });
-  }
+  };
 
-  hideModal() {
+  hideModal = () => {
     this.setState({ show: false });
-  }
+  };
 
-  onSubmit() {
+  onSubmit = () => {
     const title = this.state.form.title.value;
     const description = this.state.form.description.value;
 
@@ -106,7 +101,7 @@ export default class EditRequirementModal extends React.Component {
       this.props.editRequirement(this.state.id, { name: title, description });
       this.hideModal();
     }
-  }
+  };
 
   render() {
     return (

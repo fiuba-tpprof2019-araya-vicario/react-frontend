@@ -21,21 +21,19 @@ export default class ApproveProposalModal extends React.Component {
       option: options && options.length === 1 ? options[0] : null,
       message: null
     };
-    this.showModal = this.showModal.bind(this);
-    this.updateCareerSelect = this.updateCareerSelect.bind(this);
   }
 
-  showModal() {
+  showModal = () => {
     this.modal.showModal();
-  }
+  };
 
-  updateCareerSelect(value) {
+  updateCareerSelect = (value) => {
     this.setState({
       ...this.state,
       option: value,
       message: null
     });
-  }
+  };
 
   getModalBody(options) {
     return (

@@ -31,7 +31,6 @@ export default class ContactForm extends React.Component {
         description: { error: false, mensaje: '' }
       }
     };
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
   resetForm() {
@@ -86,7 +85,7 @@ export default class ContactForm extends React.Component {
     return formOk;
   }
 
-  onSubmit() {
+  onSubmit = () => {
     const email = ReactDOM.findDOMNode(this.emailInput).value.trim();
     const name = ReactDOM.findDOMNode(this.nameInput).value.trim();
     const description = ReactDOM.findDOMNode(
@@ -97,7 +96,7 @@ export default class ContactForm extends React.Component {
       this.props.uploadForm({ email, name, description });
       this.resetForm();
     }
-  }
+  };
 
   render() {
     return (

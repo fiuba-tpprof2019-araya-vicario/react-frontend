@@ -26,12 +26,6 @@ export class MyTutorialsIndex extends React.Component {
     myTutorials: PropTypes.array
   };
 
-  constructor() {
-    super();
-    this.acceptRequest = this.acceptRequest.bind(this);
-    this.rejectRequest = this.rejectRequest.bind(this);
-  }
-
   componentDidMount() {
     this.props.clearAlert();
     this.props.getInitialData();
@@ -41,7 +35,7 @@ export class MyTutorialsIndex extends React.Component {
     history.push(`/my_tutorials/${id}`);
   }
 
-  acceptRequest(id) {
+  acceptRequest = (id) => {
     const request = getById(this.props.myTutorials, id);
 
     this.AcceptModal.getRef().showModal(
@@ -50,9 +44,9 @@ export class MyTutorialsIndex extends React.Component {
       request.name,
       this.props.acceptRequest
     );
-  }
+  };
 
-  rejectRequest(id) {
+  rejectRequest = (id) => {
     const request = getById(this.props.myTutorials, id);
 
     this.RejectModal.getRef().showModal(
@@ -60,7 +54,7 @@ export class MyTutorialsIndex extends React.Component {
       request.name,
       this.props.rejectRequest
     );
-  }
+  };
 
   render() {
     return (

@@ -22,31 +22,24 @@ export default class EditUserProfiles extends React.Component {
       formSelect: { error: false, message: '' },
       profiles: props.activeUser.profiles
     };
-    this.showAddProfileModal = this.showAddProfileModal.bind(this);
-    this.showRemoveProfileModal = this.showRemoveProfileModal.bind(this);
-    this.getDeleteProfileModalButtons = this.getDeleteProfileModalButtons.bind(
-      this
-    );
-    this.getAddProfileModalButtons = this.getAddProfileModalButtons.bind(this);
-    this.updateProfileSelect = this.updateProfileSelect.bind(this);
   }
 
-  showAddProfileModal() {
+  showAddProfileModal = () => {
     this.resetProfileForm();
     this.addProfileModal.showModal();
-  }
+  };
 
-  showRemoveProfileModal(id) {
+  showRemoveProfileModal = (id) => {
     this.setState({ removeProfileClicked: id });
     this.removeProfileModal.showModal();
-  }
+  };
 
-  updateProfileSelect(newValue) {
+  updateProfileSelect = (newValue) => {
     this.setState({
       ...this.state,
       selectedProfile: newValue != null ? newValue.value : -1
     });
-  }
+  };
 
   resetProfileForm() {
     const formSelect = {
@@ -114,7 +107,7 @@ export default class EditUserProfiles extends React.Component {
     return selectRender;
   }
 
-  getAddProfileModalButtons() {
+  getAddProfileModalButtons = () => {
     const buttons = [];
 
     buttons.push(
@@ -137,7 +130,7 @@ export default class EditUserProfiles extends React.Component {
     );
 
     return buttons;
-  }
+  };
 
   getDeleteProfileModalBody() {
     return (
@@ -148,7 +141,7 @@ export default class EditUserProfiles extends React.Component {
     );
   }
 
-  getDeleteProfileModalButtons() {
+  getDeleteProfileModalButtons = () => {
     const buttons = [];
 
     buttons.push(
@@ -174,7 +167,7 @@ export default class EditUserProfiles extends React.Component {
     );
 
     return buttons;
-  }
+  };
 
   getProfileNameById(id) {
     const profile =

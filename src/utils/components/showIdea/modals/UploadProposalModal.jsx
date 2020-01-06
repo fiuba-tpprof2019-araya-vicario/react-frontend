@@ -19,11 +19,9 @@ export default class UploadProposalModal extends React.Component {
         file: { error: false, mensaje: '', value: '' }
       }
     };
-    this.showModal = this.showModal.bind(this);
-    this.updateFile = this.updateFile.bind(this);
   }
 
-  resetCreateForm() {
+  resetCreateForm = () => {
     const form = {
       file: { error: false, mensaje: '', value: '' }
     };
@@ -32,14 +30,14 @@ export default class UploadProposalModal extends React.Component {
       ...this.state,
       form
     });
-  }
+  };
 
-  showModal() {
+  showModal = () => {
     this.resetCreateForm();
     this.modal.showModal();
-  }
+  };
 
-  updateFile(event) {
+  updateFile = (event) => {
     this.setState({
       ...this.state,
       form: {
@@ -47,7 +45,7 @@ export default class UploadProposalModal extends React.Component {
         file: { error: false, message: '', value: event.target.files[0] }
       }
     });
-  }
+  };
 
   validateForm(file) {
     let formOk = true;

@@ -29,12 +29,9 @@ export default class EditUserForm extends React.Component {
         }
       }
     };
-    this.onSubmit = this.onSubmit.bind(this);
-    this.updateName = this.updateName.bind(this);
-    this.updateEmail = this.updateEmail.bind(this);
   }
 
-  updateName(newValue) {
+  updateName = (newValue) => {
     this.setState({
       ...this.state,
       form: {
@@ -42,9 +39,9 @@ export default class EditUserForm extends React.Component {
         name: { error: false, message: '', value: newValue.target.value }
       }
     });
-  }
+  };
 
-  updateEmail(newValue) {
+  updateEmail = (newValue) => {
     this.setState({
       ...this.state,
       form: {
@@ -52,7 +49,7 @@ export default class EditUserForm extends React.Component {
         email: { error: false, message: '', value: newValue.target.value }
       }
     });
-  }
+  };
 
   resetForm(props) {
     const user = props.user ? props.user : {};
@@ -104,15 +101,7 @@ export default class EditUserForm extends React.Component {
     return formOk;
   }
 
-  showModal() {
-    this.setState({ show: true });
-  }
-
-  hideModal() {
-    this.setState({ show: false });
-  }
-
-  onSubmit() {
+  onSubmit = () => {
     const { id } = this.state;
     const name = this.state.form.name.value;
     const email = this.state.form.email.value;
@@ -123,7 +112,7 @@ export default class EditUserForm extends React.Component {
         email
       });
     }
-  }
+  };
 
   render() {
     return (

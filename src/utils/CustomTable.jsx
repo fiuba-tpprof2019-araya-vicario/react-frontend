@@ -12,19 +12,13 @@ export class CustomTable extends React.Component {
     actions: PropTypes.object
   };
 
-  constructor() {
-    super();
-    this.getHeaders = this.getHeaders.bind(this);
-    this.getTableRows = this.getTableRows.bind(this);
-  }
-
   getActions() {
     const { actions } = this.props;
 
     return actions;
   }
 
-  getHeaders(actions) {
+  getHeaders = (actions) => {
     const returnHeaders = this.props.headers.map((header, i) => (
       <th key={`th${i}`}>{header}</th>
     ));
@@ -34,7 +28,7 @@ export class CustomTable extends React.Component {
     }
 
     return returnHeaders;
-  }
+  };
 
   actionEnabled(action, row) {
     return action && (!action.disabled || !action.disabled(row));
@@ -181,7 +175,7 @@ export class CustomTable extends React.Component {
     );
   }
 
-  getTableRows(actions) {
+  getTableRows = (actions) => {
     const { data } = this.props;
 
     const tableRows = data.map((rowObject) => {
@@ -201,7 +195,7 @@ export class CustomTable extends React.Component {
     });
 
     return tableRows;
-  }
+  };
 
   render() {
     const actions = this.getActions();

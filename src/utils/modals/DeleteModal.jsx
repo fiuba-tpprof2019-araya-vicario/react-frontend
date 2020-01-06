@@ -15,23 +15,20 @@ export default class DeleteModal extends React.Component {
     this.state = {
       show: false
     };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.onDelete = this.onDelete.bind(this);
   }
 
-  showModal(id, name) {
+  showModal = (id, name) => {
     this.setState({ show: true, id, name });
-  }
+  };
 
-  hideModal() {
+  hideModal = () => {
     this.setState({ show: false, id: null, name: '' });
-  }
+  };
 
-  onDelete() {
+  onDelete = () => {
     this.props.onDelete(this.state.id);
     this.hideModal();
-  }
+  };
 
   render() {
     return (
