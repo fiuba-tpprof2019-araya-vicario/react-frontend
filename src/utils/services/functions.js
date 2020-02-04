@@ -103,10 +103,6 @@ export function getDescriptionByRequirementStatus(status) {
   return status ? REQUIREMENT_STATES[status] : '';
 }
 
-export function getDescriptionByProjectStatus(status) {
-  return status ? REQUIREMENT_STATES[status] : '';
-}
-
 export function getFullNameWithStatus(user, label) {
   const requests = user[label];
   const description = ` (${getDescriptionByRequestStatus(
@@ -181,7 +177,7 @@ export const getLast30Days = () => {
   return days;
 };
 
-export const getMonthFromNumber = (monthNumber) => {
+export const getMonthTextFromNumber = (monthNumber) => {
   switch (monthNumber) {
     case 1:
       return 'Enero';

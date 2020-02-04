@@ -11,6 +11,7 @@ import NavBar from '../layout/WebNavBar';
 import Private from '../utils/PrivateRoute';
 import MyProject from '../modules/myProject/MyProjectIndex';
 import MyTutorials from '../modules/myTutorials/MyTutorialsIndex';
+import MyUser from '../modules/myUser/MyUserIndex';
 import User from '../modules/user/UserIndex';
 import Idea from '../modules/idea/IdeasIndex';
 import IdeaView from '../modules/idea/IdeasDetail';
@@ -132,6 +133,12 @@ class App extends React.Component {
                 path="/users"
                 requiredCredentials={CREDENTIALS.EDIT_USERS}
                 component={User}
+              />
+              <Private
+                exact
+                path="/my_user"
+                requiredCredentials={CREDENTIALS.GET_PROJECTS}
+                component={MyUser}
               />
               <Private
                 exact={false}

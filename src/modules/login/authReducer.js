@@ -13,6 +13,7 @@ const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const LOGIN_ERROR = 'LOGIN_ERROR';
 const CLEAR_ERRORS = 'CLEAR_ERRORS';
 const POST_IDEA = 'POST_IDEA';
+const MY_PROFILE = 'MY_PROFILE';
 
 const initialState = {
   token: {},
@@ -58,6 +59,15 @@ export const login = (data) => ({
 export const logout = () => ({
   type: LOGOUT_USER
 });
+
+export const profile = () => () => ({
+  type: MY_PROFILE
+});
+
+export const myProfile = () => (dispatch) => {
+  dispatch(push('/my_user'));
+  dispatch(profile());
+};
 
 export const loginUser = (username, password) => (dispatch) => {
   const body = { username, password };
