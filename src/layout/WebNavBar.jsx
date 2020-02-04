@@ -6,7 +6,7 @@ import { push } from 'react-router-redux';
 import { Navbar, Nav, NavItem, MenuItem, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 // import { GoogleLogout } from 'react-google-login';
-import { logout } from '../modules/login/authReducer';
+import { logout, myProfile } from '../modules/login/authReducer';
 // import { CLIENT_ID } from '../api/api';
 import { CREDENTIALS } from '../utils/services/references';
 import WithAuthorization from '../utils/WithAuthorization';
@@ -15,6 +15,7 @@ export class WebNavBar extends React.Component {
   static propTypes = {
     home: PropTypes.func,
     logout: PropTypes.func,
+    myProfile: PropTypes.func,
     name: PropTypes.string,
     isAuthenticated: PropTypes.bool
   };
@@ -100,6 +101,10 @@ export class WebNavBar extends React.Component {
                     title={this.props.name}
                     id="logged-user-dropdown"
                   >
+                    <MenuItem eventKey={9.1} onClick={this.props.myProfile}>
+                      <i className="fa fa-user-circle" />
+                      &nbsp; Mi perfil
+                    </MenuItem>
                     {/* <MenuItem eventKey={9.1}> */}
                     {/* <GoogleLogout
                         clientId={CLIENT_ID}
@@ -108,7 +113,7 @@ export class WebNavBar extends React.Component {
                         <i className="fa fa-sign-out" />
                         &nbsp; Cerrar sesión
                       </GoogleLogout> */}
-                    <MenuItem eventKey={9.1} onClick={this.props.logout}>
+                    <MenuItem eventKey={9.2} onClick={this.props.logout}>
                       <i className="fa fa-sign-out" />
                       &nbsp; Cerrar sesión
                     </MenuItem>
@@ -143,6 +148,9 @@ const mapStateToProps = (state) => ({
 const mapDispatch = (dispatch) => ({
   logout: () => {
     dispatch(logout());
+  },
+  myProfile: () => {
+    dispatch(myProfile());
   },
   home: () => {
     dispatch(push('/'));

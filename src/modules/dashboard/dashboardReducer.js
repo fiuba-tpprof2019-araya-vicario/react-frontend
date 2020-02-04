@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { api, getNullConfig } from '../../api/apiInterfaceProvider';
-import { getMonthFromNumber } from '../../utils/services/functions';
+import { getMonthTextFromNumber } from '../../utils/services/functions';
 
 const HYDRATE_DASHBOARD = 'HYDRATE_DASHBOARD';
 const QUERY_ERROR = 'QUERY_ERROR';
@@ -54,11 +54,11 @@ export const resetDashboard = (year) => (dispatch) => {
 const fetchProjects = (data) => {
   const projects = {
     progress: data.map((project) => ({
-      x: getMonthFromNumber(project.month),
+      x: getMonthTextFromNumber(project.month),
       y: parseInt(project.progress, 10) + Math.random()
     })),
     terminated: data.map((project) => ({
-      x: getMonthFromNumber(project.month),
+      x: getMonthTextFromNumber(project.month),
       y: parseInt(project.terminated, 10) + Math.random()
     })),
     total: [
