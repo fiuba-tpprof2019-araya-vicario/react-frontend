@@ -10,6 +10,7 @@ const REQUIREMENTS = 'requirements';
 const CONTACT = 'contacts';
 const CAREERS = 'careers';
 const DASHBOARD = 'dashboard';
+const INTERESTS = 'interests';
 
 export const api = {
   base: BASE,
@@ -22,6 +23,8 @@ export const api = {
   projectsForCommissions: `${BASE + PROJECTS}/commissions`,
   projectsTutor: `${BASE + PROJECTS}/tutors`,
   users: BASE + USERS,
+  interests: BASE + INTERESTS,
+  userInterests: `${BASE + INTERESTS}/${USERS}`,
   profiles: BASE + PROFIlES,
   careers: BASE + CAREERS,
   requestsTutors: `${BASE + REQUESTS}/tutors`,

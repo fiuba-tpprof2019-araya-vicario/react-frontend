@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Row, Col, Grid, Panel, Button } from 'react-bootstrap';
 import history from '../../redux/history';
-import { getUserById, editUser } from './myUserReducer';
+import { getInitialData, editUser } from './myUserReducer';
 import LoadingModal from '../../utils/LoadingModal';
 import Title from '../../utils/Title';
 import EditMyUserCareers from './MyUserCareers';
+import EditMyUserInterests from './MyUserInterests';
 import EditMyUserForm from './MyUserForm';
 import { myUserMessages } from '../../utils/messages';
-import { getOnlyField } from '../../utils/services/functions';
 
 export class MyUserIndex extends React.Component {
   constructor(props) {
@@ -18,55 +18,49 @@ export class MyUserIndex extends React.Component {
     this.state = {
       ready: false,
       profiles: props.activeUser.profiles,
-      careers: props.activeUser.careers
+      careers: props.activeUser.careers,
+      interests: props.activeUser.interests,
+      userInterests: props.activeUser.userInterests
     };
   }
 
   static propTypes = {
     userId: PropTypes.string,
-    user: PropTypes.func,
+    getInitialData: PropTypes.func,
     editUser: PropTypes.func,
     careers: PropTypes.array,
     profiles: PropTypes.array,
+    interests: PropTypes.array,
+    userInterests: PropTypes.array,
     activeUser: PropTypes.object
   };
 
   componentDidMount() {
     this.state.ready = false;
-    this.props.user(this.props.userId);
+    this.props.getInitialData();
   }
 
   componentWillReceiveProps(nextProps) {
     this.state.ready = true;
-    const newProfiles = nextProps.activeUser.profiles;
-    const newCareers = nextProps.activeUser.careers;
+    const newUserInterests = nextProps.userInterests;
 
     this.setState({
       ...this.state,
-      profiles: newProfiles,
-      careers: newCareers
+      userInterests: newUserInterests
     });
   }
 
-  refreshProfiles = (newProfiles) => {
+  refreshInterests = (newInterests) => {
     this.setState({
       ...this.state,
-      profiles: newProfiles
-    });
-  };
-
-  refreshCareers = (newCareers) => {
-    this.setState({
-      ...this.state,
-      careers: newCareers
+      userInterests: newInterests
     });
   };
 
   submitEditForm = () => {
-    const profiles = getOnlyField(this.state.profiles, (profile) => profile.id);
-    const careers = getOnlyField(this.state.careers, (career) => career.id);
+    const userInterests = this.state.userInterests.map(({ id }) => id);
 
-    this.props.editUser(this.props.userId, profiles, careers);
+    this.props.editUser(this.props.userId, userInterests);
   };
 
   render() {
@@ -82,13 +76,24 @@ export class MyUserIndex extends React.Component {
             user={this.props.activeUser}
           />
           <Row>
-            <Col md={12}>
+            <Col md={6}>
               <Panel>
                 <Panel.Body>
                   <EditMyUserCareers
                     activeUser={this.props.activeUser}
                     careers={this.props.careers}
-                    refresh={this.refreshCareers}
+                  />
+                </Panel.Body>
+              </Panel>
+            </Col>
+            <Col md={6}>
+              <Panel>
+                <Panel.Body>
+                  <EditMyUserInterests
+                    activeUser={this.props.activeUser}
+                    interests={this.props.interests}
+                    userInterests={this.props.userInterests}
+                    refresh={this.refreshInterests}
                   />
                 </Panel.Body>
               </Panel>
@@ -118,19 +123,20 @@ export class MyUserIndex extends React.Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  user: (userId) => {
-    dispatch(getUserById(userId));
+  getInitialData: (userId) => {
+    dispatch(getInitialData(userId));
   },
   editUser: (userId, profiles, careers) => {
     dispatch(editUser(userId, profiles, careers));
   }
 });
 
-const mapStateToProps = (state, ownProps) => ({
-  activeUser: state.userReducer.activeUser,
-  userId: ownProps.match.params.id,
-  profiles: state.userReducer.profiles,
-  careers: state.userReducer.careers
+const mapStateToProps = (state) => ({
+  activeUser: state.authReducer.user,
+  profiles: state.myUserReducer.profiles,
+  careers: state.myUserReducer.careers,
+  interests: state.myUserReducer.interests,
+  userInterests: state.myUserReducer.userInterests
 });
 
 export default withRouter(

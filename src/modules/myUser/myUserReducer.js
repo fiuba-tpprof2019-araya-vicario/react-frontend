@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
-import { getConfig, api } from '../../api/apiInterfaceProvider';
+import { api, getConfig } from '../../api/apiInterfaceProvider';
 
 const HYDRATE_USERS = 'HYDRATE_USERS';
-const HYDRATE_USER_BY_ID = 'HYDRATE_USER_BY_ID';
 const QUERY_ERROR = 'QUERY_ERROR';
 const INTERNAL_ERROR = 'INTERNAL_ERROR';
 const SUCCESSFUL = 'SUCCESSFUL';
 const CLEAR_USER_RESULT = 'CLEAR_USER_RESULT';
 const CLEAR_ALERT = 'CLEAR_ALERT';
+const INITIAL_DATA = 'INITIAL_DATA';
 const USER_EDITED = 'USER_EDITED';
 const PATCH_USER = 'PATCH_USER';
 
@@ -17,6 +17,7 @@ const initialState = {
   alert: null,
   profiles: [],
   careers: [],
+  interests: [],
   activeUser: {},
   activeSearch: false
 };
@@ -53,8 +54,8 @@ export const userEdited = () => ({
   type: USER_EDITED
 });
 
-export const userById = (data) => ({
-  type: HYDRATE_USER_BY_ID,
+export const initialData = (data) => ({
+  type: INITIAL_DATA,
   data
 });
 
@@ -67,24 +68,26 @@ export const clearUsers = () => (dispatch) => {
   dispatch(clearUserResult());
 };
 
-export const getUserById = (id) => (dispatch) => {
+export const getInitialData = () => (dispatch) => {
   const config = getConfig();
 
   axios
     .all([
-      axios.get(`${api.users}/${id}`, config),
+      axios.get(api.interests, config),
+      axios.get(api.userInterests, config),
       axios.get(api.profiles, config),
       axios.get(api.careers, config)
     ])
     .then(
-      axios.spread((user, profiles, careers) => ({
-        user: user.data.data,
+      axios.spread((interests, userInterests, profiles, careers) => ({
+        interests: interests.data.data,
+        userInterests: userInterests.data.data,
         profiles: profiles.data.data,
         careers: careers.data.data
       }))
     )
     .then((data) => {
-      dispatch(userById(data));
+      dispatch(initialData(data));
     })
     .catch((err) => {
       dispatch(queryError(err));
@@ -124,7 +127,7 @@ export const updateUser = (userId, name, email) => (dispatch) => {
     .patch(`${api.users}/${userId}`, body, config)
     .then((res) => res.data.data)
     .then(() => {
-      dispatch(getUserById(userId));
+      dispatch(initialData());
       dispatch(successful('El user se actualizó correctamente'));
     })
     .catch((err) => {
@@ -154,16 +157,18 @@ export const createUser = (name, email) => (dispatch) => {
     });
 };
 
-export const editUser = (idUser, profiles, careers) => (dispatch) => {
+export const editUser = (idUser, interests) => (dispatch) => {
   const config = getConfig();
-  const body = { profiles, careers };
+  const body = {
+    interests: interests.map((interestId) => ({ id: interestId, score: 1 }))
+  };
 
   axios
-    .put(`${api.users}/${idUser}`, body, config)
+    .put(api.userInterests, body, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(userEdited());
-      dispatch(successful('El usuario se editó correctamente'));
+      dispatch(successful('El usuario se tu perfil correctamente'));
     })
     .catch((err) => {
       dispatch(queryError(err));
@@ -191,27 +196,19 @@ const fetchProfiles = (data) =>
     description: rowObject.description
   }));
 
-const fetchUser = (data) => {
-  const profiles = data.Profiles.map((rowObject) => ({
-    id: rowObject.id,
-    name: rowObject.name,
-    description: rowObject.description
-  }));
+const fetchInterests = (data, interestsList) =>
+  data.map((rowObject) => {
+    const { id, name, description } = interestsList.find(
+      (interest) => interest.id === rowObject.id
+    );
 
-  const careers = data.Careers.map((rowObject) => ({
-    id: rowObject.id,
-    name: rowObject.name,
-    description: rowObject.description
-  }));
-
-  return {
-    id: data.id,
-    name: `${data.name} ${data.surname}`,
-    email: data.email,
-    profiles,
-    careers
-  };
-};
+    return {
+      id,
+      name,
+      description,
+      score: rowObject.score
+    };
+  });
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -221,10 +218,14 @@ export default (state = initialState, action) => {
         results: fetchUsersTable(action.data),
         activeSearch: true
       };
-    case HYDRATE_USER_BY_ID:
+    case INITIAL_DATA:
       return {
         ...state,
-        activeUser: fetchUser(action.data.user),
+        interests: fetchProfiles(action.data.interests),
+        userInterests: fetchInterests(
+          action.data.userInterests,
+          action.data.interests
+        ),
         profiles: fetchProfiles(action.data.profiles),
         careers: fetchCareers(action.data.careers)
       };
