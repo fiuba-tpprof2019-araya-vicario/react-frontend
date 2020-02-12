@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, FormControl, Modal } from 'react-bootstrap';
@@ -75,7 +76,6 @@ export default class UploadIdeaModal extends React.Component {
 
   updateProjectTypeSelect = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         projectType: { error: false, message: '', value: newValue }
@@ -88,7 +88,6 @@ export default class UploadIdeaModal extends React.Component {
     const selectedUsers = this.refreshSelectedUsers(tutor, newValue);
 
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         coautors: { error: false, message: '', value: newValue }
@@ -104,16 +103,11 @@ export default class UploadIdeaModal extends React.Component {
       coautors
     );
 
-    this.setState({
-      ...this.state,
-      tutor: newValue,
-      selectedUsers
-    });
+    this.setState({ tutor: newValue, selectedUsers });
   };
 
   updateTitle = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         title: { error: false, message: '', value: newValue.target.value }
@@ -123,7 +117,6 @@ export default class UploadIdeaModal extends React.Component {
 
   updateCareersSelect = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         careers: { error: false, message: '', value: newValue }
@@ -133,7 +126,6 @@ export default class UploadIdeaModal extends React.Component {
 
   updateDescription = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         description: { error: false, message: '', value: newValue.target.value }
@@ -241,7 +233,7 @@ export default class UploadIdeaModal extends React.Component {
       form.careers.message = '';
     }
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
 
     return formOk;
   };

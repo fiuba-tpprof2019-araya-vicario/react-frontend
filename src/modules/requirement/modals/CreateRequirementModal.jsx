@@ -23,7 +23,6 @@ export default class CreateRequirementModal extends React.Component {
 
   updateTitle = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         title: { error: false, message: '', value: newValue.target.value }
@@ -33,7 +32,6 @@ export default class CreateRequirementModal extends React.Component {
 
   updateDescription = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         description: { error: false, message: '', value: newValue.target.value }
@@ -47,7 +45,7 @@ export default class CreateRequirementModal extends React.Component {
       title: { error: false, message: '', value: '' }
     };
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
   };
 
   validateForm = (title, description, file) => {
@@ -77,7 +75,7 @@ export default class CreateRequirementModal extends React.Component {
       form.description.message = '';
     }
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
 
     return formOk;
   };
@@ -104,7 +102,6 @@ export default class CreateRequirementModal extends React.Component {
 
   updateFile = (event) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         file: { error: false, message: '', value: event.target.files[0] }

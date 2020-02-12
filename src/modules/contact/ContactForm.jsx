@@ -24,7 +24,6 @@ export default class ContactForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      file: null,
       form: {
         email: { error: false, mensaje: '' },
         name: { error: false, mensaje: '' },
@@ -40,7 +39,7 @@ export default class ContactForm extends React.Component {
       description: { error: false, mensaje: '' }
     };
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
   }
 
   validateForm(email, name, description) {
@@ -80,7 +79,7 @@ export default class ContactForm extends React.Component {
       form.description.mensaje = '';
     }
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
 
     return formOk;
   }

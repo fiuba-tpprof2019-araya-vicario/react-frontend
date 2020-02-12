@@ -37,7 +37,6 @@ export default class EditUserCareers extends React.Component {
 
   updateCareerSelect = (newValue) => {
     this.setState({
-      ...this.state,
       selectedCareer: newValue != null ? newValue.value : -1
     });
   };
@@ -48,7 +47,7 @@ export default class EditUserCareers extends React.Component {
       message: ''
     };
 
-    this.setState({ ...this.state, formSelect });
+    this.setState({ formSelect });
   }
 
   validarRolForm() {
@@ -68,7 +67,7 @@ export default class EditUserCareers extends React.Component {
       formSelect.message = '';
     }
 
-    this.setState({ ...this.state, formSelect });
+    this.setState({ formSelect });
 
     return formOk;
   }
@@ -155,10 +154,7 @@ export default class EditUserCareers extends React.Component {
             (career) => career.id !== this.state.removeCareerClicked
           );
 
-          this.setState({
-            ...this.state,
-            careers: filteredCareers
-          });
+          this.setState({ careers: filteredCareers });
           this.removeCareerModal.hideModal();
           this.props.refresh(filteredCareers);
         }}

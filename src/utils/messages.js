@@ -33,6 +33,8 @@ export const myProjectMessages = {
     'La comisión curricular esta revisando la propuesta ingresada. En caso de ser aprobada avanzaras al siguiente paso.',
   NEW_STEP_PENDING_PRESENTATION_INFO:
     'La comisión curricular aprobo tu propuesta',
+  SELECT_ONE_CAREER_INFO:
+    'Tenés que ingresar la carrera con la cúal aprobar la propuesta',
   ABANDON_WARNING: (proyect) =>
     `¿Estás seguro de que quieres abandonar el proyecto ${proyect}?`
 };

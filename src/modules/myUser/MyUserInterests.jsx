@@ -35,17 +35,11 @@ export default class EditMyUserInterests extends React.Component {
   };
 
   updateInterestSelect = (newValue) => {
-    this.setState({
-      ...this.state,
-      selectedInterest: newValue != null ? newValue.value : -1
-    });
+    this.setState({ selectedInterest: newValue != null ? newValue.value : -1 });
   };
 
   updateScoreSelect = (newValue) => {
-    this.setState({
-      ...this.state,
-      selectedScore: newValue != null ? newValue.value : -1
-    });
+    this.setState({ selectedScore: newValue != null ? newValue.value : -1 });
   };
 
   resetInterestForm() {
@@ -54,7 +48,7 @@ export default class EditMyUserInterests extends React.Component {
       message: ''
     };
 
-    this.setState({ ...this.state, formSelect });
+    this.setState({ formSelect });
   }
 
   validarRolForm() {
@@ -74,7 +68,7 @@ export default class EditMyUserInterests extends React.Component {
       formSelect.message = '';
     }
 
-    this.setState({ ...this.state, formSelect });
+    this.setState({ formSelect });
 
     return formOk;
   }
@@ -183,10 +177,7 @@ export default class EditMyUserInterests extends React.Component {
             (interest) => interest.id !== this.state.removeInterestClicked
           );
 
-          this.setState({
-            ...this.state,
-            interests: filteredInterests
-          });
+          this.setState({ interests: filteredInterests });
           this.removeInterestModal.hideModal();
           this.props.refresh(filteredInterests);
         }}

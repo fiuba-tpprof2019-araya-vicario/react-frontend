@@ -29,13 +29,7 @@ export class DashboardIndex extends React.Component {
   updateYearSelected = (newValue) => {
     const selectedYear = newValue != null ? newValue.value : -1;
 
-    this.setState(
-      {
-        ...this.state,
-        selectedYear
-      },
-      this.props.resetDashboard(selectedYear)
-    );
+    this.setState({ selectedYear }, this.props.resetDashboard(selectedYear));
   };
 
   getOptions = () => [{ value: 2019, label: 2019 }];
