@@ -28,11 +28,7 @@ export default class ApproveProposalModal extends React.Component {
   };
 
   updateCareerSelect = (value) => {
-    this.setState({
-      ...this.state,
-      option: value,
-      message: null
-    });
+    this.setState({ option: value, message: null });
   };
 
   getModalBody(options) {
@@ -80,9 +76,7 @@ export default class ApproveProposalModal extends React.Component {
 
           if (!this.state.option) {
             this.setState({
-              ...this.state,
-              message:
-                'Tenés que ingresar la carrera con la cúal aprobar la propuesta'
+              message: myProjectMessages.SELECT_ONE_CAREER_INFO
             });
           } else {
             this.props.approveProposal(projectId, option.value);

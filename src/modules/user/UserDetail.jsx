@@ -42,25 +42,15 @@ export class UserDetail extends React.Component {
     const newProfiles = nextProps.activeUser.profiles;
     const newCareers = nextProps.activeUser.careers;
 
-    this.setState({
-      ...this.state,
-      profiles: newProfiles,
-      careers: newCareers
-    });
+    this.setState({ profiles: newProfiles, careers: newCareers });
   }
 
   refreshProfiles = (newProfiles) => {
-    this.setState({
-      ...this.state,
-      profiles: newProfiles
-    });
+    this.setState({ profiles: newProfiles });
   };
 
   refreshCareers = (newCareers) => {
-    this.setState({
-      ...this.state,
-      careers: newCareers
-    });
+    this.setState({ careers: newCareers });
   };
 
   submitEditForm = () => {

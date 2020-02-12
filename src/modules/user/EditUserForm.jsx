@@ -33,7 +33,6 @@ export default class EditUserForm extends React.Component {
 
   updateName = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         name: { error: false, message: '', value: newValue.target.value }
@@ -43,7 +42,6 @@ export default class EditUserForm extends React.Component {
 
   updateEmail = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         email: { error: false, message: '', value: newValue.target.value }
@@ -96,7 +94,7 @@ export default class EditUserForm extends React.Component {
       form.email.message = '';
     }
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
 
     return formOk;
   }

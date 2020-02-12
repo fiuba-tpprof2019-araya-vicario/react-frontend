@@ -17,9 +17,6 @@ export class MyUserIndex extends React.Component {
     super();
     this.state = {
       ready: false,
-      profiles: props.activeUser.profiles,
-      careers: props.activeUser.careers,
-      interests: props.activeUser.interests,
       userInterests: props.activeUser.userInterests
     };
   }
@@ -44,17 +41,11 @@ export class MyUserIndex extends React.Component {
     this.state.ready = true;
     const newUserInterests = nextProps.userInterests;
 
-    this.setState({
-      ...this.state,
-      userInterests: newUserInterests
-    });
+    this.setState({ userInterests: newUserInterests });
   }
 
   refreshInterests = (newInterests) => {
-    this.setState({
-      ...this.state,
-      userInterests: newInterests
-    });
+    this.setState({ userInterests: newInterests });
   };
 
   submitEditForm = () => {

@@ -41,10 +41,7 @@ export class CommissionsIndex extends React.Component {
   handleSelect = (select) => {
     const approved = select === 2;
 
-    this.setState({
-      ...this.state,
-      approved
-    });
+    this.setState({ approved });
     this.props.getInitialData(approved, this.state.selectedCareer);
   };
 
@@ -57,10 +54,7 @@ export class CommissionsIndex extends React.Component {
   updateCareerSelect = (newValue) => {
     const selectedCareer = newValue != null ? newValue.value : -1;
 
-    this.setState({
-      ...this.state,
-      selectedCareer
-    });
+    this.setState({ selectedCareer });
     this.props.getInitialData(this.state.approved, selectedCareer);
   };
 

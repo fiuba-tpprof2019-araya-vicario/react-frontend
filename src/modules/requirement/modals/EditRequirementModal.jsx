@@ -22,7 +22,6 @@ export default class EditRequirementModal extends React.Component {
 
   updateTitle = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         title: { error: false, mensaje: '', value: newValue.target.value }
@@ -32,7 +31,6 @@ export default class EditRequirementModal extends React.Component {
 
   updateDescription = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         description: { error: false, mensaje: '', value: newValue.target.value }
@@ -50,7 +48,7 @@ export default class EditRequirementModal extends React.Component {
       title: { error: false, mensaje: '', value: requirement.name }
     };
 
-    this.setState({ ...this.state, form, id: requirement.id });
+    this.setState({ form, id: requirement.id });
   }
 
   validateForm(title, description) {
@@ -79,7 +77,7 @@ export default class EditRequirementModal extends React.Component {
       form.description.mensaje = '';
     }
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
 
     return formOk;
   }

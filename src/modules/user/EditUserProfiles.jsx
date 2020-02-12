@@ -36,7 +36,6 @@ export default class EditUserProfiles extends React.Component {
 
   updateProfileSelect = (newValue) => {
     this.setState({
-      ...this.state,
       selectedProfile: newValue != null ? newValue.value : -1
     });
   };
@@ -47,7 +46,7 @@ export default class EditUserProfiles extends React.Component {
       message: ''
     };
 
-    this.setState({ ...this.state, formSelect });
+    this.setState({ formSelect });
   }
 
   validarRolForm() {
@@ -67,7 +66,7 @@ export default class EditUserProfiles extends React.Component {
       formSelect.message = '';
     }
 
-    this.setState({ ...this.state, formSelect });
+    this.setState({ formSelect });
 
     return formOk;
   }
@@ -154,10 +153,7 @@ export default class EditUserProfiles extends React.Component {
             (profile) => profile.id !== this.state.removeProfileClicked
           );
 
-          this.setState({
-            ...this.state,
-            profiles: filteredProfiles
-          });
+          this.setState({ profiles: filteredProfiles });
           this.removeProfileModal.hideModal();
           this.props.refresh(filteredProfiles);
         }}

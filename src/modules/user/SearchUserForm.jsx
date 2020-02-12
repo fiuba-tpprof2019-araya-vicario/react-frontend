@@ -17,17 +17,11 @@ export default class BuscarUsuarioForm extends React.Component {
   }
 
   updateEmail = (newValue) => {
-    this.setState({
-      ...this.state,
-      email: newValue.target.value
-    });
+    this.setState({ email: newValue.target.value });
   };
 
   updateName = (newValue) => {
-    this.setState({
-      ...this.state,
-      name: newValue.target.value
-    });
+    this.setState({ name: newValue.target.value });
   };
 
   render() {
