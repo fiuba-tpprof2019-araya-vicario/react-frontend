@@ -1,4 +1,4 @@
-const PROTOCOL = process.env.REACT_APP_LOCAL === '1' ? 'http' : 'http';
+const PROTOCOL = process.env.REACT_APP_LOCAL === '1' ? 'http' : 'https';
 const API_PORT = '3050';
 const ROOT =
   process.env.REACT_APP_LOCAL === '1'
