@@ -113,7 +113,10 @@ export const Home = () => {
             <Col md={2} lg={2}>
               <Row>
                 <Center>
-                  <button className="onlyIcon bigIcon">
+                  <button
+                    className="onlyIcon bigIcon"
+                    onClick={() => access('/requirements')}
+                  >
                     <FontAwesomeIcon icon={faListAlt} />
                   </button>
                 </Center>

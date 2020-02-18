@@ -1,25 +1,32 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Tab, Route } from 'react-bootstrap';
+import { Tab } from 'react-bootstrap';
+import { Route } from 'react-router-dom';
 import Loading from './Loading';
 
 export default class CustomTab extends Component {
   static propTypes = {
     loading: PropTypes.bool,
     title: PropTypes.string,
-    key: PropTypes.string,
+    id: PropTypes.string,
     path: PropTypes.string,
     children: PropTypes.node
   };
 
+  static defaultProps = {
+    loading: false,
+    path: ''
+  };
+
   render() {
-    const { key, title, loading, children, path } = this.props;
+    const { id, title, loading, children, path } = this.props;
 
     return (
-      <Tab eventKey={key} key={key} title={title} className="form-group">
+      <Tab eventKey={id} key={id} title={title} className="form-group">
         <Route
-          path={`${path}/${key}`}
-          render={loading ? children : <Loading />}
+          exact
+          path={`${path}${id}`}
+          render={() => (loading ? <Loading /> : children)}
         />
       </Tab>
     );

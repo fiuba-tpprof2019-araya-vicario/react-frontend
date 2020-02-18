@@ -10,6 +10,7 @@ export class RequirementTable extends React.Component {
     canEdit: PropTypes.bool,
     editRequirement: PropTypes.func,
     deleteRequirement: PropTypes.func,
+    viewRequirementPdf: PropTypes.func,
     uploadIdea: PropTypes.func,
     projectId: PropTypes.number
   };
@@ -31,6 +32,7 @@ export class RequirementTable extends React.Component {
     const disableUploadButton = (requirement) =>
       requirement.status !== REQUIREMENT_STATES.inactive ||
       this.props.projectId;
+    const disableViewPdfButton = (requirement) => !requirement.file_url;
 
     return (
       <CustomTable
@@ -50,12 +52,20 @@ export class RequirementTable extends React.Component {
                 uploadAction: {
                   action: this.props.uploadIdea,
                   disabled: disableUploadButton
+                },
+                viewPdfAction: {
+                  action: this.props.viewRequirementPdf,
+                  disabled: disableViewPdfButton
                 }
               }
             : {
                 uploadAction: {
                   action: this.props.uploadIdea,
                   disabled: disableUploadButton
+                },
+                viewPdfAction: {
+                  action: this.props.viewRequirementPdf,
+                  disabled: disableViewPdfButton
                 }
               }
         }

@@ -22,6 +22,7 @@ import CreateIdea from './CreateIdea';
 import ReviewIdea from './ReviewIdea';
 import PendingProposal from './PendingProposal';
 import ProposalUnderRevision from './ProposalUnderRevision';
+import PendingPresentation from './PendingPresentation';
 import AbandonProjectModal from './modals/AbandonProjectModal';
 
 export class MyProjectIndex extends React.Component {
@@ -45,35 +46,11 @@ export class MyProjectIndex extends React.Component {
     requests: PropTypes.array
   };
 
-  constructor() {
-    super();
-    this.state = { activeStep: 0 };
-    this.uploadIdea = this.uploadIdea.bind(this);
-    this.editIdea = this.editIdea.bind(this);
-    this.showUploadIdeaModal = this.showUploadIdeaModal.bind(this);
-    this.showAbandonIdeaModal = this.showAbandonIdeaModal.bind(this);
-    this.uploadProposal = this.uploadProposal.bind(this);
-  }
+  state = { activeStep: 0 };
 
   componentDidMount() {
     this.props.clearAlert();
     this.props.getInitialData(this.props.user.id, this.props.user.projectId);
-  }
-
-  getActiveStep(user, project) {
-    let activeStep = 0;
-
-    if (user && user.projectId && project) {
-      activeStep = project.state_id;
-    }
-
-    return activeStep;
-  }
-
-  updateActiveStep(step) {
-    this.setState({
-      activeStep: step
-    });
   }
 
   componentDidUpdate() {
@@ -84,30 +61,46 @@ export class MyProjectIndex extends React.Component {
     }
   }
 
-  uploadIdea(form) {
+  getActiveStep = (user, project) => {
+    let activeStep = 0;
+
+    if (user && user.projectId && project) {
+      activeStep = project.state_id;
+    }
+
+    return activeStep;
+  };
+
+  updateActiveStep = (step) => {
+    this.setState({
+      activeStep: step
+    });
+  };
+
+  uploadIdea = (form) => {
     this.props.uploadIdea(form);
-  }
+  };
 
-  uploadProposal(proposal, url) {
+  uploadProposal = (proposal, url) => {
     this.props.uploadProposal(proposal, url);
-  }
+  };
 
-  editIdea(id, form) {
+  editIdea = (id, form) => {
     this.props.editIdea(id, form);
-  }
+  };
 
-  showAbandonIdeaModal(memberId) {
+  showAbandonIdeaModal = (memberId) => {
     this.AbandonModal.getRef().showModal(
       this.props.project.id,
       memberId,
       this.props.project.name,
       this.props.abandonIdea
     );
-  }
+  };
 
-  showUploadIdeaModal() {
+  showUploadIdeaModal = () => {
     this.UploadIdeaModal.showModal();
-  }
+  };
 
   render() {
     const steps = [
@@ -142,58 +135,59 @@ export class MyProjectIndex extends React.Component {
           </div>
         </Row>
         <Row>
-          {this.state.activeStep === 0 ? (
-            <CreateIdea
-              acceptRequest={this.props.acceptRequest}
-              rejectRequest={this.props.rejectRequest}
-              requests={this.props.requests}
-              showUploadIdeaModal={this.showUploadIdeaModal}
-            />
-          ) : null}
-          {this.state.activeStep === 1 ? (
-            <ReviewIdea
-              isUserCreator={isUserCreator}
-              user={this.props.user}
-              project={this.props.project}
-              showUploadIdeaModal={this.showUploadIdeaModal}
-              showAbandonIdeaModal={this.showAbandonIdeaModal}
-            />
-          ) : null}
-          {this.state.activeStep === 2 ? (
-            <PendingProposal
-              isUserCreator={isUserCreator}
-              user={this.props.user}
-              project={this.props.project}
-              uploadProposal={this.uploadProposal}
-              acceptProposal={this.props.acceptProposal}
-              showUploadIdeaModal={this.showUploadIdeaModal}
-              showAbandonIdeaModal={this.showAbandonIdeaModal}
-            />
-          ) : null}
-          {this.state.activeStep === 3 ? (
-            <ProposalUnderRevision
-              isUserCreator={isUserCreator}
-              user={this.props.user}
-              project={this.props.project}
-            />
-          ) : null}
-        </Row>
-        {isUserCreator && (
-          <UploadIdeaModal
-            uploadIdea={this.uploadIdea}
-            editIdea={this.editIdea}
-            careers={this.props.careers}
-            coautors={this.props.coautors}
-            tutors={this.props.tutors}
-            projectTypes={this.props.projectTypes}
-            project={this.props.project}
-            editMode={this.state.activeStep}
-            ref={(modal) => {
-              this.UploadIdeaModal = modal;
-            }}
-            user={this.props.isAuthenticated && this.props.user}
+          <CreateIdea
+            display-if={this.state.activeStep === 0}
+            acceptRequest={this.props.acceptRequest}
+            rejectRequest={this.props.rejectRequest}
+            requests={this.props.requests}
+            showUploadIdeaModal={this.showUploadIdeaModal}
           />
-        )}
+          <ReviewIdea
+            display-if={this.state.activeStep === 1}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+            showUploadIdeaModal={this.showUploadIdeaModal}
+            showAbandonIdeaModal={this.showAbandonIdeaModal}
+          />
+          <PendingProposal
+            display-if={this.state.activeStep === 2}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+            uploadProposal={this.uploadProposal}
+            acceptProposal={this.props.acceptProposal}
+            showUploadIdeaModal={this.showUploadIdeaModal}
+            showAbandonIdeaModal={this.showAbandonIdeaModal}
+          />
+          <ProposalUnderRevision
+            display-if={this.state.activeStep === 3}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+          />
+          <PendingPresentation
+            display-if={this.state.activeStep === 4}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+          />
+        </Row>
+        <UploadIdeaModal
+          display-if={isUserCreator}
+          uploadIdea={this.uploadIdea}
+          editIdea={this.editIdea}
+          careers={this.props.careers}
+          coautors={this.props.coautors}
+          tutors={this.props.tutors}
+          projectTypes={this.props.projectTypes}
+          project={this.props.project}
+          editMode={this.state.activeStep}
+          ref={(modal) => {
+            this.UploadIdeaModal = modal;
+          }}
+          user={this.props.isAuthenticated && this.props.user}
+        />
         <AbandonProjectModal
           ref={(modal) => {
             this.AbandonModal = modal;

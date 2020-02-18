@@ -18,6 +18,7 @@ const initialState = {
   token: {},
   user: {},
   error: { message: '' },
+  alert: null,
   isAuthenticated: false
 };
 
@@ -74,18 +75,18 @@ export const loginUser = (username, password) => (dispatch) => {
 };
 
 export const loginWithGoogle = (response) => (dispatch) => {
+  console.log(response);
   const body = {
-    id_token: response.Zi.id_token,
+    id_token: response.tokenId,
     email: response.profileObj.email,
     name: response.profileObj.name
   };
-
+  console.log(response);
   axios
     .post(api.login, body)
     .then((res) => res.data)
     .then(({ data }) => {
       console.log(data);
-      // window.gapi.auth.setToken({ access_token: response.accessToken });
       dispatch(
         login({
           token: data.token,

@@ -8,7 +8,8 @@ import {
 } from '../../utils/services/functions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
-const HYDRATE_COMMISSIONS = 'HYDRATE_COMMISSIONS';
+const HYDRATE_APPROVED_COMMISSIONS = 'HYDRATE_COMMISSIONS';
+const HYDRATE_PENDING_COMMISSIONS = 'HYDRATE_COMMISSIONS';
 const HYDRATE_COMMISSION = 'HYDRATE_COMMISSION';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
@@ -17,7 +18,8 @@ const ABANDON_COMMISSION = 'ABANDON_COMMISSION';
 const initialState = {
   alert: null,
   loading: false,
-  projects: [],
+  approvedProjects: [],
+  pendingProjects: [],
   project: {}
 };
 
@@ -39,13 +41,18 @@ export const abandonedIdea = () => ({
   type: ABANDON_COMMISSION
 });
 
-export const hydrateProject = (data) => ({
-  type: HYDRATE_COMMISSION,
+export const hydratePendingProjects = (data) => ({
+  type: HYDRATE_PENDING_COMMISSIONS,
   data
 });
 
-export const hydrateProjects = (data) => ({
-  type: HYDRATE_COMMISSIONS,
+export const hydrateApprovedProjects = (data) => ({
+  type: HYDRATE_APPROVED_COMMISSIONS,
+  data
+});
+
+export const hydrateProject = (data) => ({
+  type: HYDRATE_COMMISSION,
   data
 });
 
@@ -90,16 +97,23 @@ export const getProject = (projectId) => (dispatch) => {
   getActiveProject(projectId, dispatch);
 };
 
-export const getProjects = (dispatch) => {
+export const getProjects = (approved, career, dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
+  const projectUrl = `${api.projectsForCommissions}?1=1${
+    approved ? '&approved=1' : ''
+  }${career ? `&career=${career}` : ''}`;
 
   axios
-    .get(api.projectsInAppreciation, config)
+    .get(projectUrl, config)
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(hydrateProjects(data));
+      if (approved) {
+        dispatch(hydrateApprovedProjects(data));
+      } else {
+        dispatch(hydratePendingProjects(data));
+      }
     })
     .catch((err) => {
       dispatch(toggleLoading({ loading: false }));
@@ -154,8 +168,8 @@ export const reprobate = (projectId, careerId, rejectionReason, postAction) => (
     });
 };
 
-export const getInitialData = () => (dispatch) => {
-  getProjects(dispatch);
+export const getInitialData = (approved, career) => (dispatch) => {
+  getProjects(approved, career, dispatch);
 };
 
 const fetchProjectsTable = (data) =>
@@ -165,16 +179,24 @@ const fetchProjectsTable = (data) =>
     description: project.description,
     students: getStudentsNames(project.Creator, project.Students),
     tutors: getTutorsNames(project.Tutor, project.Cotutors),
+    careers: project.ProjectCareers.map(
+      (projectCareer) => projectCareer.Career.name
+    ).join(', '),
     type: project.Type.name,
     created_at: formatterDate(project.createdAt)
   }));
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case HYDRATE_COMMISSIONS:
+    case HYDRATE_APPROVED_COMMISSIONS:
       return {
         ...state,
-        projects: fetchProjectsTable(action.data)
+        pendingProjects: fetchProjectsTable(action.data)
+      };
+    case HYDRATE_PENDING_COMMISSIONS:
+      return {
+        ...state,
+        approvedProjects: fetchProjectsTable(action.data)
       };
     case HYDRATE_COMMISSION:
       return {

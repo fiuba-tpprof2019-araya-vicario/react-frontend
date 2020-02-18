@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
+import { faFileUpload, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 export class CustomTable extends React.Component {
   static propTypes = {
@@ -48,6 +48,7 @@ export class CustomTable extends React.Component {
       acceptAction,
       removeAction,
       rejectAction,
+      viewPdfAction,
       uploadAction
     } = actions;
     let detailRender;
@@ -57,6 +58,7 @@ export class CustomTable extends React.Component {
     let rejectRender;
     let removeRender;
     let uploadRender;
+    let viewPdfRender;
 
     if (this.actionEnabled(editAction, row)) {
       editRender = (
@@ -142,6 +144,18 @@ export class CustomTable extends React.Component {
       );
     }
 
+    if (this.actionEnabled(viewPdfAction, row)) {
+      viewPdfRender = (
+        <a
+          title="Ver el PDF"
+          onClick={() => viewPdfAction.action(row.id)}
+          role="button"
+        >
+          <FontAwesomeIcon icon={faFilePdf} />
+        </a>
+      );
+    }
+
     return (
       <td key="actions" className="actionsColumn">
         {removeRender}
@@ -151,6 +165,7 @@ export class CustomTable extends React.Component {
         {deleteRender}
         {editRender}
         {uploadRender}
+        {viewPdfRender}
       </td>
     );
   }
@@ -161,7 +176,8 @@ export class CustomTable extends React.Component {
       key !== 'projectId' &&
       key !== 'requestId' &&
       key !== 'project' &&
-      key !== 'requestStatusId'
+      key !== 'requestStatusId' &&
+      key !== 'file_url'
     );
   }
 

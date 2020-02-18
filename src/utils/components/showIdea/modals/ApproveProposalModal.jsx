@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import Select from 'react-select';
-import Dialogue from '../../../Dialogue';
 import Field from '../../../forms/Field';
+import Dialogue from '../../../Dialogue';
 import { myProjectMessages } from '../../../messages.js';
 
 export default class ApproveProposalModal extends React.Component {
@@ -54,6 +54,7 @@ export default class ApproveProposalModal extends React.Component {
                 key="careerSelect"
                 name="careerelect"
                 value={this.state.option}
+                clearable={false}
                 options={options}
                 id="careerSelect"
                 onChange={this.updateCareerSelect}

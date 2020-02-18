@@ -9,14 +9,17 @@ const REQUESTS = 'requests';
 const REQUIREMENTS = 'requirements';
 const CONTACT = 'contacts';
 const CAREERS = 'careers';
+const DASHBOARD = 'dashboard';
 
 export const api = {
   base: BASE,
   login: BASE + LOGIN,
   contact: BASE + CONTACT,
+  dashboard: BASE + DASHBOARD,
   projects: BASE + PROJECTS,
   projectsCreated: `${BASE + PROJECTS}?state=1`,
   projectsInAppreciation: `${BASE + PROJECTS}?state=3`,
+  projectsForCommissions: `${BASE + PROJECTS}/commissions`,
   projectsTutor: `${BASE + PROJECTS}/tutors`,
   users: BASE + USERS,
   profiles: BASE + PROFIlES,

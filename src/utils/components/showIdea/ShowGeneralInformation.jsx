@@ -9,7 +9,7 @@ import FullRow from '../../../utils/styles/FullRow';
 import Itemized from '../../../utils/styles/Itemized';
 import { getStatusIcon } from '../../forms/StatusIcon';
 
-export default class ShowIdeaInfo extends React.Component {
+export default class ShowGeneralInformation extends React.Component {
   static propTypes = {
     project: PropTypes.object,
     showUsersStatus: PropTypes.bool

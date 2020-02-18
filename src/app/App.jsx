@@ -5,6 +5,7 @@ import { Route, withRouter, Switch } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Home } from '../layout/Home';
+import { clearAlert } from '../modules/login/authReducer';
 import Log from '../modules/login/Login';
 import NavBar from '../layout/WebNavBar';
 import Private from '../utils/PrivateRoute';
@@ -20,6 +21,7 @@ import CommissionDetail from '../modules/commission/CommissionsDetail';
 import Contact from '../modules/contact/ContactIndex';
 // import Request from '../modules/request/RequestIndex';
 import Requirement from '../modules/requirement/RequirementIndex';
+import Dashboard from '../modules/dashboard/DashboardIndex';
 import { persistor } from '../redux/store';
 import CustomAlert from '../utils/CustomAlert';
 import LoadingModal from '../utils/LoadingModal';
@@ -50,7 +52,9 @@ class App extends React.Component {
           rowKey="centralAlert"
           bsStyle={alert.style}
           message={alert.message}
-          onDismiss={() => alert.onDismiss && execute(alert.onDismiss)}
+          onDismiss={() =>
+            alert.onDismiss ? execute(alert.onDismiss) : execute(clearAlert)
+          }
         />
       );
     }
@@ -134,6 +138,12 @@ class App extends React.Component {
                 path="/users/:id"
                 requiredCredentials={CREDENTIALS.EDIT_USERS}
                 component={UserView}
+              />
+              <Private
+                exact
+                path="/dashboard"
+                requiredCredentials={CREDENTIALS.EDIT_USERS}
+                component={Dashboard}
               />
               <Route exact path="/contact" component={Contact} />
             </Switch>

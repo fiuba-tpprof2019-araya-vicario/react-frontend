@@ -83,8 +83,15 @@ export class WebNavBar extends React.Component {
                       <NavItem eventKey={5}>Usuarios</NavItem>
                     </LinkContainer>
                   </WithAuthorization>
+                  <WithAuthorization
+                    requiredCredentials={CREDENTIALS.EDIT_USERS}
+                  >
+                    <LinkContainer to="/dashboard">
+                      <NavItem eventKey={6}>Tablero de control</NavItem>
+                    </LinkContainer>
+                  </WithAuthorization>
                   <LinkContainer to="/contact">
-                    <NavItem eventKey={6}>Contacto</NavItem>
+                    <NavItem eventKey={7}>Contacto</NavItem>
                   </LinkContainer>
                 </Nav>,
                 <Nav key="2" pullRight>

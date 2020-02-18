@@ -10,6 +10,7 @@ import {
 } from './commissionsReducer';
 import Title from '../../utils/Title';
 import { commissionsMessages } from '../../utils/messages';
+import { PROJECT_STEPS } from '../../utils/services/references';
 import ShowIdea from '../../utils/components/showIdea/ShowIdea';
 import history from '../../redux/history';
 
@@ -45,7 +46,9 @@ export class CommissionsDetail extends React.Component {
             }
             showBackButton
             showProposal
-            showApprovalButtons
+            showApprovalButtons={
+              project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION
+            }
             approveProposal={approveProposal}
             reprobateProposal={reprobateProposal}
             project={project}

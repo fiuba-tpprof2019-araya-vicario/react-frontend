@@ -12,6 +12,8 @@ export default class CustomAlert extends React.Component {
     message: PropTypes.string
   };
 
+  static defaultProps = { size: 10, rowKey: 'alert' };
+
   componentWillUnmount() {
     if (this.props.onDismiss) {
       this.props.onDismiss();
@@ -19,15 +21,14 @@ export default class CustomAlert extends React.Component {
   }
 
   render() {
+    const { rowKey, size, bsStyle, onDismiss, message } = this.props;
+
     return (
-      <Row key={this.props.rowKey}>
+      <Row key={rowKey}>
         <Center>
-          <Col lg={this.props.size ? this.props.size : 10}>
-            <Alert
-              onDismiss={this.props.onDismiss}
-              bsStyle={this.props.bsStyle}
-            >
-              <p>{this.props.message}</p>
+          <Col lg={size}>
+            <Alert onDismiss={onDismiss} bsStyle={bsStyle}>
+              <p>{message}</p>
             </Alert>
           </Col>
         </Center>

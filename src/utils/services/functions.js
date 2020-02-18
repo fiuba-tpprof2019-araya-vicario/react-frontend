@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import { REQUEST_STATES, REQUIREMENT_STATES } from './references';
 
 export function getById(objects, id) {
@@ -148,7 +149,7 @@ export function getRequestFromUser(userId, project) {
     return cotutorUser[0].TutorRequests[0];
   }
 
-  return null;
+  return {};
 }
 
 export function getStudentsNames(Creator, Students) {
@@ -164,3 +165,47 @@ export function getTutorsNames(Tutor, Cotutors) {
     ...Cotutors.map((cotutor) => `, ${getFullName(cotutor)}`)
   ];
 }
+
+export const getLast30Days = () => {
+  const days = [];
+
+  for (let i = 29; i >= 0; i -= 1) {
+    days.push({
+      x: moment()
+        .add(-i, 'days')
+        .valueOf(),
+      y: 0
+    });
+  }
+
+  return days;
+};
+
+export const getMonthFromNumber = (monthNumber) => {
+  switch (monthNumber) {
+    case 1:
+      return 'Enero';
+    case 2:
+      return 'Febrero';
+    case 3:
+      return 'Marzo';
+    case 4:
+      return 'Abril';
+    case 5:
+      return 'Mayo';
+    case 6:
+      return 'Junio';
+    case 7:
+      return 'Julio';
+    case 8:
+      return 'Agosto';
+    case 9:
+      return 'Septiembre';
+    case 10:
+      return 'Octubre';
+    case 11:
+      return 'Noviembre';
+    default:
+      return 'Diciembre';
+  }
+};

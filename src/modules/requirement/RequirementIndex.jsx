@@ -42,15 +42,6 @@ export class RequirementIndex extends React.Component {
     isAuthenticated: PropTypes.bool
   };
 
-  constructor() {
-    super();
-    this.createRequirement = this.createRequirement.bind(this);
-    this.editRequirement = this.editRequirement.bind(this);
-    this.deleteRequirement = this.deleteRequirement.bind(this);
-    this.showUploadIdea = this.showUploadIdea.bind(this);
-    this.uploadIdea = this.uploadIdea.bind(this);
-  }
-
   componentDidMount() {
     this.props.clearAlert();
     if (this.props.user) {
@@ -58,27 +49,33 @@ export class RequirementIndex extends React.Component {
     }
   }
 
-  createRequirement() {
+  createRequirement = () => {
     this.CreateModal.showModal();
-  }
+  };
 
-  editRequirement(id) {
+  editRequirement = (id) => {
     this.EditModal.showModal(getById(this.props.requirements, id));
-  }
+  };
 
-  showUploadIdea(id) {
+  showUploadIdea = (id) => {
     this.UploadIdeaModal.showModal(getById(this.props.requirements, id));
-  }
+  };
 
-  deleteRequirement(id) {
+  deleteRequirement = (id) => {
     const requirement = getById(this.props.requirements, id);
 
     this.DeleteModal.getRef().showModal(requirement.id, requirement.name);
-  }
+  };
 
-  uploadIdea(form) {
+  viewRequirementPdf = (id) => {
+    const requirement = getById(this.props.requirements, id);
+
+    window.open(requirement.file_url, '_blank');
+  };
+
+  uploadIdea = (form) => {
     this.props.uploadIdea(form);
-  }
+  };
 
   render() {
     return (
@@ -155,6 +152,7 @@ export class RequirementIndex extends React.Component {
         deleteRequirement={this.deleteRequirement}
         uploadProject={this.uploadProject}
         uploadIdea={this.showUploadIdea}
+        viewRequirementPdf={this.viewRequirementPdf}
         canEdit={this.props.canEdit}
       />
     );

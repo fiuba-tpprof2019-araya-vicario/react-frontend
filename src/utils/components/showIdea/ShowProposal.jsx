@@ -7,12 +7,13 @@ import UploadProposalModal from './modals/UploadProposalModal';
 import Itemized from '../../../utils/styles/Itemized';
 import FullRow from '../../../utils/styles/FullRow';
 import { getIconWithOverlay } from '../../../utils/forms/StatusIcon';
+import { formatterDate } from '../../../utils/services/functions';
 // import { CLIENT_ID, DEVELOPER_KEY, SCOPE } from '../../api/api';
 
-export default class ShowIdea extends React.Component {
+export default class ShowProposal extends React.Component {
   static propTypes = {
     project: PropTypes.object,
-    isUserCreator: PropTypes.bool,
+    canEditProposal: PropTypes.bool,
     uploadProposal: PropTypes.func
   };
 
@@ -21,6 +22,30 @@ export default class ShowIdea extends React.Component {
   //     this.props.uploadProposal(this.props.project, data.docs[0].url);
   //   }
   // }
+
+  showApprobals = () => {
+    const { project } = this.props;
+
+    return (
+      project.ProjectCareers.some(({ status }) => status === 'accepted') && (
+        <Itemized
+          title="Aprobaciónes de la propuesta:"
+          items={project.ProjectCareers.map((projectCareer) => (
+            <Fragment>
+              {getIconWithOverlay(
+                `Miembro de la comisión: ${projectCareer.Judge.name} ${
+                  projectCareer.Judge.surname
+                } (${projectCareer.Judge.email})\n`,
+                <i className="fa fa-info-circle">&nbsp;</i>
+              )}
+              {projectCareer.Career.name}:{' '}
+              {formatterDate(projectCareer.updatedAt)}
+            </Fragment>
+          ))}
+        />
+      )
+    );
+  };
 
   showRejectionReasons = () => {
     const { project } = this.props;
@@ -51,7 +76,7 @@ export default class ShowIdea extends React.Component {
   };
 
   render() {
-    const { project, isUserCreator, uploadProposal } = this.props;
+    const { project, canEditProposal, uploadProposal } = this.props;
     const proposal = project.proposal_url ? (
       <a
         className="fixMarginLeft"
@@ -70,9 +95,8 @@ export default class ShowIdea extends React.Component {
         <Fragment>
           <h4>Propuesta:</h4>
           <Row>
-            {isUserCreator ? (
-              <Fragment>
-                {/* <GooglePicker
+            <Fragment display-if={canEditProposal}>
+              {/* <GooglePicker
                   clientId={CLIENT_ID}
                   developerKey={DEVELOPER_KEY}
                   scope={SCOPE}
@@ -94,21 +118,20 @@ export default class ShowIdea extends React.Component {
                   &nbsp;
                   {proposal}
                 </GooglePicker> */}
-                <Button
-                  bsStyle="success"
-                  className="fixMarginLeft"
-                  bsSize="xs"
-                  onClick={() => this.showUploadProposalModal()}
-                >
-                  <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir propuesta
-                </Button>
-                &nbsp;
-                {proposal}
-                &nbsp;
-              </Fragment>
-            ) : (
-              <Fragment>{proposal}</Fragment>
-            )}
+              <Button
+                bsStyle="success"
+                className="fixMarginLeft"
+                bsSize="xs"
+                onClick={() => this.showUploadProposalModal()}
+              >
+                <i className="fa fa-upload">&nbsp;</i>&nbsp;
+                {project.proposal_url ? 'Editar propuesta' : 'Subir propuesta'}
+              </Button>
+              &nbsp;
+              {proposal}
+              &nbsp;
+            </Fragment>
+            <Fragment display-if={!canEditProposal}>{proposal}</Fragment>
           </Row>
           <UploadProposalModal
             uploadProposal={uploadProposal}
@@ -119,6 +142,7 @@ export default class ShowIdea extends React.Component {
           />
         </Fragment>
         {this.showRejectionReasons()}
+        {this.showApprobals()}
       </FullRow>
     );
   }
