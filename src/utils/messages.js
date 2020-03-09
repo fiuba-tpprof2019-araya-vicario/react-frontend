@@ -18,6 +18,7 @@ export const myProjectMessages = {
   GO_TO_REQUERIMENT_DESCRIPTION:
     'Puedes crear una idea, a partir de un requerimiento. Los mismos son posibles proyectos propuestos por profesores, no docentes o personas ajenas a la FIUBA.',
   EMPTY_PROPOSAL: 'No se ha subido ninguna propuesta.',
+  EMPTY_PRESENTATION: 'No se ha subido ninguna presentación.',
   ACCEPT_PROPOSAL:
     '¿Estás seguro que deseas aceptar la propuesta?  Recordamos que una vez aceptada la propuesta, esta será entregada a la comisioón curricular y no podrá ser modificada.',
   ACCEPT_PROPOSAL_WARNING:
@@ -46,6 +47,8 @@ export const requestMessages = {
     'No te han llegado solicitudes para colaborar en otros proyectos. Puedes enviar solicitudes creando un nuevo proyecto e invitando a otros estudiantes para que sean tus colaboradores.',
   ACCEPT_WARNING: (request) =>
     `¿Estás seguro de que quieres aceptar el pedido para trabajar en el proyecto ${request}?`,
+  ENABLE_WARNING: (request) =>
+    `¿Estás seguro de que los alumnos están en condiciones de presentar el proyecto proyecto ${request}?`,
   REJECT_WARNING: (request) =>
     `¿Estás seguro de que quieres rechazar el pedido para trabajr en el proyecto ${request}?`
 };
@@ -69,12 +72,14 @@ export const myTutorialsMessages = {
   NEW_STEP_PROJECT_ACCEPTED_INFO:
     'Debes colaborar con los integrantes del proyecto para realizar una propuesta. Una vez subida una propuesta todos los integrantes deben aprobar la misma para avanzar al siguiente paso.',
   NEW_STEP_PROPOSAL_UNDER_REVISION_INFO:
-    'La comisión curricular esta revisando la propuesta ingresada.'
+    'La comisión curricular esta revisando la propuesta ingresada.',
+  NEW_STEP_PROPOSAL_PENDING_PRESENTATION_INFO:
+    'Habilitá la presentación cuando creas que el proyecto esta en condiciones de ser presentado.'
 };
 
 export const commissionsMessages = {
   TITLE: 'Comisión curricular',
-  SUBTITLE: 'Aministra los distintas projectos en curso',
+  SUBTITLE: 'Aministra los distintos proyectos en curso',
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados',
   NEW_STEP_PROPOSAL_UNDER_REVISION_INFO:
     'Puedes aprobar o rechazar la propuesta, en cualquiera de los casos debes especificar la carrera que estas evaluando, entre las carreras del proyecto. En caso de rechazar debes ingresar el motivo de rechazo.'
@@ -88,7 +93,7 @@ export const dashboardMessages = {
 export const ideasMessages = {
   TITLE: 'Ideas',
   SUBTITLE:
-    'Conocé los distintas ideas que se estan llevando a cabo por otros estudiantes',
+    'Conocé las distintas ideas que se estan llevando a cabo por otros estudiantes',
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados',
   ABANDON_SUCCESS: 'Abandonaste el proyecto correctamente',
   NEW_STEP_PROJECT_CREATED_INFO:

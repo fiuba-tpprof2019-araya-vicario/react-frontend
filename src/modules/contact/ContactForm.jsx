@@ -120,11 +120,12 @@ export default class ContactForm extends React.Component {
                   placeholder="Ingrese nombre de contacto"
                 />
               </FormGroup>
-              {this.state.form.email.error && (
-                <HelpBlock bsSize="small">
-                  {this.state.form.name.mensaje}
-                </HelpBlock>
-              )}
+              <HelpBlock
+                display-if={this.state.form.email.error}
+                bsSize="small"
+              >
+                {this.state.form.name.mensaje}
+              </HelpBlock>
             </Col>
           </Row>
           <Row key="uploadFormRow1">

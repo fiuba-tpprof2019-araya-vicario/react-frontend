@@ -13,6 +13,8 @@ export default class PendingPresentation extends React.Component {
   render() {
     const { project, user, isUserCreator } = this.props;
 
+    console.log(project);
+
     return (
       <ShowIdea
         nextStepMessage={myProjectMessages.NEW_STEP_PENDING_PRESENTATION_INFO}

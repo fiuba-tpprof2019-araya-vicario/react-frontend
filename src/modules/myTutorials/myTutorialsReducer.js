@@ -115,6 +115,24 @@ export const acceptProposal = (requestId, projectId) => (dispatch) => {
     });
 };
 
+export const enablePresentation = (projectId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = { project_id: projectId };
+
+  axios
+    .post(api.persentations, body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+      getActiveTutorial(dispatch, projectId);
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
 export const getMyTutorials = (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();

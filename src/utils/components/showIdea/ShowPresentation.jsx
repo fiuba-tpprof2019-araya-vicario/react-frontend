@@ -2,63 +2,65 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Row } from 'react-bootstrap';
 import { myProjectMessages } from '../../../utils/messages';
-import UploadProposalModal from './modals/UploadProposalModal';
+import UploadPresentationModal from './modals/UploadPresentationModal';
 import FullRow from '../../../utils/styles/FullRow';
 
 export default class ShowPresentation extends React.Component {
   static propTypes = {
     project: PropTypes.object,
-    canEditProposal: PropTypes.bool,
-    uploadProposal: PropTypes.func
+    canEditPresentation: PropTypes.bool,
+    uploadPresentation: PropTypes.func
   };
 
-  showUploadProposalModal = () => {
-    this.UploadProposal.showModal();
+  showUploadPresentationModal = () => {
+    this.UploadPresentation.showModal();
   };
 
   render() {
-    const { project, canEditProposal, uploadProposal } = this.props;
-    const proposal = project.proposal_url ? (
+    const { project, canEditPresentation, uploadPresentation } = this.props;
+    const presentation = project.presentation_url ? (
       <a
         className="fixMarginLeft"
         onClick={(event) => event.stopPropagation()}
-        href={project.proposal_url}
+        href={project.presentation_url}
         target="_blank"
       >
-        {project.proposal_name}
+        {project.presentation_name}
       </a>
     ) : (
-      <span className="fixMarginLeft">{myProjectMessages.EMPTY_PROPOSAL}</span>
+      <span className="fixMarginLeft">
+        {myProjectMessages.EMPTY_PRESENTATION}
+      </span>
     );
 
     return (
       <FullRow>
         <Fragment>
-          <h4>Propuesta:</h4>
+          <h4>Presentación:</h4>
           <Row>
-            {canEditProposal ? (
+            {canEditPresentation ? (
               <Fragment>
                 <Button
                   bsStyle="success"
                   className="fixMarginLeft"
                   bsSize="xs"
-                  onClick={() => this.showUploadProposalModal()}
+                  onClick={() => this.showUploadPresentationModal()}
                 >
-                  <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir propuesta
+                  <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir presentación
                 </Button>
                 &nbsp;
-                {proposal}
+                {presentation}
                 &nbsp;
               </Fragment>
             ) : (
-              <Fragment>{proposal}</Fragment>
+              <Fragment>{presentation}</Fragment>
             )}
           </Row>
-          <UploadProposalModal
-            uploadProposal={uploadProposal}
+          <UploadPresentationModal
+            uploadPresentation={uploadPresentation}
             projectId={project.id}
             ref={(modal) => {
-              this.UploadProposal = modal;
+              this.UploadPresentation = modal;
             }}
           />
         </Fragment>

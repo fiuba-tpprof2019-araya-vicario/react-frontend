@@ -91,7 +91,7 @@ export class CommissionsIndex extends React.Component {
           <Tab eventKey={1} title="Proyectos pendientes">
             {this.renderTable(pendingProjects)}
           </Tab>
-          <Tab eventKey={2} title="Proyectos aprovados">
+          <Tab eventKey={2} title="Proyectos aprobados">
             {this.renderTable(approvedProjects)}
           </Tab>
         </Tabs>
