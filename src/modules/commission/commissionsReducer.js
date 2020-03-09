@@ -8,8 +8,8 @@ import {
 } from '../../utils/services/functions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
-const HYDRATE_APPROVED_COMMISSIONS = 'HYDRATE_COMMISSIONS';
-const HYDRATE_PENDING_COMMISSIONS = 'HYDRATE_COMMISSIONS';
+const HYDRATE_APPROVED_COMMISSIONS = 'HYDRATE_APPROVED_COMMISSIONS';
+const HYDRATE_PENDING_COMMISSIONS = 'HYDRATE_PENDING_COMMISSIONS';
 const HYDRATE_COMMISSION = 'HYDRATE_COMMISSION';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
@@ -188,12 +188,12 @@ const fetchProjectsTable = (data) =>
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case HYDRATE_APPROVED_COMMISSIONS:
+    case HYDRATE_PENDING_COMMISSIONS:
       return {
         ...state,
         pendingProjects: fetchProjectsTable(action.data)
       };
-    case HYDRATE_PENDING_COMMISSIONS:
+    case HYDRATE_APPROVED_COMMISSIONS:
       return {
         ...state,
         approvedProjects: fetchProjectsTable(action.data)

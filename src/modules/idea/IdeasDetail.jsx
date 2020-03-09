@@ -27,14 +27,13 @@ export class IdeasDetail extends React.Component {
     return (
       <Fragment>
         <Title title={ideasMessages.TITLE} subtitle={ideasMessages.SUBTITLE} />
-        {project.id && (
-          <ShowIdea
-            showBackButton
-            project={project}
-            user={user}
-            showUsersStatus={false}
-          />
-        )}
+        <ShowIdea
+          display-if={project.id}
+          showBackButton
+          project={project}
+          user={user}
+          showUsersStatus={false}
+        />
       </Fragment>
     );
   }

@@ -39,22 +39,23 @@ export class CommissionsDetail extends React.Component {
           title={commissionsMessages.TITLE}
           subtitle={commissionsMessages.SUBTITLE}
         />
-        {project.id && (
-          <ShowIdea
-            nextStepMessage={
-              commissionsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
-            }
-            showBackButton
-            showProposal
-            showApprovalButtons={
-              project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION
-            }
-            approveProposal={approveProposal}
-            reprobateProposal={reprobateProposal}
-            project={project}
-            user={user}
-          />
-        )}
+        <ShowIdea
+          display-if={project.id}
+          nextStepMessage={
+            project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION &&
+            commissionsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
+          }
+          showBackButton
+          showAcceptProposalButton={false}
+          showProposal
+          showApprovalButtons={
+            project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION
+          }
+          approveProposal={approveProposal}
+          reprobateProposal={reprobateProposal}
+          project={project}
+          user={user}
+        />
       </Fragment>
     );
   }
