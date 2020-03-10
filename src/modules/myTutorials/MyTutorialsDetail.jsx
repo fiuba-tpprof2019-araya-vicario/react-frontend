@@ -8,6 +8,7 @@ import {
   getMyTutorial,
   abandonIdea,
   enablePresentation,
+  submitPresentation,
   clearAlert,
   acceptProposal
 } from './myTutorialsReducer';
@@ -24,6 +25,7 @@ export class MyProjectDetail extends React.Component {
     accept: PropTypes.func,
     projectId: PropTypes.string,
     abandonIdea: PropTypes.func,
+    submitPresentation: PropTypes.func,
     user: PropTypes.object,
     enablePresentation: PropTypes.func,
     project: PropTypes.object
@@ -79,6 +81,10 @@ export class MyProjectDetail extends React.Component {
 
   enablePresentation = (projectId) => {
     this.props.enablePresentation(projectId);
+  };
+
+  submitPresentation = (projectId, presentationId) => {
+    this.props.submitPresentation(projectId, presentationId);
   };
 
   showUploadIdeaModal = () => {
@@ -158,6 +164,18 @@ export class MyProjectDetail extends React.Component {
             enablePresentation={this.enablePresentation}
           />
         ) : null}
+        {this.state.activeStep === 5 ? (
+          <ShowIdea
+            nextStepMessage={
+              myTutorialsMessages.NEW_STEP_PROPOSAL_PENDING_PUBLICATION_INFO
+            }
+            showBackButton
+            project={project}
+            user={user}
+            showProposal
+            submitPresentation={this.submitPresentation}
+          />
+        ) : null}
         <AbandonProjectModal
           ref={(modal) => {
             this.AbandonModal = modal;
@@ -182,7 +200,10 @@ const mapDispatch = (dispatch) => ({
     dispatch(abandonIdea(projectId, memberId, postAction));
   },
   enablePresentation: (projectId) => {
-    dispatch(enablePresentation(projectId ));
+    dispatch(enablePresentation(projectId));
+  },
+  submitPresentation: (projectId, presentationId) => {
+    dispatch(submitPresentation(projectId, presentationId));
   }
 });
 

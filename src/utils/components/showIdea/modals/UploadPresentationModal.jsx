@@ -6,8 +6,10 @@ import Field from '../../../forms/Field';
 
 export default class UploadPresentationModal extends React.Component {
   static propTypes = {
-    uploadPresentation: PropTypes.func,
-    projectId: PropTypes.number
+    upload: PropTypes.func,
+    name: PropTypes.string,
+    projectId: PropTypes.number,
+    presentationId: PropTypes.number
   };
 
   constructor() {
@@ -63,12 +65,14 @@ export default class UploadPresentationModal extends React.Component {
   }
 
   getModalBody() {
+    const { name } = this.props;
+
     return (
       <Row key="body">
         <Col md={12}>
           <Field
             controlId="fileInput"
-            label="Adjuntar archivo de propuesta en formato pdf"
+            label={`Adjuntar archivo de ${name} en formato pdf`}
             required
             validationState={this.state.form.file.error}
             validationMessage={this.state.form.file.message}
@@ -97,13 +101,11 @@ export default class UploadPresentationModal extends React.Component {
         bsStyle="success"
         onClick={() => {
           const { form } = this.state;
-          const { projectId } = this.props;
+          const { projectId, presentationId } = this.props;
           const file = form.file.value;
 
           if (this.validateForm(file)) {
-            this.props.uploadPresentation(projectId, {
-              file
-            });
+            this.props.upload(projectId, presentationId, { file });
             this.modal.hideModal();
           }
         }}
@@ -116,10 +118,12 @@ export default class UploadPresentationModal extends React.Component {
   }
 
   render() {
+    const { name } = this.props;
+
     return (
       <Dialogue
         key="uploadPresentation"
-        title="Subir una propuesta"
+        title={`Subir la ${name} del proyecto`}
         body={this.getModalBody()}
         buttons={this.getModalButtons()}
         ref={(modal) => {

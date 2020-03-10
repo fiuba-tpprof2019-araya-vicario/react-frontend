@@ -218,16 +218,58 @@ const getCoautors = (ignoreId, dispatch) => {
     });
 };
 
-export const uploadProposal = (projectId, form) => (dispatch) => {
+const uploadFile = (projectId, form, endpoint, dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfigMultipart();
-
   const formData = new FormData();
 
   formData.append('file', form.file);
 
   axios
-    .put(api.proposal(projectId), formData, config)
+    .put(endpoint, formData, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      getActiveProject(projectId, dispatch);
+    })
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
+export const uploadProposal = (projectId, form) => (dispatch) => {
+  uploadFile(projectId, form, api.proposal(projectId), dispatch);
+};
+
+export const uploadDocumentation = (projectId, presentationId, form) => (
+  dispatch
+) => {
+  uploadFile(
+    projectId,
+    form,
+    api.uploadDocumentation(presentationId),
+    dispatch
+  );
+};
+
+export const uploadPresentation = (projectId, presentationId, form) => (
+  dispatch
+) => {
+  uploadFile(projectId, form, api.uploadPresentation(presentationId), dispatch);
+};
+
+export const saveDescription = (projectId, presentationId, description) => (
+  dispatch
+) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = { description };
+
+  axios
+    .put(api.editPresentations(presentationId), body, config)
     .then((res) => res.data.data)
     .then(() => {
       getActiveProject(projectId, dispatch);

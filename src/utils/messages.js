@@ -18,22 +18,28 @@ export const myProjectMessages = {
   GO_TO_REQUERIMENT_DESCRIPTION:
     'Puedes crear una idea, a partir de un requerimiento. Los mismos son posibles proyectos propuestos por profesores, no docentes o personas ajenas a la FIUBA.',
   EMPTY_PROPOSAL: 'No se ha subido ninguna propuesta.',
-  EMPTY_PRESENTATION: 'No se ha subido ninguna presentación.',
+  EMPTY_PRESENTATION: (name) => `No se ha subido ninguna ${name}.`,
   ACCEPT_PROPOSAL:
-    '¿Estás seguro que deseas aceptar la propuesta?  Recordamos que una vez aceptada la propuesta, esta será entregada a la comisioón curricular y no podrá ser modificada.',
+    '¿Estás seguro que deseas aceptar la propuesta?  Recordamos que una vez aceptada la propuesta, esta será entregada a la comisión curricular y no podrá ser modificada.',
   ACCEPT_PROPOSAL_WARNING:
     'He leído y corroborado la propuesta entregada por los alumnos.',
+  ACCEPT_PRESENTATION:
+    '¿Estás seguro que deseas subir los archivos de presentación? Recuerde que estos archivos no podran ser modificados luego.',
+  ACCEPT_PRESENTATION_WARNING:
+    'He leído y corroborado los archivos de presentación entregada por los alumnos.',
   REPROBATE_PROPOSAL: '¿Estás seguro que deseas reprobar la propuesta?',
   APPROBATE_PROPOSAL:
     '¿Estás seguro que deseas aprobar la propuesta con la carrera seleccionada?',
   NEW_STEP_PROJECT_CREATED_INFO:
     'Para avanzar al siguiente paso el proyecto debe tener un tutor asignado a tu proyecto que haya aceptado la solicitud de tutoría. Los coautores pueden aceptar en este paso o en el siguiente.',
   NEW_STEP_PROJECT_ACCEPTED_INFO:
-    'Para avanzar al siguiente paso, debes tener una propuesta aceptada por todos los miembros del proyecto. Una vez que todos acepten la misma pasará a la comisión curricular.',
+    'Para avanzar al siguiente paso, debes tener una propuesta aceptada por todos los miembros del proyecto. Una vez que todos acepten, la misma pasará a la comisión curricular.',
   NEW_STEP_PROPOSAL_UNDER_REVISION_INFO:
     'La comisión curricular esta revisando la propuesta ingresada. En caso de ser aprobada avanzaras al siguiente paso.',
-  NEW_STEP_PENDING_PRESENTATION_INFO:
-    'La comisión curricular aprobo tu propuesta',
+  NEW_STEP_PENDING_PRESENTATION_INFO: (projectType) =>
+    `La comisión curricular aprobo tu propuesta, ya estan en condiciones de realizar su ${projectType}.`,
+  NEW_STEP_PENDING_PUBLICATION_INFO:
+    'Para avanzar al siguiente paso, debes subir la presentación y/o la documentación del proyecto y una descripción a modo de resumén del mismo. Una vez que todos aceptada por el tutor, la misma sera publicada.',
   SELECT_ONE_CAREER_INFO:
     'Tenés que ingresar la carrera con la cúal aprobar la propuesta',
   ABANDON_WARNING: (proyect) =>
@@ -74,7 +80,9 @@ export const myTutorialsMessages = {
   NEW_STEP_PROPOSAL_UNDER_REVISION_INFO:
     'La comisión curricular esta revisando la propuesta ingresada.',
   NEW_STEP_PROPOSAL_PENDING_PRESENTATION_INFO:
-    'Habilitá la presentación cuando creas que el proyecto esta en condiciones de ser presentado.'
+    'Habilitá la presentación cuando creas que el proyecto esta en condiciones de ser presentado.',
+  NEW_STEP_PROPOSAL_PENDING_PUBLICATION_INFO:
+    'Aprueba la publicación cuando creas que el proyecto esta en condiciones de ser publicado.'
 };
 
 export const commissionsMessages = {

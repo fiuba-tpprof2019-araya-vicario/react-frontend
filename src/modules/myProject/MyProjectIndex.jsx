@@ -6,6 +6,9 @@ import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
   uploadProposal,
+  saveDescription,
+  uploadPresentation,
+  uploadDocumentation,
   uploadIdea,
   acceptRequest,
   rejectRequest,
@@ -23,6 +26,7 @@ import ReviewIdea from './ReviewIdea';
 import PendingProposal from './PendingProposal';
 import ProposalUnderRevision from './ProposalUnderRevision';
 import PendingPresentation from './PendingPresentation';
+import PendingPublication from './PendingPublication';
 import AbandonProjectModal from './modals/AbandonProjectModal';
 
 export class MyProjectIndex extends React.Component {
@@ -35,6 +39,9 @@ export class MyProjectIndex extends React.Component {
     rejectRequest: PropTypes.func,
     abandonIdea: PropTypes.func,
     uploadProposal: PropTypes.func,
+    saveDescription: PropTypes.func,
+    uploadPresentation: PropTypes.func,
+    uploadDocumentation: PropTypes.func,
     acceptProposal: PropTypes.func,
     user: PropTypes.object,
     project: PropTypes.object,
@@ -81,8 +88,20 @@ export class MyProjectIndex extends React.Component {
     this.props.uploadIdea(form);
   };
 
-  uploadProposal = (proposal, url) => {
-    this.props.uploadProposal(proposal, url);
+  uploadProposal = (projectId, url) => {
+    this.props.uploadProposal(projectId, url);
+  };
+
+  uploadPresentation = (projectId, presentationId, url) => {
+    this.props.uploadPresentation(projectId, presentationId, url);
+  };
+
+  uploadDocumentation = (projectId, presentationId, url) => {
+    this.props.uploadDocumentation(projectId, presentationId, url);
+  };
+
+  saveDescription = (projectId, presentationId, description) => {
+    this.props.saveDescription(projectId, presentationId, description);
   };
 
   editIdea = (id, form) => {
@@ -172,6 +191,15 @@ export class MyProjectIndex extends React.Component {
             user={this.props.user}
             project={this.props.project}
           />
+          <PendingPublication
+            display-if={this.state.activeStep === 5}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+            saveDescription={this.saveDescription}
+            uploadDocumentation={this.uploadDocumentation}
+            uploadPresentation={this.uploadPresentation}
+          />
         </Row>
         <UploadIdeaModal
           display-if={isUserCreator}
@@ -211,8 +239,17 @@ const mapDispatch = (dispatch) => ({
   abandonIdea: (projectId, memberId) => {
     dispatch(abandonIdea(projectId, memberId));
   },
-  uploadProposal: (project, url) => {
-    dispatch(uploadProposal(project, url));
+  uploadProposal: (projectId, url) => {
+    dispatch(uploadProposal(projectId, url));
+  },
+  uploadPresentation: (projectId, presentationId, url) => {
+    dispatch(uploadPresentation(projectId, presentationId, url));
+  },
+  saveDescription: (projectId, presentationId, description) => {
+    dispatch(saveDescription(projectId, presentationId, description));
+  },
+  uploadDocumentation: (projectId, presentationId, url) => {
+    dispatch(uploadDocumentation(projectId, presentationId, url));
   },
   acceptRequest: (requestId, projectId) => {
     dispatch(acceptRequest(requestId, projectId));

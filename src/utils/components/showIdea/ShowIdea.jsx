@@ -9,9 +9,10 @@ import CustomAccordion from '../../CustomAccordion';
 import AcceptProposalModal from './modals/AcceptProposalModal';
 import ApproveProposalModal from './modals/ApproveProposalModal';
 import EnablePresentationModal from './modals/EnablePresentationModal';
-import UploadPresentationModal from './modals/UploadPresentationModal';
+import SubmitPresentationModal from './modals/SubmitPresentationModal';
 import ReprobateProjectModal from './modals/ReprobateProposalModal';
 import ShowGeneralInformation from './ShowGeneralInformation';
+import ShowDescription from './ShowDescription';
 import ShowProposal from './ShowProposal';
 import ShowPresentation from './ShowPresentation';
 
@@ -21,7 +22,6 @@ export default class ShowIdea extends React.Component {
     nextStepMessage: PropTypes.string,
     user: PropTypes.object,
     showProposal: PropTypes.bool,
-    showPresentation: PropTypes.bool,
     showUsersStatus: PropTypes.bool,
     showBackButton: PropTypes.bool,
     showAbandonButton: PropTypes.bool,
@@ -36,12 +36,14 @@ export default class ShowIdea extends React.Component {
     showAbandonIdeaModal: PropTypes.func,
     uploadProposal: PropTypes.func,
     enablePresentation: PropTypes.func,
+    submitPresentation: PropTypes.func,
+    saveDescription: PropTypes.func,
+    uploadDocumentation: PropTypes.func,
     uploadPresentation: PropTypes.func
   };
 
   static defaultProps = {
     showUsersStatus: true,
-    showPresentation: false,
     showAcceptProposalButton: true,
     isUserCreator: false,
     user: {},
@@ -52,6 +54,8 @@ export default class ShowIdea extends React.Component {
 
   showEnablePresentationModal = () =>
     this.EnablePresentation.getRef().showModal();
+
+  showSubmitPresentationModal = () => this.SubmitPresentation.showModal();
 
   showReprobateProposalModal = () => this.ReprobateProposal.showModal();
 
@@ -92,7 +96,7 @@ export default class ShowIdea extends React.Component {
     project,
     showProposal,
     isUserCreator,
-    isEditableProject,
+    isEditableProposal,
     uploadProposal
   ) => (
     <CustomAccordion
@@ -101,7 +105,7 @@ export default class ShowIdea extends React.Component {
         <ShowProposal
           display-if={showProposal}
           project={project}
-          canEditProposal={isUserCreator && isEditableProject}
+          canEditProposal={isUserCreator && isEditableProposal}
           uploadProposal={uploadProposal}
         />
       ]}
@@ -120,27 +124,39 @@ export default class ShowIdea extends React.Component {
   getPresentationInfo = (
     project,
     isUserCreator,
-    isEditableProject,
-    showPresentation,
-    uploadPresentation
+    isEditablePresentation,
+    uploadPresentation,
+    uploadDocumentation,
+    saveDescription
   ) => (
     <CustomAccordion
-      title="Archivos de la presentación"
+      title="Archivos de la presentación final"
       annexes={[
         <ShowPresentation
-          display-if={showPresentation}
+          name="Presentación"
+          element="presentation"
           project={project}
-          canEditPresentation={isUserCreator && isEditableProject}
-          uploadPresentation={uploadPresentation}
+          canEdit={isUserCreator && isEditablePresentation}
+          upload={uploadPresentation}
+        />,
+        <ShowPresentation
+          name="Documentación"
+          element="documentation"
+          project={project}
+          canEdit={isUserCreator && isEditablePresentation}
+          upload={uploadDocumentation}
         />
       ]}
     >
       <Row>
-        <Col md={1}>
-          <h4 className="panelText">Documentación:</h4>
+        <Col md={2}>
+          <h4 className="panelText">Sinopsis del proyecto:</h4>
         </Col>
-        <Col md={11}>
-          <p className="panelText">{project.Presentation.description}</p>
+        <Col md={10}>
+          <ShowDescription
+            project={project}
+            saveDescription={saveDescription}
+          />
         </Col>
       </Row>
     </CustomAccordion>
@@ -180,13 +196,15 @@ export default class ShowIdea extends React.Component {
       showAcceptProposalButton,
       user,
       showUploadIdeaModal,
-      showPresentation,
       showApprovalButtons,
       showEnablePresentationButton,
       showUsersStatus,
       uploadProposal,
       enablePresentation,
       uploadPresentation,
+      saveDescription,
+      uploadDocumentation,
+      submitPresentation,
       acceptProposal,
       approveProposal,
       reprobateProposal,
@@ -197,10 +215,14 @@ export default class ShowIdea extends React.Component {
     } = this.props;
 
     const request = getRequestFromUser(user ? user.id : null, project);
-    const isEditableProject = project.State.id <= 2;
+    const isEditableProposal = project.State.id <= 2;
+    const isEditablePresentation = project.State.id === 5;
     const careersOptions = this.getApprovalOptions(user, project);
     const projectId = project ? project.id : undefined;
     const requestId = request ? request.id : undefined;
+    const presentationId = project.Presentation
+      ? project.Presentation.id
+      : undefined;
 
     console.log(project);
 
@@ -219,16 +241,17 @@ export default class ShowIdea extends React.Component {
           project,
           showProposal,
           isUserCreator,
-          isEditableProject,
+          isEditableProposal,
           uploadProposal
         )}
         {project.Presentation &&
           this.getPresentationInfo(
             project,
             isUserCreator,
-            isEditableProject,
-            showPresentation,
-            uploadPresentation
+            isEditablePresentation,
+            uploadPresentation,
+            uploadDocumentation,
+            saveDescription
           )}
         {this.getGeneralInfo(project, showUsersStatus)}
         <Row className="pull-right">
@@ -254,7 +277,7 @@ export default class ShowIdea extends React.Component {
             </Button>
             &nbsp;
             <Button
-              display-if={isUserCreator && isEditableProject}
+              display-if={isUserCreator && isEditableProposal}
               bsStyle="primary"
               onClick={showUploadIdeaModal}
               bsSize="small"
@@ -283,6 +306,15 @@ export default class ShowIdea extends React.Component {
             >
               <i className="fa fa-check">&nbsp;</i>&nbsp; Habilitar presentación
             </Button>
+            <Button
+              display-if={submitPresentation}
+              bsStyle="success"
+              onClick={() => this.showSubmitPresentationModal()}
+              bsSize="small"
+            >
+              <i className="fa fa-upload">&nbsp;</i>&nbsp; Subir archivos de
+              presentación
+            </Button>
             <Fragment display-if={showApprovalButtons}>
               <Button
                 bsStyle="danger"
@@ -310,20 +342,20 @@ export default class ShowIdea extends React.Component {
             this.AcceptProposal = modal;
           }}
         />
+        <SubmitPresentationModal
+          submitPresentation={submitPresentation}
+          presentationId={presentationId}
+          projectId={projectId}
+          ref={(modal) => {
+            this.SubmitPresentation = modal;
+          }}
+        />
         <EnablePresentationModal
           onEnable={enablePresentation}
           name={project.name}
           projectId={projectId}
           ref={(modal) => {
             this.EnablePresentation = modal;
-          }}
-        />
-        <UploadPresentationModal
-          acceptProposal={acceptProposal}
-          requestId={requestId}
-          projectId={projectId}
-          ref={(modal) => {
-            this.UploadPresentation = modal;
           }}
         />
         <ApproveProposalModal

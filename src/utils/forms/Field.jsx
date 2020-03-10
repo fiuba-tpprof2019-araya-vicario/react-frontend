@@ -11,6 +11,7 @@ export default class Field extends React.Component {
     label: PropTypes.string,
     required: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
     inputComponent: PropTypes.element,
+    className: PropTypes.string,
     validationMessage: PropTypes.string
   };
 
@@ -21,6 +22,7 @@ export default class Field extends React.Component {
         validationState={this.props.validationState ? 'error' : null}
         controlId={this.props.controlId}
         bsSize={this.props.bsSize}
+        className={this.props.className}
       >
         <ControlLabel
           display-if={!!this.props.label}
