@@ -17,12 +17,6 @@ export default class ShowProposal extends React.Component {
     uploadProposal: PropTypes.func
   };
 
-  // uploadProposal(data) {
-  //   if (data.action === 'picked') {
-  //     this.props.uploadProposal(this.props.project, data.docs[0].url);
-  //   }
-  // }
-
   showApprobals = () => {
     const { project } = this.props;
 
@@ -96,28 +90,6 @@ export default class ShowProposal extends React.Component {
           <h4>Propuesta:</h4>
           <Row>
             <Fragment display-if={canEditProposal}>
-              {/* <GooglePicker
-                  clientId={CLIENT_ID}
-                  developerKey={DEVELOPER_KEY}
-                  scope={SCOPE}
-                  onChange={this.uploadProposal}
-                  onAuthFailed={() => {}}
-                  multiselect={false}
-                  navHidden
-                  authImmediate={false}
-                  mimeTypes={['application/pdf']}
-                  viewId="DOCS"
-                >
-                  <Button
-                    bsStyle="success"
-                    className="fixMarginLeft"
-                    bsSize="small"
-                  >
-                    <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir propuesta
-                  </Button>
-                  &nbsp;
-                  {proposal}
-                </GooglePicker> */}
               <Button
                 bsStyle="success"
                 className="fixMarginLeft"

@@ -121,7 +121,24 @@ export const enablePresentation = (projectId) => (dispatch) => {
   const body = { project_id: projectId };
 
   axios
-    .post(api.persentations, body, config)
+    .post(api.presentations, body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+      getActiveTutorial(dispatch, projectId);
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
+export const submitPresentation = (projectId, presentationId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+
+  axios
+    .put(api.submitPresentation(presentationId), {}, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(toggleLoading({ loading: false }));

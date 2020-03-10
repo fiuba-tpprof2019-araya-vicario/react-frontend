@@ -90,6 +90,14 @@ body {
   margin: 0em;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+.pointer:hover {
+  color: #00a2df;
+}
+
 .successText {
   color: #5cb85c;
 }

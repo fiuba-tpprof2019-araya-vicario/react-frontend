@@ -25,7 +25,14 @@ export const api = {
   projectsTutor: `${BASE + PROJECTS}/tutors`,
   users: BASE + USERS,
   interests: BASE + INTERESTS,
-  persentations: BASE + PRESENTATIONS,
+  presentations: BASE + PRESENTATIONS,
+  editPresentations: (projectId) => `${BASE + PRESENTATIONS}/${projectId}`,
+  submitPresentation: (projectId) =>
+    `${BASE + PRESENTATIONS}/${projectId}/submit`,
+  uploadPresentation: (projectId) =>
+    `${BASE + PRESENTATIONS}/${projectId}/presentation`,
+  uploadDocumentation: (projectId) =>
+    `${BASE + PRESENTATIONS}/${projectId}/documentation`,
   userInterests: `${BASE + INTERESTS}/${USERS}`,
   profiles: BASE + PROFIlES,
   careers: BASE + CAREERS,

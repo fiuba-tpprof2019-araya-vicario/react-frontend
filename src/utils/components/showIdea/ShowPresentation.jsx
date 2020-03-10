@@ -8,8 +8,10 @@ import FullRow from '../../../utils/styles/FullRow';
 export default class ShowPresentation extends React.Component {
   static propTypes = {
     project: PropTypes.object,
-    canEditPresentation: PropTypes.bool,
-    uploadPresentation: PropTypes.func
+    name: PropTypes.string,
+    element: PropTypes.string,
+    canEdit: PropTypes.bool,
+    upload: PropTypes.func
   };
 
   showUploadPresentationModal = () => {
@@ -17,28 +19,32 @@ export default class ShowPresentation extends React.Component {
   };
 
   render() {
-    const { project, canEditPresentation, uploadPresentation } = this.props;
-    const presentation = project.presentation_url ? (
+    const { project, canEdit, upload, name, element } = this.props;
+    const lowerCaseName = name.toLowerCase();
+    const url = project.Presentation[`${element}_url`];
+    const filename = project.Presentation[`${element}_name`];
+
+    const presentation = url ? (
       <a
         className="fixMarginLeft"
         onClick={(event) => event.stopPropagation()}
         href={project.presentation_url}
         target="_blank"
       >
-        {project.presentation_name}
+        {filename}
       </a>
     ) : (
       <span className="fixMarginLeft">
-        {myProjectMessages.EMPTY_PRESENTATION}
+        {myProjectMessages.EMPTY_PRESENTATION(lowerCaseName)}
       </span>
     );
 
     return (
       <FullRow>
         <Fragment>
-          <h4>Presentación:</h4>
+          <h4>{name}:</h4>
           <Row>
-            {canEditPresentation ? (
+            {canEdit ? (
               <Fragment>
                 <Button
                   bsStyle="success"
@@ -46,7 +52,8 @@ export default class ShowPresentation extends React.Component {
                   bsSize="xs"
                   onClick={() => this.showUploadPresentationModal()}
                 >
-                  <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir presentación
+                  <i className="fa fa-upload" />
+                  {` Subir ${lowerCaseName}`}
                 </Button>
                 &nbsp;
                 {presentation}
@@ -57,8 +64,10 @@ export default class ShowPresentation extends React.Component {
             )}
           </Row>
           <UploadPresentationModal
-            uploadPresentation={uploadPresentation}
+            upload={upload}
+            name={lowerCaseName}
             projectId={project.id}
+            presentationId={project.Presentation.id}
             ref={(modal) => {
               this.UploadPresentation = modal;
             }}
