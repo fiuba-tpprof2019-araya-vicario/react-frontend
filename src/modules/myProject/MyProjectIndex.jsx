@@ -26,6 +26,7 @@ import ReviewIdea from './ReviewIdea';
 import PendingProposal from './PendingProposal';
 import ProposalUnderRevision from './ProposalUnderRevision';
 import PendingPresentation from './PendingPresentation';
+import ProposalPublicated from './ProposalPublicated';
 import PendingPublication from './PendingPublication';
 import AbandonProjectModal from './modals/AbandonProjectModal';
 
@@ -138,11 +139,11 @@ export class MyProjectIndex extends React.Component {
 
     return (
       <Fragment>
-        <Title
-          title={myProjectMessages.TITLE}
-          subtitle={myProjectMessages.SUBTITLE}
-        />
         <Row>
+          <Title
+            title={myProjectMessages.TITLE}
+            subtitle={myProjectMessages.SUBTITLE}
+          />
           <div className="step-progress">
             <Stepper
               steps={steps}
@@ -193,6 +194,15 @@ export class MyProjectIndex extends React.Component {
           />
           <PendingPublication
             display-if={this.state.activeStep === 5}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+            saveDescription={this.saveDescription}
+            uploadDocumentation={this.uploadDocumentation}
+            uploadPresentation={this.uploadPresentation}
+          />
+          <ProposalPublicated
+            display-if={this.state.activeStep === 6}
             isUserCreator={isUserCreator}
             user={this.props.user}
             project={this.props.project}

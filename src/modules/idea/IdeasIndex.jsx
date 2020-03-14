@@ -2,20 +2,18 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import history from '../../redux/history';
+import CustomAlert from '../../utils/CustomAlert';
+import { ideasMessages } from '../../utils/messages';
+import { getById } from '../../utils/services/functions';
+import Title from '../../utils/Title';
 import {
+  acceptRequest,
   clearAlert,
   getInitialData,
-  acceptRequest,
   rejectRequest
 } from './ideasReducer';
-import Title from '../../utils/Title';
-import { ideasMessages } from '../../utils/messages';
 import IdeasTable from './IdeasTable';
-import CustomAlert from '../../utils/CustomAlert';
-import { getById } from '../../utils/services/functions';
-import history from '../../redux/history';
-import AcceptRequestModal from './modals/AcceptRequestModal';
-import RejectRequestModal from './modals/RejectRequestModal';
 
 export class IdeasIndex extends React.Component {
   static propTypes = {
@@ -31,9 +29,7 @@ export class IdeasIndex extends React.Component {
     this.props.getInitialData();
   }
 
-  detailAction = (id) => {
-    history.push(`/ideas/${id}`);
-  };
+  detailAction = (id) => history.push(`/ideas/${id}`);
 
   acceptRequest = (id) => {
     const request = getById(this.props.projects, id);
@@ -62,16 +58,6 @@ export class IdeasIndex extends React.Component {
         <Title title={ideasMessages.TITLE} subtitle={ideasMessages.SUBTITLE} />
         <br />
         {this.renderTable()}
-        <AcceptRequestModal
-          ref={(modal) => {
-            this.AcceptModal = modal;
-          }}
-        />
-        <RejectRequestModal
-          ref={(modal) => {
-            this.RejectModal = modal;
-          }}
-        />
       </Fragment>
     );
   }
@@ -81,14 +67,7 @@ export class IdeasIndex extends React.Component {
       return <CustomAlert message={ideasMessages.NO_RESULTS_MESSAGE} />;
     }
 
-    return (
-      <IdeasTable
-        data={this.props.projects}
-        show={this.detailAction}
-        accept={this.acceptRequest}
-        reject={this.rejectRequest}
-      />
-    );
+    return <IdeasTable data={this.props.projects} show={this.detailAction} />;
   }
 }
 
