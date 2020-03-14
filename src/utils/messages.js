@@ -43,7 +43,9 @@ export const myProjectMessages = {
   SELECT_ONE_CAREER_INFO:
     'Tenés que ingresar la carrera con la cúal aprobar la propuesta',
   ABANDON_WARNING: (proyect) =>
-    `¿Estás seguro de que quieres abandonar el proyecto ${proyect}?`
+    `¿Estás seguro de que quieres abandonar el proyecto ${proyect}?`,
+  NEW_STEP_PROPOSAL_PROPOSAL_PUBLICATED_INFO:
+    'Todos los archivos han sido publicados.'
 };
 
 export const requestMessages = {
@@ -82,7 +84,9 @@ export const myTutorialsMessages = {
   NEW_STEP_PROPOSAL_PENDING_PRESENTATION_INFO:
     'Habilitá la presentación cuando creas que el proyecto esta en condiciones de ser presentado.',
   NEW_STEP_PROPOSAL_PENDING_PUBLICATION_INFO:
-    'Aprueba la publicación cuando creas que el proyecto esta en condiciones de ser publicado.'
+    'Aprueba la publicación cuando creas que el proyecto esta en condiciones de ser publicado.',
+  NEW_STEP_PROPOSAL_PROPOSAL_PUBLICATED_INFO:
+    'Todos los archivos han sido publicados.'
 };
 
 export const commissionsMessages = {
@@ -108,6 +112,12 @@ export const ideasMessages = {
     'Si aceptas la solicitud pasaras a ser el tutor de este proyecto',
   NEW_STEP_PROJECT_ACCEPTED_INFO:
     'Debes colaborar con los integrantes del proyecto para realizar una propuesta. Una vez subida una propuesta todos los integrantes deben aprobar la misma para avanzar.'
+};
+
+export const publicProjectsMessages = {
+  TITLE: 'Proyectos',
+  SUBTITLE: 'Conocé las distintas proyectos que se llevaron a cabo',
+  NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
 };
 
 export const userMessages = {

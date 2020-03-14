@@ -7,8 +7,8 @@ import {
 } from '../../utils/services/functions';
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
-const HYDRATE_IDEAS = 'HYDRATE_IDEAS';
-const HYDRATE_IDEA = 'HYDRATE_IDEA';
+const HYDRATE_PUBLIC_PROJECTS = 'HYDRATE_PUBLIC_PROJECTS';
+const HYDRATE_PUBLIC_PROJECT = 'HYDRATE_PUBLIC_PROJECT';
 const QUERY_ERROR = 'QUERY_ERROR';
 const TOGGLE_LOADING = 'TOGGLE_LOADING';
 
@@ -34,12 +34,12 @@ export const queryError = (err) => ({
 });
 
 export const hydrateProject = (data) => ({
-  type: HYDRATE_IDEA,
+  type: HYDRATE_PUBLIC_PROJECT,
   data
 });
 
 export const hydrateProjects = (data) => ({
-  type: HYDRATE_IDEAS,
+  type: HYDRATE_PUBLIC_PROJECTS,
   data
 });
 
@@ -136,12 +136,12 @@ const fetchProjectsTable = (data) =>
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case HYDRATE_IDEAS:
+    case HYDRATE_PUBLIC_PROJECTS:
       return {
         ...state,
         projects: fetchProjectsTable(action.data)
       };
-    case HYDRATE_IDEA:
+    case HYDRATE_PUBLIC_PROJECT:
       return {
         ...state,
         project: action.data

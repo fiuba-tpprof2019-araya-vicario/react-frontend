@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { CustomTable } from '../../utils/CustomTable';
 
-export default class IdeasTable extends React.Component {
+export default class PublicProjectsTable extends React.Component {
   static propTypes = {
     data: PropTypes.array,
     show: PropTypes.func

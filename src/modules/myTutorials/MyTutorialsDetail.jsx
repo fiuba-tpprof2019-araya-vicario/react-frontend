@@ -120,67 +120,84 @@ export class MyProjectDetail extends React.Component {
             />
           </div>
         </Row>
-        {this.state.activeStep === 1 ? (
-          <ShowIdea
-            nextStepMessage={myTutorialsMessages.NEW_STEP_PROJECT_CREATED_INFO}
-            showBackButton
-            project={project}
-            user={user}
+        <Row>
+          {this.state.activeStep === 1 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROJECT_CREATED_INFO
+              }
+              showBackButton
+              project={project}
+              user={user}
+            />
+          ) : null}
+          {this.state.activeStep === 2 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROJECT_ACCEPTED_INFO
+              }
+              showBackButton
+              showProposal
+              acceptProposal={accept}
+              showAbandonButton
+              project={project}
+              user={user}
+              showAbandonIdeaModal={this.showAbandonIdeaModal}
+            />
+          ) : null}
+          {this.state.activeStep === 3 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
+              }
+              showBackButton
+              project={project}
+              user={user}
+              showProposal
+            />
+          ) : null}
+          {this.state.activeStep === 4 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROPOSAL_PENDING_PRESENTATION_INFO
+              }
+              showBackButton
+              project={project}
+              user={user}
+              showProposal
+              showEnablePresentationButton
+              enablePresentation={this.enablePresentation}
+            />
+          ) : null}
+          {this.state.activeStep === 5 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROPOSAL_PENDING_PUBLICATION_INFO
+              }
+              showBackButton
+              project={project}
+              user={user}
+              showProposal
+              submitPresentation={this.submitPresentation}
+            />
+          ) : null}
+          {this.state.activeStep === 6 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROPOSAL_PROPOSAL_PUBLICATED_INFO
+              }
+              showBackButton
+              project={project}
+              user={user}
+              showProposal
+            />
+          ) : null}
+          <AbandonProjectModal
+            ref={(modal) => {
+              this.AbandonModal = modal;
+            }}
           />
-        ) : null}
-        {this.state.activeStep === 2 ? (
-          <ShowIdea
-            nextStepMessage={myTutorialsMessages.NEW_STEP_PROJECT_ACCEPTED_INFO}
-            showBackButton
-            showProposal
-            acceptProposal={accept}
-            showAbandonButton
-            project={project}
-            user={user}
-            showAbandonIdeaModal={this.showAbandonIdeaModal}
-          />
-        ) : null}
-        {this.state.activeStep === 3 ? (
-          <ShowIdea
-            nextStepMessage={
-              myTutorialsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
-            }
-            showBackButton
-            project={project}
-            user={user}
-            showProposal
-          />
-        ) : null}
-        {this.state.activeStep === 4 ? (
-          <ShowIdea
-            nextStepMessage={
-              myTutorialsMessages.NEW_STEP_PROPOSAL_PENDING_PRESENTATION_INFO
-            }
-            showBackButton
-            project={project}
-            user={user}
-            showProposal
-            showEnablePresentationButton
-            enablePresentation={this.enablePresentation}
-          />
-        ) : null}
-        {this.state.activeStep === 5 ? (
-          <ShowIdea
-            nextStepMessage={
-              myTutorialsMessages.NEW_STEP_PROPOSAL_PENDING_PUBLICATION_INFO
-            }
-            showBackButton
-            project={project}
-            user={user}
-            showProposal
-            submitPresentation={this.submitPresentation}
-          />
-        ) : null}
-        <AbandonProjectModal
-          ref={(modal) => {
-            this.AbandonModal = modal;
-          }}
-        />
+        </Row>
       </Fragment>
     );
   }
