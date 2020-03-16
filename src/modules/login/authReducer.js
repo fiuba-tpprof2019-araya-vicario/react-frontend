@@ -20,6 +20,7 @@ const initialState = {
   user: {},
   error: { message: '' },
   alert: null,
+  loading: false,
   isAuthenticated: false
 };
 

@@ -7,12 +7,7 @@ import CustomAlert from '../../utils/CustomAlert';
 import { ideasMessages } from '../../utils/messages';
 import { getById } from '../../utils/services/functions';
 import Title from '../../utils/Title';
-import {
-  acceptRequest,
-  clearAlert,
-  getInitialData,
-  rejectRequest
-} from './ideasReducer';
+import { clearAlert, getInitialData } from './ideasReducer';
 import IdeasTable from './IdeasTable';
 
 export class IdeasIndex extends React.Component {
@@ -81,12 +76,6 @@ const mapDispatch = (dispatch) => ({
   },
   clearAlert: () => {
     dispatch(clearAlert());
-  },
-  acceptRequest: (requestId) => {
-    dispatch(acceptRequest(requestId));
-  },
-  rejectRequest: (requestId) => {
-    dispatch(rejectRequest(requestId));
   }
 });
 

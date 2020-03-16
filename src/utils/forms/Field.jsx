@@ -16,28 +16,37 @@ export default class Field extends React.Component {
   };
 
   render() {
+    const {
+      controlId,
+      validationState,
+      label,
+      bsSize,
+      required,
+      className,
+      validationMessage,
+      inputComponent
+    } = this.props;
+    const key = controlId || `${label}input`;
+
     return (
       <FormGroup
-        key={`${this.props.controlId}group`}
-        validationState={this.props.validationState ? 'error' : null}
-        controlId={this.props.controlId}
-        bsSize={this.props.bsSize}
-        className={this.props.className}
+        key={`${key}group`}
+        validationState={validationState ? 'error' : null}
+        controlId={key}
+        bsSize={bsSize}
+        className={className}
       >
-        <ControlLabel
-          display-if={!!this.props.label}
-          key={`${this.props.controlId}label`}
-        >
-          {this.props.label}
-          <MandatoryField display-if={this.props.required} />
+        <ControlLabel display-if={!!label} key={`${key}label`}>
+          {label}
+          <MandatoryField display-if={required} />
         </ControlLabel>
-        {this.props.inputComponent}
+        {inputComponent}
         <HelpBlock
-          display-if={!!this.props.validationState}
-          key={`${this.props.controlId}help`}
+          display-if={!!validationState}
+          key={`${key}help`}
           bsSize="small"
         >
-          {this.props.validationMessage}
+          {validationMessage}
         </HelpBlock>
       </FormGroup>
     );

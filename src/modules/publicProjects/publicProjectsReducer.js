@@ -65,53 +65,11 @@ export const getProjects = (dispatch) => {
   const config = getConfig();
 
   axios
-    .get(api.projectsCreated, config)
+    .get(api.projectsPublicated, config)
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateProjects(data));
-    })
-    .catch((err) => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
-    });
-};
-
-export const acceptRequest = (requestId) => (dispatch) => {
-  dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
-  const body = {
-    type: 'tutor',
-    status: 'accepted'
-  };
-
-  axios
-    .put(api.acceptTutorRequest(requestId), body, config)
-    .then((res) => res.data.data)
-    .then(() => {
-      getProjects(dispatch);
-      dispatch(toggleLoading({ loading: false }));
-    })
-    .catch((err) => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
-    });
-};
-
-export const rejectRequest = (requestId) => (dispatch) => {
-  dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
-  const body = {
-    type: 'tutor',
-    status: 'rejected'
-  };
-
-  axios
-    .put(api.rejectTutorRequest(requestId), body, config)
-    .then((res) => res.data.data)
-    .then(() => {
-      getProjects(dispatch);
-      dispatch(toggleLoading({ loading: false }));
     })
     .catch((err) => {
       dispatch(toggleLoading({ loading: false }));

@@ -61,18 +61,12 @@ export default class CreateRequirementModal extends React.Component {
       form.title.error = true;
       form.title.message = 'Tenés que ingresar el título de tu idea';
       formOk = false;
-    } else {
-      form.title.error = false;
-      form.title.message = '';
     }
 
     if (description == null || description === '') {
       form.description.error = true;
       form.description.message = 'Tenés que ingresar la descripción de tu idea';
       formOk = false;
-    } else {
-      form.description.error = false;
-      form.description.message = '';
     }
 
     this.setState({ form });
@@ -89,9 +83,10 @@ export default class CreateRequirementModal extends React.Component {
   };
 
   onSubmit = () => {
-    const title = this.state.form.title.value;
-    const description = this.state.form.description.value;
-    const file = this.state.form.file.value;
+    const { form } = this.state;
+    const title = form.title.value;
+    const description = form.description.value;
+    const file = form.file.value;
 
     if (this.validateForm(title, description, file)) {
       this.props.uploadRequirement({ name: title, description, file });
@@ -110,6 +105,8 @@ export default class CreateRequirementModal extends React.Component {
   };
 
   render() {
+    const { title, description } = this.state.form;
+
     return (
       <Modal
         show={this.state.show}
@@ -131,12 +128,12 @@ export default class CreateRequirementModal extends React.Component {
               controlId="titleInput"
               label="Título"
               required
-              validationState={this.state.form.title.error ? 'error' : null}
-              validationMessage={this.state.form.title.message}
+              validationState={title.error}
+              validationMessage={title.message}
               inputComponent={
                 <FormControl
                   type="text"
-                  value={this.state.form.title.value}
+                  value={title.value}
                   placeholder="Ingrese un título para tu requerimiento"
                   onChange={this.updateTitle}
                 />
@@ -148,13 +145,11 @@ export default class CreateRequirementModal extends React.Component {
               controlId="descriptionInput"
               label="Descripción"
               required
-              validationState={
-                this.state.form.description.error ? 'error' : null
-              }
-              validationMessage={this.state.form.description.message}
+              validationState={description.error}
+              validationMessage={description.message}
               inputComponent={
                 <textarea
-                  value={this.state.form.description.value}
+                  value={description.value}
                   onChange={this.updateDescription}
                   className="form-control"
                   style={{ resize: 'vertical' }}

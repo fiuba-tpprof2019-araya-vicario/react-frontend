@@ -77,48 +77,6 @@ export const getProjects = (dispatch) => {
     });
 };
 
-export const acceptRequest = (requestId) => (dispatch) => {
-  dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
-  const body = {
-    type: 'tutor',
-    status: 'accepted'
-  };
-
-  axios
-    .put(api.acceptTutorRequest(requestId), body, config)
-    .then((res) => res.data.data)
-    .then(() => {
-      getProjects(dispatch);
-      dispatch(toggleLoading({ loading: false }));
-    })
-    .catch((err) => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
-    });
-};
-
-export const rejectRequest = (requestId) => (dispatch) => {
-  dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
-  const body = {
-    type: 'tutor',
-    status: 'rejected'
-  };
-
-  axios
-    .put(api.rejectTutorRequest(requestId), body, config)
-    .then((res) => res.data.data)
-    .then(() => {
-      getProjects(dispatch);
-      dispatch(toggleLoading({ loading: false }));
-    })
-    .catch((err) => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
-    });
-};
-
 export const getInitialData = () => (dispatch) => {
   getProjects(dispatch);
 };

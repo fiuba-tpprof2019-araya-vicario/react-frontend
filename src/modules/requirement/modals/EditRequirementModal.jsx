@@ -14,8 +14,8 @@ export default class EditRequirementModal extends React.Component {
     this.state = {
       show: false,
       form: {
-        description: { error: false, mensaje: '', value: '' },
-        title: { error: false, mensaje: '', value: '' }
+        description: { error: false, message: '', value: '' },
+        title: { error: false, message: '', value: '' }
       }
     };
   }
@@ -24,7 +24,7 @@ export default class EditRequirementModal extends React.Component {
     this.setState({
       form: {
         ...this.state.form,
-        title: { error: false, mensaje: '', value: newValue.target.value }
+        title: { error: false, message: '', value: newValue.target.value }
       }
     });
   };
@@ -33,7 +33,7 @@ export default class EditRequirementModal extends React.Component {
     this.setState({
       form: {
         ...this.state.form,
-        description: { error: false, mensaje: '', value: newValue.target.value }
+        description: { error: false, message: '', value: newValue.target.value }
       }
     });
   };
@@ -42,10 +42,10 @@ export default class EditRequirementModal extends React.Component {
     const form = {
       description: {
         error: false,
-        mensaje: '',
+        message: '',
         value: requirement.description
       },
-      title: { error: false, mensaje: '', value: requirement.name }
+      title: { error: false, message: '', value: requirement.name }
     };
 
     this.setState({ form, id: requirement.id });
@@ -55,26 +55,20 @@ export default class EditRequirementModal extends React.Component {
     let formOk = true;
 
     const form = {
-      description: { error: false, mensaje: '', value: description },
-      title: { error: false, mensaje: '', value: title }
+      description: { error: false, message: '', value: description },
+      title: { error: false, message: '', value: title }
     };
 
     if (title == null || title === '') {
       form.title.error = true;
-      form.title.mensaje = 'Tenés que ingresar el título de tu idea';
+      form.title.message = 'Tenés que ingresar el título de tu idea';
       formOk = false;
-    } else {
-      form.title.error = false;
-      form.title.mensaje = '';
     }
 
     if (description == null || description === '') {
       form.description.error = true;
-      form.description.mensaje = 'Tenés que ingresar la descripción de tu idea';
+      form.description.message = 'Tenés que ingresar la descripción de tu idea';
       formOk = false;
-    } else {
-      form.description.error = false;
-      form.description.mensaje = '';
     }
 
     this.setState({ form });
@@ -92,8 +86,9 @@ export default class EditRequirementModal extends React.Component {
   };
 
   onSubmit = () => {
-    const title = this.state.form.title.value;
-    const description = this.state.form.description.value;
+    const { form } = this.state;
+    const title = form.title.value;
+    const description = form.description.value;
 
     if (this.validateForm(title, description)) {
       this.props.editRequirement(this.state.id, { name: title, description });
@@ -102,6 +97,8 @@ export default class EditRequirementModal extends React.Component {
   };
 
   render() {
+    const { title, description } = this.state.form;
+
     return (
       <Modal
         show={this.state.show}
@@ -119,12 +116,12 @@ export default class EditRequirementModal extends React.Component {
               controlId="titleInput"
               label="Título"
               required
-              validationState={this.state.form.title.error ? 'error' : null}
-              validationMessage={this.state.form.title.mensaje}
+              validationState={title.error}
+              validationMessage={title.message}
               inputComponent={
                 <FormControl
                   type="text"
-                  value={this.state.form.title.value}
+                  value={title.value}
                   placeholder="Ingrese un título para tu requerimiento"
                   onChange={this.updateTitle}
                 />
@@ -136,13 +133,11 @@ export default class EditRequirementModal extends React.Component {
               controlId="descriptionInput"
               label="Descripción"
               required
-              validationState={
-                this.state.form.description.error ? 'error' : null
-              }
-              validationMessage={this.state.form.description.mensaje}
+              validationState={description.error}
+              validationMessage={description.message}
               inputComponent={
                 <textarea
-                  value={this.state.form.description.value}
+                  value={description.value}
                   onChange={this.updateDescription}
                   className="form-control"
                   style={{ resize: 'vertical' }}

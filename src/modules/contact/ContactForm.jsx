@@ -25,18 +25,18 @@ export default class ContactForm extends React.Component {
     super();
     this.state = {
       form: {
-        email: { error: false, mensaje: '' },
-        name: { error: false, mensaje: '' },
-        description: { error: false, mensaje: '' }
+        email: { error: false, message: '' },
+        name: { error: false, message: '' },
+        description: { error: false, message: '' }
       }
     };
   }
 
   resetForm() {
     const form = {
-      email: { error: false, mensaje: '' },
-      name: { error: false, mensaje: '' },
-      description: { error: false, mensaje: '' }
+      email: { error: false, message: '' },
+      name: { error: false, message: '' },
+      description: { error: false, message: '' }
     };
 
     this.setState({ form });
@@ -46,37 +46,28 @@ export default class ContactForm extends React.Component {
     let formOk = true;
 
     const form = {
-      email: { error: false, mensaje: '' },
-      name: { error: false, mensaje: '' },
-      description: { error: false, mensaje: '' }
+      email: { error: false, message: '' },
+      name: { error: false, message: '' },
+      description: { error: false, message: '' }
     };
 
     if (email == null || email === '' || !isValidEmail(email)) {
       form.email.error = true;
-      form.email.mensaje = 'Tenés que ingresar un mail de contacto valido';
+      form.email.message = 'Tenés que ingresar un mail de contacto valido';
       formOk = false;
-    } else {
-      form.email.error = false;
-      form.email.mensaje = '';
     }
 
-    if (name == null || name === '') {
+    if (!name) {
       form.name.error = true;
-      form.name.mensaje = 'Tenés que ingresar un nombre de contacto';
+      form.name.message = 'Tenés que ingresar un nombre de contacto';
       formOk = false;
-    } else {
-      form.name.error = false;
-      form.name.mensaje = '';
     }
 
-    if (description == null || description === '') {
+    if (!description) {
       form.description.error = true;
-      form.description.mensaje =
+      form.description.message =
         'Tenés que ingresar la descripción del requerimiento';
       formOk = false;
-    } else {
-      form.description.error = false;
-      form.description.mensaje = '';
     }
 
     this.setState({ form });
@@ -124,7 +115,7 @@ export default class ContactForm extends React.Component {
                 display-if={this.state.form.email.error}
                 bsSize="small"
               >
-                {this.state.form.name.mensaje}
+                {this.state.form.name.message}
               </HelpBlock>
             </Col>
           </Row>
@@ -149,7 +140,7 @@ export default class ContactForm extends React.Component {
               </FormGroup>
               {this.state.form.email.error && (
                 <HelpBlock bsSize="small">
-                  {this.state.form.email.mensaje}
+                  {this.state.form.email.message}
                 </HelpBlock>
               )}
             </Col>
@@ -176,7 +167,7 @@ export default class ContactForm extends React.Component {
               </FormGroup>
               {this.state.form.email.error && (
                 <HelpBlock bsSize="small">
-                  {this.state.form.description.mensaje}
+                  {this.state.form.description.message}
                 </HelpBlock>
               )}
             </Col>

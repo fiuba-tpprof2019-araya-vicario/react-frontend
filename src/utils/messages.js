@@ -115,7 +115,7 @@ export const ideasMessages = {
 };
 
 export const publicProjectsMessages = {
-  TITLE: 'Proyectos',
+  TITLE: 'Proyectos públicos',
   SUBTITLE: 'Conocé las distintas proyectos que se llevaron a cabo',
   NO_RESULTS_MESSAGE: 'La búsqueda no trajo resultados'
 };

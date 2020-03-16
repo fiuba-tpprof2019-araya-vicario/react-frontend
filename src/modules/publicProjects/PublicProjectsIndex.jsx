@@ -2,12 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {
-  clearAlert,
-  getInitialData,
-  acceptRequest,
-  rejectRequest
-} from './publicProjectsReducer';
+import { clearAlert, getInitialData } from './publicProjectsReducer';
 import Title from '../../utils/Title';
 import { publicProjectsMessages } from '../../utils/messages';
 import PublicProjectsTable from './PublicProjectsTable';
@@ -67,12 +62,6 @@ const mapDispatch = (dispatch) => ({
   },
   clearAlert: () => {
     dispatch(clearAlert());
-  },
-  acceptRequest: (requestId) => {
-    dispatch(acceptRequest(requestId));
-  },
-  rejectRequest: (requestId) => {
-    dispatch(rejectRequest(requestId));
   }
 });
 
