@@ -71,10 +71,8 @@ export class CommissionsIndex extends React.Component {
         <Tabs defaultActiveKey={1} id="tab" onSelect={this.handleSelect}>
           <br />
           <Field
-            key="careerField"
             bsSize="small"
             label="Carrera"
-            controlId="careerSelect"
             inputComponent={
               <Select
                 key="careerSelect"
@@ -100,7 +98,7 @@ export class CommissionsIndex extends React.Component {
   }
 
   renderTable(projects) {
-    if (projects == null || projects.length === 0) {
+    if (!projects || projects.length === 0) {
       return (
         <Fragment>
           <br />

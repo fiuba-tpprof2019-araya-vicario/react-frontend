@@ -91,17 +91,20 @@ export class WebNavBar extends React.Component {
                       <NavItem eventKey={6}>Tablero de control</NavItem>
                     </LinkContainer>
                   </WithAuthorization>
+                  <LinkContainer to="/public">
+                    <NavItem eventKey={8}>Portal público</NavItem>
+                  </LinkContainer>
                   <LinkContainer to="/contact">
-                    <NavItem eventKey={7}>Contacto</NavItem>
+                    <NavItem eventKey={9}>Contacto</NavItem>
                   </LinkContainer>
                 </Nav>,
                 <Nav key="2" pullRight>
                   <NavDropdown
-                    eventKey={9}
+                    eventKey={10}
                     title={this.props.name}
                     id="logged-user-dropdown"
                   >
-                    <MenuItem eventKey={9.1} onClick={this.props.myProfile}>
+                    <MenuItem eventKey={10.1} onClick={this.props.myProfile}>
                       <i className="fa fa-user-circle" />
                       &nbsp; Mi perfil
                     </MenuItem>
@@ -113,7 +116,7 @@ export class WebNavBar extends React.Component {
                         <i className="fa fa-sign-out" />
                         &nbsp; Cerrar sesión
                       </GoogleLogout> */}
-                    <MenuItem eventKey={9.2} onClick={this.props.logout}>
+                    <MenuItem eventKey={10.2} onClick={this.props.logout}>
                       <i className="fa fa-sign-out" />
                       &nbsp; Cerrar sesión
                     </MenuItem>
@@ -123,6 +126,9 @@ export class WebNavBar extends React.Component {
               ]
             : [
                 <Nav key="1" navbar>
+                  <LinkContainer to="/public">
+                    <NavItem eventKey={3}>Portal público</NavItem>
+                  </LinkContainer>
                   <LinkContainer to="/contact">
                     <NavItem eventKey={4}>Contacto</NavItem>
                   </LinkContainer>

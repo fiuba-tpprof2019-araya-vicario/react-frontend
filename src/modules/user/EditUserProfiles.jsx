@@ -81,7 +81,7 @@ export default class EditUserProfiles extends React.Component {
     }, this);
     selectRender.push(
       <Field
-        validationState={this.state.formSelect.error ? 'error' : null}
+        validationState={this.state.formSelect.error}
         key="perfilField"
         bsSize="small"
         controlId="perfilSelect"

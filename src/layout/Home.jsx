@@ -17,9 +17,7 @@ import { CREDENTIALS } from '../utils/services/references';
 import WithAuthorization from '../utils/WithAuthorization';
 
 export const Home = () => {
-  const access = (url) => {
-    history.push(url);
-  };
+  const access = (url) => history.push(url);
 
   return (
     <div>
@@ -152,7 +150,7 @@ export const Home = () => {
               <Center>
                 <button
                   className="onlyIcon bigIcon"
-                  onClick={() => access('/my_projects')}
+                  onClick={() => access('/public')}
                 >
                   <FontAwesomeIcon icon={faArchive} />
                 </button>
@@ -163,7 +161,7 @@ export const Home = () => {
             </Row>
             <Row>
               Explora los distintos proyectos finalizados por los estudiantes de
-              la FIUBA
+              FIUBA
             </Row>
           </Col>
         </Center>

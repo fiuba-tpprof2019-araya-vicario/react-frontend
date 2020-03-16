@@ -12,7 +12,7 @@ export default class PublicProjectsTable extends React.Component {
     return [
       'Título',
       'Descripción',
-      'Estudiandtes',
+      'Estudiantes',
       'Tutores',
       'Tipo',
       'Fecha de creación'

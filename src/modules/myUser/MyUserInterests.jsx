@@ -83,7 +83,7 @@ export default class EditMyUserInterests extends React.Component {
     }, this);
     selectRender.push(
       <Field
-        validationState={this.state.formSelect.error ? 'error' : null}
+        validationState={this.state.formSelect.error}
         key="interesField"
         bsSize="small"
         controlId="interesSelect"
@@ -106,7 +106,7 @@ export default class EditMyUserInterests extends React.Component {
     );
     selectRender.push(
       <Field
-        validationState={this.state.formSelect.error ? 'error' : null}
+        validationState={this.state.formSelect.error}
         key="scoreField"
         bsSize="small"
         controlId="interesSelect"

@@ -16,14 +16,14 @@ export default class UploadPresentationModal extends React.Component {
     super();
     this.state = {
       form: {
-        file: { error: false, mensaje: '', value: '' }
+        file: { error: false, message: '', value: '' }
       }
     };
   }
 
   resetCreateForm = () => {
     const form = {
-      file: { error: false, mensaje: '', value: '' }
+      file: { error: false, message: '', value: '' }
     };
 
     this.setState({ form });
@@ -47,16 +47,13 @@ export default class UploadPresentationModal extends React.Component {
     let formOk = true;
 
     const form = {
-      file: { error: false, mensaje: '', value: file }
+      file: { error: false, message: '', value: file }
     };
 
-    if (file === undefined || file === '') {
+    if (!file) {
       form.file.error = true;
-      form.file.mensaje = 'Este campo es obligatorio';
+      form.file.message = 'Este campo es obligatorio';
       formOk = false;
-    } else {
-      form.file.error = false;
-      form.file.mensaje = '';
     }
 
     this.setState({ form });
@@ -66,6 +63,7 @@ export default class UploadPresentationModal extends React.Component {
 
   getModalBody() {
     const { name } = this.props;
+    const { file } = this.state.form;
 
     return (
       <Row key="body">
@@ -74,8 +72,8 @@ export default class UploadPresentationModal extends React.Component {
             controlId="fileInput"
             label={`Adjuntar archivo de ${name} en formato pdf`}
             required
-            validationState={this.state.form.file.error}
-            validationMessage={this.state.form.file.message}
+            validationState={file.error}
+            validationMessage={file.message}
             inputComponent={
               <FormControl
                 type="file"

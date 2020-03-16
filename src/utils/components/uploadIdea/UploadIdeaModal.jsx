@@ -181,46 +181,34 @@ export default class UploadIdeaModal extends React.Component {
     const form = {
       description: { error: false, message: '', value: description },
       projectType: { error: false, message: '', value: type },
-      autor: { error: false, message: '' },
+      autor: { error: false, message: '', value: autor },
       title: { error: false, message: '', value: title },
       careers: { error: false, message: '', value: careers },
       coautors: this.state.form.coautors
     };
 
-    if (title == null || title === '') {
+    if (!title) {
       form.title.error = true;
       form.title.message = 'Tenés que ingresar el título de tu idea';
       formOk = false;
-    } else {
-      form.title.error = false;
-      form.title.message = '';
     }
 
-    if (description == null || description === '') {
+    if (!description) {
       form.description.error = true;
       form.description.message = 'Tenés que ingresar la descripción de tu idea';
       formOk = false;
-    } else {
-      form.description.error = false;
-      form.description.message = '';
     }
 
-    if (autor == null || autor === '') {
+    if (!autor) {
       form.autor.error = true;
       form.autor.message = 'Tenés que ingresar el autor de la idea';
       formOk = false;
-    } else {
-      form.autor.error = false;
-      form.autor.message = '';
     }
 
     if (!type) {
       form.projectType.error = true;
       form.projectType.message = 'Tenés que seleccionar el tipo de proyecto';
       formOk = false;
-    } else {
-      form.projectType.error = false;
-      form.projectType.message = '';
     }
 
     if (careers && careers.length === 0) {
@@ -228,9 +216,6 @@ export default class UploadIdeaModal extends React.Component {
       form.careers.message =
         'Tenés que ingresar al menos un departamento al que pertenece tu idea';
       formOk = false;
-    } else {
-      form.careers.error = false;
-      form.careers.message = '';
     }
 
     this.setState({ form });
@@ -247,16 +232,14 @@ export default class UploadIdeaModal extends React.Component {
   };
 
   onSubmit = () => {
-    const { autor, id } = this.state;
-    const title = this.state.form.title.value;
-    const careers = this.state.form.careers.value;
-    const description = this.state.form.description.value;
-    const type = this.state.form.projectType.value;
-    const coautors = this.state.form.coautors.value;
-    const tutorId = this.state.tutor ? this.state.tutor.value : null;
-    const requirementId = this.state.requirement
-      ? this.state.requirement.id
-      : null;
+    const { autor, id, form, tutor, requirement } = this.state;
+    const title = form.title.value;
+    const careers = form.careers.value;
+    const description = form.description.value;
+    const type = form.projectType.value;
+    const coautors = form.coautors.value;
+    const tutorId = tutor ? tutor.value : null;
+    const requirementId = requirement ? requirement.id : null;
 
     if (this.validateForm(title, description, autor, careers, type)) {
       if (this.props.editMode) {
@@ -288,9 +271,12 @@ export default class UploadIdeaModal extends React.Component {
   };
 
   render() {
+    const { show, requirement, form, autor } = this.state;
+    const { title, projectType, coautors, careers, description } = form;
+
     return (
       <Modal
-        show={this.state.show}
+        show={show}
         onHide={this.hideModal}
         backdrop="static"
         dialogClassName="custom-modal"
@@ -304,10 +290,10 @@ export default class UploadIdeaModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FullRow display-if={this.state.requirement} key="form0">
+          <FullRow display-if={requirement} key="form0">
             <p>
               <b>Requerimiento:</b>
-              {` ${this.state.requirement.name}`}
+              {` ${requirement.name}`}
             </p>
           </FullRow>
           <FullRow key="form1">
@@ -315,12 +301,12 @@ export default class UploadIdeaModal extends React.Component {
               controlId="titleInput"
               label="Título"
               required
-              validationState={this.state.form.title.error}
-              validationMessage={this.state.form.title.message}
+              validationState={title.error}
+              validationMessage={title.message}
               inputComponent={
                 <FormControl
                   type="text"
-                  value={this.state.form.title.value}
+                  value={title.value}
                   placeholder="Ingrese un título para tu requerimiento"
                   onChange={this.updateTitle}
                 />
@@ -335,7 +321,7 @@ export default class UploadIdeaModal extends React.Component {
               inputComponent={
                 <FormControl
                   type="text"
-                  value={this.state.autor}
+                  value={autor}
                   disabled={this.props.user && this.props.user.name}
                   placeholder="Ingrese un título para tu requerimiento"
                   onChange={this.updateTitle}
@@ -347,12 +333,12 @@ export default class UploadIdeaModal extends React.Component {
               controlId="projectTypeSelect"
               label="Tipo"
               required
-              validationState={this.state.form.projectType.error}
-              validationMessage={this.state.form.projectType.message}
+              validationState={projectType.error}
+              validationMessage={projectType.message}
               inputComponent={
                 <Select
                   key="projectTypeSelect"
-                  value={this.state.form.projectType.value}
+                  value={projectType.value}
                   onChange={this.updateProjectTypeSelect}
                   options={this.props.projectTypes}
                   isSearchable
@@ -373,9 +359,9 @@ export default class UploadIdeaModal extends React.Component {
               inputComponent={
                 <Select
                   key="coautorsSelect"
-                  value={this.state.form.coautors.value}
+                  value={coautors.value}
                   onChange={this.updateAutorsSelect}
-                  isClearable={this.state.form.coautors.value.some(
+                  isClearable={coautors.value.some(
                     (element) => !element.isFixed
                   )}
                   options={this.props.coautors}
@@ -422,12 +408,12 @@ export default class UploadIdeaModal extends React.Component {
               required
               controlId="careersSelect"
               label="Carreras"
-              validationState={this.state.form.careers.error}
-              validationMessage={this.state.form.careers.message}
+              validationState={careers.error}
+              validationMessage={careers.message}
               inputComponent={
                 <Select
                   key="careersSelect"
-                  value={this.state.form.careers.value}
+                  value={careers.value}
                   onChange={this.updateCareersSelect}
                   options={this.props.careers}
                   isSearchable
@@ -445,11 +431,11 @@ export default class UploadIdeaModal extends React.Component {
               controlId="descriptionInput"
               label="Descripción de la idea"
               required
-              validationState={this.state.form.description.error}
-              validationMessage={this.state.form.description.message}
+              validationState={description.error}
+              validationMessage={description.message}
               inputComponent={
                 <textarea
-                  value={this.state.form.description.value}
+                  value={description.value}
                   onChange={this.updateDescription}
                   className="form-control"
                   style={{ resize: 'vertical' }}
