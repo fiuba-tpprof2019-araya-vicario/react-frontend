@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Row } from 'react-bootstrap';
-// import GooglePicker from 'react-google-picker';
 import { myProjectMessages } from '../../../utils/messages';
 import UploadProposalModal from './modals/UploadProposalModal';
 import Itemized from '../../../utils/styles/Itemized';
 import FullRow from '../../../utils/styles/FullRow';
 import { getIconWithOverlay } from '../../../utils/forms/StatusIcon';
 import { formatterDate } from '../../../utils/services/functions';
-// import { CLIENT_ID, DEVELOPER_KEY, SCOPE } from '../../api/api';
 
 export default class ShowProposal extends React.Component {
   static propTypes = {
