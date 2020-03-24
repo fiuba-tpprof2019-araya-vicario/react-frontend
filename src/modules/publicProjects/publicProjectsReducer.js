@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { api, getConfig } from '../../api/apiInterfaceProvider';
 import {
-  formatterDate,
+  getYearFromDate,
   getStudentsNames,
   getTutorsNames
 } from '../../utils/services/functions';
@@ -82,15 +82,43 @@ export const getInitialData = () => (dispatch) => {
 };
 
 const fetchProjectsTable = (data) =>
-  data.map((project) => ({
-    id: project.id,
-    name: project.name,
-    description: project.description,
-    students: getStudentsNames(project.Creator, project.Students),
-    tutors: getTutorsNames(project.Tutor, project.Cotutors),
-    type: project.Type.name,
-    created_at: formatterDate(project.createdAt)
-  }));
+  data.map((project, index) => {
+    const {
+      Presentation,
+      Creator,
+      Students,
+      Tutor,
+      Cotutors,
+      Type,
+      name
+    } = project;
+    const {
+      description,
+      presentation_url: presentationURL,
+      presentation_name: presentationName,
+      presentation_visible: presentationVisible,
+      documentation_url: documentationURL,
+      documentation_name: documentationName,
+      documentation_visible: documentationVisible,
+      createdAt
+    } = Presentation;
+
+    return {
+      id: index,
+      name,
+      description,
+      year: getYearFromDate(createdAt),
+      students: getStudentsNames(Creator, Students),
+      tutors: getTutorsNames(Tutor, Cotutors),
+      type: Type.name,
+      presentationURL,
+      presentationName,
+      presentationVisible,
+      documentationURL,
+      documentationName,
+      documentationVisible
+    };
+  });
 
 export default (state = initialState, action) => {
   switch (action.type) {
