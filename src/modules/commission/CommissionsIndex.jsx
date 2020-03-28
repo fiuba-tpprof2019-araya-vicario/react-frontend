@@ -19,19 +19,21 @@ export class CommissionsIndex extends React.Component {
     getInitialData: PropTypes.func,
     pendingProjects: PropTypes.array,
     approvedProjects: PropTypes.array,
+    terminatedProjects: PropTypes.array,
     user: PropTypes.object
   };
 
   state = {
     approved: false,
+    terminated: false,
     selectedCareer: -1
   };
 
   componentDidMount() {
-    const { approved, selectedCareer } = this.state;
+    const { approved, terminated, selectedCareer } = this.state;
 
     this.props.clearAlert();
-    this.props.getInitialData(approved, selectedCareer);
+    this.props.getInitialData(approved, terminated, selectedCareer);
   }
 
   detailAction = (id) => {
@@ -40,9 +42,10 @@ export class CommissionsIndex extends React.Component {
 
   handleSelect = (select) => {
     const approved = select === 2;
+    const terminated = select === 3;
 
-    this.setState({ approved });
-    this.props.getInitialData(approved, this.state.selectedCareer);
+    this.setState({ approved, terminated });
+    this.props.getInitialData(approved, terminated, this.state.selectedCareer);
   };
 
   getCareerOptions = () => {
@@ -52,14 +55,19 @@ export class CommissionsIndex extends React.Component {
   };
 
   updateCareerSelect = (newValue) => {
+    const { approved, terminated } = this.state;
     const selectedCareer = newValue != null ? newValue.value : -1;
 
     this.setState({ selectedCareer });
-    this.props.getInitialData(this.state.approved, selectedCareer);
+    this.props.getInitialData(approved, terminated, selectedCareer);
   };
 
   render() {
-    const { pendingProjects, approvedProjects } = this.props;
+    const {
+      pendingProjects,
+      approvedProjects,
+      terminatedProjects
+    } = this.props;
 
     return (
       <Fragment>
@@ -92,6 +100,9 @@ export class CommissionsIndex extends React.Component {
           <Tab eventKey={2} title="Proyectos aprobados">
             {this.renderTable(approvedProjects)}
           </Tab>
+          <Tab eventKey={3} title="Proyectos terminados">
+            {this.renderTable(terminatedProjects)}
+          </Tab>
         </Tabs>
       </Fragment>
     );
@@ -119,12 +130,13 @@ export class CommissionsIndex extends React.Component {
 const mapStateToProps = (state) => ({
   pendingProjects: state.commissionsReducer.pendingProjects,
   approvedProjects: state.commissionsReducer.approvedProjects,
+  terminatedProjects: state.commissionsReducer.terminatedProjects,
   user: state.authReducer.user
 });
 
 const mapDispatch = (dispatch) => ({
-  getInitialData: (approved, selectedCareer) => {
-    dispatch(getInitialData(approved, selectedCareer));
+  getInitialData: (approved, terminated, selectedCareer) => {
+    dispatch(getInitialData(approved, terminated, selectedCareer));
   },
   clearAlert: () => {
     dispatch(clearAlert());

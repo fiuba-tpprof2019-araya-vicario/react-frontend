@@ -14,15 +14,18 @@ export default class ShowDescription extends React.Component {
   };
 
   render() {
-    const { project, saveDescription } = this.props;
+    const {
+      project: { id, Presentation },
+      saveDescription
+    } = this.props;
 
     if (!saveDescription) {
       return (
         <p className="panelText">
-          <i display-if={project.Presentation.description}>
-            {project.Presentation.description}
+          <i display-if={Presentation.description}>
+            {Presentation.description}
           </i>
-          <i display-if={!project.Presentation.description}>
+          <i display-if={!Presentation.description}>
             No se ha agregado ninguna descripción
           </i>
         </p>
@@ -37,16 +40,14 @@ export default class ShowDescription extends React.Component {
           onClick={() => {
             this.setState({
               isEditingDescription: true,
-              description: project.Presentation.description || ''
+              description: Presentation.description || ''
             });
           }}
         >
-          <i display-if={project.Presentation.description}>
-            {project.Presentation.description}
+          <i display-if={Presentation.description}>
+            {Presentation.description}
           </i>
-          <i display-if={!project.Presentation.description}>
-            Agregar descripción
-          </i>{' '}
+          <i display-if={!Presentation.description}>Agregar descripción</i>{' '}
           <i className="fa fa-pencil" />
         </p>
         <Fragment display-if={this.state.isEditingDescription}>
@@ -81,11 +82,7 @@ export default class ShowDescription extends React.Component {
               className="pointer"
               onClick={() => {
                 this.setState({ isEditingDescription: false });
-                saveDescription(
-                  project.id,
-                  project.Presentation.id,
-                  this.state.description
-                );
+                saveDescription(id, Presentation.id, this.state.description);
               }}
             >
               <i className="fa fa-check" />

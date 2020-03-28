@@ -60,7 +60,7 @@ export default class UploadProposalModal extends React.Component {
   }
 
   getModalBody() {
-    const { file } = this.state;
+    const { file } = this.state.form;
 
     return (
       <Row key="body">

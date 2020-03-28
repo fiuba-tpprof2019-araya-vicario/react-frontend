@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Row } from 'react-bootstrap';
+import Switch from 'react-switch';
 import { myProjectMessages } from '../../../utils/messages';
 import UploadPresentationModal from './modals/UploadPresentationModal';
 import FullRow from '../../../utils/styles/FullRow';
@@ -11,11 +12,34 @@ export default class ShowPresentation extends React.Component {
     name: PropTypes.string,
     element: PropTypes.string,
     canEdit: PropTypes.bool,
-    upload: PropTypes.func
+    upload: PropTypes.func,
+    saveVisibility: PropTypes.func
+  };
+
+  state = { checked: false };
+
+  componentDidMount() {
+    const { project, element } = this.props;
+    const visible = project.Presentation[`${element}_visible`];
+
+    this.setVisibility(visible);
+  }
+
+  setVisibility = (checked) => {
+    this.setState({ checked });
   };
 
   showUploadPresentationModal = () => {
     this.UploadPresentation.showModal();
+  };
+
+  handleChange = (checked) => {
+    const { Presentation, element } = this.props.project;
+    const key = `${element}_visible`;
+
+    Presentation[key] = checked;
+    this.setVisibility(checked);
+    this.props.saveVisibility(Presentation);
   };
 
   render() {
@@ -60,7 +84,7 @@ export default class ShowPresentation extends React.Component {
                 &nbsp;
               </Fragment>
             ) : (
-              <Fragment>{presentation}</Fragment>
+              presentation
             )}
           </Row>
           <UploadPresentationModal
@@ -73,6 +97,7 @@ export default class ShowPresentation extends React.Component {
             }}
           />
         </Fragment>
+        <Switch onChange={this.handleChange} checked={this.state.checked} />
       </FullRow>
     );
   }
