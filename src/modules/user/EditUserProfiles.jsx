@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
 import Select from 'react-select';
-import { CustomTable } from '../../utils/CustomTable';
+import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
 
@@ -186,7 +186,7 @@ export default class EditUserProfiles extends React.Component {
   getProfileTable() {
     if (this.state.profiles.length !== 0) {
       return (
-        <CustomTable
+        <Table
           data={this.state.profiles}
           headers={['Nombre', 'Descripción']}
           actions={{

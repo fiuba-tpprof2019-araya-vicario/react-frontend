@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { CustomTable } from '../../utils/CustomTable';
+import Table from '../../utils/Table';
 import FileIcon from '../../utils/forms/FileIcon';
 
 export default class PublicProjectsTable extends React.Component {
@@ -58,6 +58,6 @@ export default class PublicProjectsTable extends React.Component {
     });
 
   render() {
-    return <CustomTable headers={this.getHeaders()} data={this.getRows()} />;
+    return <Table headers={this.getHeaders()} data={this.getRows()} />;
   }
 }

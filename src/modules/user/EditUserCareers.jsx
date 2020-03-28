@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
 import Select from 'react-select';
-import { CustomTable } from '../../utils/CustomTable';
+import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
 
@@ -187,7 +187,7 @@ export default class EditUserCareers extends React.Component {
   getCareerTable() {
     if (this.state.careers.length !== 0) {
       return (
-        <CustomTable
+        <Table
           data={this.state.careers}
           headers={['Nombre', 'Descripción']}
           actions={{

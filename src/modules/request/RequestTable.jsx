@@ -1,7 +1,7 @@
 /* eslint-disable guard-for-in */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { CustomTable } from '../../utils/CustomTable';
+import Table from '../../utils/Table';
 import { REQUEST_STATES } from '../../utils/services/references';
 
 export class RequestTable extends React.Component {
@@ -26,7 +26,7 @@ export class RequestTable extends React.Component {
       request.status !== REQUEST_STATES.pending;
 
     return (
-      <CustomTable
+      <Table
         headers={this.getHeaders()}
         data={this.props.data}
         actions={{

@@ -36,12 +36,12 @@ export default class ApproveProposalModal extends React.Component {
       <Row key="body">
         <Col md={12} lg={12}>
           <Field
-            validationState={this.state.message ? 'error' : null}
             key="careerField"
             bsSize="small"
             controlId="careerSelect"
             label="Carrera"
             required
+            validationState={this.state.message ? 'error' : null}
             validationMessage={this.state.message}
             inputComponent={
               <Select

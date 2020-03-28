@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Col, Row } from 'react-bootstrap';
 import history from '../../redux/history';
-import { CustomTable } from '../../utils/CustomTable';
+import Table from '../../utils/Table';
 import { userMessages } from '../../utils/messages';
 
 export default class UserTable extends React.Component {
@@ -22,7 +22,7 @@ export default class UserTable extends React.Component {
       return (
         <Row>
           <Col md={6} lg={6}>
-            <CustomTable
+            <Table
               data={users}
               headers={['Nombre', 'Email']}
               actions={{

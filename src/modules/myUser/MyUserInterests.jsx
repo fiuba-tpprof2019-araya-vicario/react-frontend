@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row, FormControl } from 'react-bootstrap';
 import Select from 'react-select';
-import { CustomTable } from '../../utils/CustomTable';
+import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
 
@@ -210,7 +210,7 @@ export default class EditMyUserInterests extends React.Component {
   getInterestTable() {
     if (this.state.interests.length !== 0) {
       return (
-        <CustomTable
+        <Table
           data={this.state.interests}
           headers={['Nombre', 'Descripción', 'Puntaje']}
           actions={{
