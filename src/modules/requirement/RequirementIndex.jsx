@@ -4,19 +4,19 @@ import { connect } from 'react-redux';
 import { Button, Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
-  clearAlert,
   getInitialData,
   deleteRequirement,
   editRequirement,
   uploadRequirement
 } from './requirementReducer';
+import { clearAlert } from '../login/authReducer';
 import { uploadIdea } from '../myProject/myProjectReducer';
 import { getById } from '../../utils/services/functions';
 import Title from '../../utils/Title';
 import { requirementMessages } from '../../utils/messages';
 import { CREDENTIALS } from '../../utils/services/references';
 import { RequirementTable } from './RequirementTable';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import UploadIdeaModal from '../../utils/components/uploadIdea/UploadIdeaModal';
 import CreateRequirementModal from './modals/CreateRequirementModal';
 import EditRequirementModal from './modals/EditRequirementModal';
@@ -141,7 +141,7 @@ export class RequirementIndex extends React.Component {
       this.props.requirements == null ||
       this.props.requirements.length === 0
     ) {
-      return <CustomAlert message={requirementMessages.NO_RESULTS_MESSAGE} />;
+      return <Alert message={requirementMessages.NO_RESULTS_MESSAGE} />;
     }
 
     return (

@@ -22,11 +22,10 @@ import CommissionDetail from '../modules/commission/CommissionsDetail';
 import Contact from '../modules/contact/ContactIndex';
 import PublicProject from '../modules/publicProjects/PublicProjectsIndex';
 import PublicProjectDetail from '../modules/publicProjects/PublicProjectsDetail';
-// import Request from '../modules/request/RequestIndex';
 import Requirement from '../modules/requirement/RequirementIndex';
 import Dashboard from '../modules/dashboard/DashboardIndex';
 import { persistor } from '../redux/store';
-import CustomAlert from '../utils/CustomAlert';
+import Alert from '../utils/Alert';
 import LoadingModal from '../utils/LoadingModal';
 import './App.css';
 import Loading from '../utils/Loading';
@@ -50,7 +49,7 @@ class App extends React.Component {
         </Fragment>
       );
       render.push(
-        <CustomAlert
+        <Alert
           key="alert"
           rowKey="centralAlert"
           bsStyle={alert.style}
@@ -94,12 +93,6 @@ class App extends React.Component {
                 requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
                 component={MyTutorialsDetail}
               />
-              {/* <Private
-                exact
-                path="/requests"
-                requiredCredentials={CREDENTIALS.GET_PROJECTS}
-                component={Request}
-              /> */}
               <Private
                 exact
                 path="/commissions"

@@ -5,13 +5,11 @@ import {
   formatterDate,
   getDescriptionByRequestStatus
 } from '../../utils/services/functions';
+import { queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUESTS_TUTORS = 'HYDRATE_REQUESTS_TUTORS';
 const HYDRATE_REQUESTS_STUDENTS = 'HYDRATE_REQUESTS_STUDENTS';
-const QUERY_ERROR = 'QUERY_ERROR';
 const POST_IDEA = 'POST_IDEA';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
 
 const initialState = {
   alert: null,
@@ -19,23 +17,9 @@ const initialState = {
   requests: null
 };
 
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
 const ideaAccepted = (data) => ({
   type: POST_IDEA,
   data
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
 });
 
 export const hydrateRequestsStudents = (data) => ({

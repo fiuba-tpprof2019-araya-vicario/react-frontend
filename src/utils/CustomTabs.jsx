@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Tabs, Row, Col } from 'react-bootstrap';
+import { Tabs as BootstrapTabs, Row, Col } from 'react-bootstrap';
 import history from '../redux/history';
 
-export default class CustomTabs extends Component {
+export default class Tabs extends Component {
   static propTypes = {
     defaultActiveKey: PropTypes.oneOfType([
       PropTypes.string.isRequired,
@@ -52,7 +52,7 @@ export default class CustomTabs extends Component {
     return (
       <Row key="tabs">
         <Col md={12}>
-          <Tabs
+          <BootstrapTabs
             activeKey={this.activeTab(location.hash)}
             defaultActiveKey={defaultActiveKey}
             animation={animation}
@@ -61,7 +61,7 @@ export default class CustomTabs extends Component {
           >
             <br />
             {this.renderTabs(children)}
-          </Tabs>
+          </BootstrapTabs>
         </Col>
       </Row>
     );

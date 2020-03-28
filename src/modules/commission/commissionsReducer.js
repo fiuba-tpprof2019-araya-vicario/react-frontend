@@ -6,14 +6,12 @@ import {
   formatterDate,
   getTutorsNames
 } from '../../utils/services/functions';
+import { clearAlert, queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_APPROVED_COMMISSIONS = 'HYDRATE_APPROVED_COMMISSIONS';
 const HYDRATE_TERMINATED_COMMISSIONS = 'HYDRATE_TERMINATED_COMMISSIONS';
 const HYDRATE_PENDING_COMMISSIONS = 'HYDRATE_PENDING_COMMISSIONS';
 const HYDRATE_COMMISSION = 'HYDRATE_COMMISSION';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const ABANDON_COMMISSION = 'ABANDON_COMMISSION';
 
 const initialState = {
@@ -23,20 +21,6 @@ const initialState = {
   pendingProjects: [],
   project: {}
 };
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
 
 export const abandonedIdea = () => ({
   type: ABANDON_COMMISSION

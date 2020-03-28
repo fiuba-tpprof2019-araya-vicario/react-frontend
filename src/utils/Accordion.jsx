@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import FullRow from './styles/FullRow';
 
-export default class CustomAccordion extends React.Component {
+export default class Accordion extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     children: PropTypes.node,

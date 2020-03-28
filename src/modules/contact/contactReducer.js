@@ -1,30 +1,14 @@
 import axios from 'axios';
 import { api } from '../../api/apiInterfaceProvider';
 import { contactMessages } from '../../utils/messages';
+import { clearAlert, queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const UPLOAD_FORM = 'UPLOAD_FORM';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
 
 const initialState = {
   alert: null,
   loading: false
 };
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
 
 export const formUploaded = (data) => ({
   type: UPLOAD_FORM,

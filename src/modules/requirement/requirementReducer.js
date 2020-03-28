@@ -10,12 +10,10 @@ import {
   getDescriptionByRequirementStatus
 } from '../../utils/services/functions';
 import { getInitialData as loadCreateProjectData } from '../myProject/myProjectReducer';
+import { queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUIREMENTS = 'HYDRATE_REQUIREMENTS';
 const EDIT_REQUIREMENT = 'EDIT_REQUIREMENT';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const UPLOAD_REQUIREMENT = 'UPLOAD_REQUIREMENT';
 
 const initialState = {
@@ -23,20 +21,6 @@ const initialState = {
   loading: false,
   requirements: null
 };
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
 
 export const hydrateRequirements = (data) => ({
   type: HYDRATE_REQUIREMENTS,

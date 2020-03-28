@@ -5,12 +5,10 @@ import {
   formatterDate,
   getDescriptionByRequestStatus
 } from '../../utils/services/functions';
+import { clearAlert, queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_MY_TUTORIALS = 'HYDRATE_MY_TUTORIALS';
 const HYDRATE_MY_TUTORIAL = 'HYDRATE_MY_TUTORIAL';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const ABANDON_IDEA = 'ABANDON_IDEA';
 const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 
@@ -21,20 +19,6 @@ const initialState = {
   myCoTutorials: [],
   project: {}
 };
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
 
 export const abandonedIdea = () => ({
   type: ABANDON_IDEA

@@ -15,9 +15,9 @@ import {
   editIdea,
   acceptProposal,
   abandonIdea,
-  clearAlert,
   getInitialData
 } from './myProjectReducer';
+import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
 import UploadIdeaModal from '../../utils/components/uploadIdea/UploadIdeaModal';
 import { myProjectMessages } from '../../utils/messages';

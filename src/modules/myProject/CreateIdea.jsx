@@ -5,7 +5,7 @@ import Center from 'react-center';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faListAlt } from '@fortawesome/free-solid-svg-icons';
 import history from '../../redux/history';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import { myProjectMessages, requestMessages } from '../../utils/messages';
 import { getById } from '../../utils/services/functions';
 import BorderScreen from '../../utils/styles/BorderScreen';
@@ -44,9 +44,7 @@ export default class CreateIdea extends React.Component {
 
   renderTable = (requests, acceptRequest, rejectRequest) => {
     if (requests == null || requests.length === 0) {
-      return (
-        <CustomAlert size={10} message={requestMessages.NO_RESULTS_MESSAGE} />
-      );
+      return <Alert size={10} message={requestMessages.NO_RESULTS_MESSAGE} />;
     }
 
     return (

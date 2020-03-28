@@ -16,8 +16,8 @@ import {
   formatterDate,
   getFullName
 } from '../../utils/services/functions';
+import { queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const GET_TUTORS = 'GET_TUTORS';
 const GET_COAUTORS = 'GET_COAUTORS';
 const GET_CAREERS = 'GET_CAREERS';
@@ -25,8 +25,6 @@ const GET_ACTIVE_PROJECT = 'GET_ACTIVE_PROJECT';
 const GET_PROJECT_TYPES = 'GET_PROJECT_TYPES';
 const POST_IDEA = 'POST_IDEA';
 const ABANDON_IDEA = 'ABANDON_IDEA';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 const HYDRATE_REQUESTS_STUDENT = 'HYDRATE_REQUESTS_STUDENT';
 
@@ -38,20 +36,6 @@ const initialState = {
   projectTypes: null,
   tutors: null
 };
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
 
 export const ideaAsigned = (data) => ({
   type: POST_IDEA,

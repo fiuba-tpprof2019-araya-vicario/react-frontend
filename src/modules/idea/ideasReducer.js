@@ -5,12 +5,10 @@ import {
   getStudentsNames,
   getTutorsNames
 } from '../../utils/services/functions';
+import { queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_IDEAS = 'HYDRATE_IDEAS';
 const HYDRATE_IDEA = 'HYDRATE_IDEA';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
 
 const initialState = {
   alert: null,
@@ -18,20 +16,6 @@ const initialState = {
   projects: [],
   project: {}
 };
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
 
 export const hydrateProject = (data) => ({
   type: HYDRATE_IDEA,

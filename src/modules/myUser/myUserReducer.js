@@ -1,13 +1,10 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
 import { api, getConfig } from '../../api/apiInterfaceProvider';
+import { internalError, queryError, successful } from '../login/authReducer';
 
 const HYDRATE_USERS = 'HYDRATE_USERS';
-const QUERY_ERROR = 'QUERY_ERROR';
-const INTERNAL_ERROR = 'INTERNAL_ERROR';
-const SUCCESSFUL = 'SUCCESSFUL';
 const CLEAR_USER_RESULT = 'CLEAR_USER_RESULT';
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const INITIAL_DATA = 'INITIAL_DATA';
 const USER_EDITED = 'USER_EDITED';
 const PATCH_USER = 'PATCH_USER';
@@ -24,25 +21,6 @@ const initialState = {
 
 export const clearUserResult = () => ({
   type: CLEAR_USER_RESULT
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
-
-export const internalError = (err) => ({
-  type: INTERNAL_ERROR,
-  err
-});
-
-export const successful = (text) => ({
-  type: SUCCESSFUL,
-  text
 });
 
 export const users = (data) => ({

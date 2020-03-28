@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Col, Glyphicon, Row } from 'react-bootstrap';
 import history from '../../../redux/history';
-import CustomAlert from '../../CustomAlert';
+import Alert from '../../Alert';
 import { getRequestFromUser, getSelectOptions } from '../../services/functions';
 import FullRow from '../../styles/FullRow';
-import CustomAccordion from '../../CustomAccordion';
+import Accordion from '../../Accordion';
 import AcceptProposalModal from './modals/AcceptProposalModal';
 import ApproveProposalModal from './modals/ApproveProposalModal';
 import EnablePresentationModal from './modals/EnablePresentationModal';
@@ -63,7 +63,7 @@ export default class ShowIdea extends React.Component {
   showApproveProposalModal = () => this.ApproveProposal.showModal();
 
   getRequerimentInfo = (project) => (
-    <CustomAccordion
+    <Accordion
       title={`Título del requerimiento: ${project.Requirement.name}`}
       annexes={[
         project.Requirement.file_url && (
@@ -90,7 +90,7 @@ export default class ShowIdea extends React.Component {
           <p className="panelText">{project.Requirement.description}</p>
         </Col>
       </Row>
-    </CustomAccordion>
+    </Accordion>
   );
 
   getProjectInfo = (
@@ -100,7 +100,7 @@ export default class ShowIdea extends React.Component {
     isEditableProposal,
     uploadProposal
   ) => (
-    <CustomAccordion
+    <Accordion
       title={`Título del proyecto: ${project.name}`}
       annexes={[
         <ShowProposal
@@ -119,7 +119,7 @@ export default class ShowIdea extends React.Component {
           <p className="panelText">{project.description}</p>
         </Col>
       </Row>
-    </CustomAccordion>
+    </Accordion>
   );
 
   getPresentationInfo = (
@@ -131,7 +131,7 @@ export default class ShowIdea extends React.Component {
     saveDescription,
     savePresentationVisibility
   ) => (
-    <CustomAccordion
+    <Accordion
       title="Archivos de la presentación final"
       annexes={[
         <ShowPresentation
@@ -163,11 +163,11 @@ export default class ShowIdea extends React.Component {
           />
         </Col>
       </Row>
-    </CustomAccordion>
+    </Accordion>
   );
 
   getGeneralInfo = (project, showUsersStatus) => (
-    <CustomAccordion title="Información general">
+    <Accordion title="Información general">
       <FullRow>
         <Col md={12}>
           <ShowGeneralInformation
@@ -176,7 +176,7 @@ export default class ShowIdea extends React.Component {
           />
         </Col>
       </FullRow>
-    </CustomAccordion>
+    </Accordion>
   );
 
   getApprovalOptions = (user, project) => {
@@ -234,7 +234,7 @@ export default class ShowIdea extends React.Component {
     return (
       <Fragment>
         <br />
-        <CustomAlert
+        <Alert
           display-if={!!nextStepMessage}
           rowKey="infoNextStep"
           bsStyle="info"

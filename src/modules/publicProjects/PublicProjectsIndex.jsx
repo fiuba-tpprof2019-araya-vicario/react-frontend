@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { clearAlert, getInitialData } from './publicProjectsReducer';
+import { getInitialData } from './publicProjectsReducer';
+import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
 import { publicProjectsMessages } from '../../utils/messages';
 import PublicProjectsTable from './PublicProjectsTable';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import history from '../../redux/history';
 
 export class PublicProjectsIndex extends React.Component {
@@ -38,9 +39,7 @@ export class PublicProjectsIndex extends React.Component {
 
   renderTable() {
     if (this.props.projects == null || this.props.projects.length === 0) {
-      return (
-        <CustomAlert message={publicProjectsMessages.NO_RESULTS_MESSAGE} />
-      );
+      return <Alert message={publicProjectsMessages.NO_RESULTS_MESSAGE} />;
     }
 
     return (

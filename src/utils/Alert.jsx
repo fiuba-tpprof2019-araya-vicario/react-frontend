@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert, Col, Row } from 'react-bootstrap';
+import { Alert as BootstrapAlert, Col, Row } from 'react-bootstrap';
 import Center from 'react-center';
 
-export default class CustomAlert extends React.Component {
+export default class Alert extends React.Component {
   static propTypes = {
     rowKey: PropTypes.string,
     size: PropTypes.number,
@@ -27,9 +27,9 @@ export default class CustomAlert extends React.Component {
       <Row key={rowKey}>
         <Center>
           <Col lg={size}>
-            <Alert onDismiss={onDismiss} bsStyle={bsStyle}>
+            <BootstrapAlert onDismiss={onDismiss} bsStyle={bsStyle}>
               <p>{message}</p>
-            </Alert>
+            </BootstrapAlert>
           </Col>
         </Center>
       </Row>
