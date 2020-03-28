@@ -1,11 +1,11 @@
 /* eslint-disable guard-for-in */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table as BootstrapTable } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileUpload, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
-export class CustomTable extends React.Component {
+export default class Table extends React.Component {
   static propTypes = {
     headers: PropTypes.array,
     data: PropTypes.array,
@@ -201,12 +201,12 @@ export class CustomTable extends React.Component {
     const actions = this.getActions();
 
     return (
-      <Table condensed striped hover responsive>
+      <BootstrapTable condensed striped hover responsive>
         <thead>
           <tr>{this.getHeaders(actions)}</tr>
         </thead>
         <tbody>{this.getTableRows(actions)}</tbody>
-      </Table>
+      </BootstrapTable>
     );
   }
 }

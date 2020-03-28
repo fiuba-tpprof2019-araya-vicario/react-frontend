@@ -45,28 +45,6 @@ export const Home = () => {
               <Row>Edita los perfiles de los usuarios de la plataforma</Row>
             </Col>
           </WithAuthorization>
-          {/* <WithAuthorization requiredCredentials={CREDENTIALS.GET_PROJECTS}>
-          <Col md={2} lg={2}>
-            <Row>
-              <Center>
-                <button className="onlyIcon">
-                  <i
-                    className="fa fa-inbox bigIcon"
-                    aria-hidden="true"
-                    onClick={() => access('/requests')}
-                  />
-                </button>
-              </Center>
-            </Row>
-            <Row>
-              <h4>Mis solicitudes</h4>
-            </Row>
-            <Row>
-              Revisa todas las solicitudes recibidas para colaborar en un
-              proyecto
-            </Row>
-          </Col>
-        </WithAuthorization> */}
           <WithAuthorization requiredCredentials={CREDENTIALS.CREATE_PROJECTS}>
             <Col md={2} lg={2}>
               <Row>

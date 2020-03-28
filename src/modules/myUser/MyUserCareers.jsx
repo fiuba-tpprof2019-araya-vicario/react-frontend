@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Col, Row } from 'react-bootstrap';
-import { CustomTable } from '../../utils/CustomTable';
+import Table from '../../utils/Table';
 
 export default class EditMyUserCareers extends React.Component {
   static propTypes = {
@@ -19,10 +19,7 @@ export default class EditMyUserCareers extends React.Component {
   getCareerTable() {
     if (this.state.careers.length !== 0) {
       return (
-        <CustomTable
-          data={this.state.careers}
-          headers={['Nombre', 'Descripción']}
-        />
+        <Table data={this.state.careers} headers={['Nombre', 'Descripción']} />
       );
     }
 

@@ -1,7 +1,7 @@
 /* eslint-disable guard-for-in */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { CustomTable } from '../../utils/CustomTable';
+import Table from '../../utils/Table';
 import { REQUIREMENT_STATES } from '../../utils/services/references';
 
 export class RequirementTable extends React.Component {
@@ -35,7 +35,7 @@ export class RequirementTable extends React.Component {
     const disableViewPdfButton = (requirement) => !requirement.file_url;
 
     return (
-      <CustomTable
+      <Table
         headers={this.getHeaders()}
         data={this.props.data}
         actions={
