@@ -42,8 +42,9 @@ export class CommissionsDetail extends React.Component {
         <ShowIdea
           display-if={project.id}
           nextStepMessage={
-            project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION &&
-            commissionsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
+            project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION
+              ? commissionsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
+              : null
           }
           showBackButton
           showAcceptProposalButton={false}
@@ -51,6 +52,7 @@ export class CommissionsDetail extends React.Component {
           showApprovalButtons={
             project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION
           }
+          savePresentationVisibility={() => {}}
           approveProposal={approveProposal}
           reprobateProposal={reprobateProposal}
           project={project}

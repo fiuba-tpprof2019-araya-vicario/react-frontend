@@ -8,8 +8,6 @@ export default class CommissionsTable extends React.Component {
   static propTypes = {
     data: PropTypes.array,
     show: PropTypes.func
-    // accept: PropTypes.func,
-    // reject: PropTypes.func
   };
 
   getHeaders() {

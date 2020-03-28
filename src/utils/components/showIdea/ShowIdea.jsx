@@ -32,6 +32,7 @@ export default class ShowIdea extends React.Component {
     showUploadIdeaModal: PropTypes.func,
     acceptProposal: PropTypes.func,
     approveProposal: PropTypes.func,
+    savePresentationVisibility: PropTypes.func,
     reprobateProposal: PropTypes.func,
     showAbandonIdeaModal: PropTypes.func,
     uploadProposal: PropTypes.func,
@@ -127,7 +128,8 @@ export default class ShowIdea extends React.Component {
     isEditablePresentation,
     uploadPresentation,
     uploadDocumentation,
-    saveDescription
+    saveDescription,
+    savePresentationVisibility
   ) => (
     <CustomAccordion
       title="Archivos de la presentación final"
@@ -136,6 +138,7 @@ export default class ShowIdea extends React.Component {
           name="Presentación"
           element="presentation"
           project={project}
+          saveVisibility={savePresentationVisibility}
           canEdit={isUserCreator && isEditablePresentation}
           upload={uploadPresentation}
         />,
@@ -143,6 +146,7 @@ export default class ShowIdea extends React.Component {
           name="Documentación"
           element="documentation"
           project={project}
+          saveVisibility={savePresentationVisibility}
           canEdit={isUserCreator && isEditablePresentation}
           upload={uploadDocumentation}
         />
@@ -203,6 +207,7 @@ export default class ShowIdea extends React.Component {
       enablePresentation,
       uploadPresentation,
       saveDescription,
+      savePresentationVisibility,
       uploadDocumentation,
       submitPresentation,
       acceptProposal,
@@ -251,7 +256,8 @@ export default class ShowIdea extends React.Component {
             isEditablePresentation,
             uploadPresentation,
             uploadDocumentation,
-            saveDescription
+            saveDescription,
+            savePresentationVisibility
           )}
         {this.getGeneralInfo(project, showUsersStatus)}
         <Row className="pull-right">

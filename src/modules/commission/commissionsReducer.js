@@ -9,6 +9,7 @@ import {
 
 const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_APPROVED_COMMISSIONS = 'HYDRATE_APPROVED_COMMISSIONS';
+const HYDRATE_TERMINATED_COMMISSIONS = 'HYDRATE_TERMINATED_COMMISSIONS';
 const HYDRATE_PENDING_COMMISSIONS = 'HYDRATE_PENDING_COMMISSIONS';
 const HYDRATE_COMMISSION = 'HYDRATE_COMMISSION';
 const QUERY_ERROR = 'QUERY_ERROR';
@@ -48,6 +49,11 @@ export const hydratePendingProjects = (data) => ({
 
 export const hydrateApprovedProjects = (data) => ({
   type: HYDRATE_APPROVED_COMMISSIONS,
+  data
+});
+
+export const hydrateTerminatedProjects = (data) => ({
+  type: HYDRATE_TERMINATED_COMMISSIONS,
   data
 });
 
@@ -97,12 +103,12 @@ export const getProject = (projectId) => (dispatch) => {
   getActiveProject(projectId, dispatch);
 };
 
-export const getProjects = (approved, career, dispatch) => {
+export const getProjects = (approved, terminated, career, dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
   const projectUrl = `${api.projectsForCommissions}?1=1${
     approved ? '&approved=1' : ''
-  }${career ? `&career=${career}` : ''}`;
+  }${terminated ? '&terminated=1' : ''}${career ? `&career=${career}` : ''}`;
 
   axios
     .get(projectUrl, config)
@@ -111,6 +117,8 @@ export const getProjects = (approved, career, dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       if (approved) {
         dispatch(hydrateApprovedProjects(data));
+      } else if (terminated) {
+        dispatch(hydrateTerminatedProjects(data));
       } else {
         dispatch(hydratePendingProjects(data));
       }
@@ -168,8 +176,8 @@ export const reprobate = (projectId, careerId, rejectionReason, postAction) => (
     });
 };
 
-export const getInitialData = (approved, career) => (dispatch) => {
-  getProjects(approved, career, dispatch);
+export const getInitialData = (approved, terminated, career) => (dispatch) => {
+  getProjects(approved, terminated, career, dispatch);
 };
 
 const fetchProjectsTable = (data) =>
@@ -197,6 +205,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         approvedProjects: fetchProjectsTable(action.data)
+      };
+    case HYDRATE_TERMINATED_COMMISSIONS:
+      return {
+        ...state,
+        terminatedProjects: fetchProjectsTable(action.data)
       };
     case HYDRATE_COMMISSION:
       return {
