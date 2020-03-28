@@ -28,6 +28,11 @@ export const clearAlert = () => ({
   type: CLEAR_ALERT
 });
 
+export const toggleLoading = ({ loading }) => ({
+  type: TOGGLE_LOADING,
+  loading
+});
+
 export const queryError = (err) => ({
   type: QUERY_ERROR,
   err

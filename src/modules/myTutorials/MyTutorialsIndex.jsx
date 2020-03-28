@@ -3,15 +3,15 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  clearAlert,
   getInitialData,
   acceptRequest,
   rejectRequest
 } from './myTutorialsReducer';
+import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
 import { myTutorialsMessages } from '../../utils/messages';
 import MyTutorialsTable from './MyTutorialsTable';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import { getById } from '../../utils/services/functions';
 import history from '../../redux/history';
 import AcceptRequestModal from './modals/AcceptRequestModal';
@@ -81,7 +81,7 @@ export class MyTutorialsIndex extends React.Component {
 
   renderTable() {
     if (this.props.myTutorials == null || this.props.myTutorials.length === 0) {
-      return <CustomAlert message={myTutorialsMessages.NO_RESULTS_MESSAGE} />;
+      return <Alert message={myTutorialsMessages.NO_RESULTS_MESSAGE} />;
     }
 
     return (

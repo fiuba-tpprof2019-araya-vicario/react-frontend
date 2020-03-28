@@ -3,11 +3,12 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import history from '../../redux/history';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import { ideasMessages } from '../../utils/messages';
 import { getById } from '../../utils/services/functions';
 import Title from '../../utils/Title';
-import { clearAlert, getInitialData } from './ideasReducer';
+import { getInitialData } from './ideasReducer';
+import { clearAlert } from '../login/authReducer';
 import IdeasTable from './IdeasTable';
 
 export class IdeasIndex extends React.Component {
@@ -59,7 +60,7 @@ export class IdeasIndex extends React.Component {
 
   renderTable() {
     if (this.props.projects == null || this.props.projects.length === 0) {
-      return <CustomAlert message={ideasMessages.NO_RESULTS_MESSAGE} />;
+      return <Alert message={ideasMessages.NO_RESULTS_MESSAGE} />;
     }
 
     return <IdeasTable data={this.props.projects} show={this.detailAction} />;

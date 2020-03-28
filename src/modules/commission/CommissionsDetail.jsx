@@ -2,12 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {
-  getProject,
-  approve,
-  reprobate,
-  clearAlert
-} from './commissionsReducer';
+import { getProject, approve, reprobate } from './commissionsReducer';
+import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
 import { commissionsMessages } from '../../utils/messages';
 import { PROJECT_STEPS } from '../../utils/services/references';

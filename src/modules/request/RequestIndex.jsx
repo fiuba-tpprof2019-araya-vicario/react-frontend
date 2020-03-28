@@ -14,7 +14,7 @@ import Title from '../../utils/Title';
 import { requestMessages } from '../../utils/messages';
 import { getById } from '../../utils/services/functions';
 import { RequestTable } from './RequestTable';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import AcceptRequestModal from './modals/AcceptRequestModal';
 import RejectRequestModal from './modals/RejectRequestModal';
 
@@ -114,7 +114,7 @@ export class RequestIndex extends React.Component {
 
   renderTable(requests, acceptRequest, rejectRequest) {
     if (requests == null || requests.length === 0) {
-      return <CustomAlert message={requestMessages.NO_RESULTS_MESSAGE} />;
+      return <Alert message={requestMessages.NO_RESULTS_MESSAGE} />;
     }
 
     return (

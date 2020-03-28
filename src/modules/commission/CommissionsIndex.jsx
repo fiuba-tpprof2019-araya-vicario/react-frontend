@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Tab, Tabs } from 'react-bootstrap';
 import Select from 'react-select';
-import { clearAlert, getInitialData } from './commissionsReducer';
+import { getInitialData } from './commissionsReducer';
+import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
 import Field from '../../utils/forms/Field';
 import { commissionsMessages } from '../../utils/messages';
 import { getSelectOptions } from '../../utils/services/functions';
 import CommissionsTable from './CommissionsTable';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import history from '../../redux/history';
 
 export class CommissionsIndex extends React.Component {
@@ -113,7 +114,7 @@ export class CommissionsIndex extends React.Component {
       return (
         <Fragment>
           <br />
-          <CustomAlert message={commissionsMessages.NO_RESULTS_MESSAGE} />
+          <Alert message={commissionsMessages.NO_RESULTS_MESSAGE} />
         </Fragment>
       );
     }

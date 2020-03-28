@@ -9,9 +9,9 @@ import {
   abandonIdea,
   enablePresentation,
   submitPresentation,
-  clearAlert,
   acceptProposal
 } from './myTutorialsReducer';
+import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
 import { myTutorialsMessages } from '../../utils/messages';
 import AbandonProjectModal from './modals/AbandonProjectModal';
