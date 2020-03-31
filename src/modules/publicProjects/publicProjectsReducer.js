@@ -17,12 +17,12 @@ const initialState = {
   project: {}
 };
 
-export const hydrateProject = (data) => ({
+const hydrateProject = (data) => ({
   type: HYDRATE_PUBLIC_PROJECT,
   data
 });
 
-export const hydrateProjects = (data) => ({
+const hydrateProjects = (data) => ({
   type: HYDRATE_PUBLIC_PROJECTS,
   data
 });

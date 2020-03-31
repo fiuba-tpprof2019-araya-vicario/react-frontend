@@ -24,60 +24,59 @@ const GET_CAREERS = 'GET_CAREERS';
 const GET_ACTIVE_PROJECT = 'GET_ACTIVE_PROJECT';
 const GET_PROJECT_TYPES = 'GET_PROJECT_TYPES';
 const POST_IDEA = 'POST_IDEA';
-const ABANDON_IDEA = 'ABANDON_IDEA';
+const HYDRATE_SIMILAR_USERS = 'HYDRATE_SIMILAR_USERS';
 const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 const HYDRATE_REQUESTS_STUDENT = 'HYDRATE_REQUESTS_STUDENT';
 
 const initialState = {
-  alert: null,
-  loading: false,
   project: null,
   coautors: null,
   projectTypes: null,
-  tutors: null
+  tutors: null,
+  similarUsers: []
 };
 
-export const ideaAsigned = (data) => ({
+const ideaAsigned = (data) => ({
   type: POST_IDEA,
   data
 });
 
-export const hydrateRequests = (data) => ({
+const hydrateRequests = (data) => ({
   type: HYDRATE_REQUESTS_STUDENT,
   data
 });
 
-export const ideaAbandoned = (data) => ({
-  type: ABANDON_IDEA,
+const hydrateSimilarUsers = (data) => ({
+  type: HYDRATE_SIMILAR_USERS,
   data
 });
 
-export const acceptedProposal = () => ({
+const acceptedProposal = () => ({
   type: ACCEPTED_PROPOSAL
 });
 
-export const projectTypesLoaded = (data) => ({
+const projectTypesLoaded = (data) => ({
   type: GET_PROJECT_TYPES,
   data
 });
 
-export const careersLoaded = (data) => ({
+const careersLoaded = (data) => ({
   type: GET_CAREERS,
   data
 });
 
-export const activeProjectUploaded = (data) => ({
+const activeProjectUploaded = (data) => ({
   type: GET_ACTIVE_PROJECT,
   data
 });
 
-export const coautorsUploaded = (data, ignoreId) => ({
+const coautorsUploaded = (data, ignoreId) => ({
   type: GET_COAUTORS,
   data,
   ignoreId
 });
 
-export const tutorsUploaded = (data, ignoreId) => ({
+const tutorsUploaded = (data, ignoreId) => ({
   type: GET_TUTORS,
   data,
   ignoreId
@@ -316,6 +315,20 @@ export const getRequests = (dispatch) => {
     });
 };
 
+export const getSimilarUsers = (dispatch) => {
+  const config = getConfig();
+
+  axios
+    .get(api.similarUsers, config)
+    .then((res) => res.data.data)
+    .then((data) => {
+      dispatch(hydrateSimilarUsers(data));
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+    });
+};
+
 export const acceptProposal = (requestId, projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
@@ -386,7 +399,8 @@ export const getInitialData = (ignoreId, projectId) => (dispatch) => {
     getProjectTypes(dispatch),
     getCareers(dispatch),
     getRequests(dispatch),
-    getCoautors(ignoreId, dispatch)
+    getCoautors(ignoreId, dispatch),
+    getSimilarUsers(dispatch)
   )
     .then(() => dispatch(toggleLoading({ loading: false })))
     .catch(() => {
@@ -518,6 +532,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         careers: action.data
+      };
+    case HYDRATE_SIMILAR_USERS:
+      return {
+        ...state,
+        similarUsers: action.data
       };
     case GET_TUTORS:
       return {

@@ -1,8 +1,10 @@
+import 'rc-slider/assets/index.css';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert, Button, Col, Row, FormControl } from 'react-bootstrap';
+import { Alert, Button, Col, Row } from 'react-bootstrap';
 import Select from 'react-select';
+import Slider from 'rc-slider';
 import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
@@ -19,6 +21,7 @@ export default class EditMyUserInterests extends React.Component {
     this.state = {
       removeInterestClicked: -1,
       selectedInterest: -1,
+      selectedScore: 0,
       formSelect: { error: false, message: '' },
       interests: props.userInterests
     };
@@ -104,27 +107,33 @@ export default class EditMyUserInterests extends React.Component {
         }
       />
     );
+    selectRender.push(<br key="space" />);
     selectRender.push(
-      <Field
-        validationState={this.state.formSelect.error}
-        key="scoreField"
-        bsSize="small"
-        controlId="interesSelect"
-        label="Interes"
-        required
-        validationMessage={this.state.formSelect.message}
-        inputComponent={
-          <FormControl
-            type="range"
-            min="0"
-            max="5"
-            value={this.state.selectedScore}
-            title="Selecciona un puntaje"
-            placeholder="Ingrese un puntaje de 0 a 5"
-            onChange={this.updateScoreSelect}
+      <Row key="scoreField">
+        <Col md={12}>
+          <Field
+            key="interesScore"
+            controlId="scoreSelect"
+            label="Puntaje"
+            required
+            inputComponent={
+              <Slider
+                dots
+                marks={{ 0: '0', 1: 1, 2: 2, 3: 3, 4: 4, 5: '5' }}
+                style={{
+                  'margin-bottom': '15px'
+                }}
+                step={1}
+                min={0}
+                max={5}
+                disabled={this.state.selectedInterest < 0}
+                value={this.state.selectedScore}
+                onChange={(value) => this.setState({ selectedScore: value })}
+              />
+            }
           />
-        }
-      />
+        </Col>
+      </Row>
     );
 
     return selectRender;

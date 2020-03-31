@@ -11,18 +11,16 @@ const HYDRATE_IDEAS = 'HYDRATE_IDEAS';
 const HYDRATE_IDEA = 'HYDRATE_IDEA';
 
 const initialState = {
-  alert: null,
-  loading: false,
   projects: [],
   project: {}
 };
 
-export const hydrateProject = (data) => ({
+const hydrateProject = (data) => ({
   type: HYDRATE_IDEA,
   data
 });
 
-export const hydrateProjects = (data) => ({
+const hydrateProjects = (data) => ({
   type: HYDRATE_IDEAS,
   data
 });
