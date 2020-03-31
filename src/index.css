@@ -23,6 +23,11 @@ body {
   color: #a94442;
 }
 
+.slider {
+  background: #0196dc;
+  border: 1px solid #0196dc;
+}
+
 .linkNavbar {
   color: #ededed;
   text-align: -webkit-match-parent;

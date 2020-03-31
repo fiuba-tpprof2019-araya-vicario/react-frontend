@@ -22,26 +22,26 @@ const initialState = {
   project: {}
 };
 
-export const abandonedIdea = () => ({
+const abandonedIdea = () => ({
   type: ABANDON_COMMISSION
 });
 
-export const hydratePendingProjects = (data) => ({
+const hydratePendingProjects = (data) => ({
   type: HYDRATE_PENDING_COMMISSIONS,
   data
 });
 
-export const hydrateApprovedProjects = (data) => ({
+const hydrateApprovedProjects = (data) => ({
   type: HYDRATE_APPROVED_COMMISSIONS,
   data
 });
 
-export const hydrateTerminatedProjects = (data) => ({
+const hydrateTerminatedProjects = (data) => ({
   type: HYDRATE_TERMINATED_COMMISSIONS,
   data
 });
 
-export const hydrateProject = (data) => ({
+const hydrateProject = (data) => ({
   type: HYDRATE_COMMISSION,
   data
 });

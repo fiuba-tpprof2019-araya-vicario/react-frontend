@@ -35,6 +35,7 @@ export const api = {
   uploadDocumentation: (projectId) =>
     `${BASE + PRESENTATIONS}/${projectId}/documentation`,
   userInterests: `${BASE + INTERESTS}/${USERS}`,
+  similarUsers: `${BASE + INTERESTS}/${USERS}/similar`,
   profiles: BASE + PROFIlES,
   careers: BASE + CAREERS,
   requestsTutors: `${BASE + REQUESTS}/tutors`,

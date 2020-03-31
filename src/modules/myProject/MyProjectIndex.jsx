@@ -49,6 +49,7 @@ export class MyProjectIndex extends React.Component {
     isAuthenticated: PropTypes.bool,
     careers: PropTypes.array,
     coautors: PropTypes.array,
+    similarUsers: PropTypes.array,
     tutors: PropTypes.array,
     projectTypes: PropTypes.array,
     requests: PropTypes.array
@@ -136,6 +137,8 @@ export class MyProjectIndex extends React.Component {
       (this.props.project &&
         this.props.user.id === this.props.project.creator_id) ||
       !this.props.project;
+
+    console.log(this.props.similarUsers);
 
     return (
       <Fragment>
@@ -280,6 +283,7 @@ const mapStateToProps = (state) => ({
   careers: state.myProjectReducer.careers,
   requests: state.myProjectReducer.requests,
   project: state.myProjectReducer.project,
+  similarUsers: state.myProjectReducer.similarUsers,
   projectTypes: state.myProjectReducer.projectTypes,
   tutors: state.myProjectReducer.tutors,
   user: state.authReducer.user,

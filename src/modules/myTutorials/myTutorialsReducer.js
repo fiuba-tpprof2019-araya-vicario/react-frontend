@@ -13,8 +13,6 @@ const ABANDON_IDEA = 'ABANDON_IDEA';
 const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 
 const initialState = {
-  alert: null,
-  loading: false,
   myTutorials: [],
   myCoTutorials: [],
   project: {}
