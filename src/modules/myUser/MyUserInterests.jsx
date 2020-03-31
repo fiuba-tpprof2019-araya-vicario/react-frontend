@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
 import Select from 'react-select';
-import Slider from 'rc-slider';
+import ScoreSlider from '../../utils/forms/ScoreSlider';
 import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
@@ -77,29 +77,29 @@ export default class EditMyUserInterests extends React.Component {
   }
 
   getAgregarRolModalBody() {
+    const { selectedInterest, selectedScore, formSelect } = this.state;
     const interestsList = this.getInterestsList();
     const selectRender = [];
-    const options = [];
 
-    interestsList.forEach((interests) => {
-      options.push({ value: interests.id, label: interests.name });
-    }, this);
     selectRender.push(
       <Field
-        validationState={this.state.formSelect.error}
+        validationState={formSelect.error}
         key="interesField"
         bsSize="small"
         controlId="interesSelect"
         label="Interes"
         required
-        validationMessage={this.state.formSelect.message}
+        validationMessage={formSelect.message}
         inputComponent={
           <Select
             key="interesSelect"
             name="intereselect"
             clearable={false}
-            value={this.state.selectedInterest}
-            options={options}
+            value={selectedInterest}
+            options={interestsList.map((interests) => ({
+              value: interests.id,
+              label: interests.name
+            }))}
             id="interesSelect"
             onChange={this.updateInterestSelect}
             placeholder="seleccioná un interes"
@@ -117,17 +117,9 @@ export default class EditMyUserInterests extends React.Component {
             label="Puntaje"
             required
             inputComponent={
-              <Slider
-                dots
-                marks={{ 0: '0', 1: 1, 2: 2, 3: 3, 4: 4, 5: '5' }}
-                style={{
-                  'margin-bottom': '15px'
-                }}
-                step={1}
-                min={0}
-                max={5}
-                disabled={this.state.selectedInterest < 0}
-                value={this.state.selectedScore}
+              <ScoreSlider
+                disabled={selectedInterest < 0}
+                value={selectedScore}
                 onChange={(value) => this.setState({ selectedScore: value })}
               />
             }
