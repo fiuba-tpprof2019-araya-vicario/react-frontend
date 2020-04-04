@@ -2,8 +2,8 @@ import axios from 'axios';
 import { api, getConfig } from '../../api/apiInterfaceProvider';
 import { commissionsMessages } from '../../utils/messages';
 import {
-  getStudentsNames,
   formatterDate,
+  getStudentsNames,
   getTutorsNames
 } from '../../utils/services/functions';
 import { clearAlert, queryError, toggleLoading } from '../login/authReducer';
@@ -110,6 +110,38 @@ export const getProjects = (approved, terminated, career, dispatch) => {
     .catch((err) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(queryError(err));
+    });
+};
+
+export const editPresentationData = (
+  projectId,
+  presentationId,
+  {
+    description,
+    documentation_visible: documentationVisible,
+    presentation_visible: presentationViisible
+  }
+) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    description,
+    documentation_visible: documentationVisible,
+    presentation_visible: presentationViisible
+  };
+
+  axios
+    .put(api.editPresentations(presentationId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      getActiveProject(projectId, dispatch);
+    })
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((err) => {
+      dispatch(queryError(err));
+      dispatch(toggleLoading({ loading: false }));
     });
 };
 

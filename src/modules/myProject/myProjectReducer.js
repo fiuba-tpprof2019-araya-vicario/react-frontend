@@ -244,12 +244,24 @@ export const uploadPresentation = (projectId, presentationId, form) => (
   uploadFile(projectId, form, api.uploadPresentation(presentationId), dispatch);
 };
 
-export const saveDescription = (projectId, presentationId, description) => (
-  dispatch
-) => {
+export const editPresentationData = (
+  projectId,
+  presentationId,
+  {
+    description,
+    documentation_visible: documentationVisible,
+    presentation_visible: presentationViisible
+  }
+) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
-  const body = { description };
+  const body = {
+    description,
+    documentation_visible: documentationVisible,
+    presentation_visible: presentationViisible
+  };
+
+  console.log(body);
 
   axios
     .put(api.editPresentations(presentationId), body, config)

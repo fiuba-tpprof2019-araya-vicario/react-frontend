@@ -62,9 +62,6 @@ export default class EditUserCareers extends React.Component {
       formSelect.error = true;
       formSelect.message = 'Este campo es obligatorio';
       formOk = false;
-    } else {
-      formSelect.error = false;
-      formSelect.message = '';
     }
 
     this.setState({ formSelect });

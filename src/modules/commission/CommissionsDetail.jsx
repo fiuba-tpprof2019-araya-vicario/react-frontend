@@ -2,7 +2,12 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getProject, approve, reprobate } from './commissionsReducer';
+import {
+  getProject,
+  approve,
+  reprobate,
+  editPresentationData
+} from './commissionsReducer';
 import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
 import { commissionsMessages } from '../../utils/messages';
@@ -16,6 +21,7 @@ export class CommissionsDetail extends React.Component {
     getProject: PropTypes.func,
     approveProposal: PropTypes.func,
     reprobateProposal: PropTypes.func,
+    editPresentationData: PropTypes.func,
     projectId: PropTypes.string,
     user: PropTypes.object,
     project: PropTypes.object
@@ -27,7 +33,13 @@ export class CommissionsDetail extends React.Component {
   }
 
   render() {
-    const { user, project, approveProposal, reprobateProposal } = this.props;
+    const {
+      user,
+      project,
+      approveProposal,
+      reprobateProposal,
+      editPresentationData: $editPresentationData
+    } = this.props;
 
     return (
       <Fragment>
@@ -37,6 +49,7 @@ export class CommissionsDetail extends React.Component {
         />
         <ShowIdea
           display-if={project.id}
+          isUserAdmin
           nextStepMessage={
             project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION
               ? commissionsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
@@ -48,7 +61,7 @@ export class CommissionsDetail extends React.Component {
           showApprovalButtons={
             project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION
           }
-          savePresentationVisibility={() => {}}
+          editPresentationData={$editPresentationData}
           approveProposal={approveProposal}
           reprobateProposal={reprobateProposal}
           project={project}
@@ -68,6 +81,9 @@ const mapDispatch = (dispatch) => ({
   },
   approveProposal: (projectId, careerId) => {
     dispatch(approve(projectId, careerId, () => history.push('/commissions/')));
+  },
+  editPresentationData: (...params) => {
+    dispatch(editPresentationData(...params));
   },
   reprobateProposal: (projectId, careerId, rejectionReason) => {
     dispatch(

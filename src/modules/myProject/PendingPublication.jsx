@@ -9,7 +9,7 @@ export default class PendingPublication extends React.Component {
     user: PropTypes.object,
     isUserCreator: PropTypes.bool,
     uploadPresentation: PropTypes.func,
-    saveDescription: PropTypes.func,
+    editPresentationData: PropTypes.func,
     uploadDocumentation: PropTypes.func
   };
 
@@ -20,7 +20,7 @@ export default class PendingPublication extends React.Component {
       isUserCreator,
       uploadPresentation,
       uploadDocumentation,
-      saveDescription
+      editPresentationData
     } = this.props;
 
     return (
@@ -31,7 +31,7 @@ export default class PendingPublication extends React.Component {
         isUserCreator={isUserCreator}
         showProposal
         showPresentation
-        saveDescription={saveDescription}
+        editPresentationData={editPresentationData}
         uploadPresentation={uploadPresentation}
         uploadDocumentation={uploadDocumentation}
       />

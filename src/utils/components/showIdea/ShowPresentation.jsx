@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Row } from 'react-bootstrap';
 import Switch from 'react-switch';
+import MandatoryField from '../../../utils/forms/MandatoryField';
 import { myProjectMessages } from '../../../utils/messages';
 import UploadPresentationModal from './modals/UploadPresentationModal';
 import FullRow from '../../../utils/styles/FullRow';
@@ -11,6 +12,7 @@ export default class ShowPresentation extends React.Component {
     project: PropTypes.object,
     name: PropTypes.string,
     element: PropTypes.string,
+    required: PropTypes.bool,
     canEdit: PropTypes.bool,
     upload: PropTypes.func,
     saveVisibility: PropTypes.func
@@ -34,16 +36,21 @@ export default class ShowPresentation extends React.Component {
   };
 
   handleChange = (checked) => {
-    const { Presentation, element } = this.props.project;
+    const {
+      element,
+      project: { id, Presentation }
+    } = this.props;
     const key = `${element}_visible`;
+    const newPresentation = {};
 
-    Presentation[key] = checked;
+    newPresentation[key] = checked;
     this.setVisibility(checked);
-    this.props.saveVisibility(Presentation);
+    console.log('newPresentation', newPresentation);
+    this.props.saveVisibility(id, Presentation.id, newPresentation);
   };
 
   render() {
-    const { project, canEdit, upload, name, element } = this.props;
+    const { project, canEdit, upload, name, element, required } = this.props;
     const lowerCaseName = name.toLowerCase();
     const url = project.Presentation[`${element}_url`];
     const filename = project.Presentation[`${element}_name`];
@@ -66,7 +73,10 @@ export default class ShowPresentation extends React.Component {
     return (
       <FullRow>
         <Fragment>
-          <h4>{name}:</h4>
+          <h4>
+            {name}
+            <MandatoryField display-if={required} />:
+          </h4>
           <Row>
             {canEdit ? (
               <Fragment>
@@ -97,7 +107,10 @@ export default class ShowPresentation extends React.Component {
             }}
           />
         </Fragment>
-        <Switch onChange={this.handleChange} checked={this.state.checked} />
+        <Fragment display-if={canEdit}>
+          <h4>Mostrar {lowerCaseName} en el portal público:</h4>
+          <Switch onChange={this.handleChange} checked={this.state.checked} />
+        </Fragment>
       </FullRow>
     );
   }

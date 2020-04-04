@@ -38,7 +38,7 @@ export default class Field extends React.Component {
       >
         <ControlLabel display-if={!!label} key={`${key}label`}>
           {label}
-          <MandatoryField display-if={required} />
+          <MandatoryField key={key} display-if={required} />
         </ControlLabel>
         {inputComponent}
         <HelpBlock
