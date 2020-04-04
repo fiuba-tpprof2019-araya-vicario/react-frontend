@@ -82,7 +82,9 @@ export default class ShowDescription extends React.Component {
               className="pointer"
               onClick={() => {
                 this.setState({ isEditingDescription: false });
-                saveDescription(id, Presentation.id, this.state.description);
+                saveDescription(id, Presentation.id, {
+                  description: this.state.description
+                });
               }}
             >
               <i className="fa fa-check" />

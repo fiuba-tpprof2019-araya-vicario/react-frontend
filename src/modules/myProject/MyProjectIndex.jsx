@@ -6,7 +6,7 @@ import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
   uploadProposal,
-  saveDescription,
+  editPresentationData,
   uploadPresentation,
   uploadDocumentation,
   uploadIdea,
@@ -40,7 +40,7 @@ export class MyProjectIndex extends React.Component {
     rejectRequest: PropTypes.func,
     abandonIdea: PropTypes.func,
     uploadProposal: PropTypes.func,
-    saveDescription: PropTypes.func,
+    editPresentationData: PropTypes.func,
     uploadPresentation: PropTypes.func,
     uploadDocumentation: PropTypes.func,
     acceptProposal: PropTypes.func,
@@ -102,8 +102,8 @@ export class MyProjectIndex extends React.Component {
     this.props.uploadDocumentation(projectId, presentationId, url);
   };
 
-  saveDescription = (projectId, presentationId, description) => {
-    this.props.saveDescription(projectId, presentationId, description);
+  editPresentationData = (projectId, presentationId, description) => {
+    this.props.editPresentationData(projectId, presentationId, description);
   };
 
   editIdea = (id, form) => {
@@ -200,7 +200,7 @@ export class MyProjectIndex extends React.Component {
             isUserCreator={isUserCreator}
             user={this.props.user}
             project={this.props.project}
-            saveDescription={this.saveDescription}
+            editPresentationData={this.editPresentationData}
             uploadDocumentation={this.uploadDocumentation}
             uploadPresentation={this.uploadPresentation}
           />
@@ -209,7 +209,6 @@ export class MyProjectIndex extends React.Component {
             isUserCreator={isUserCreator}
             user={this.props.user}
             project={this.props.project}
-            saveDescription={this.saveDescription}
             uploadDocumentation={this.uploadDocumentation}
             uploadPresentation={this.uploadPresentation}
           />
@@ -258,8 +257,8 @@ const mapDispatch = (dispatch) => ({
   uploadPresentation: (projectId, presentationId, url) => {
     dispatch(uploadPresentation(projectId, presentationId, url));
   },
-  saveDescription: (projectId, presentationId, description) => {
-    dispatch(saveDescription(projectId, presentationId, description));
+  editPresentationData: (projectId, presentationId, description) => {
+    dispatch(editPresentationData(projectId, presentationId, description));
   },
   uploadDocumentation: (projectId, presentationId, url) => {
     dispatch(uploadDocumentation(projectId, presentationId, url));

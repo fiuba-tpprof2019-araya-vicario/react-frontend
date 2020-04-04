@@ -29,16 +29,16 @@ export default class ShowIdea extends React.Component {
     showEnablePresentationButton: PropTypes.bool,
     showApprovalButtons: PropTypes.bool,
     isUserCreator: PropTypes.bool,
+    isUserAdmin: PropTypes.bool,
     showUploadIdeaModal: PropTypes.func,
     acceptProposal: PropTypes.func,
     approveProposal: PropTypes.func,
-    savePresentationVisibility: PropTypes.func,
+    editPresentationData: PropTypes.func,
     reprobateProposal: PropTypes.func,
     showAbandonIdeaModal: PropTypes.func,
     uploadProposal: PropTypes.func,
     enablePresentation: PropTypes.func,
     submitPresentation: PropTypes.func,
-    saveDescription: PropTypes.func,
     uploadDocumentation: PropTypes.func,
     uploadPresentation: PropTypes.func
   };
@@ -128,8 +128,7 @@ export default class ShowIdea extends React.Component {
     isEditablePresentation,
     uploadPresentation,
     uploadDocumentation,
-    saveDescription,
-    savePresentationVisibility
+    editPresentationData
   ) => (
     <Accordion
       title="Archivos de la presentación final"
@@ -138,16 +137,17 @@ export default class ShowIdea extends React.Component {
           name="Presentación"
           element="presentation"
           project={project}
-          saveVisibility={savePresentationVisibility}
-          canEdit={isUserCreator && isEditablePresentation}
+          required
+          saveVisibility={editPresentationData}
+          canEdit={isEditablePresentation}
           upload={uploadPresentation}
         />,
         <ShowPresentation
           name="Documentación"
           element="documentation"
           project={project}
-          saveVisibility={savePresentationVisibility}
-          canEdit={isUserCreator && isEditablePresentation}
+          saveVisibility={editPresentationData}
+          canEdit={isEditablePresentation}
           upload={uploadDocumentation}
         />
       ]}
@@ -159,7 +159,7 @@ export default class ShowIdea extends React.Component {
         <Col md={10}>
           <ShowDescription
             project={project}
-            saveDescription={saveDescription}
+            saveDescription={editPresentationData}
           />
         </Col>
       </Row>
@@ -206,14 +206,14 @@ export default class ShowIdea extends React.Component {
       uploadProposal,
       enablePresentation,
       uploadPresentation,
-      saveDescription,
-      savePresentationVisibility,
+      editPresentationData,
       uploadDocumentation,
       submitPresentation,
       acceptProposal,
       approveProposal,
       reprobateProposal,
       isUserCreator,
+      isUserAdmin,
       showProposal,
       nextStepMessage,
       showAbandonIdeaModal
@@ -221,7 +221,9 @@ export default class ShowIdea extends React.Component {
 
     const request = getRequestFromUser(user ? user.id : null, project);
     const isEditableProposal = project.State.id <= 2;
-    const isEditablePresentation = project.State.id === 5;
+    const isEditablePresentation =
+      (project.State.id === 5 && isUserCreator) ||
+      (project.State.id === 6 && isUserAdmin);
     const careersOptions = this.getApprovalOptions(user, project);
     const projectId = project ? project.id : undefined;
     const requestId = request ? request.id : undefined;
@@ -256,8 +258,7 @@ export default class ShowIdea extends React.Component {
             isEditablePresentation,
             uploadPresentation,
             uploadDocumentation,
-            saveDescription,
-            savePresentationVisibility
+            editPresentationData
           )}
         {this.getGeneralInfo(project, showUsersStatus)}
         <Row className="pull-right">
@@ -313,7 +314,9 @@ export default class ShowIdea extends React.Component {
               <i className="fa fa-check">&nbsp;</i>&nbsp; Habilitar presentación
             </Button>
             <Button
-              display-if={submitPresentation}
+              display-if={
+                submitPresentation && project.Presentation.presentation_url
+              }
               bsStyle="success"
               onClick={() => this.showSubmitPresentationModal()}
               bsSize="small"

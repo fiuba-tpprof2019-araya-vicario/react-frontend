@@ -66,9 +66,6 @@ export default class EditMyUserInterests extends React.Component {
       formSelect.error = true;
       formSelect.message = 'Este campo es obligatorio';
       formOk = false;
-    } else {
-      formSelect.error = false;
-      formSelect.message = '';
     }
 
     this.setState({ formSelect });
@@ -78,10 +75,8 @@ export default class EditMyUserInterests extends React.Component {
 
   getAgregarRolModalBody() {
     const { selectedInterest, selectedScore, formSelect } = this.state;
-    const interestsList = this.getInterestsList();
-    const selectRender = [];
 
-    selectRender.push(
+    return [
       <Field
         validationState={formSelect.error}
         key="interesField"
@@ -96,7 +91,7 @@ export default class EditMyUserInterests extends React.Component {
             name="intereselect"
             clearable={false}
             value={selectedInterest}
-            options={interestsList.map((interests) => ({
+            options={this.getInterestsList().map((interests) => ({
               value: interests.id,
               label: interests.name
             }))}
@@ -105,10 +100,8 @@ export default class EditMyUserInterests extends React.Component {
             placeholder="seleccioná un interes"
           />
         }
-      />
-    );
-    selectRender.push(<br key="space" />);
-    selectRender.push(
+      />,
+      <br key="space" />,
       <Row key="scoreField">
         <Col md={12}>
           <Field
@@ -126,9 +119,7 @@ export default class EditMyUserInterests extends React.Component {
           />
         </Col>
       </Row>
-    );
-
-    return selectRender;
+    ];
   }
 
   getAddInterestModalButtons = () => {
