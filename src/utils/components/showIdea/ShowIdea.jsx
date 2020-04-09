@@ -138,6 +138,7 @@ export default class ShowIdea extends React.Component {
           element="presentation"
           project={project}
           required
+          isUserCreator={isUserCreator}
           saveVisibility={editPresentationData}
           canEdit={isEditablePresentation}
           upload={uploadPresentation}
@@ -146,6 +147,7 @@ export default class ShowIdea extends React.Component {
           name="Documentación"
           element="documentation"
           project={project}
+          isUserCreator={isUserCreator}
           saveVisibility={editPresentationData}
           canEdit={isEditablePresentation}
           upload={uploadDocumentation}

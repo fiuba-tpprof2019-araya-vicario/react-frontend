@@ -135,15 +135,12 @@ export const createUser = (name, email) => (dispatch) => {
     });
 };
 
-export const editUser = (idUser, interests) => (dispatch) => {
+export const editUser = (interests) => (dispatch) => {
   const config = getConfig();
-  const body = {
-    interests: interests.map((interestId) => ({ id: interestId, score: 1 }))
-  };
+  const body = { interests };
 
   axios
     .put(api.userInterests, body, config)
-    .then((res) => res.data.data)
     .then(() => {
       dispatch(userEdited());
       dispatch(successful('El usuario se tu perfil correctamente'));
@@ -167,6 +164,12 @@ const fetchCareers = (data) =>
     description: rowObject.description
   }));
 
+const fetchInterests = (data) =>
+  data.map((rowObject) => ({
+    id: rowObject.id,
+    name: rowObject.name
+  }));
+
 const fetchProfiles = (data) =>
   data.map((rowObject) => ({
     id: rowObject.id,
@@ -174,16 +177,15 @@ const fetchProfiles = (data) =>
     description: rowObject.description
   }));
 
-const fetchInterests = (data, interestsList) =>
+const fetchUserInterests = (data, interestsList) =>
   data.map((rowObject) => {
-    const { id, name, description } = interestsList.find(
-      (interest) => interest.id === rowObject.id
+    const { id, name } = interestsList.find(
+      (interest) => interest.id === rowObject.interest_id
     );
 
     return {
       id,
       name,
-      description,
       score: rowObject.score
     };
   });
@@ -199,8 +201,8 @@ export default (state = initialState, action) => {
     case INITIAL_DATA:
       return {
         ...state,
-        interests: fetchProfiles(action.data.interests),
-        userInterests: fetchInterests(
+        interests: fetchInterests(action.data.interests),
+        userInterests: fetchUserInterests(
           action.data.userInterests,
           action.data.interests
         ),

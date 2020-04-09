@@ -261,8 +261,6 @@ export const editPresentationData = (
     presentation_visible: presentationViisible
   };
 
-  console.log(body);
-
   axios
     .put(api.editPresentations(presentationId), body, config)
     .then((res) => res.data.data)

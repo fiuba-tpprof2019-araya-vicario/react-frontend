@@ -19,7 +19,11 @@ export default class EditMyUserCareers extends React.Component {
   getCareerTable() {
     if (this.state.careers.length !== 0) {
       return (
-        <Table data={this.state.careers} headers={['Nombre', 'Descripción']} />
+        <Table
+          key="table"
+          data={this.state.careers}
+          headers={['Nombre', 'Descripción']}
+        />
       );
     }
 
@@ -29,7 +33,7 @@ export default class EditMyUserCareers extends React.Component {
   render() {
     return (
       <div>
-        <Row>
+        <Row key="title">
           <Col lg={8} md={8}>
             <h3>Mis carreras</h3>
           </Col>
