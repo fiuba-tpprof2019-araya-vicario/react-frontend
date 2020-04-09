@@ -14,6 +14,7 @@ export default class ShowPresentation extends React.Component {
     element: PropTypes.string,
     required: PropTypes.bool,
     canEdit: PropTypes.bool,
+    isUserCreator: PropTypes.bool,
     upload: PropTypes.func,
     saveVisibility: PropTypes.func
   };
@@ -45,12 +46,19 @@ export default class ShowPresentation extends React.Component {
 
     newPresentation[key] = checked;
     this.setVisibility(checked);
-    console.log('newPresentation', newPresentation);
     this.props.saveVisibility(id, Presentation.id, newPresentation);
   };
 
   render() {
-    const { project, canEdit, upload, name, element, required } = this.props;
+    const {
+      project,
+      canEdit,
+      upload,
+      name,
+      element,
+      required,
+      isUserCreator
+    } = this.props;
     const lowerCaseName = name.toLowerCase();
     const url = project.Presentation[`${element}_url`];
     const filename = project.Presentation[`${element}_name`];
@@ -78,7 +86,7 @@ export default class ShowPresentation extends React.Component {
             <MandatoryField display-if={required} />:
           </h4>
           <Row>
-            {canEdit ? (
+            {canEdit && isUserCreator ? (
               <Fragment>
                 <Button
                   bsStyle="success"

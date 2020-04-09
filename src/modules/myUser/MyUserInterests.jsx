@@ -45,16 +45,17 @@ export default class EditMyUserInterests extends React.Component {
     this.setState({ selectedScore: newValue != null ? newValue.value : -1 });
   };
 
-  resetInterestForm() {
-    const formSelect = {
-      error: false,
-      message: ''
-    };
+  resetInterestForm = () => {
+    this.setState({
+      formSelect: {
+        error: false,
+        message: ''
+      },
+      selectedScore: 0
+    });
+  };
 
-    this.setState({ formSelect });
-  }
-
-  validarRolForm() {
+  validarRolForm = () => {
     let formOk = true;
 
     const formSelect = {
@@ -71,9 +72,9 @@ export default class EditMyUserInterests extends React.Component {
     this.setState({ formSelect });
 
     return formOk;
-  }
+  };
 
-  getAgregarRolModalBody() {
+  getAgregarRolModalBody = () => {
     const { selectedInterest, selectedScore, formSelect } = this.state;
 
     return [
@@ -120,91 +121,75 @@ export default class EditMyUserInterests extends React.Component {
         </Col>
       </Row>
     ];
-  }
-
-  getAddInterestModalButtons = () => {
-    const buttons = [];
-
-    buttons.push(
-      <Button
-        key="agregarButton"
-        bsStyle="primary"
-        bsSize="small"
-        onClick={() => {
-          if (this.validarRolForm()) {
-            this.state.interests.push(
-              this.getInterestById(this.state.selectedInterest)
-            );
-            this.addInterestModal.hideModal();
-            this.props.refresh(this.state.interests);
-          }
-        }}
-      >
-        Guardar
-      </Button>
-    );
-
-    return buttons;
   };
 
-  getDeleteInterestModalBody() {
-    return (
-      <p>
-        ¿Seguro querés eliminar el interes{' '}
-        {this.getInterestNameById(this.state.removeInterestClicked)}?
-      </p>
-    );
-  }
+  getAddInterestModalButtons = () => (
+    <Button
+      key="agregarButton"
+      bsStyle="primary"
+      bsSize="small"
+      onClick={() => {
+        if (this.validarRolForm()) {
+          this.state.interests.push({
+            ...this.getInterestById(this.state.selectedInterest),
+            score: this.state.selectedScore
+          });
+          this.addInterestModal.hideModal();
+          this.props.refresh(this.state.interests);
+        }
+      }}
+    >
+      Guardar
+    </Button>
+  );
 
-  getDeleteInterestModalButtons = () => {
-    const buttons = [];
+  getDeleteInterestModalBody = () => (
+    <p>
+      ¿Seguro querés eliminar el interes{' '}
+      {this.getInterestNameById(this.state.removeInterestClicked)}?
+    </p>
+  );
 
-    buttons.push(
-      <Button
-        key="borrarButton"
-        bsStyle="danger"
-        bsSize="small"
-        onClick={() => {
-          const filteredInterests = this.state.interests.filter(
-            (interest) => interest.id !== this.state.removeInterestClicked
-          );
+  getDeleteInterestModalButtons = () => (
+    <Button
+      key="borrarButton"
+      bsStyle="danger"
+      bsSize="small"
+      onClick={() => {
+        const filteredInterests = this.state.interests.filter(
+          (interest) => interest.id !== this.state.removeInterestClicked
+        );
 
-          this.setState({ interests: filteredInterests });
-          this.removeInterestModal.hideModal();
-          this.props.refresh(filteredInterests);
-        }}
-      >
-        Eliminar
-      </Button>
-    );
+        this.setState({ interests: filteredInterests });
+        this.removeInterestModal.hideModal();
+        this.props.refresh(filteredInterests);
+      }}
+    >
+      Eliminar
+    </Button>
+  );
 
-    return buttons;
-  };
-
-  getInterestNameById(id) {
+  getInterestNameById = (id) => {
     const interest =
       this.state.interests &&
       this.state.interests.find((element) => element.id === id);
 
     return interest ? interest.name : '';
-  }
+  };
 
-  getInterestById(id) {
-    return this.props.interests.find((element) => element.id === id);
-  }
+  getInterestById = (id) =>
+    this.props.interests.find((element) => element.id === id);
 
-  getInterestsList() {
-    const { interests } = this.props;
+  getInterestsList = () =>
+    _.differenceBy(this.props.interests, this.state.interests, 'id');
 
-    return _.differenceBy(interests, this.state.interests, 'id');
-  }
-
-  getInterestTable() {
+  getInterestTable = () => {
     if (this.state.interests.length !== 0) {
       return (
         <Table
+          key="table"
           data={this.state.interests}
-          headers={['Nombre', 'Descripción', 'Puntaje']}
+          headers={['Nombre', 'Puntaje']}
           actions={{
             removeAction: { action: this.showRemoveInterestModal }
           }}
@@ -213,12 +198,12 @@ export default class EditMyUserInterests extends React.Component {
     }
 
     return <Alert bsStyle="info">No posees intereses</Alert>;
-  }
+  };
 
   render() {
     return (
       <div>
-        <Row>
+        <Row key="header">
           <Col lg={8} md={8}>
             <h3>Mis intereses</h3>
           </Col>

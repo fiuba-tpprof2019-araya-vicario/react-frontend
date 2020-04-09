@@ -138,7 +138,7 @@ export class MyProjectIndex extends React.Component {
         this.props.user.id === this.props.project.creator_id) ||
       !this.props.project;
 
-    console.log(this.props.similarUsers);
+    console.log('similarUsers', this.props.similarUsers);
 
     return (
       <Fragment>

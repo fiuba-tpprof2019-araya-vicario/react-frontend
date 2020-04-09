@@ -22,7 +22,6 @@ export class MyUserIndex extends React.Component {
   }
 
   static propTypes = {
-    userId: PropTypes.string,
     getInitialData: PropTypes.func,
     editUser: PropTypes.func,
     careers: PropTypes.array,
@@ -49,12 +48,18 @@ export class MyUserIndex extends React.Component {
   };
 
   submitEditForm = () => {
-    const userInterests = this.state.userInterests.map(({ id }) => id);
-
-    this.props.editUser(this.props.userId, userInterests);
+    this.props.editUser(this.state.userInterests);
   };
 
   render() {
+    const {
+      interests,
+      activeUser,
+      userInterests,
+      careers,
+      profiles
+    } = this.props;
+
     if (this.state.ready) {
       return (
         <Grid fluid>
@@ -63,16 +68,16 @@ export class MyUserIndex extends React.Component {
             ref={(formEdit) => {
               this.formEdit = formEdit;
             }}
-            profiles={this.props.profiles}
-            user={this.props.activeUser}
+            profiles={profiles}
+            user={activeUser}
           />
           <Row>
             <Col md={6}>
               <Panel>
                 <Panel.Body>
                   <EditMyUserCareers
-                    activeUser={this.props.activeUser}
-                    careers={this.props.careers}
+                    activeUser={activeUser}
+                    careers={careers}
                   />
                 </Panel.Body>
               </Panel>
@@ -81,9 +86,9 @@ export class MyUserIndex extends React.Component {
               <Panel>
                 <Panel.Body>
                   <EditMyUserInterests
-                    activeUser={this.props.activeUser}
-                    interests={this.props.interests}
-                    userInterests={this.props.userInterests}
+                    activeUser={activeUser}
+                    interests={interests}
+                    userInterests={userInterests}
                     refresh={this.refreshInterests}
                   />
                 </Panel.Body>
@@ -117,8 +122,8 @@ const mapDispatch = (dispatch) => ({
   getInitialData: (userId) => {
     dispatch(getInitialData(userId));
   },
-  editUser: (userId, profiles, careers) => {
-    dispatch(editUser(userId, profiles, careers));
+  editUser: (interests) => {
+    dispatch(editUser(interests));
   }
 });
 

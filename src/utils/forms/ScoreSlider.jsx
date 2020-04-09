@@ -18,9 +18,7 @@ export default class ScoreSlider extends React.Component {
       <Slider
         dots
         marks={{ 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }}
-        style={{
-          'margin-bottom': '15px'
-        }}
+        style={{ marginBottom: '15px' }}
         step={1}
         min={0}
         max={5}
