@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import Stepper from 'react-stepper-horizontal';
 import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
@@ -19,6 +18,7 @@ import {
 } from './myProjectReducer';
 import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
+import ShowIdeaStepper from '../../utils/components/showIdea/ShowIdeaStepper';
 import UploadIdeaModal from '../../utils/components/uploadIdea/UploadIdeaModal';
 import { myProjectMessages } from '../../utils/messages';
 import CreateIdea from './CreateIdea';
@@ -124,15 +124,6 @@ export class MyProjectIndex extends React.Component {
   };
 
   render() {
-    const steps = [
-      { title: 'Crear idea' },
-      { title: 'Idea en revisión' },
-      { title: 'Pendiente de propuesta' },
-      { title: 'Propuesta en revisión' },
-      { title: 'Pendiente de presentación' },
-      { title: 'Pendiente de publicación' },
-      { title: 'Propuesta publicada' }
-    ];
     const isUserCreator =
       (this.props.project &&
         this.props.user.id === this.props.project.creator_id) ||
@@ -147,15 +138,7 @@ export class MyProjectIndex extends React.Component {
             title={myProjectMessages.TITLE}
             subtitle={myProjectMessages.SUBTITLE}
           />
-          <div className="step-progress">
-            <Stepper
-              steps={steps}
-              activeStep={this.state.activeStep}
-              defaultTitleOpacity="0.5"
-              completeTitleOpacity="0.75"
-              activeColor="#468847"
-            />
-          </div>
+          <ShowIdeaStepper activeStep={this.state.activeStep} />
         </Row>
         <Row>
           <CreateIdea
