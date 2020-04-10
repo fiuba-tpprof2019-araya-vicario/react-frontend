@@ -39,20 +39,23 @@ export function getOnlyField(values, getValue = (element) => element.value) {
 
 export function getSelectOptionsWithIgnore(
   options,
-  ignoreValue,
-  valueString = 'id',
-  labelString = 'name',
-  surlabelString = 'surname'
+  ignoreValue = 0,
+  {
+    valueString = 'id',
+    labelString = 'name',
+    surlabelString = 'surname',
+    color = null
+  } = {}
 ) {
-  return (
-    options &&
-    options
-      .map((elem) => ({
-        value: elem[valueString],
-        label: `${elem[labelString]} ${elem[surlabelString]}`
-      }))
-      .filter((elem) => elem.value !== ignoreValue)
-  );
+  return options
+    ? options
+        .map((option) => ({
+          value: option[valueString],
+          label: `${option[labelString]} ${option[surlabelString]}`,
+          color
+        }))
+        .filter(({ value }) => value !== ignoreValue)
+    : [];
 }
 
 export function getSelectOptions(

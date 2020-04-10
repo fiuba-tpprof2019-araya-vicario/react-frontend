@@ -59,7 +59,7 @@ export class DashboardIndex extends React.Component {
                 <Select
                   key="yearSelect"
                   name="yearSelect"
-                  clearable={false}
+                  isClearable={false}
                   value={this.state.selectedYear}
                   options={this.getOptions()}
                   id="yearSelect"

@@ -90,7 +90,7 @@ export default class EditMyUserInterests extends React.Component {
           <Select
             key="interesSelect"
             name="intereselect"
-            clearable={false}
+            isClearable={false}
             value={selectedInterest}
             options={this.getInterestsList().map((interests) => ({
               value: interests.id,

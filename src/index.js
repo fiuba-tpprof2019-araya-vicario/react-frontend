@@ -5,9 +5,9 @@ import { Router } from 'react-router-dom';
 
 /* Css */
 import 'bootstrap/dist/css/bootstrap.css';
-import 'react-select/dist/react-select.css';
 import 'font-awesome/css/font-awesome.min.css';
 import $ from 'jquery';
+import './react-select.css';
 import App from './app/App';
 import registerServiceWorker from './registerServiceWorker';
 import history from './redux/history';

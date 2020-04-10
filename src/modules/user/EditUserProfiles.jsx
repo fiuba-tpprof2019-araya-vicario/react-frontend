@@ -79,7 +79,7 @@ export default class EditUserProfiles extends React.Component {
         <Select
           key="perfilSelect"
           name="perfilelect"
-          clearable={false}
+          isClearable={false}
           value={this.state.selectedProfile}
           options={this.getProfilesList().map((profiles) => ({
             value: profiles.id,

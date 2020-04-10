@@ -90,7 +90,7 @@ export default class EditUserCareers extends React.Component {
           <Select
             key="carreraSelect"
             name="carreraelect"
-            clearable={false}
+            isClearable={false}
             value={this.state.selectedCareer}
             options={options}
             id="carreraSelect"
