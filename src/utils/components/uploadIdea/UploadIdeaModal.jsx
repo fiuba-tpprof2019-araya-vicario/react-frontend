@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, FormControl, Modal } from 'react-bootstrap';
@@ -11,6 +10,7 @@ export default class UploadIdeaModal extends React.Component {
   static propTypes = {
     project: PropTypes.object,
     user: PropTypes.object,
+    similars: PropTypes.array,
     coautors: PropTypes.array,
     careers: PropTypes.array,
     tutors: PropTypes.array,
@@ -54,11 +54,9 @@ export default class UploadIdeaModal extends React.Component {
           value: project.students ? props.project.students : []
         }
       },
-      tutors: [],
-      projectType: project.type ? project.type : null,
+      tutor: null,
       autor: project.creator ? getFullName(project.creator) : user.name,
-      show: false,
-      selectedUsers: []
+      show: false
     };
   }
 
@@ -84,26 +82,16 @@ export default class UploadIdeaModal extends React.Component {
   };
 
   updateAutorsSelect = (newValue) => {
-    const tutor = this.state.tutor ? this.state.tutor.value : null;
-    const selectedUsers = this.refreshSelectedUsers(tutor, newValue);
-
     this.setState({
       form: {
         ...this.state.form,
         coautors: { error: false, message: '', value: newValue }
-      },
-      selectedUsers
+      }
     });
   };
 
   updateTutorSelect = (newValue) => {
-    const coautors = this.state.form.coautors.value;
-    const selectedUsers = this.refreshSelectedUsers(
-      newValue ? newValue.value : null,
-      coautors
-    );
-
-    this.setState({ tutor: newValue, selectedUsers });
+    this.setState({ tutor: newValue });
   };
 
   updateTitle = (newValue) => {
@@ -138,8 +126,6 @@ export default class UploadIdeaModal extends React.Component {
     const user = props.user ? props.user : {};
 
     this.setState({
-      selectedUsers: [],
-      file: null,
       id: props.project.id,
       form: {
         description: {
@@ -169,7 +155,6 @@ export default class UploadIdeaModal extends React.Component {
           value: project.students ? props.project.students : null
         }
       },
-      tutors: [],
       tutor: project.tutor ? project.tutor : null,
       autor: project.creator ? getFullName(project.creator) : user.name
     });
@@ -273,6 +258,45 @@ export default class UploadIdeaModal extends React.Component {
   render() {
     const { show, requirement, form, autor } = this.state;
     const { title, projectType, coautors, careers, description } = form;
+    const groupedOptions = [
+      { label: 'Recomendados', options: this.props.similars },
+      { label: 'Alumnos', options: this.props.coautors }
+    ];
+    const groupStyles = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between'
+    };
+    const groupBadgeStyles = {
+      backgroundColor: '#EBECF0',
+      borderRadius: '2em',
+      color: '#172B4D',
+      display: 'inline-block',
+      fontSize: 12,
+      fontWeight: 'normal',
+      lineHeight: '1',
+      minWidth: 1,
+      padding: '0.16666666666667em 0.5em',
+      textAlign: 'center'
+    };
+    const colourStyles = {
+      control: (styles) => ({ ...styles, backgroundColor: 'white' }),
+      option: (styles, { data, isDisabled }) => ({
+        ...styles,
+        color: isDisabled ? '#ccc' : data.color,
+        cursor: isDisabled ? 'not-allowed' : 'default'
+      }),
+      multiValueLabel: (styles, { data }) => ({
+        ...styles,
+        color: data.color
+      })
+    };
+    const formatGroupLabel = (data) => (
+      <div style={groupStyles}>
+        <span>{data.label}</span>
+        <span style={groupBadgeStyles}>{data.options.length}</span>
+      </div>
+    );
 
     return (
       <Modal
@@ -342,11 +366,11 @@ export default class UploadIdeaModal extends React.Component {
                   onChange={this.updateProjectTypeSelect}
                   options={this.props.projectTypes}
                   isSearchable
-                  clearable={false}
+                  isClearable={false}
                   id="projectTypeSelect"
                   placeholder="Seleccione un tipo de proyecto"
                   name="projectTypeSelect"
-                  multi={false}
+                  isMulti={false}
                 />
               }
             />
@@ -361,18 +385,14 @@ export default class UploadIdeaModal extends React.Component {
                   key="coautorsSelect"
                   value={coautors.value}
                   onChange={this.updateAutorsSelect}
-                  isClearable={coautors.value.some(
-                    (element) => !element.isFixed
-                  )}
-                  options={this.props.coautors}
-                  // options={this.props.coautors.filter(
-                  //   (x) => this.state.selectedUsers.indexOf(x) < 0
-                  // )}
-                  clearable={false}
+                  options={groupedOptions}
+                  formatGroupLabel={formatGroupLabel}
+                  styles={colourStyles}
+                  isClearable={false}
                   id="coautorsSelect"
                   placeholder="Seleccione coautores"
                   name="coautorsSelect"
-                  multi
+                  isMulti
                 />
               }
             />
@@ -389,15 +409,12 @@ export default class UploadIdeaModal extends React.Component {
                   value={this.state.tutor}
                   onChange={this.updateTutorSelect}
                   options={this.props.tutors}
-                  // options={this.props.tutors.filter(
-                  //   (x) => this.state.selectedUsers.indexOf(x) < 0
-                  // )}
                   isSearchable
-                  clearable={false}
+                  isClearable={false}
                   id="tutorSelect"
                   placeholder="Seleccione un tutor"
                   name="tutorSelect"
-                  multi={false}
+                  isMulti={false}
                 />
               }
             />
@@ -417,11 +434,11 @@ export default class UploadIdeaModal extends React.Component {
                   onChange={this.updateCareersSelect}
                   options={this.props.careers}
                   isSearchable
-                  clearable={false}
+                  isClearable={false}
                   id="careersSelect"
                   placeholder="Seleccione los carreras a los que pertence la idea"
                   name="careersSelect"
-                  multi
+                  isMulti
                 />
               }
             />

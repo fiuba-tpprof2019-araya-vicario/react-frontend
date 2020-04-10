@@ -69,7 +69,7 @@ export default class AcceptProposalModal extends React.Component {
                 name="careerelect"
                 value={this.state.option}
                 options={options}
-                clearable={false}
+                isClearable={false}
                 id="careerSelect"
                 onChange={this.updateCareerSelect}
                 placeholder="seleccioná un carrera para aprobar este proyecto"

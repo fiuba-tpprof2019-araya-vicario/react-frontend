@@ -128,8 +128,7 @@ export class MyProjectIndex extends React.Component {
       (this.props.project &&
         this.props.user.id === this.props.project.creator_id) ||
       !this.props.project;
-
-    console.log('similarUsers', this.props.similarUsers);
+    const similiarUsersIds = this.props.similarUsers.map(({ value }) => value);
 
     return (
       <Fragment>
@@ -200,8 +199,11 @@ export class MyProjectIndex extends React.Component {
           display-if={isUserCreator}
           uploadIdea={this.uploadIdea}
           editIdea={this.editIdea}
+          similars={this.props.similarUsers}
+          coautors={this.props.coautors.filter(
+            ({ value }) => !similiarUsersIds.includes(value)
+          )}
           careers={this.props.careers}
-          coautors={this.props.coautors}
           tutors={this.props.tutors}
           projectTypes={this.props.projectTypes}
           project={this.props.project}

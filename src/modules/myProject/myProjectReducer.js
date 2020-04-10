@@ -30,7 +30,7 @@ const HYDRATE_REQUESTS_STUDENT = 'HYDRATE_REQUESTS_STUDENT';
 
 const initialState = {
   project: null,
-  coautors: null,
+  coautors: [],
   projectTypes: null,
   tutors: null,
   similarUsers: []
@@ -546,7 +546,9 @@ export default (state = initialState, action) => {
     case HYDRATE_SIMILAR_USERS:
       return {
         ...state,
-        similarUsers: action.data
+        similarUsers: getSelectOptionsWithIgnore(action.data, null, {
+          color: '#0196dc'
+        })
       };
     case GET_TUTORS:
       return {

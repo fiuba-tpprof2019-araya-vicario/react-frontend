@@ -48,7 +48,7 @@ export default class ApproveProposalModal extends React.Component {
                 key="careerSelect"
                 name="careerelect"
                 value={this.state.option}
-                clearable={false}
+                isClearable={false}
                 options={options}
                 id="careerSelect"
                 onChange={this.updateCareerSelect}
