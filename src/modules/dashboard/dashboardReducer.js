@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { api, getNullConfig } from '../../api/apiInterfaceProvider';
+import { api, getConfig } from '../../api/apiInterfaceProvider';
 import { getMonthTextFromNumber } from '../../utils/services/functions';
 import { internalError } from '../login/authReducer';
 
@@ -17,7 +17,7 @@ export const dashboard = (data) => ({
 });
 
 export const resetDashboard = (year) => (dispatch) => {
-  const config = getNullConfig();
+  const config = getConfig();
 
   axios
     .get(`${api.dashboard}?year=${year}`, config)
