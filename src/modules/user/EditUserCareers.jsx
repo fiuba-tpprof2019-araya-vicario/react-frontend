@@ -19,7 +19,7 @@ export default class EditUserCareers extends React.Component {
 
     this.state = {
       removeCareerClicked: -1,
-      selectedCareer: -1,
+      selectedCareer: null,
       formSelect: { error: false, message: '' },
       careers: props.activeUser.careers
     };
@@ -36,9 +36,7 @@ export default class EditUserCareers extends React.Component {
   };
 
   updateCareerSelect = (newValue) => {
-    this.setState({
-      selectedCareer: newValue != null ? newValue.value : -1
-    });
+    this.setState({ selectedCareer: newValue });
   };
 
   resetCareerForm() {
@@ -58,7 +56,7 @@ export default class EditUserCareers extends React.Component {
       message: ''
     };
 
-    if (this.state.selectedCareer <= 0) {
+    if (!this.state.selectedCareer) {
       formSelect.error = true;
       formSelect.message = 'Este campo es obligatorio';
       formOk = false;
@@ -115,7 +113,7 @@ export default class EditUserCareers extends React.Component {
         onClick={() => {
           if (this.validarRolForm()) {
             this.state.careers.push(
-              this.getCareerById(this.state.selectedCareer)
+              this.getCareerById(this.state.selectedCareer.value)
             );
             this.addCareerModal.hideModal();
             this.props.refresh(this.state.careers);
