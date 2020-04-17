@@ -18,7 +18,7 @@ export default class EditUserProfiles extends React.Component {
     super();
     this.state = {
       removeProfileClicked: -1,
-      selectedProfile: -1,
+      selectedProfile: null,
       formSelect: { error: false, message: '' },
       profiles: props.activeUser.profiles
     };
@@ -35,9 +35,7 @@ export default class EditUserProfiles extends React.Component {
   };
 
   updateProfileSelect = (newValue) =>
-    this.setState({
-      selectedProfile: newValue != null ? newValue.value : -1
-    });
+    this.setState({ selectedProfile: newValue });
 
   resetProfileForm = () =>
     this.setState({
@@ -55,7 +53,7 @@ export default class EditUserProfiles extends React.Component {
       message: ''
     };
 
-    if (this.state.selectedProfile <= 0) {
+    if (!this.state.selectedProfile) {
       formSelect.error = true;
       formSelect.message = 'Este campo es obligatorio';
       formOk = false;
@@ -101,7 +99,7 @@ export default class EditUserProfiles extends React.Component {
       onClick={() => {
         if (this.validarRolForm()) {
           this.state.profiles.push(
-            this.getProfileById(this.state.selectedProfile)
+            this.getProfileById(this.state.selectedProfile.value)
           );
           this.addProfileModal.hideModal();
           this.props.refresh(this.state.profiles);

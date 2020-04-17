@@ -20,7 +20,7 @@ export default class EditMyUserInterests extends React.Component {
     super();
     this.state = {
       removeInterestClicked: -1,
-      selectedInterest: -1,
+      selectedInterest: null,
       selectedScore: 0,
       formSelect: { error: false, message: '' },
       interests: props.userInterests
@@ -38,7 +38,7 @@ export default class EditMyUserInterests extends React.Component {
   };
 
   updateInterestSelect = (newValue) => {
-    this.setState({ selectedInterest: newValue != null ? newValue.value : -1 });
+    this.setState({ selectedInterest: newValue });
   };
 
   updateScoreSelect = (newValue) => {
@@ -63,7 +63,7 @@ export default class EditMyUserInterests extends React.Component {
       message: ''
     };
 
-    if (this.state.selectedInterest <= 0) {
+    if (!this.state.selectedInterest) {
       formSelect.error = true;
       formSelect.message = 'Este campo es obligatorio';
       formOk = false;
@@ -74,7 +74,7 @@ export default class EditMyUserInterests extends React.Component {
     return formOk;
   };
 
-  getAgregarRolModalBody = () => {
+  getAgregarInterestModalBody = () => {
     const { selectedInterest, selectedScore, formSelect } = this.state;
 
     return [
@@ -112,7 +112,7 @@ export default class EditMyUserInterests extends React.Component {
             required
             inputComponent={
               <ScoreSlider
-                disabled={selectedInterest < 0}
+                disabled={!selectedInterest}
                 value={selectedScore}
                 onChange={(value) => this.setState({ selectedScore: value })}
               />
@@ -131,8 +131,8 @@ export default class EditMyUserInterests extends React.Component {
       onClick={() => {
         if (this.validarRolForm()) {
           this.state.interests.push({
-            ...this.getInterestById(this.state.selectedInterest),
-            score: this.state.selectedScore
+            ...this.getInterestById(this.state.selectedInterest.value),
+            original_score: this.state.selectedScore
           });
           this.addInterestModal.hideModal();
           this.props.refresh(this.state.interests);
@@ -236,7 +236,7 @@ export default class EditMyUserInterests extends React.Component {
         <Dialogue
           key="addInterestModal"
           title="Agregar interes"
-          body={this.getAgregarRolModalBody()}
+          body={this.getAgregarInterestModalBody()}
           buttons={this.getAddInterestModalButtons()}
           ref={(addInterestModal) => {
             this.addInterestModal = addInterestModal;

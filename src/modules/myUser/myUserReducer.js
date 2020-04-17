@@ -186,7 +186,7 @@ const fetchUserInterests = (data, interestsList) =>
     return {
       id,
       name,
-      score: rowObject.score
+      original_score: rowObject.original_score
     };
   });
 

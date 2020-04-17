@@ -19,25 +19,32 @@ export class DashboardIndex extends React.Component {
   };
 
   state = {
-    selectedYear: new Date().getFullYear()
+    selectedYear: {
+      label: new Date().getFullYear(),
+      value: new Date().getFullYear()
+    }
   };
 
   componentDidMount() {
-    this.recargar();
+    this.reload();
   }
 
   updateYearSelected = (newValue) => {
-    const selectedYear = newValue != null ? newValue.value : -1;
+    const selectedYearValue = newValue ? newValue.value : -1;
 
-    this.setState({ selectedYear }, this.props.resetDashboard(selectedYear));
+    this.setState(
+      { selectedYear: newValue },
+      this.props.resetDashboard(selectedYearValue)
+    );
   };
 
   getOptions = () => [{ value: 2019, label: 2019 }];
 
-  recargar = () => {
+  reload = () => {
     const { selectedYear } = this.state;
+    const selectedYearValue = selectedYear ? selectedYear.value : -1;
 
-    this.props.resetDashboard(selectedYear);
+    this.props.resetDashboard(selectedYearValue);
   };
 
   render() {
@@ -73,7 +80,7 @@ export class DashboardIndex extends React.Component {
             <Button
               className="flexBottomMedium"
               bsStyle="primary"
-              onClick={this.recargar}
+              onClick={this.reload}
             >
               <Glyphicon glyph="repeat" /> Recargar
             </Button>

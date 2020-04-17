@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import { Tab, Tabs } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Tab, Tabs } from 'react-bootstrap';
 import Select from 'react-select';
-import { getInitialData } from './commissionsReducer';
-import { clearAlert } from '../login/authReducer';
-import Title from '../../utils/Title';
+import history from '../../redux/history';
+import Alert from '../../utils/Alert';
 import Field from '../../utils/forms/Field';
 import { commissionsMessages } from '../../utils/messages';
 import { getSelectOptions } from '../../utils/services/functions';
+import Title from '../../utils/Title';
+import { clearAlert } from '../login/authReducer';
+import { getInitialData } from './commissionsReducer';
 import CommissionsTable from './CommissionsTable';
-import Alert from '../../utils/Alert';
-import history from '../../redux/history';
 
 export class CommissionsIndex extends React.Component {
   static propTypes = {
@@ -27,7 +27,7 @@ export class CommissionsIndex extends React.Component {
   state = {
     approved: false,
     terminated: false,
-    selectedCareer: -1
+    selectedCareer: null
   };
 
   componentDidMount() {
@@ -57,10 +57,10 @@ export class CommissionsIndex extends React.Component {
 
   updateCareerSelect = (newValue) => {
     const { approved, terminated } = this.state;
-    const selectedCareer = newValue != null ? newValue.value : -1;
+    const selectedCareerValue = newValue ? newValue.value : null;
 
-    this.setState({ selectedCareer });
-    this.props.getInitialData(approved, terminated, selectedCareer);
+    this.setState({ selectedCareer: newValue });
+    this.props.getInitialData(approved, terminated, selectedCareerValue);
   };
 
   render() {
