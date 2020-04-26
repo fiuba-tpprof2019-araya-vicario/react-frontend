@@ -63,7 +63,7 @@ export class DashboardIndex extends React.Component {
           subtitle={dashboardMessages.SUBTITLE}
         />
         <Row>
-          <Col md={6}>
+          <Col md={4}>
             <Field
               key="yearField"
               bsSize="small"
@@ -93,10 +93,7 @@ export class DashboardIndex extends React.Component {
               <Glyphicon glyph="repeat" /> Recargar
             </Button>
           </Col>
-        </Row>
-        <br />
-        <Row>
-          <Col lg={12}>
+          <Col lg={6}>
             <Center>
               {this.props.projects && (
                 <RadialGraphic data={this.props.projects.total} />
