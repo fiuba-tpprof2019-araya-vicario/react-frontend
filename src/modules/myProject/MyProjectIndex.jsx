@@ -49,7 +49,8 @@ export class MyProjectIndex extends React.Component {
     isAuthenticated: PropTypes.bool,
     careers: PropTypes.array,
     coautors: PropTypes.array,
-    similarUsers: PropTypes.array,
+    similarStudents: PropTypes.array,
+    similarTutors: PropTypes.array,
     tutors: PropTypes.array,
     projectTypes: PropTypes.array,
     requests: PropTypes.array
@@ -128,7 +129,12 @@ export class MyProjectIndex extends React.Component {
       (this.props.project &&
         this.props.user.id === this.props.project.creator_id) ||
       !this.props.project;
-    const similiarUsersIds = this.props.similarUsers.map(({ value }) => value);
+    const similiarStudentsIds = this.props.similarStudents.map(
+      ({ value }) => value
+    );
+    const similiarTutorsIds = this.props.similarTutors.map(
+      ({ value }) => value
+    );
 
     return (
       <Fragment>
@@ -199,12 +205,15 @@ export class MyProjectIndex extends React.Component {
           display-if={isUserCreator}
           uploadIdea={this.uploadIdea}
           editIdea={this.editIdea}
-          similars={this.props.similarUsers}
+          similarStudents={this.props.similarStudents}
+          similarTutors={this.props.similarTutors}
           coautors={this.props.coautors.filter(
-            ({ value }) => !similiarUsersIds.includes(value)
+            ({ value }) => !similiarStudentsIds.includes(value)
           )}
           careers={this.props.careers}
-          tutors={this.props.tutors}
+          tutors={this.props.tutors.filter(
+            ({ value }) => !similiarTutorsIds.includes(value)
+          )}
           projectTypes={this.props.projectTypes}
           project={this.props.project}
           editMode={this.state.activeStep}
@@ -267,7 +276,8 @@ const mapStateToProps = (state) => ({
   careers: state.myProjectReducer.careers,
   requests: state.myProjectReducer.requests,
   project: state.myProjectReducer.project,
-  similarUsers: state.myProjectReducer.similarUsers,
+  similarStudents: state.myProjectReducer.similarStudents,
+  similarTutors: state.myProjectReducer.similarTutors,
   projectTypes: state.myProjectReducer.projectTypes,
   tutors: state.myProjectReducer.tutors,
   user: state.authReducer.user,

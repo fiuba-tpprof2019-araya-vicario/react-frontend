@@ -10,7 +10,8 @@ export default class UploadIdeaModal extends React.Component {
   static propTypes = {
     project: PropTypes.object,
     user: PropTypes.object,
-    similars: PropTypes.array,
+    similarStudents: PropTypes.array,
+    similarTutors: PropTypes.array,
     coautors: PropTypes.array,
     careers: PropTypes.array,
     tutors: PropTypes.array,
@@ -258,9 +259,13 @@ export default class UploadIdeaModal extends React.Component {
   render() {
     const { show, requirement, form, autor } = this.state;
     const { title, projectType, coautors, careers, description } = form;
-    const groupedOptions = [
-      { label: 'Recomendados', options: this.props.similars },
+    const studentsOptions = [
+      { label: 'Recomendados', options: this.props.similarStudents },
       { label: 'Alumnos', options: this.props.coautors }
+    ];
+    const tutorsOptions = [
+      { label: 'Recomendados', options: this.props.similarTutors },
+      { label: 'Tutores', options: this.props.tutors }
     ];
     const groupStyles = {
       display: 'flex',
@@ -385,7 +390,7 @@ export default class UploadIdeaModal extends React.Component {
                   key="coautorsSelect"
                   value={coautors.value}
                   onChange={this.updateAutorsSelect}
-                  options={groupedOptions}
+                  options={studentsOptions}
                   formatGroupLabel={formatGroupLabel}
                   styles={colourStyles}
                   isClearable={false}
@@ -408,7 +413,9 @@ export default class UploadIdeaModal extends React.Component {
                   key="tutorSelect"
                   value={this.state.tutor}
                   onChange={this.updateTutorSelect}
-                  options={this.props.tutors}
+                  options={tutorsOptions}
+                  formatGroupLabel={formatGroupLabel}
+                  styles={colourStyles}
                   isSearchable
                   isClearable={false}
                   id="tutorSelect"

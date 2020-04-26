@@ -24,7 +24,8 @@ const GET_CAREERS = 'GET_CAREERS';
 const GET_ACTIVE_PROJECT = 'GET_ACTIVE_PROJECT';
 const GET_PROJECT_TYPES = 'GET_PROJECT_TYPES';
 const POST_IDEA = 'POST_IDEA';
-const HYDRATE_SIMILAR_USERS = 'HYDRATE_SIMILAR_USERS';
+const HYDRATE_SIMILAR_STUDENTS = 'HYDRATE_SIMILAR_STUDENTS';
+const HYDRATE_SIMILAR_TUTORS = 'HYDRATE_SIMILAR_TUTORS';
 const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 const HYDRATE_REQUESTS_STUDENT = 'HYDRATE_REQUESTS_STUDENT';
 
@@ -33,7 +34,8 @@ const initialState = {
   coautors: [],
   projectTypes: null,
   tutors: null,
-  similarUsers: []
+  similarStudents: [],
+  similarTutors: []
 };
 
 const ideaAsigned = (data) => ({
@@ -46,8 +48,8 @@ const hydrateRequests = (data) => ({
   data
 });
 
-const hydrateSimilarUsers = (data) => ({
-  type: HYDRATE_SIMILAR_USERS,
+const hydrateSimilarUsers = (data, type) => ({
+  type: `HYDRATE_SIMILAR_${type}`,
   data
 });
 
@@ -325,14 +327,14 @@ export const getRequests = (dispatch) => {
     });
 };
 
-export const getSimilarUsers = (dispatch) => {
+export const getSimilarUsers = (dispatch, type) => {
   const config = getConfig();
 
   axios
-    .get(api.similarUsers, config)
+    .get(api.similarUsers(type), config)
     .then((res) => res.data.data)
     .then((data) => {
-      dispatch(hydrateSimilarUsers(data));
+      dispatch(hydrateSimilarUsers(data, type.toUpperCase()));
     })
     .catch((err) => {
       dispatch(queryError(err));
@@ -410,7 +412,8 @@ export const getInitialData = (ignoreId, projectId) => (dispatch) => {
     getCareers(dispatch),
     getRequests(dispatch),
     getCoautors(ignoreId, dispatch),
-    getSimilarUsers(dispatch)
+    getSimilarUsers(dispatch, 'students'),
+    getSimilarUsers(dispatch, 'tutors')
   )
     .then(() => dispatch(toggleLoading({ loading: false })))
     .catch(() => {
@@ -543,10 +546,17 @@ export default (state = initialState, action) => {
         ...state,
         careers: action.data
       };
-    case HYDRATE_SIMILAR_USERS:
+    case HYDRATE_SIMILAR_STUDENTS:
       return {
         ...state,
-        similarUsers: getSelectOptionsWithIgnore(action.data, null, {
+        similarStudents: getSelectOptionsWithIgnore(action.data, null, {
+          color: '#0196dc'
+        })
+      };
+    case HYDRATE_SIMILAR_TUTORS:
+      return {
+        ...state,
+        similarTutors: getSelectOptionsWithIgnore(action.data, null, {
           color: '#0196dc'
         })
       };

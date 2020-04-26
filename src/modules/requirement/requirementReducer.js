@@ -22,16 +22,16 @@ const initialState = {
   requirements: null
 };
 
-export const hydrateRequirements = (data) => ({
+const hydrateRequirements = (data) => ({
   type: HYDRATE_REQUIREMENTS,
   data
 });
 
-export const requirementsUploaded = () => ({
+const requirementsUploaded = () => ({
   type: UPLOAD_REQUIREMENT
 });
 
-export const requirementsEdited = () => ({
+const requirementsEdited = () => ({
   type: EDIT_REQUIREMENT
 });
 

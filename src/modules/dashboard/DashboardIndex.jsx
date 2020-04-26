@@ -38,7 +38,15 @@ export class DashboardIndex extends React.Component {
     );
   };
 
-  getOptions = () => [{ value: 2019, label: 2019 }];
+  getOptions = () => {
+    const list = [];
+
+    for (let year = 2020; year <= new Date().getFullYear(); year += 1) {
+      list.push({ value: year, label: year });
+    }
+
+    return list;
+  };
 
   reload = () => {
     const { selectedYear } = this.state;
