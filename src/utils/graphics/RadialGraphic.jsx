@@ -18,6 +18,10 @@ export default class RadialGraphic extends React.Component {
     const { value } = this.state;
     const hintValue = data.find((d) => value.label === d.label);
 
+    if (!data.some(({ angle }) => angle)) {
+      return null;
+    }
+
     return (
       <RadialChart
         className="donut-chart-example"

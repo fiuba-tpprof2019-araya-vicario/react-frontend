@@ -95,10 +95,6 @@ export function getFullNameWithDescription(user, description) {
   return user ? `${user.name} ${user.surname}${description}` : '';
 }
 
-export function getFullNameWithEmail(user) {
-  return user ? `${user.name} ${user.surname} (${user.email})` : '';
-}
-
 export function getDescriptionByRequestStatus(stateRequest) {
   return stateRequest ? REQUEST_STATES[stateRequest] : '';
 }

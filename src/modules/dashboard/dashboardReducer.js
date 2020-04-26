@@ -33,25 +33,23 @@ const fetchProjects = (data) => {
   const projects = {
     progress: data.map((project) => ({
       x: getMonthTextFromNumber(project.month),
-      y: parseInt(project.progress, 10) + Math.random()
+      y: parseInt(project.progress, 10)
     })),
     terminated: data.map((project) => ({
       x: getMonthTextFromNumber(project.month),
-      y: parseInt(project.terminated, 10) + Math.random()
+      y: parseInt(project.terminated, 10)
     })),
     total: [
       {
-        angle: data.reduce((acum, value) => acum + value.progress, 0) + 2,
+        angle: data.reduce((acum, value) => acum + value.progress, 0),
         label: 'en progreso'
       },
       {
-        angle: data.reduce((acum, value) => acum + value.terminated, 0) + 7,
+        angle: data.reduce((acum, value) => acum + value.terminated, 0),
         label: 'terminados'
       }
     ]
   };
-
-  console.log(projects);
 
   return projects;
 };

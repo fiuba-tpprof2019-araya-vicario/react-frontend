@@ -35,7 +35,7 @@ export const api = {
   uploadDocumentation: (projectId) =>
     `${BASE + PRESENTATIONS}/${projectId}/documentation`,
   userInterests: `${BASE + INTERESTS}/${USERS}`,
-  similarUsers: `${BASE + INTERESTS}/${USERS}/similar`,
+  similarUsers: (type) => `${BASE + INTERESTS}/${USERS}/similar?type=${type}`,
   profiles: BASE + PROFIlES,
   careers: BASE + CAREERS,
   requestsTutors: `${BASE + REQUESTS}/tutors`,
@@ -67,62 +67,9 @@ export const getConfig = () => ({
   }
 });
 
-export const getNullConfig = () => ({
-  headers: {}
-});
-
-export const getFirebaseConfig = () => ({
-  crossdomain: 'true',
-  dataType: 'jsonp',
-  headers: {
-    crossdomain: 'true',
-    dataType: 'jsonp',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': '*'
-  }
-});
-
 export const getConfigMultipart = () => ({
   headers: {
     Authorization: getStoredToken(),
     'content-type': 'multipart/form-data'
   }
 });
-
-export const getFileConfig = () => ({
-  headers: {
-    Authorization: getStoredToken()
-  },
-  responseType: 'blob'
-});
-
-export const getErrorResponse = (err) => ({
-  status: err.response.status,
-  message: err.response.data.message.msg
-});
-
-export const getPostAppServerBody = (nombre, url) => ({
-  id: null,
-  name: nombre,
-  url,
-  _rev: null,
-  created_by: null,
-  created_at: null,
-  last_connection: null
-});
-
-export const getPostFileUploadBody = (archivo) => {
-  const formData = new FormData();
-
-  formData.append('file', archivo);
-  formData.append('id', null);
-  formData.append('_rev', null);
-  formData.append('resource', null);
-  formData.append('created_at', null);
-  formData.append('created_by', null);
-  formData.append('updated_at', null);
-  formData.append('filename', null);
-  formData.append('size', null);
-
-  return formData;
-};

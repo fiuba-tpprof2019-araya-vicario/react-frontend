@@ -8,7 +8,6 @@ const API_VERSION = 'v0';
 
 export const CLIENT_ID =
   '942857236809-2qjq91t6661aqo83kfraeffcdb10dg42.apps.googleusercontent.com';
-// '942857236809-1mbatv1f1t1eanl1jqrl6qjdjb0lu174.apps.googleusercontent.com';
 export const DEVELOPER_KEY = 'AIzaSyCf2kRvI-8OfaM58uNb-uk6Ko64PRCr2mI';
 export const SCOPE = ['https://www.googleapis.com/auth/drive.readonly'];
 export const BASE = `${PROTOCOL}://${ROOT}/${API_VERSION}/api/`;

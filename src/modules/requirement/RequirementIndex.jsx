@@ -36,6 +36,8 @@ export class RequirementIndex extends React.Component {
     requirements: PropTypes.array,
     coautors: PropTypes.array,
     careers: PropTypes.array,
+    similarStudents: PropTypes.array,
+    similarTutors: PropTypes.array,
     projectTypes: PropTypes.array,
     tutors: PropTypes.array,
     user: PropTypes.object,
@@ -78,6 +80,13 @@ export class RequirementIndex extends React.Component {
   };
 
   render() {
+    const similiarStudentsIds = this.props.similarStudents.map(
+      ({ value }) => value
+    );
+    const similiarTutorsIds = this.props.similarTutors.map(
+      ({ value }) => value
+    );
+
     return (
       <Fragment>
         <Title
@@ -124,8 +133,14 @@ export class RequirementIndex extends React.Component {
         <UploadIdeaModal
           uploadIdea={this.uploadIdea}
           careers={this.props.careers}
-          coautors={this.props.coautors}
-          tutors={this.props.tutors}
+          coautors={this.props.coautors.filter(
+            ({ value }) => !similiarStudentsIds.includes(value)
+          )}
+          tutors={this.props.tutors.filter(
+            ({ value }) => !similiarTutorsIds.includes(value)
+          )}
+          similarTutors={this.props.similarTutors}
+          similarStudents={this.props.similarStudents}
           projectTypes={this.props.projectTypes}
           ref={(modal) => {
             this.UploadIdeaModal = modal;
@@ -167,6 +182,8 @@ const mapStateToProps = (state) => ({
   coautors: state.myProjectReducer.coautors,
   careers: state.myProjectReducer.careers,
   projectTypes: state.myProjectReducer.projectTypes,
+  similarStudents: state.myProjectReducer.similarStudents,
+  similarTutors: state.myProjectReducer.similarTutors,
   tutors: state.myProjectReducer.tutors,
   user: state.authReducer.user,
   isAuthenticated: state.authReducer.isAuthenticated
