@@ -42,14 +42,17 @@ const fetchProjects = (data) => {
     total: [
       {
         angle: data.reduce((acum, value) => acum + value.progress, 0),
-        label: 'en progreso'
+        detail: 'En progreso'
       },
       {
         angle: data.reduce((acum, value) => acum + value.terminated, 0),
-        label: 'terminados'
+        detail: 'Terminados'
       }
     ]
   };
+
+  projects.total[0].value = projects.total[0].angle;
+  projects.total[1].value = projects.total[1].angle;
 
   return projects;
 };
