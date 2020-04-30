@@ -32,8 +32,8 @@ const HYDRATE_REQUESTS_STUDENT = 'HYDRATE_REQUESTS_STUDENT';
 const initialState = {
   project: null,
   coautors: [],
-  projectTypes: null,
-  tutors: null,
+  projectTypes: [],
+  tutors: [],
   similarStudents: [],
   similarTutors: []
 };
