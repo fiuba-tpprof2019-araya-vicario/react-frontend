@@ -29,15 +29,6 @@ const HYDRATE_SIMILAR_TUTOR = 'HYDRATE_SIMILAR_TUTOR';
 const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 const HYDRATE_REQUESTS_STUDENT = 'HYDRATE_REQUESTS_STUDENT';
 
-const initialState = {
-  project: null,
-  coautors: [],
-  projectTypes: [],
-  tutors: [],
-  similarStudents: [],
-  similarTutors: []
-};
-
 const ideaAsigned = (data) => ({
   type: POST_IDEA,
   data
@@ -519,7 +510,17 @@ const fetchRequestTable = (data) => {
   return returnValue;
 };
 
-export default (state = initialState, action) => {
+export default (
+  state = {
+    project: null,
+    coautors: [],
+    projectTypes: [],
+    tutors: [],
+    similarStudents: [],
+    similarTutors: []
+  },
+  action
+) => {
   switch (action.type) {
     case GET_COAUTORS:
       return {

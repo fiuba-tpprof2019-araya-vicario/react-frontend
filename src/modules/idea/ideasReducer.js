@@ -10,11 +10,6 @@ import { queryError, toggleLoading } from '../login/authReducer';
 const HYDRATE_IDEAS = 'HYDRATE_IDEAS';
 const HYDRATE_IDEA = 'HYDRATE_IDEA';
 
-const initialState = {
-  projects: [],
-  project: {}
-};
-
 const hydrateProject = (data) => ({
   type: HYDRATE_IDEA,
   data
@@ -74,7 +69,7 @@ const fetchProjectsTable = (data) =>
     created_at: formatterDate(project.createdAt)
   }));
 
-export default (state = initialState, action) => {
+export default (state = { projects: [], project: {} }, action) => {
   switch (action.type) {
     case HYDRATE_IDEAS:
       return {

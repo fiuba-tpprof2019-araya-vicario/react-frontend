@@ -5,13 +5,7 @@ import { internalError } from '../login/authReducer';
 
 const HYDRATE_DASHBOARD = 'HYDRATE_DASHBOARD';
 
-const initialState = {
-  result: [],
-  alert: {},
-  data: []
-};
-
-export const dashboard = (data) => ({
+const dashboard = (data) => ({
   type: HYDRATE_DASHBOARD,
   data
 });
@@ -57,7 +51,7 @@ const fetchProjects = (data) => {
   return projects;
 };
 
-export default (state = initialState, action) => {
+export default (state = { projects: [] }, action) => {
   switch (action.type) {
     case HYDRATE_DASHBOARD:
       return {

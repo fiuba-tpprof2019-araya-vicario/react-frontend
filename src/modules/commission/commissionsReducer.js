@@ -6,25 +6,24 @@ import {
   getStudentsNames,
   getTutorsNames
 } from '../../utils/services/functions';
-import { clearAlert, queryError, toggleLoading } from '../login/authReducer';
+import {
+  clearAlert,
+  queryError,
+  toggleLoading,
+  hydrateAlert
+} from '../login/authReducer';
 
 const HYDRATE_APPROVED_COMMISSIONS = 'HYDRATE_APPROVED_COMMISSIONS';
 const HYDRATE_TERMINATED_COMMISSIONS = 'HYDRATE_TERMINATED_COMMISSIONS';
 const HYDRATE_PENDING_COMMISSIONS = 'HYDRATE_PENDING_COMMISSIONS';
 const HYDRATE_COMMISSION = 'HYDRATE_COMMISSION';
-const ABANDON_COMMISSION = 'ABANDON_COMMISSION';
 
-const initialState = {
-  alert: null,
-  loading: false,
-  approvedProjects: [],
-  pendingProjects: [],
-  project: {}
-};
-
-const abandonedIdea = () => ({
-  type: ABANDON_COMMISSION
-});
+const abandonedIdea = () =>
+  hydrateAlert({
+    message: commissionsMessages.ABANDON_SUCCESS,
+    style: 'success',
+    onDismiss: clearAlert
+  });
 
 const hydratePendingProjects = (data) => ({
   type: HYDRATE_PENDING_COMMISSIONS,
@@ -210,7 +209,15 @@ const fetchProjectsTable = (data) =>
     created_at: formatterDate(project.createdAt)
   }));
 
-export default (state = initialState, action) => {
+export default (
+  state = {
+    approvedProjects: [],
+    pendingProjects: [],
+    terminatedProjects: [],
+    project: {}
+  },
+  action
+) => {
   switch (action.type) {
     case HYDRATE_PENDING_COMMISSIONS:
       return {
@@ -231,15 +238,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         project: action.data
-      };
-    case ABANDON_COMMISSION:
-      return {
-        ...state,
-        alert: {
-          message: commissionsMessages.ABANDON_SUCCESS,
-          style: 'success',
-          onDismiss: clearAlert
-        }
       };
     default:
       return state;

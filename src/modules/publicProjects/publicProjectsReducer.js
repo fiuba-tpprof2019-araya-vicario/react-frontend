@@ -8,41 +8,11 @@ import {
 import { queryError, toggleLoading } from '../login/authReducer';
 
 const HYDRATE_PUBLIC_PROJECTS = 'HYDRATE_PUBLIC_PROJECTS';
-const HYDRATE_PUBLIC_PROJECT = 'HYDRATE_PUBLIC_PROJECT';
-
-const initialState = {
-  alert: null,
-  loading: false,
-  projects: [],
-  project: {}
-};
-
-const hydrateProject = (data) => ({
-  type: HYDRATE_PUBLIC_PROJECT,
-  data
-});
 
 const hydrateProjects = (data) => ({
   type: HYDRATE_PUBLIC_PROJECTS,
   data
 });
-
-export const getProject = (projectId) => (dispatch) => {
-  dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
-
-  axios
-    .get(api.project(projectId), config)
-    .then((res) => res.data.data)
-    .then((data) => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(hydrateProject(data));
-    })
-    .catch((err) => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
-    });
-};
 
 export const getProjects = (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
@@ -104,17 +74,12 @@ const fetchProjectsTable = (data) =>
     };
   });
 
-export default (state = initialState, action) => {
+export default (state = { projects: [], project: {} }, action) => {
   switch (action.type) {
     case HYDRATE_PUBLIC_PROJECTS:
       return {
         ...state,
         projects: fetchProjectsTable(action.data)
-      };
-    case HYDRATE_PUBLIC_PROJECT:
-      return {
-        ...state,
-        project: action.data
       };
     default:
       return state;

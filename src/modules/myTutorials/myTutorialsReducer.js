@@ -5,22 +5,23 @@ import {
   formatterDate,
   getDescriptionByRequestStatus
 } from '../../utils/services/functions';
-import { clearAlert, queryError, toggleLoading } from '../login/authReducer';
+import {
+  clearAlert,
+  queryError,
+  toggleLoading,
+  hydrateAlert
+} from '../login/authReducer';
 
 const HYDRATE_MY_TUTORIALS = 'HYDRATE_MY_TUTORIALS';
 const HYDRATE_MY_TUTORIAL = 'HYDRATE_MY_TUTORIAL';
-const ABANDON_IDEA = 'ABANDON_IDEA';
 const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 
-const initialState = {
-  myTutorials: [],
-  myCoTutorials: [],
-  project: {}
-};
-
-export const abandonedIdea = () => ({
-  type: ABANDON_IDEA
-});
+export const abandonedIdea = () =>
+  hydrateAlert({
+    message: myTutorialsMessages.ABANDON_SUCCESS,
+    style: 'success',
+    onDismiss: clearAlert
+  });
 
 export const acceptedProposal = () => ({
   type: ACCEPTED_PROPOSAL
@@ -210,7 +211,14 @@ const fetchMyTutorialsTable = (data) =>
     )
   }));
 
-export default (state = initialState, action) => {
+export default (
+  state = {
+    myTutorials: [],
+    myCoTutorials: [],
+    project: {}
+  },
+  action
+) => {
   switch (action.type) {
     case HYDRATE_MY_TUTORIALS:
       return {
@@ -222,15 +230,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         project: action.data
-      };
-    case ABANDON_IDEA:
-      return {
-        ...state,
-        alert: {
-          message: myTutorialsMessages.ABANDON_SUCCESS,
-          style: 'success',
-          onDismiss: clearAlert
-        }
       };
     default:
       return state;

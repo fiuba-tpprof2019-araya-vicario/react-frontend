@@ -11,12 +11,6 @@ const HYDRATE_REQUESTS_TUTORS = 'HYDRATE_REQUESTS_TUTORS';
 const HYDRATE_REQUESTS_STUDENTS = 'HYDRATE_REQUESTS_STUDENTS';
 const POST_IDEA = 'POST_IDEA';
 
-const initialState = {
-  alert: null,
-  loading: false,
-  requests: null
-};
-
 const ideaAccepted = (data) => ({
   type: POST_IDEA,
   data
@@ -176,7 +170,7 @@ const fetchRequestTable = (data) => {
   return returnValue;
 };
 
-export default (state = initialState, action) => {
+export default (state = { tutorRequests: [], studentRequests: [] }, action) => {
   switch (action.type) {
     case HYDRATE_REQUESTS_TUTORS:
       return {

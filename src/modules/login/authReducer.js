@@ -14,15 +14,7 @@ const LOGIN_ERROR = 'LOGIN_ERROR';
 const CLEAR_ERRORS = 'CLEAR_ERRORS';
 const POST_IDEA = 'POST_IDEA';
 const MY_PROFILE = 'MY_PROFILE';
-
-const initialState = {
-  token: {},
-  user: {},
-  error: { message: '' },
-  alert: null,
-  loading: false,
-  isAuthenticated: false
-};
+const HYDRATE_ALERT = 'HYDRATE_ALERT';
 
 export const clearAlert = () => ({
   type: CLEAR_ALERT
@@ -41,6 +33,11 @@ export const queryError = (err) => ({
 export const loginError = (err) => ({
   type: LOGIN_ERROR,
   err
+});
+
+export const hydrateAlert = (alert) => ({
+  type: HYDRATE_ALERT,
+  alert
 });
 
 export const internalError = (err) => ({
@@ -122,7 +119,17 @@ export const loginWithGoogle = (response) => (dispatch) => {
     });
 };
 
-export default (state = initialState, action) => {
+export default (
+  state = {
+    token: {},
+    user: {},
+    error: { message: '' },
+    alert: null,
+    loading: false,
+    isAuthenticated: false
+  },
+  action
+) => {
   switch (action.type) {
     case LOGIN_USER:
       return {
@@ -183,6 +190,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         alert: { style: 'success', message: action.text, onDismiss: clearAlert }
+      };
+    case HYDRATE_ALERT:
+      return {
+        ...state,
+        alert: action.alert
       };
     case TOGGLE_LOADING:
       return { ...state, loading: action.loading };

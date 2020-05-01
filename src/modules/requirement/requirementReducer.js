@@ -16,12 +16,6 @@ const HYDRATE_REQUIREMENTS = 'HYDRATE_REQUIREMENTS';
 const EDIT_REQUIREMENT = 'EDIT_REQUIREMENT';
 const UPLOAD_REQUIREMENT = 'UPLOAD_REQUIREMENT';
 
-const initialState = {
-  alert: null,
-  loading: false,
-  requirements: null
-};
-
 const hydrateRequirements = (data) => ({
   type: HYDRATE_REQUIREMENTS,
   data
@@ -136,7 +130,7 @@ const fetchRequirementTable = (data) => {
   return returnValue;
 };
 
-export default (state = initialState, action) => {
+export default (state = { requirements: [] }, action) => {
   switch (action.type) {
     case HYDRATE_REQUIREMENTS:
       return {

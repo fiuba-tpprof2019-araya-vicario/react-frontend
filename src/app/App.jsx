@@ -21,7 +21,6 @@ import Commission from '../modules/commission/CommissionsIndex';
 import CommissionDetail from '../modules/commission/CommissionsDetail';
 import Contact from '../modules/contact/ContactIndex';
 import PublicProject from '../modules/publicProjects/PublicProjectsIndex';
-import PublicProjectDetail from '../modules/publicProjects/PublicProjectsDetail';
 import Requirement from '../modules/requirement/RequirementIndex';
 import Dashboard from '../modules/dashboard/DashboardIndex';
 import { persistor } from '../redux/store';
@@ -148,7 +147,6 @@ class App extends React.Component {
                 component={Dashboard}
               />
               <Route exact path="/public" component={PublicProject} />
-              <Route exact path="/public/:id" component={PublicProjectDetail} />
               <Route exact path="/contact" component={Contact} />
             </Switch>
           </Grid>

@@ -20,7 +20,7 @@ export const api = {
   dashboard: BASE + DASHBOARD,
   projects: BASE + PROJECTS,
   projectsCreated: `${BASE + PROJECTS}?state=1`,
-  projectsPublicated: `${BASE + PROJECTS}?state=6`,
+  projectsPublicated: `${BASE + PROJECTS}/portal`,
   projectsInAppreciation: `${BASE + PROJECTS}?state=3`,
   projectsForCommissions: `${BASE + PROJECTS}/commissions`,
   projectsTutor: `${BASE + PROJECTS}/tutors`,
