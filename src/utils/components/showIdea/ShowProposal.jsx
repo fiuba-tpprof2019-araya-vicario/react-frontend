@@ -17,49 +17,59 @@ export default class ShowProposal extends React.Component {
 
   showApprobals = () => {
     const { project } = this.props;
+    const acceptedProjects = project.ProjectCareers.filter(
+      ({ status }) => status === 'accepted'
+    );
+
+    if (acceptedProjects.length === 0) {
+      return null;
+    }
 
     return (
-      project.ProjectCareers.some(({ status }) => status === 'accepted') && (
-        <Itemized
-          title="Aprobaciónes de la propuesta:"
-          items={project.ProjectCareers.map((projectCareer) => (
-            <Fragment>
-              {getIconWithOverlay(
-                `Miembro de la comisión: ${projectCareer.Judge.name} ${
-                  projectCareer.Judge.surname
-                } (${projectCareer.Judge.email})\n`,
-                <i className="fa fa-info-circle">&nbsp;</i>
-              )}
-              {projectCareer.Career.name}:{' '}
-              {formatterDate(projectCareer.updatedAt)}
-            </Fragment>
-          ))}
-        />
-      )
+      <Itemized
+        title="Aprobaciónes de la propuesta:"
+        items={acceptedProjects.map((projectCareer) => (
+          <Fragment>
+            {getIconWithOverlay(
+              `Miembro de la comisión: ${projectCareer.Judge.name} ${
+                projectCareer.Judge.surname
+              } (${projectCareer.Judge.email})\n`,
+              <i className="fa fa-info-circle">&nbsp;</i>
+            )}
+            {projectCareer.Career.name}:{' '}
+            {formatterDate(projectCareer.updatedAt)}
+          </Fragment>
+        ))}
+      />
     );
   };
 
   showRejectionReasons = () => {
     const { project } = this.props;
+    const rejectedProjects = project.ProjectCareers.filter(
+      ({ status }) => status === 'rejected'
+    );
+
+    if (rejectedProjects.length === 0) {
+      return null;
+    }
 
     return (
-      project.ProjectCareers.some(({ status }) => status === 'rejected') && (
-        <Itemized
-          title="Motivos de rechazo de la propuesta:"
-          items={project.ProjectCareers.map((projectCareer) => (
-            <Fragment>
-              {getIconWithOverlay(
-                `Carrera: ${projectCareer.Career.name}\n
+      <Itemized
+        title="Motivos de rechazo de la propuesta:"
+        items={rejectedProjects.map((projectCareer) => (
+          <Fragment>
+            {getIconWithOverlay(
+              `Carrera: ${projectCareer.Career.name}\n
                 Miembro de la comisión: ${projectCareer.Judge.name} ${
-                  projectCareer.Judge.surname
-                } (${projectCareer.Judge.email})\n`,
-                <i className="fa fa-info-circle">&nbsp;</i>
-              )}
-              {projectCareer.reject_reason}
-            </Fragment>
-          ))}
-        />
-      )
+                projectCareer.Judge.surname
+              } (${projectCareer.Judge.email})\n`,
+              <i className="fa fa-info-circle">&nbsp;</i>
+            )}
+            {projectCareer.reject_reason}
+          </Fragment>
+        ))}
+      />
     );
   };
 
