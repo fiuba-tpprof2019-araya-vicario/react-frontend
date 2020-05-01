@@ -30,8 +30,8 @@ export const upload = ({ email, name, description }) => (dispatch) => {
       dispatch(formUploaded());
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };

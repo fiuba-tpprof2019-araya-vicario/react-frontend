@@ -51,8 +51,8 @@ export const abandonIdea = (projectId, memberId, postAction = () => {}) => (
       dispatch(abandonedIdea());
       postAction();
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -68,9 +68,9 @@ const getActiveTutorial = (dispatch, projectId) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateMyTutorial(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -92,8 +92,8 @@ export const acceptProposal = (requestId, projectId) => (dispatch) => {
       dispatch(acceptedProposal());
       getActiveTutorial(dispatch, projectId);
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -110,8 +110,8 @@ export const enablePresentation = (projectId) => (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       getActiveTutorial(dispatch, projectId);
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -127,8 +127,8 @@ export const submitPresentation = (projectId, presentationId) => (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       getActiveTutorial(dispatch, projectId);
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -144,9 +144,9 @@ export const getMyTutorials = (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateMyTutorials(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -165,9 +165,9 @@ export const acceptRequest = (requestId) => (dispatch) => {
       getMyTutorials(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -186,9 +186,9 @@ export const rejectRequest = (requestId) => (dispatch) => {
       getMyTutorials(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 

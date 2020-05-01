@@ -41,8 +41,8 @@ export const getInitialData = () => (dispatch) => {
     .then((data) => {
       dispatch(initialData(data));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -59,12 +59,8 @@ export const getUsers = (name, email) => (dispatch) => {
     .then((response) => {
       dispatch(users(response.data.data));
     })
-    .catch((err) => {
-      if (err.response && err.response.status) {
-        dispatch(queryError(err));
-      } else {
-        dispatch(internalError(err));
-      }
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -78,8 +74,8 @@ export const editUser = (interests) => (dispatch) => {
       dispatch(userEdited());
       dispatch(successful('El usuario se tu perfil correctamente'));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 

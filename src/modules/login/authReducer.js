@@ -25,14 +25,14 @@ export const toggleLoading = ({ loading }) => ({
   loading
 });
 
-export const queryError = (err) => ({
+export const queryError = (error) => ({
   type: QUERY_ERROR,
-  err
+  error
 });
 
-export const loginError = (err) => ({
+export const loginError = (error) => ({
   type: LOGIN_ERROR,
-  err
+  error
 });
 
 export const hydrateAlert = (alert) => ({
@@ -40,9 +40,9 @@ export const hydrateAlert = (alert) => ({
   alert
 });
 
-export const internalError = (err) => ({
+export const internalError = (error) => ({
   type: INTERNAL_ERROR,
-  err
+  error
 });
 
 export const successful = (text) => ({
@@ -82,8 +82,8 @@ export const loginUser = (username, password) => (dispatch) => {
       dispatch(login({ token: data.token, user: { email: username } }));
       dispatch(push('/'));
     })
-    .catch((err) => {
-      dispatch(loginError(err));
+    .catch((error) => {
+      dispatch(loginError(error));
     });
 };
 
@@ -114,9 +114,25 @@ export const loginWithGoogle = (response) => (dispatch) => {
       );
       dispatch(push('/'));
     })
-    .catch((err) => {
-      dispatch(loginError(err));
+    .catch((error) => {
+      dispatch(loginError(error));
     });
+};
+
+const getQueryErrorMessage = (error = {}) => {
+  const { response } = error;
+
+  if (!response || !response.data) {
+    return utilsMessages.QUERY_ERROR;
+  }
+
+  const { message } = response.data;
+
+  if (!message) {
+    return utilsMessages.QUERY_ERROR;
+  }
+
+  return message;
 };
 
 export default (
@@ -170,7 +186,7 @@ export default (
       return {
         ...state,
         alert: {
-          message: utilsMessages.QUERY_ERROR,
+          message: getQueryErrorMessage(action.error),
           style: 'danger',
           onDismiss: clearAlert
         }

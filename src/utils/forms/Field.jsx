@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import MandatoryField from './MandatoryField';
+import { getIconWithOverlay } from './StatusIcon';
 
 export default class Field extends React.Component {
   static propTypes = {
@@ -9,6 +10,7 @@ export default class Field extends React.Component {
     validationState: PropTypes.bool,
     bsSize: PropTypes.string,
     label: PropTypes.string,
+    information: PropTypes.string,
     required: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
     inputComponent: PropTypes.element,
     className: PropTypes.string,
@@ -23,6 +25,7 @@ export default class Field extends React.Component {
       bsSize,
       required,
       className,
+      information,
       validationMessage,
       inputComponent
     } = this.props;
@@ -37,8 +40,13 @@ export default class Field extends React.Component {
         className={className}
       >
         <ControlLabel display-if={!!label} key={`${key}label`}>
-          {label}
-          <MandatoryField key={key} display-if={required} />
+          {label}{' '}
+          <MandatoryField key={`mandatory${key}`} display-if={required} />
+          {information &&
+            getIconWithOverlay(
+              information,
+              <i className="fa fa-info-circle">&nbsp;</i>
+            )}
         </ControlLabel>
         {inputComponent}
         <HelpBlock

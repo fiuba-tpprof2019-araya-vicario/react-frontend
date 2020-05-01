@@ -40,9 +40,9 @@ export const getRequirements = (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateRequirements(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -64,9 +64,9 @@ export const editRequirement = (id, form) => (dispatch) => {
       dispatch(getRequirements(dispatch));
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -82,9 +82,9 @@ export const deleteRequirement = (id) => (dispatch) => {
       dispatch(getRequirements(dispatch));
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -105,9 +105,9 @@ export const uploadRequirement = (form) => (dispatch) => {
       getRequirements(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 

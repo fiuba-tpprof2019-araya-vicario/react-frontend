@@ -161,8 +161,8 @@ const getActiveProject = (projectId, dispatch) => {
     .then((data) => {
       dispatch(activeProjectUploaded(data));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -175,8 +175,8 @@ const getTutors = (ignoreId, dispatch) => {
     .then((data) => {
       dispatch(tutorsUploaded(data, ignoreId));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -189,8 +189,8 @@ const getCoautors = (ignoreId, dispatch) => {
     .then((data) => {
       dispatch(coautorsUploaded(data, ignoreId));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -210,8 +210,8 @@ const uploadFile = (projectId, form, endpoint, dispatch) => {
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -263,8 +263,8 @@ export const editPresentationData = (
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -298,8 +298,8 @@ export const uploadIdea = (
       dispatch(toggleLoading({ loading: false }));
       postAction();
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -313,8 +313,8 @@ export const getRequests = (dispatch) => {
     .then((data) => {
       dispatch(hydrateRequests(data));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -327,8 +327,8 @@ export const getSimilarUsers = (dispatch, type) => {
     .then((data) => {
       dispatch(hydrateSimilarUsers(data, type.toUpperCase()));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -347,8 +347,8 @@ export const acceptProposal = (requestId, projectId) => (dispatch) => {
       dispatch(acceptedProposal());
       getActiveProject(projectId, dispatch);
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -368,9 +368,9 @@ export const acceptRequest = (requestId, projectId) => (dispatch) => {
       getActiveProject(projectId, dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -388,9 +388,9 @@ export const rejectRequest = (requestId) => (dispatch) => {
       getRequests(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -440,8 +440,8 @@ export const editIdea = (
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -460,8 +460,8 @@ export const abandonIdea = (projectId, memberId) => (dispatch) => {
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };

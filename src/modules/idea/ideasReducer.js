@@ -31,9 +31,9 @@ export const getProject = (projectId) => (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateProject(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -48,9 +48,9 @@ export const getProjects = (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateProjects(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 

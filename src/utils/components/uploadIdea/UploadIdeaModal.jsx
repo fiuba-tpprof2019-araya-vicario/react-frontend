@@ -385,6 +385,10 @@ export default class UploadIdeaModal extends React.Component {
               bsSize="small"
               controlId="coautorsSelect"
               label="Coautores"
+              information={
+                !this.props.editMode &&
+                'Los estudiantes pueden ser agregado en el siguiente paso'
+              }
               inputComponent={
                 <Select
                   key="coautorsSelect"
@@ -407,6 +411,10 @@ export default class UploadIdeaModal extends React.Component {
               bsSize="small"
               controlId="tutorSelect"
               label="Tutor"
+              information={
+                !this.props.editMode &&
+                'El tutor puede ser agregado en el siguiente paso'
+              }
               required={this.props.editMode}
               inputComponent={
                 <Select

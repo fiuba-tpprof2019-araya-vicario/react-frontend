@@ -25,9 +25,9 @@ export const getProjects = (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateProjects(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 

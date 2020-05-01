@@ -59,8 +59,8 @@ export const rejectIdea = (projectId, memberId, postAction = () => {}) => (
       dispatch(abandonedIdea());
       postAction();
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -76,9 +76,9 @@ export const getActiveProject = (projectId, dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateProject(data));
     })
-    .catch((err) => {
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
     });
 };
 
@@ -106,9 +106,9 @@ export const getProjects = (approved, terminated, career, dispatch) => {
         dispatch(hydratePendingProjects(data));
       }
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -138,8 +138,8 @@ export const editPresentationData = (
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -160,9 +160,9 @@ export const approve = (projectId, careerId, postAction) => (dispatch) => {
       postAction();
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
     });
 };
 
@@ -185,9 +185,9 @@ export const reprobate = (projectId, careerId, rejectionReason, postAction) => (
       postAction();
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
     });
 };
 

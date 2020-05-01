@@ -147,6 +147,7 @@ export default class ShowIdea extends React.Component {
           name="Documentación"
           element="documentation"
           project={project}
+          required
           isUserCreator={isUserCreator}
           saveVisibility={editPresentationData}
           canEdit={isEditablePresentation}
@@ -233,8 +234,6 @@ export default class ShowIdea extends React.Component {
       ? project.Presentation.id
       : undefined;
 
-    console.log(project);
-
     return (
       <Fragment>
         <br />
@@ -317,7 +316,9 @@ export default class ShowIdea extends React.Component {
             </Button>
             <Button
               display-if={
-                submitPresentation && project.Presentation.presentation_url
+                submitPresentation &&
+                project.Presentation.presentation_url &&
+                project.Presentation.documentation_url
               }
               bsStyle="success"
               onClick={() => this.showSubmitPresentationModal()}

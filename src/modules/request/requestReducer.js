@@ -35,8 +35,8 @@ export const getRequestsTutors = (dispatch) => {
     .then((data) => {
       dispatch(hydrateRequestsTutors(data));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -49,8 +49,8 @@ export const getRequestsStudents = (dispatch) => {
     .then((data) => {
       dispatch(hydrateRequestsStudents(data));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -60,9 +60,9 @@ export const getRequestsWithDispatch = (dispatch) => {
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -84,9 +84,9 @@ export const acceptTutorRequest = (requestId) => (dispatch) => {
       getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -105,9 +105,9 @@ export const acceptStudentRequest = (requestId, projectId) => (dispatch) => {
       getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -126,9 +126,9 @@ export const rejectTutorRequest = (requestId) => (dispatch) => {
       getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -146,9 +146,9 @@ export const rejectStudentRequest = (requestId) => (dispatch) => {
       getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 

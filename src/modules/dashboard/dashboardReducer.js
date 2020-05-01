@@ -18,8 +18,8 @@ export const resetDashboard = (year) => (dispatch) => {
     .then(({ data }) => {
       dispatch(dashboard(data.data));
     })
-    .catch((err) => {
-      dispatch(internalError(err));
+    .catch((error) => {
+      dispatch(internalError(error));
     });
 };
 

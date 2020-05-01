@@ -39,8 +39,8 @@ export const getUserById = (id) => (dispatch) => {
     .then((data) => {
       dispatch(userById(data));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -57,12 +57,8 @@ export const getUsers = (name, email) => (dispatch) => {
     .then((response) => {
       dispatch(users(response.data.data));
     })
-    .catch((err) => {
-      if (err.response && err.response.status) {
-        dispatch(queryError(err));
-      } else {
-        dispatch(internalError(err));
-      }
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -77,8 +73,8 @@ export const editUser = (idUser, profiles, careers) => (dispatch) => {
       dispatch(userEdited());
       dispatch(successful('El usuario se editó correctamente'));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
