@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
-import { internalError, queryError, successful } from '../login/authReducer';
+import { queryError, successful } from '../login/authReducer';
 
 const HYDRATE_USERS = 'HYDRATE_USERS';
 const HYDRATE_USER_BY_ID = 'HYDRATE_USER_BY_ID';
