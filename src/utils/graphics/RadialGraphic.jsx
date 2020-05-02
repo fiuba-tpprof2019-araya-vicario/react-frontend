@@ -29,7 +29,7 @@ export default class RadialGraphic extends React.Component {
     const { data } = this.props;
     const { selected } = this.state;
 
-    if (!data.some(({ angle }) => angle)) {
+    if (!data || !data.some(({ angle }) => angle)) {
       return null;
     }
 
