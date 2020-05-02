@@ -2,9 +2,8 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { intersection } from 'lodash';
 
-class WithAuthorization extends Component {
+export class WithAuthorization extends Component {
   static propTypes = {
     requiredCredentials: PropTypes.oneOfType([
       PropTypes.array,
@@ -17,9 +16,14 @@ class WithAuthorization extends Component {
   allowedToShow() {
     const { requiredCredentials, grantedCredentials } = this.props;
 
+    if (!requiredCredentials) {
+      return true;
+    }
+
     return Array.isArray(requiredCredentials)
-      ? intersection(grantedCredentials, requiredCredentials).length ===
-          requiredCredentials.length
+      ? !requiredCredentials.some(
+          (credential) => !grantedCredentials.includes(credential)
+        )
       : grantedCredentials.includes(requiredCredentials);
   }
 

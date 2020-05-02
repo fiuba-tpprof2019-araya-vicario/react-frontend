@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { intersection } from 'lodash';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 
 export class PrivateRoute extends React.Component {
@@ -17,19 +16,24 @@ export class PrivateRoute extends React.Component {
     grantedCredentials: PropTypes.array
   };
 
-  allowedToShow() {
+  allowedToShow = () => {
     const { requiredCredentials, grantedCredentials } = this.props;
+
+    if (!requiredCredentials) {
+      return true;
+    }
 
     return (
       !requiredCredentials ||
       (Array.isArray(requiredCredentials)
-        ? intersection(grantedCredentials, requiredCredentials).length ===
-          requiredCredentials.length
+        ? !requiredCredentials.some(
+            (credential) => !grantedCredentials.includes(credential)
+          )
         : grantedCredentials.includes(requiredCredentials))
     );
-  }
+  };
 
-  whereToRedirect() {
+  whereToRedirect = () => {
     if (!this.props.isAuthenticated) {
       return <Redirect to={{ pathname: '/login', state: '/roles' }} />;
     } else if (!this.allowedToShow()) {
@@ -43,7 +47,7 @@ export class PrivateRoute extends React.Component {
         component={this.props.component}
       />
     );
-  }
+  };
 
   render() {
     return this.whereToRedirect();

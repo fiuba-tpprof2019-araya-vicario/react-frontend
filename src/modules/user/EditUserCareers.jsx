@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
@@ -6,6 +5,7 @@ import Select from 'react-select';
 import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
+import { getDifferenceById, getById } from '../../utils/services/functions';
 
 export default class EditUserCareers extends React.Component {
   static propTypes = {
@@ -161,23 +161,18 @@ export default class EditUserCareers extends React.Component {
     return buttons;
   };
 
-  getCareerNameById(id) {
+  getCareerNameById = (id) => {
     const career =
       this.state.careers &&
       this.state.careers.find((element) => element.id === id);
 
     return career ? career.name : '';
-  }
+  };
 
-  getCareerById(id) {
-    return this.props.careers.find((element) => element.id === id);
-  }
+  getCareerById = (id) => getById(this.props.careers, id);
 
-  getCareersList() {
-    const { careers } = this.props;
-
-    return _.differenceBy(careers, this.state.careers, 'id');
-  }
+  getCareersList = () =>
+    getDifferenceById(this.props.careers, this.state.careers);
 
   getCareerTable() {
     if (this.state.careers.length !== 0) {

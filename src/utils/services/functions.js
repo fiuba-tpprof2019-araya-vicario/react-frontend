@@ -1,9 +1,26 @@
-import _ from 'lodash';
 import moment from 'moment';
 import { REQUEST_STATES, REQUIREMENT_STATES } from './references';
 
 export function getById(objects, id) {
-  return _.find(objects, (object) => object.id === id);
+  if (!objects) {
+    return null;
+  }
+
+  return objects.find((object) => object.id === id) || null;
+}
+
+export function getDifferenceById(values, excludedValues) {
+  if (!values) {
+    return null;
+  }
+
+  if (!excludedValues) {
+    return values;
+  }
+
+  return values.filter(
+    (value) => !excludedValues.find(({ id }) => id === value.id)
+  );
 }
 
 export function isValidEmail(email) {

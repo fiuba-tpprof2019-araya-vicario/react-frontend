@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
@@ -6,6 +5,7 @@ import Select from 'react-select';
 import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
+import { getDifferenceById, getById } from '../../utils/services/functions';
 
 export default class EditUserProfiles extends React.Component {
   static propTypes = {
@@ -144,11 +144,10 @@ export default class EditUserProfiles extends React.Component {
     return profile ? profile.name : '';
   };
 
-  getProfileById = (id) =>
-    this.props.profiles.find((element) => element.id === id);
+  getProfileById = (id) => getById(this.props.profiles, id);
 
   getProfilesList = () =>
-    _.differenceBy(this.props.profiles, this.state.profiles, 'id');
+    getDifferenceById(this.props.profiles, this.state.profiles);
 
   getProfileTable = () => {
     if (this.state.profiles.length !== 0) {

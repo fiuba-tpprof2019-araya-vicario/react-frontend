@@ -3,6 +3,10 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { STATES } from '../services/references';
 
 export function getIconWithOverlay(message, icon, placement = 'top') {
+  if (!message) {
+    return null;
+  }
+
   return (
     <OverlayTrigger
       key={`placement-${placement}`}
@@ -17,7 +21,6 @@ export function getIconWithOverlay(message, icon, placement = 'top') {
 export function getStatusIcon(type, status, element) {
   let icon;
   let title;
-  const placement = 'top';
 
   if (STATES.accepted === status) {
     icon = (
@@ -43,13 +46,5 @@ export function getStatusIcon(type, status, element) {
     title = `El ${type} todavía no ha aceptado la ${element}`;
   }
 
-  return (
-    <OverlayTrigger
-      key={`placement-${element}`}
-      placement={placement}
-      overlay={<Tooltip id={placement}>{title}</Tooltip>}
-    >
-      {icon}
-    </OverlayTrigger>
-  );
+  return getIconWithOverlay(title, icon);
 }

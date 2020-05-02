@@ -1,5 +1,4 @@
 import 'rc-slider/assets/index.css';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
@@ -8,6 +7,7 @@ import ScoreSlider from '../../utils/forms/ScoreSlider';
 import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
+import { getDifferenceById, getById } from '../../utils/services/functions';
 
 export default class EditMyUserInterests extends React.Component {
   static propTypes = {
@@ -177,11 +177,10 @@ export default class EditMyUserInterests extends React.Component {
     return interest ? interest.name : '';
   };
 
-  getInterestById = (id) =>
-    this.props.interests.find((element) => element.id === id);
+  getInterestById = (id) => getById(this.props.interests, id);
 
   getInterestsList = () =>
-    _.differenceBy(this.props.interests, this.state.interests, 'id');
+    getDifferenceById(this.props.interests, this.state.interests);
 
   getInterestTable = () => {
     if (this.state.interests.length !== 0) {
