@@ -24,6 +24,14 @@ export const resetDashboard = (year) => (dispatch) => {
 };
 
 const fetchProjects = (data) => {
+  const totalInProgress = data.reduce(
+    (acum, value) => acum + value.progress,
+    0
+  );
+  const totalTerminated = data.reduce(
+    (acum, value) => acum + value.terminated,
+    0
+  );
   const projects = {
     progress: data.map((project) => ({
       x: getMonthTextFromNumber(project.month),
@@ -35,23 +43,25 @@ const fetchProjects = (data) => {
     })),
     total: [
       {
-        angle: data.reduce((acum, value) => acum + value.progress, 0),
+        angle: totalInProgress,
+        value: totalInProgress,
         detail: 'En progreso'
       },
       {
-        angle: data.reduce((acum, value) => acum + value.terminated, 0),
+        angle: totalTerminated,
+        value: totalTerminated,
         detail: 'Terminados'
       }
     ]
   };
 
-  projects.total[0].value = projects.total[0].angle;
-  projects.total[1].value = projects.total[1].angle;
-
   return projects;
 };
 
-export default (state = { projects: [] }, action) => {
+export default (
+  state = { projects: { progress: [], terminated: [], total: [] } },
+  action
+) => {
   switch (action.type) {
     case HYDRATE_DASHBOARD:
       return {
