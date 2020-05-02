@@ -1,24 +1,22 @@
 {
   "name": "brain-search-frontend",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "engines": {
     "node": "8.16.0",
     "npm": "6.4.1"
   },
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.9.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/react-fontawesome": "^0.1.5",
     "autoprefixer": "7.1.6",
     "axios": "^0.19.0",
-    "babel-core": "6.26.0",
     "babel-eslint": "^9.0.0",
-    "babel-jest": "20.0.3",
-    "babel-loader": "7.1.2",
+    "babel-loader": "^8.1.0",
     "babel-plugin-jsx-display-if": "^3.0.0",
     "babel-preset-react-app": "3.1.1",
-    "babel-runtime": "6.26.0",
     "bluebird": "^3.5.5",
     "bootstrap": "^3.3.7",
     "bootstrap-loader": "^2.2.0",
@@ -92,60 +90,35 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "lint": "eslint src/",
+    "lint": "npm run format:check && eslint src *.js",
+    "format": "prettier --write 'src/**/*.js' 'src/**/*.jsx'",
+    "format:check": "prettier --list-different 'src/**/*.js' 'src/**/*.jsx'",
     "start": "node scripts/start.js",
     "start-test": "webpack-dev-server",
     "start-heroku": "npm install && node scripts/start.js",
     "start-dock": "npm install && node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,mjs}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
-    ],
-    "testEnvironment": "node",
-    "testURL": "http://localhost",
-    "transform": {
-      ".+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
-      ".+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-    ],
-    "moduleNameMapper": {
-      "react-native$": "react-native-web"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node",
-      "mjs"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ],
-    "plugins": [
-      "jsx-display-if"
-    ]
+    "test": "npm run lint && nyc mocha --require @babel/register --recursive \"./test/config.js\" \"./src/**/*.spec.js\"",
+    "tdd": "mocha --require @babel/register --recursive \"./test/config.js\" \"./src/**/*.spec.js\" --watch"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "devDependencies": {
-    "jest": "^25.0.0"
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/register": "^7.9.0",
+    "chai": "^4.2.0",
+    "chai-enzyme": "^1.0.0-beta.1",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jsdom": "^15.1.1",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "sinon": "^7.4.2",
+    "sinon-chai": "^3.3.0"
   }
 }
