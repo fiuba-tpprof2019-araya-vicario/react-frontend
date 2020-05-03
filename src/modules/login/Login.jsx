@@ -26,7 +26,7 @@ export class Login extends React.Component {
     this.props.clearErrors();
   }
 
-  getErroresRender() {
+  getErrorsRender() {
     const render = [];
 
     if (this.props.errorMessage) {
@@ -48,7 +48,7 @@ export class Login extends React.Component {
       <Row>
         <br />
         <Col md={4} mdOffset={4}>
-          {this.getErroresRender()}
+          {this.getErrorsRender()}
           <Row>
             <Title
               title={loginMessages.TITLE}

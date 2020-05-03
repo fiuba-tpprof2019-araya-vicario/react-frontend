@@ -54,16 +54,16 @@ export const clearErrors = () => ({
   type: CLEAR_ERRORS
 });
 
-export const login = (data) => ({
-  type: LOGIN_USER,
-  data
-});
-
 export const logout = () => ({
   type: LOGOUT_USER
 });
 
-export const profile = () => () => ({
+const login = (data) => ({
+  type: LOGIN_USER,
+  data
+});
+
+const profile = () => () => ({
   type: MY_PROFILE
 });
 
