@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Bluebird from 'bluebird';
 import { getConfig, api } from '../../api/apiInterfaceProvider';
 import {
   formatterDate,
@@ -56,7 +55,7 @@ export const getRequestsStudents = (dispatch) => {
 
 export const getRequestsWithDispatch = (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  Bluebird.join(getRequestsTutors(dispatch), getRequestsStudents(dispatch))
+  Promise.all([getRequestsTutors(dispatch), getRequestsStudents(dispatch)])
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })

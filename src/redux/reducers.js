@@ -1,8 +1,6 @@
-/* Dependencies */
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-/* Import Other Reducers */
 import authReducer from '../modules/login/authReducer';
 import contactReducer from '../modules/contact/contactReducer';
 import myProjectReducer from '../modules/myProject/myProjectReducer';
@@ -16,7 +14,6 @@ import myUserReducer from '../modules/myUser/myUserReducer';
 import requestReducer from '../modules/request/requestReducer';
 import requirementReducer from '../modules/requirement/requirementReducer';
 
-/* Combine & Export Reducers to Store */
 const appReducer = combineReducers({
   authReducer,
   contactReducer,

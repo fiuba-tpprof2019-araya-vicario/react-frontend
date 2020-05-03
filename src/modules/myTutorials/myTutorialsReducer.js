@@ -16,23 +16,23 @@ const HYDRATE_MY_TUTORIALS = 'HYDRATE_MY_TUTORIALS';
 const HYDRATE_MY_TUTORIAL = 'HYDRATE_MY_TUTORIAL';
 const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 
-export const abandonedIdea = () =>
+const abandonedIdea = () =>
   hydrateAlert({
     message: myTutorialsMessages.ABANDON_SUCCESS,
     style: 'success',
     onDismiss: clearAlert
   });
 
-export const acceptedProposal = () => ({
+const acceptedProposal = () => ({
   type: ACCEPTED_PROPOSAL
 });
 
-export const hydrateMyTutorial = (data) => ({
+const hydrateMyTutorial = (data) => ({
   type: HYDRATE_MY_TUTORIAL,
   data
 });
 
-export const hydrateMyTutorials = (data) => ({
+const hydrateMyTutorials = (data) => ({
   type: HYDRATE_MY_TUTORIALS,
   data
 });

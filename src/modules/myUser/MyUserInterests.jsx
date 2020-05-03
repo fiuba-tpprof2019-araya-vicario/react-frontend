@@ -55,7 +55,7 @@ export default class EditMyUserInterests extends React.Component {
     });
   };
 
-  validarRolForm = () => {
+  isValidForm = () => {
     let formOk = true;
 
     const formSelect = {
@@ -74,7 +74,7 @@ export default class EditMyUserInterests extends React.Component {
     return formOk;
   };
 
-  getAgregarInterestModalBody = () => {
+  getAddInterestModalBody = () => {
     const { selectedInterest, selectedScore, formSelect } = this.state;
 
     return [
@@ -125,11 +125,11 @@ export default class EditMyUserInterests extends React.Component {
 
   getAddInterestModalButtons = () => (
     <Button
-      key="agregarButton"
+      key="addButton"
       bsStyle="primary"
       bsSize="small"
       onClick={() => {
-        if (this.validarRolForm()) {
+        if (this.isValidForm()) {
           this.state.interests.push({
             ...this.getInterestById(this.state.selectedInterest.value),
             original_score: this.state.selectedScore
@@ -235,7 +235,7 @@ export default class EditMyUserInterests extends React.Component {
         <Dialogue
           key="addInterestModal"
           title="Agregar interes"
-          body={this.getAgregarInterestModalBody()}
+          body={this.getAddInterestModalBody()}
           buttons={this.getAddInterestModalButtons()}
           ref={(addInterestModal) => {
             this.addInterestModal = addInterestModal;

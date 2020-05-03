@@ -48,7 +48,7 @@ export default class EditUserCareers extends React.Component {
     this.setState({ formSelect });
   }
 
-  validarRolForm() {
+  isValidForm() {
     let formOk = true;
 
     const formSelect = {
@@ -67,7 +67,7 @@ export default class EditUserCareers extends React.Component {
     return formOk;
   }
 
-  getAgregarRolModalBody() {
+  getAddModalBody() {
     const careersList = this.getCareersList();
     const selectRender = [];
     const options = [];
@@ -107,11 +107,11 @@ export default class EditUserCareers extends React.Component {
 
     buttons.push(
       <Button
-        key="agregarButton"
+        key="addButton"
         bsStyle="primary"
         bsSize="small"
         onClick={() => {
-          if (this.validarRolForm()) {
+          if (this.isValidForm()) {
             this.state.careers.push(
               this.getCareerById(this.state.selectedCareer.value)
             );
@@ -226,7 +226,7 @@ export default class EditUserCareers extends React.Component {
         <Dialogue
           key="addCareerModal"
           title="Agregar carrera"
-          body={this.getAgregarRolModalBody()}
+          body={this.getAddModalBody()}
           buttons={this.getAddCareerModalButtons()}
           ref={(addCareerModal) => {
             this.addCareerModal = addCareerModal;

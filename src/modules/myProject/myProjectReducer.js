@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Bluebird from 'bluebird';
 import {
   getConfig,
   api,
@@ -151,7 +150,7 @@ const getCareers = (dispatch) => {
 
 const getActiveProject = (projectId, dispatch) => {
   if (!projectId) {
-    return Bluebird.resolve();
+    return Promise.resolve();
   }
   const config = getConfig();
 
@@ -396,7 +395,7 @@ export const rejectRequest = (requestId) => (dispatch) => {
 
 export const getInitialData = (ignoreId, projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  Bluebird.join(
+  Promise.all([
     getTutors(ignoreId, dispatch),
     getActiveProject(projectId, dispatch),
     getProjectTypes(dispatch),
@@ -405,7 +404,7 @@ export const getInitialData = (ignoreId, projectId) => (dispatch) => {
     getCoautors(ignoreId, dispatch),
     getSimilarUsers(dispatch, 'student'),
     getSimilarUsers(dispatch, 'tutor')
-  )
+  ])
     .then(() => dispatch(toggleLoading({ loading: false })))
     .catch(() => {
       dispatch(toggleLoading({ loading: false }));

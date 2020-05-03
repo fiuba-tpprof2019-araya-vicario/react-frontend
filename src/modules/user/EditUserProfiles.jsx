@@ -45,7 +45,7 @@ export default class EditUserProfiles extends React.Component {
       }
     });
 
-  validarRolForm = () => {
+  isValidForm = () => {
     let formOk = true;
 
     const formSelect = {
@@ -64,7 +64,7 @@ export default class EditUserProfiles extends React.Component {
     return formOk;
   };
 
-  getAgregarRolModalBody = () => (
+  getAddModalBody = () => (
     <Field
       validationState={this.state.formSelect.error}
       key="perfilField"
@@ -93,11 +93,11 @@ export default class EditUserProfiles extends React.Component {
 
   getAddProfileModalButtons = () => (
     <Button
-      key="agregarButton"
+      key="addButton"
       bsStyle="primary"
       bsSize="small"
       onClick={() => {
-        if (this.validarRolForm()) {
+        if (this.isValidForm()) {
           this.state.profiles.push(
             this.getProfileById(this.state.selectedProfile.value)
           );
@@ -190,7 +190,7 @@ export default class EditUserProfiles extends React.Component {
         </Row>
         {this.getProfileTable()}
         <Dialogue
-          key="borrarRolModal"
+          key="deleteModal"
           title="Borrar perfil"
           body={this.getDeleteProfileModalBody()}
           buttons={this.getDeleteProfileModalButtons()}
@@ -201,7 +201,7 @@ export default class EditUserProfiles extends React.Component {
         <Dialogue
           key="addProfileModal"
           title="Agregar perfil"
-          body={this.getAgregarRolModalBody()}
+          body={this.getAddModalBody()}
           buttons={this.getAddProfileModalButtons()}
           ref={(addProfileModal) => {
             this.addProfileModal = addProfileModal;

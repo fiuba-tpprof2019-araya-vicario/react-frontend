@@ -162,8 +162,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  execute: (f) => {
-    dispatch(f());
+  execute: (fn) => {
+    dispatch(fn());
   }
 });
 
