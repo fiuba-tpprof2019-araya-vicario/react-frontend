@@ -2,7 +2,7 @@ import React from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { STATES } from '../services/references';
 
-export function getIconWithOverlay(message, icon, placement = 'top') {
+export const getIconWithOverlay = (message, icon, placement = 'top') => {
   if (!message) {
     return null;
   }
@@ -16,35 +16,26 @@ export function getIconWithOverlay(message, icon, placement = 'top') {
       {icon}
     </OverlayTrigger>
   );
-}
+};
 
-export function getStatusIcon(type, status, element) {
+const getIcon = (key, className) => (
+  <i key={key} data-test-id="icon" className={className} />
+);
+
+export const getStatusIcon = (type, status, element) => {
   let icon;
   let title;
 
   if (STATES.accepted === status) {
-    icon = (
-      <i key="accept-icon" className="fa fa-check action successText">
-        &nbsp;
-      </i>
-    );
+    icon = getIcon('accept-icon', 'fa fa-check action successText');
     title = `El ${type} ha aceptado la ${element}`;
   } else if (STATES.rejected === status) {
-    icon = (
-      <i key="reject-icon" className="fa fa-times-circle action dangerText">
-        &nbsp;
-      </i>
-    );
-
+    icon = getIcon('reject-icon', 'fa fa-times-circle action dangerText');
     title = `El ${type} ha rechazado la ${element}`;
   } else if (STATES.pending === status) {
-    icon = (
-      <i key="pending-icon" className="fa fa-clock-o action warningText">
-        &nbsp;
-      </i>
-    );
+    icon = getIcon('pending-icon', 'fa fa-clock-o action warningText');
     title = `El ${type} todavía no ha aceptado la ${element}`;
   }
 
   return getIconWithOverlay(title, icon);
-}
+};
