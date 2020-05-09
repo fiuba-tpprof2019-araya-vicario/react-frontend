@@ -27,12 +27,6 @@ export function isValidEmail(email) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 }
 
-export function hasDuplicates(array) {
-  const set = new Set(array);
-
-  return set.size !== array.length;
-}
-
 export const formatterDate = (data) => {
   if (!data) {
     return '';

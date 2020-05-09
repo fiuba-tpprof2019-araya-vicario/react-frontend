@@ -55,7 +55,7 @@
     "format": "prettier --write 'src/**/*.js' 'src/**/*.jsx'",
     "format:check": "prettier --list-different 'src/**/*.js' 'src/**/*.jsx'",
     "start": "node scripts/start.js",
-    "start-test": "webpack-dev-server",
+    "start-prod": "npm install && node ./scripts/build.js && npm install -g serve && serve -s ./",
     "start-heroku": "npm install && node scripts/start.js",
     "start-dock": "npm install && node scripts/start.js",
     "build": "node ./scripts/build.js",

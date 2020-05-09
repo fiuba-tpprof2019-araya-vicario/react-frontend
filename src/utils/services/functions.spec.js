@@ -1,5 +1,11 @@
 import { expect } from 'chai';
-import { isValidEmail, getById, getDifferenceById } from './functions';
+import {
+  isValidEmail,
+  getById,
+  getDifferenceById,
+  formatterDate,
+  getMonthTextFromNumber
+} from './functions';
 
 describe('functions', () => {
   context('isValidEmail', () => {
@@ -60,6 +66,45 @@ describe('functions', () => {
       const exclude = null;
 
       getDifferenceById(objects, exclude).should.equals(objects);
+    });
+  });
+
+  context('formatterDate', () => {
+    it('when have correct params', () => {
+      const data = '2020-05-01T01:34:32.195Z';
+      const expectedData = '01/05/2020 01:34:32';
+
+      formatterDate(data).should.equals(expectedData);
+    });
+
+    it('when have no data', () => {
+      const data = null;
+      const expectedData = '';
+
+      formatterDate(data).should.equals(expectedData);
+    });
+  });
+
+  context('getMonthTextFromNumber', () => {
+    it('should return all correct months', () => {
+      const months = [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+      ];
+
+      months
+        .every((month, index) => month === getMonthTextFromNumber(index + 1))
+        .should.equals(true);
     });
   });
 });
