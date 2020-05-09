@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { REQUEST_STATES, REQUIREMENT_STATES } from './references';
 
 export function getById(objects, id) {
@@ -178,21 +177,6 @@ export function getTutorsNames(Tutor, Cotutors) {
     ...Cotutors.map((cotutor) => `, ${getFullName(cotutor)}`)
   ];
 }
-
-export const getLast30Days = () => {
-  const days = [];
-
-  for (let i = 29; i >= 0; i -= 1) {
-    days.push({
-      x: moment()
-        .add(-i, 'days')
-        .valueOf(),
-      y: 0
-    });
-  }
-
-  return days;
-};
 
 export const getMonthTextFromNumber = (monthNumber) => {
   switch (monthNumber) {

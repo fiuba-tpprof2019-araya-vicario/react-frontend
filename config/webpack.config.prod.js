@@ -156,7 +156,6 @@ module.exports = {
           {
             test: /\.css$/,
             loader: ExtractTextPlugin.extract(
-              Object.assign(
                 {
                   fallback: {
                     loader: require.resolve('style-loader'),
@@ -193,10 +192,9 @@ module.exports = {
                         ]
                       }
                     }
-                  ]
+                  ],
+                  ...extractTextPluginOptions
                 },
-                extractTextPluginOptions
-              )
             )
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
           },

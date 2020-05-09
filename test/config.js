@@ -16,6 +16,15 @@ const dom = new JSDOM('<!doctype html><html><body></body></html>');
 
 global.window = dom.window;
 global.document = dom.window.document;
+global.localStorage = {
+  getItem: (key) => global.localStorage[key],
+  setItem: (key, value) => {
+    global.localStorage[key] = value;
+  },
+  removeItem: (key) => {
+    delete global.localStorage[key];
+  }
+};
 
 // workaround for anypoint-components require
 require.extensions['.css'] = () => {};
