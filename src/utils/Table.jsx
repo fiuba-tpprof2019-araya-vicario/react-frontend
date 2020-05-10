@@ -1,22 +1,16 @@
 /* eslint-disable guard-for-in */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table as BootstrapTable } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileUpload } from '@fortawesome/free-solid-svg-icons';
+import { faFileUpload, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
-export class CustomTable extends React.Component {
+export default class Table extends React.Component {
   static propTypes = {
     headers: PropTypes.array,
     data: PropTypes.array,
     actions: PropTypes.object
   };
-
-  constructor() {
-    super();
-    this.getHeaders = this.getHeaders.bind(this);
-    this.getTableRows = this.getTableRows.bind(this);
-  }
 
   getActions() {
     const { actions } = this.props;
@@ -24,7 +18,7 @@ export class CustomTable extends React.Component {
     return actions;
   }
 
-  getHeaders(actions) {
+  getHeaders = (actions) => {
     const returnHeaders = this.props.headers.map((header, i) => (
       <th key={`th${i}`}>{header}</th>
     ));
@@ -34,7 +28,7 @@ export class CustomTable extends React.Component {
     }
 
     return returnHeaders;
-  }
+  };
 
   actionEnabled(action, row) {
     return action && (!action.disabled || !action.disabled(row));
@@ -48,6 +42,7 @@ export class CustomTable extends React.Component {
       acceptAction,
       removeAction,
       rejectAction,
+      viewPdfAction,
       uploadAction
     } = actions;
     let detailRender;
@@ -57,6 +52,7 @@ export class CustomTable extends React.Component {
     let rejectRender;
     let removeRender;
     let uploadRender;
+    let viewPdfRender;
 
     if (this.actionEnabled(editAction, row)) {
       editRender = (
@@ -142,6 +138,18 @@ export class CustomTable extends React.Component {
       );
     }
 
+    if (this.actionEnabled(viewPdfAction, row)) {
+      viewPdfRender = (
+        <a
+          title="Ver el PDF"
+          onClick={() => viewPdfAction.action(row.id)}
+          role="button"
+        >
+          <FontAwesomeIcon icon={faFilePdf} />
+        </a>
+      );
+    }
+
     return (
       <td key="actions" className="actionsColumn">
         {removeRender}
@@ -151,6 +159,7 @@ export class CustomTable extends React.Component {
         {deleteRender}
         {editRender}
         {uploadRender}
+        {viewPdfRender}
       </td>
     );
   }
@@ -161,11 +170,12 @@ export class CustomTable extends React.Component {
       key !== 'projectId' &&
       key !== 'requestId' &&
       key !== 'project' &&
-      key !== 'requestStatusId'
+      key !== 'requestStatusId' &&
+      key !== 'file_url'
     );
   }
 
-  getTableRows(actions) {
+  getTableRows = (actions) => {
     const { data } = this.props;
 
     const tableRows = data.map((rowObject) => {
@@ -185,18 +195,18 @@ export class CustomTable extends React.Component {
     });
 
     return tableRows;
-  }
+  };
 
   render() {
     const actions = this.getActions();
 
     return (
-      <Table condensed striped hover responsive>
+      <BootstrapTable condensed striped hover responsive>
         <thead>
           <tr>{this.getHeaders(actions)}</tr>
         </thead>
         <tbody>{this.getTableRows(actions)}</tbody>
-      </Table>
+      </BootstrapTable>
     );
   }
 }

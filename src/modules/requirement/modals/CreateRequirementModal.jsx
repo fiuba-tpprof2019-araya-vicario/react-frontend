@@ -14,102 +14,108 @@ export default class CreateRequirementModal extends React.Component {
     this.state = {
       show: false,
       form: {
-        description: { error: false, mensaje: '', value: '' },
-        title: { error: false, mensaje: '', value: '' }
+        description: { error: false, message: '', value: '' },
+        title: { error: false, message: '', value: '' },
+        file: { error: false, message: '', value: '' }
       }
     };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.updateTitle = this.updateTitle.bind(this);
-    this.updateDescription = this.updateDescription.bind(this);
   }
 
-  updateTitle(newValue) {
+  updateTitle = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
-        title: { error: false, mensaje: '', value: newValue.target.value }
+        title: { error: false, message: '', value: newValue.target.value }
       }
     });
-  }
+  };
 
-  updateDescription(newValue) {
+  updateDescription = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
-        description: { error: false, mensaje: '', value: newValue.target.value }
+        description: { error: false, message: '', value: newValue.target.value }
       }
     });
-  }
+  };
 
-  resetForm() {
+  resetForm = () => {
     const form = {
-      description: { error: false, mensaje: '', value: '' },
-      title: { error: false, mensaje: '', value: '' }
+      description: { error: false, message: '', value: '' },
+      title: { error: false, message: '', value: '' }
     };
 
-    this.setState({ ...this.state, form });
-  }
+    this.setState({ form });
+  };
 
-  validateForm(title, description) {
+  validateForm = (title, description, file) => {
     let formOk = true;
 
     const form = {
-      description: { error: false, mensaje: '', value: description },
-      title: { error: false, mensaje: '', value: title }
+      description: { error: false, message: '', value: description },
+      title: { error: false, message: '', value: title },
+      file: { error: false, message: '', value: file }
     };
 
     if (title == null || title === '') {
       form.title.error = true;
-      form.title.mensaje = 'Tenés que ingresar el título de tu idea';
+      form.title.message = 'Tenés que ingresar el título de tu idea';
       formOk = false;
-    } else {
-      form.title.error = false;
-      form.title.mensaje = '';
     }
 
     if (description == null || description === '') {
       form.description.error = true;
-      form.description.mensaje = 'Tenés que ingresar la descripción de tu idea';
+      form.description.message = 'Tenés que ingresar la descripción de tu idea';
       formOk = false;
-    } else {
-      form.description.error = false;
-      form.description.mensaje = '';
     }
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
 
     return formOk;
-  }
+  };
 
-  showModal() {
+  showModal = () => {
     this.setState({ show: true });
-  }
+  };
 
-  hideModal() {
+  hideModal = () => {
     this.setState({ show: false });
-  }
+  };
 
-  onSubmit() {
-    const title = this.state.form.title.value;
-    const description = this.state.form.description.value;
+  onSubmit = () => {
+    const { form } = this.state;
+    const title = form.title.value;
+    const description = form.description.value;
+    const file = form.file.value;
 
-    if (this.validateForm(title, description)) {
-      this.props.uploadRequirement({ name: title, description });
+    if (this.validateForm(title, description, file)) {
+      this.props.uploadRequirement({ name: title, description, file });
       this.resetForm();
       this.hideModal();
     }
-  }
+  };
+
+  updateFile = (event) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        file: { error: false, message: '', value: event.target.files[0] }
+      }
+    });
+  };
 
   render() {
+    const { title, description } = this.state.form;
+
     return (
       <Modal
         show={this.state.show}
         onHide={this.hideModal}
         dialogClassName="custom-modal"
+        backdrop="static"
+        bsSize="lg"
+        autoFocus
+        keyboard={false}
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-lg">
@@ -122,12 +128,12 @@ export default class CreateRequirementModal extends React.Component {
               controlId="titleInput"
               label="Título"
               required
-              validationState={this.state.form.title.error ? 'error' : null}
-              validationMessage={this.state.form.title.mensaje}
+              validationState={title.error}
+              validationMessage={title.message}
               inputComponent={
                 <FormControl
                   type="text"
-                  value={this.state.form.title.value}
+                  value={title.value}
                   placeholder="Ingrese un título para tu requerimiento"
                   onChange={this.updateTitle}
                 />
@@ -139,18 +145,31 @@ export default class CreateRequirementModal extends React.Component {
               controlId="descriptionInput"
               label="Descripción"
               required
-              validationState={
-                this.state.form.description.error ? 'error' : null
-              }
-              validationMessage={this.state.form.description.mensaje}
+              validationState={description.error}
+              validationMessage={description.message}
               inputComponent={
                 <textarea
-                  value={this.state.form.description.value}
+                  value={description.value}
                   onChange={this.updateDescription}
                   className="form-control"
                   style={{ resize: 'vertical' }}
                   rows="10"
                   placeholder="Ingrese una descripción de tu requerimiento..."
+                />
+              }
+            />
+          </FullRow>
+          <FullRow key="3">
+            <Field
+              controlId="fileInput"
+              label="Adjuntar archivo de requerimiento en formato pdf"
+              inputComponent={
+                <FormControl
+                  type="file"
+                  accept="application/pdf"
+                  title="Selecciona un pdf"
+                  placeholder="Ingrese un archivo en formato pdf"
+                  onChange={this.updateFile}
                 />
               }
             />

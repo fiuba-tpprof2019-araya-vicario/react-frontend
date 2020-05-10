@@ -29,30 +29,25 @@ export default class EditUserForm extends React.Component {
         }
       }
     };
-    this.onSubmit = this.onSubmit.bind(this);
-    this.updateName = this.updateName.bind(this);
-    this.updateEmail = this.updateEmail.bind(this);
   }
 
-  updateName(newValue) {
+  updateName = ({ target }) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
-        name: { error: false, message: '', value: newValue.target.value }
+        name: { error: false, message: '', value: target.value }
       }
     });
-  }
+  };
 
-  updateEmail(newValue) {
+  updateEmail = ({ target }) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
-        email: { error: false, message: '', value: newValue.target.value }
+        email: { error: false, message: '', value: target.value }
       }
     });
-  }
+  };
 
   resetForm(props) {
     const user = props.user ? props.user : {};
@@ -81,41 +76,27 @@ export default class EditUserForm extends React.Component {
       email: { error: false, message: '', value: email }
     };
 
-    if (name == null || name === '') {
+    if (!name) {
       form.name.error = true;
       form.name.message = 'Tenés que ingresar un nombre';
       formOk = false;
-    } else {
-      form.name.error = false;
-      form.name.message = '';
     }
 
-    if (email == null || email === '') {
+    if (!email) {
       form.email.error = true;
-      form.email.message = 'Tenés que un email';
+      form.email.message = 'Tenés que ingresar un mail';
       formOk = false;
-    } else {
-      form.email.error = false;
-      form.email.message = '';
     }
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
 
     return formOk;
   }
 
-  showModal() {
-    this.setState({ show: true });
-  }
-
-  hideModal() {
-    this.setState({ show: false });
-  }
-
-  onSubmit() {
-    const { id } = this.state;
-    const name = this.state.form.name.value;
-    const email = this.state.form.email.value;
+  onSubmit = () => {
+    const { id, form } = this.state;
+    const name = form.name.value;
+    const email = form.email.value;
 
     if (this.validateForm(name, email)) {
       this.props.editUser(id, {
@@ -123,9 +104,11 @@ export default class EditUserForm extends React.Component {
         email
       });
     }
-  }
+  };
 
   render() {
+    const { name, email } = this.state.form;
+
     return (
       <Fragment>
         <FullRow key="row1">
@@ -133,12 +116,12 @@ export default class EditUserForm extends React.Component {
             controlId="nameInput"
             label="Nombre"
             required
-            validationState={this.state.form.name.error}
-            validationMessage={this.state.form.name.message}
+            validationState={name.error}
+            validationMessage={name.message}
             inputComponent={
               <FormControl
                 type="text"
-                value={this.state.form.name.value}
+                value={name.value}
                 disabled
                 placeholder="Ingrese un nombre"
                 onChange={this.updateName}
@@ -149,12 +132,12 @@ export default class EditUserForm extends React.Component {
             controlId="emailInput"
             label="Email"
             required
-            validationState={this.state.form.email.error}
-            validationMessage={this.state.form.email.message}
+            validationState={email.error}
+            validationMessage={email.message}
             inputComponent={
               <FormControl
                 type="text"
-                value={this.state.form.email.value}
+                value={email.value}
                 disabled
                 placeholder="Ingrese un email"
                 onChange={this.updateEmail}

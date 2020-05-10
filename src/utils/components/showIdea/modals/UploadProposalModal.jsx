@@ -13,64 +13,55 @@ export default class UploadProposalModal extends React.Component {
   constructor() {
     super();
     this.state = {
-      showArchivoInput: true,
-      file: null,
       form: {
-        file: { error: false, mensaje: '', value: '' }
+        file: { error: false, message: '', value: '' }
       }
     };
-    this.showModal = this.showModal.bind(this);
-    this.updateFile = this.updateFile.bind(this);
   }
 
-  resetCreateForm() {
+  resetCreateForm = () => {
     const form = {
-      file: { error: false, mensaje: '', value: '' }
+      file: { error: false, message: '', value: '' }
     };
 
-    this.setState({
-      ...this.state,
-      form
-    });
-  }
+    this.setState({ form });
+  };
 
-  showModal() {
+  showModal = () => {
     this.resetCreateForm();
     this.modal.showModal();
-  }
+  };
 
-  updateFile(event) {
+  updateFile = (event) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         file: { error: false, message: '', value: event.target.files[0] }
       }
     });
-  }
+  };
 
   validateForm(file) {
     let formOk = true;
 
     const form = {
-      file: { error: false, mensaje: '', value: file }
+      file: { error: false, message: '', value: file }
     };
 
     if (file === undefined || file === '') {
       form.file.error = true;
-      form.file.mensaje = 'Este campo es obligatorio';
+      form.file.message = 'Este campo es obligatorio';
       formOk = false;
-    } else {
-      form.file.error = false;
-      form.file.mensaje = '';
     }
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
 
     return formOk;
   }
 
   getModalBody() {
+    const { file } = this.state.form;
+
     return (
       <Row key="body">
         <Col md={12}>
@@ -78,8 +69,8 @@ export default class UploadProposalModal extends React.Component {
             controlId="fileInput"
             label="Adjuntar archivo de propuesta en formato pdf"
             required
-            validationState={this.state.form.file.error}
-            validationMessage={this.state.form.file.message}
+            validationState={file.error}
+            validationMessage={file.message}
             inputComponent={
               <FormControl
                 type="file"
@@ -104,9 +95,8 @@ export default class UploadProposalModal extends React.Component {
         bsSize="small"
         bsStyle="success"
         onClick={() => {
-          const { form } = this.state;
+          const { value: file } = this.state.form.file;
           const { projectId } = this.props;
-          const file = form.file.value;
 
           if (this.validateForm(file)) {
             this.props.uploadProposal(projectId, {

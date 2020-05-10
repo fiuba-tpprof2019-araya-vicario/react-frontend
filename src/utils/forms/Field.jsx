@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import MandatoryField from './MandatoryField';
+import { getIconWithOverlay } from './StatusIcon';
 
 export default class Field extends React.Component {
   static propTypes = {
@@ -9,29 +10,52 @@ export default class Field extends React.Component {
     validationState: PropTypes.bool,
     bsSize: PropTypes.string,
     label: PropTypes.string,
+    information: PropTypes.string,
     required: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
     inputComponent: PropTypes.element,
+    className: PropTypes.string,
     validationMessage: PropTypes.string
   };
 
   render() {
+    const {
+      controlId,
+      validationState,
+      label,
+      bsSize,
+      required,
+      className,
+      information,
+      validationMessage,
+      inputComponent
+    } = this.props;
+    const key = controlId || `${label}input`;
+
     return (
       <FormGroup
-        key={`${this.props.controlId}group`}
-        validationState={this.props.validationState ? 'error' : null}
-        controlId={this.props.controlId}
-        bsSize={this.props.bsSize}
+        key={`${key}group`}
+        validationState={validationState ? 'error' : null}
+        controlId={key}
+        bsSize={bsSize}
+        className={className}
       >
-        <ControlLabel key={`${this.props.controlId}label`}>
-          {this.props.label}
-          {this.props.required ? <MandatoryField /> : ''}
+        <ControlLabel display-if={!!label} key={`${key}label`}>
+          {label}{' '}
+          <MandatoryField key={`mandatory${key}`} display-if={required} />
+          {information &&
+            getIconWithOverlay(
+              information,
+              <i className="fa fa-info-circle">&nbsp;</i>
+            )}
         </ControlLabel>
-        {this.props.inputComponent}
-        {this.props.validationState && (
-          <HelpBlock key={`${this.props.controlId}help`} bsSize="small">
-            {this.props.validationMessage}
-          </HelpBlock>
-        )}
+        {inputComponent}
+        <HelpBlock
+          display-if={!!validationState}
+          key={`${key}help`}
+          bsSize="small"
+        >
+          {validationMessage}
+        </HelpBlock>
       </FormGroup>
     );
   }

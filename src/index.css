@@ -23,6 +23,11 @@ body {
   color: #a94442;
 }
 
+.slider {
+  background: #0196dc;
+  border: 1px solid #0196dc;
+}
+
 .linkNavbar {
   color: #ededed;
   text-align: -webkit-match-parent;
@@ -39,6 +44,12 @@ body {
 .navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus {
   background-color: #0196dc;
+}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+  background-color: #00aee6;
 }
 
 .navbar-inverse .navbar-brand {
@@ -62,6 +73,18 @@ body {
 .bigIcon {
   font-size: 8em;
   color: #0196dc;
+  background-color: transparent;
+}
+
+.title {
+  font-weight: bold;
+  color: #0196dc;
+}
+
+.hugeIcon {
+  font-size: 6em;
+  color: #0196dc;
+  background-color: transparent;
 }
 
 .inmenseIcon {
@@ -70,7 +93,6 @@ body {
 }
 
 .onlyIcon {
-  border-radius: 100%;
   border-width: 0px;
 }
 
@@ -88,6 +110,14 @@ body {
 
 .panelText {
   margin: 0em;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.pointer:hover {
+  color: #00a2df;
 }
 
 .successText {
@@ -114,10 +144,20 @@ body {
 
 .flexBottom {
   margin-top: 2.1em;
+  margin-bottom: 2.1em;
+  align-self: flex-end;
+}
+
+.flexBottomMedium {
+  margin-top: 1.85em;
   align-self: flex-end;
 }
 
 /* Ends - Fiuba CSS */
+
+.actionsColumn {
+  min-width: 6em;
+}
 
 .actionsColumn :not(:first-child) {
   margin-left: 0.5em;

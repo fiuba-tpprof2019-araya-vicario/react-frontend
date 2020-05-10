@@ -5,7 +5,7 @@ import Center from 'react-center';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faListAlt } from '@fortawesome/free-solid-svg-icons';
 import history from '../../redux/history';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import { myProjectMessages, requestMessages } from '../../utils/messages';
 import { getById } from '../../utils/services/functions';
 import BorderScreen from '../../utils/styles/BorderScreen';
@@ -21,13 +21,7 @@ export default class CreateIdea extends React.Component {
     requests: PropTypes.array
   };
 
-  constructor() {
-    super();
-    this.acceptRequest = this.acceptRequest.bind(this);
-    this.rejectRequest = this.rejectRequest.bind(this);
-  }
-
-  acceptRequest(id) {
+  acceptRequest = (id) => {
     const request = getById(this.props.requests, id);
 
     this.AcceptModal.getRef().showModal(
@@ -36,9 +30,9 @@ export default class CreateIdea extends React.Component {
       request.name,
       this.props.acceptRequest
     );
-  }
+  };
 
-  rejectRequest(id) {
+  rejectRequest = (id) => {
     const request = getById(this.props.requests, id);
 
     this.RejectModal.getRef().showModal(
@@ -46,13 +40,11 @@ export default class CreateIdea extends React.Component {
       request.name,
       this.props.rejectRequest
     );
-  }
+  };
 
-  renderTable(requests, acceptRequest, rejectRequest) {
+  renderTable = (requests, acceptRequest, rejectRequest) => {
     if (requests == null || requests.length === 0) {
-      return (
-        <CustomAlert size={10} message={requestMessages.NO_RESULTS_MESSAGE} />
-      );
+      return <Alert size={10} message={requestMessages.NO_RESULTS_MESSAGE} />;
     }
 
     return (
@@ -62,7 +54,7 @@ export default class CreateIdea extends React.Component {
         reject={rejectRequest}
       />
     );
-  }
+  };
 
   render() {
     return (

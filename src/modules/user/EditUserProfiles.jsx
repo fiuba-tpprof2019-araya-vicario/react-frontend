@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
 import Select from 'react-select';
-import { CustomTable } from '../../utils/CustomTable';
+import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
 
@@ -18,46 +18,34 @@ export default class EditUserProfiles extends React.Component {
     super();
     this.state = {
       removeProfileClicked: -1,
-      selectedProfile: -1,
+      selectedProfile: null,
       formSelect: { error: false, message: '' },
       profiles: props.activeUser.profiles
     };
-    this.showAddProfileModal = this.showAddProfileModal.bind(this);
-    this.showRemoveProfileModal = this.showRemoveProfileModal.bind(this);
-    this.getDeleteProfileModalButtons = this.getDeleteProfileModalButtons.bind(
-      this
-    );
-    this.getAddProfileModalButtons = this.getAddProfileModalButtons.bind(this);
-    this.updateProfileSelect = this.updateProfileSelect.bind(this);
   }
 
-  showAddProfileModal() {
+  showAddProfileModal = () => {
     this.resetProfileForm();
     this.addProfileModal.showModal();
-  }
+  };
 
-  showRemoveProfileModal(id) {
+  showRemoveProfileModal = (id) => {
     this.setState({ removeProfileClicked: id });
     this.removeProfileModal.showModal();
-  }
+  };
 
-  updateProfileSelect(newValue) {
+  updateProfileSelect = (newValue) =>
+    this.setState({ selectedProfile: newValue });
+
+  resetProfileForm = () =>
     this.setState({
-      ...this.state,
-      selectedProfile: newValue != null ? newValue.value : -1
+      formSelect: {
+        error: false,
+        message: ''
+      }
     });
-  }
 
-  resetProfileForm() {
-    const formSelect = {
-      error: false,
-      message: ''
-    };
-
-    this.setState({ ...this.state, formSelect });
-  }
-
-  validarRolForm() {
+  validarRolForm = () => {
     let formOk = true;
 
     const formSelect = {
@@ -65,138 +53,107 @@ export default class EditUserProfiles extends React.Component {
       message: ''
     };
 
-    if (this.state.selectedProfile <= 0) {
+    if (!this.state.selectedProfile) {
       formSelect.error = true;
       formSelect.message = 'Este campo es obligatorio';
       formOk = false;
-    } else {
-      formSelect.error = false;
-      formSelect.message = '';
     }
 
-    this.setState({ ...this.state, formSelect });
+    this.setState({ formSelect });
 
     return formOk;
-  }
+  };
 
-  getAgregarRolModalBody() {
-    const profilesList = this.getProfilesList();
-    const selectRender = [];
-    const options = [];
+  getAgregarRolModalBody = () => (
+    <Field
+      validationState={this.state.formSelect.error}
+      key="perfilField"
+      bsSize="small"
+      controlId="perfilSelect"
+      label="Perfil"
+      required
+      validationMessage={this.state.formSelect.message}
+      inputComponent={
+        <Select
+          key="perfilSelect"
+          name="perfilelect"
+          isClearable={false}
+          value={this.state.selectedProfile}
+          options={this.getProfilesList().map((profiles) => ({
+            value: profiles.id,
+            label: profiles.name
+          }))}
+          id="perfilSelect"
+          onChange={this.updateProfileSelect}
+          placeholder="seleccioná un perfil"
+        />
+      }
+    />
+  );
 
-    profilesList.forEach((profiles) => {
-      options.push({ value: profiles.id, label: profiles.name });
-    }, this);
-    selectRender.push(
-      <Field
-        validationState={this.state.formSelect.error ? 'error' : null}
-        key="perfilField"
-        bsSize="small"
-        controlId="perfilSelect"
-        label="Perfil"
-        required
-        validationMessage={this.state.formSelect.message}
-        inputComponent={
-          <Select
-            key="perfilSelect"
-            name="perfilelect"
-            value={this.state.selectedProfile}
-            options={options}
-            id="perfilSelect"
-            onChange={this.updateProfileSelect}
-            placeholder="seleccioná un perfil"
-          />
-        }
-      />
-    );
-
-    return selectRender;
-  }
-
-  getAddProfileModalButtons() {
-    const buttons = [];
-
-    buttons.push(
-      <Button
-        key="agregarButton"
-        bsStyle="primary"
-        bsSize="small"
-        onClick={() => {
-          if (this.validarRolForm()) {
-            this.state.profiles.push(
-              this.getProfileById(this.state.selectedProfile)
-            );
-            this.addProfileModal.hideModal();
-            this.props.refresh(this.state.profiles);
-          }
-        }}
-      >
-        Guardar
-      </Button>
-    );
-
-    return buttons;
-  }
-
-  getDeleteProfileModalBody() {
-    return (
-      <p>
-        ¿Seguro querés eliminar el perfil{' '}
-        {this.getProfileNameById(this.state.removeProfileClicked)}?
-      </p>
-    );
-  }
-
-  getDeleteProfileModalButtons() {
-    const buttons = [];
-
-    buttons.push(
-      <Button
-        key="borrarButton"
-        bsStyle="danger"
-        bsSize="small"
-        onClick={() => {
-          const filteredProfiles = this.state.profiles.filter(
-            (profile) => profile.id !== this.state.removeProfileClicked
+  getAddProfileModalButtons = () => (
+    <Button
+      key="agregarButton"
+      bsStyle="primary"
+      bsSize="small"
+      onClick={() => {
+        if (this.validarRolForm()) {
+          this.state.profiles.push(
+            this.getProfileById(this.state.selectedProfile.value)
           );
+          this.addProfileModal.hideModal();
+          this.props.refresh(this.state.profiles);
+        }
+      }}
+    >
+      Guardar
+    </Button>
+  );
 
-          this.setState({
-            ...this.state,
-            profiles: filteredProfiles
-          });
-          this.removeProfileModal.hideModal();
-          this.props.refresh(filteredProfiles);
-        }}
-      >
-        Eliminar
-      </Button>
-    );
+  getDeleteProfileModalBody = () => (
+    <p>
+      ¿Seguro querés eliminar el perfil{' '}
+      {this.getProfileNameById(this.state.removeProfileClicked)}?
+    </p>
+  );
 
-    return buttons;
-  }
+  getDeleteProfileModalButtons = () => (
+    <Button
+      key="borrarButton"
+      bsStyle="danger"
+      bsSize="small"
+      onClick={() => {
+        const filteredProfiles = this.state.profiles.filter(
+          (profile) => profile.id !== this.state.removeProfileClicked
+        );
 
-  getProfileNameById(id) {
+        this.setState({ profiles: filteredProfiles });
+        this.removeProfileModal.hideModal();
+        this.props.refresh(filteredProfiles);
+      }}
+    >
+      Eliminar
+    </Button>
+  );
+
+  getProfileNameById = (id) => {
     const profile =
       this.state.profiles &&
       this.state.profiles.find((element) => element.id === id);
 
     return profile ? profile.name : '';
-  }
+  };
 
-  getProfileById(id) {
-    return this.props.profiles.find((element) => element.id === id);
-  }
+  getProfileById = (id) =>
+    this.props.profiles.find((element) => element.id === id);
 
-  getProfilesList() {
-    const { profiles } = this.props;
+  getProfilesList = () =>
+    _.differenceBy(this.props.profiles, this.state.profiles, 'id');
 
-    return _.differenceBy(profiles, this.state.profiles, 'id');
-  }
-
-  getProfileTable() {
+  getProfileTable = () => {
     if (this.state.profiles.length !== 0) {
       return (
-        <CustomTable
+        <Table
           data={this.state.profiles}
           headers={['Nombre', 'Descripción']}
           actions={{
@@ -207,7 +164,7 @@ export default class EditUserProfiles extends React.Component {
     }
 
     return <Alert bsStyle="info">No posees perfiles</Alert>;
-  }
+  };
 
   render() {
     return (

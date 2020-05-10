@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import { REQUEST_STATES, REQUIREMENT_STATES } from './references';
 
 export function getById(objects, id) {
@@ -24,10 +25,11 @@ export const formatterDate = (data) => {
   const dayAndHour = dates[2].split('T');
   const hour = dayAndHour[1].split('.');
   const day = dayAndHour[0];
-  const fullDate = `${day}/${dates[1]}/${dates[0]} ${hour[0]}`;
 
-  return fullDate;
+  return `${day}/${dates[1]}/${dates[0]} ${hour[0]}`;
 };
+
+export const getYearFromDate = (date) => date.split('-')[0];
 
 export function getOnlyField(values, getValue = (element) => element.value) {
   return values && values.length > 0
@@ -37,20 +39,23 @@ export function getOnlyField(values, getValue = (element) => element.value) {
 
 export function getSelectOptionsWithIgnore(
   options,
-  ignoreValue,
-  valueString = 'id',
-  labelString = 'name',
-  surlabelString = 'surname'
+  ignoreValue = 0,
+  {
+    valueString = 'id',
+    labelString = 'name',
+    surlabelString = 'surname',
+    color = null
+  } = {}
 ) {
-  return (
-    options &&
-    options
-      .map((elem) => ({
-        value: elem[valueString],
-        label: `${elem[labelString]} ${elem[surlabelString]}`
-      }))
-      .filter((elem) => elem.value !== ignoreValue)
-  );
+  return options
+    ? options
+        .map((option) => ({
+          value: option[valueString],
+          label: `${option[labelString]} ${option[surlabelString]}`,
+          color
+        }))
+        .filter(({ value }) => value !== ignoreValue)
+    : [];
 }
 
 export function getSelectOptions(
@@ -90,19 +95,11 @@ export function getFullNameWithDescription(user, description) {
   return user ? `${user.name} ${user.surname}${description}` : '';
 }
 
-export function getFullNameWithEmail(user) {
-  return user ? `${user.name} ${user.surname} (${user.email})` : '';
-}
-
 export function getDescriptionByRequestStatus(stateRequest) {
   return stateRequest ? REQUEST_STATES[stateRequest] : '';
 }
 
 export function getDescriptionByRequirementStatus(status) {
-  return status ? REQUIREMENT_STATES[status] : '';
-}
-
-export function getDescriptionByProjectStatus(status) {
   return status ? REQUIREMENT_STATES[status] : '';
 }
 
@@ -148,7 +145,7 @@ export function getRequestFromUser(userId, project) {
     return cotutorUser[0].TutorRequests[0];
   }
 
-  return null;
+  return {};
 }
 
 export function getStudentsNames(Creator, Students) {
@@ -164,3 +161,47 @@ export function getTutorsNames(Tutor, Cotutors) {
     ...Cotutors.map((cotutor) => `, ${getFullName(cotutor)}`)
   ];
 }
+
+export const getLast30Days = () => {
+  const days = [];
+
+  for (let i = 29; i >= 0; i -= 1) {
+    days.push({
+      x: moment()
+        .add(-i, 'days')
+        .valueOf(),
+      y: 0
+    });
+  }
+
+  return days;
+};
+
+export const getMonthTextFromNumber = (monthNumber) => {
+  switch (monthNumber) {
+    case 1:
+      return 'Enero';
+    case 2:
+      return 'Febrero';
+    case 3:
+      return 'Marzo';
+    case 4:
+      return 'Abril';
+    case 5:
+      return 'Mayo';
+    case 6:
+      return 'Junio';
+    case 7:
+      return 'Julio';
+    case 8:
+      return 'Agosto';
+    case 9:
+      return 'Septiembre';
+    case 10:
+      return 'Octubre';
+    case 11:
+      return 'Noviembre';
+    default:
+      return 'Diciembre';
+  }
+};

@@ -5,37 +5,15 @@ import {
   formatterDate,
   getDescriptionByRequestStatus
 } from '../../utils/services/functions';
+import { queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUESTS_TUTORS = 'HYDRATE_REQUESTS_TUTORS';
 const HYDRATE_REQUESTS_STUDENTS = 'HYDRATE_REQUESTS_STUDENTS';
-const QUERY_ERROR = 'QUERY_ERROR';
 const POST_IDEA = 'POST_IDEA';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
-
-const initialState = {
-  alert: null,
-  loading: false,
-  requests: null
-};
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
 
 const ideaAccepted = (data) => ({
   type: POST_IDEA,
   data
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
 });
 
 export const hydrateRequestsStudents = (data) => ({
@@ -57,8 +35,8 @@ export const getRequestsTutors = (dispatch) => {
     .then((data) => {
       dispatch(hydrateRequestsTutors(data));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -71,8 +49,8 @@ export const getRequestsStudents = (dispatch) => {
     .then((data) => {
       dispatch(hydrateRequestsStudents(data));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -82,9 +60,9 @@ export const getRequestsWithDispatch = (dispatch) => {
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -106,9 +84,9 @@ export const acceptTutorRequest = (requestId) => (dispatch) => {
       getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -127,9 +105,9 @@ export const acceptStudentRequest = (requestId, projectId) => (dispatch) => {
       getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -148,9 +126,9 @@ export const rejectTutorRequest = (requestId) => (dispatch) => {
       getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -168,9 +146,9 @@ export const rejectStudentRequest = (requestId) => (dispatch) => {
       getRequestsWithDispatch(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -192,7 +170,7 @@ const fetchRequestTable = (data) => {
   return returnValue;
 };
 
-export default (state = initialState, action) => {
+export default (state = { tutorRequests: [], studentRequests: [] }, action) => {
   switch (action.type) {
     case HYDRATE_REQUESTS_TUTORS:
       return {

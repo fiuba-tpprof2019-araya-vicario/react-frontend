@@ -17,9 +17,7 @@ import { CREDENTIALS } from '../utils/services/references';
 import WithAuthorization from '../utils/WithAuthorization';
 
 export const Home = () => {
-  const access = (url) => {
-    history.push(url);
-  };
+  const access = (url) => history.push(url);
 
   return (
     <div>
@@ -47,28 +45,6 @@ export const Home = () => {
               <Row>Edita los perfiles de los usuarios de la plataforma</Row>
             </Col>
           </WithAuthorization>
-          {/* <WithAuthorization requiredCredentials={CREDENTIALS.GET_PROJECTS}>
-          <Col md={2} lg={2}>
-            <Row>
-              <Center>
-                <button className="onlyIcon">
-                  <i
-                    className="fa fa-inbox bigIcon"
-                    aria-hidden="true"
-                    onClick={() => access('/requests')}
-                  />
-                </button>
-              </Center>
-            </Row>
-            <Row>
-              <h4>Mis solicitudes</h4>
-            </Row>
-            <Row>
-              Revisa todas las solicitudes recibidas para colaborar en un
-              proyecto
-            </Row>
-          </Col>
-        </WithAuthorization> */}
           <WithAuthorization requiredCredentials={CREDENTIALS.CREATE_PROJECTS}>
             <Col md={2} lg={2}>
               <Row>
@@ -113,7 +89,10 @@ export const Home = () => {
             <Col md={2} lg={2}>
               <Row>
                 <Center>
-                  <button className="onlyIcon bigIcon">
+                  <button
+                    className="onlyIcon bigIcon"
+                    onClick={() => access('/requirements')}
+                  >
                     <FontAwesomeIcon icon={faListAlt} />
                   </button>
                 </Center>
@@ -149,7 +128,7 @@ export const Home = () => {
               <Center>
                 <button
                   className="onlyIcon bigIcon"
-                  onClick={() => access('/my_projects')}
+                  onClick={() => access('/public')}
                 >
                   <FontAwesomeIcon icon={faArchive} />
                 </button>
@@ -160,7 +139,7 @@ export const Home = () => {
             </Row>
             <Row>
               Explora los distintos proyectos finalizados por los estudiantes de
-              la FIUBA
+              FIUBA
             </Row>
           </Col>
         </Center>

@@ -4,19 +4,19 @@ import { connect } from 'react-redux';
 import { Button, Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
-  clearAlert,
   getInitialData,
   deleteRequirement,
   editRequirement,
   uploadRequirement
 } from './requirementReducer';
+import { clearAlert } from '../login/authReducer';
 import { uploadIdea } from '../myProject/myProjectReducer';
 import { getById } from '../../utils/services/functions';
 import Title from '../../utils/Title';
 import { requirementMessages } from '../../utils/messages';
 import { CREDENTIALS } from '../../utils/services/references';
 import { RequirementTable } from './RequirementTable';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import UploadIdeaModal from '../../utils/components/uploadIdea/UploadIdeaModal';
 import CreateRequirementModal from './modals/CreateRequirementModal';
 import EditRequirementModal from './modals/EditRequirementModal';
@@ -36,20 +36,13 @@ export class RequirementIndex extends React.Component {
     requirements: PropTypes.array,
     coautors: PropTypes.array,
     careers: PropTypes.array,
+    similarStudents: PropTypes.array,
+    similarTutors: PropTypes.array,
     projectTypes: PropTypes.array,
     tutors: PropTypes.array,
     user: PropTypes.object,
     isAuthenticated: PropTypes.bool
   };
-
-  constructor() {
-    super();
-    this.createRequirement = this.createRequirement.bind(this);
-    this.editRequirement = this.editRequirement.bind(this);
-    this.deleteRequirement = this.deleteRequirement.bind(this);
-    this.showUploadIdea = this.showUploadIdea.bind(this);
-    this.uploadIdea = this.uploadIdea.bind(this);
-  }
 
   componentDidMount() {
     this.props.clearAlert();
@@ -58,29 +51,42 @@ export class RequirementIndex extends React.Component {
     }
   }
 
-  createRequirement() {
+  createRequirement = () => {
     this.CreateModal.showModal();
-  }
+  };
 
-  editRequirement(id) {
+  editRequirement = (id) => {
     this.EditModal.showModal(getById(this.props.requirements, id));
-  }
+  };
 
-  showUploadIdea(id) {
+  showUploadIdea = (id) => {
     this.UploadIdeaModal.showModal(getById(this.props.requirements, id));
-  }
+  };
 
-  deleteRequirement(id) {
+  deleteRequirement = (id) => {
     const requirement = getById(this.props.requirements, id);
 
     this.DeleteModal.getRef().showModal(requirement.id, requirement.name);
-  }
+  };
 
-  uploadIdea(form) {
+  viewRequirementPdf = (id) => {
+    const requirement = getById(this.props.requirements, id);
+
+    window.open(requirement.file_url, '_blank');
+  };
+
+  uploadIdea = (form) => {
     this.props.uploadIdea(form);
-  }
+  };
 
   render() {
+    const similiarStudentsIds = this.props.similarStudents.map(
+      ({ value }) => value
+    );
+    const similiarTutorsIds = this.props.similarTutors.map(
+      ({ value }) => value
+    );
+
     return (
       <Fragment>
         <Title
@@ -127,8 +133,14 @@ export class RequirementIndex extends React.Component {
         <UploadIdeaModal
           uploadIdea={this.uploadIdea}
           careers={this.props.careers}
-          coautors={this.props.coautors}
-          tutors={this.props.tutors}
+          coautors={this.props.coautors.filter(
+            ({ value }) => !similiarStudentsIds.includes(value)
+          )}
+          tutors={this.props.tutors.filter(
+            ({ value }) => !similiarTutorsIds.includes(value)
+          )}
+          similarTutors={this.props.similarTutors}
+          similarStudents={this.props.similarStudents}
           projectTypes={this.props.projectTypes}
           ref={(modal) => {
             this.UploadIdeaModal = modal;
@@ -144,7 +156,7 @@ export class RequirementIndex extends React.Component {
       this.props.requirements == null ||
       this.props.requirements.length === 0
     ) {
-      return <CustomAlert message={requirementMessages.NO_RESULTS_MESSAGE} />;
+      return <Alert message={requirementMessages.NO_RESULTS_MESSAGE} />;
     }
 
     return (
@@ -155,6 +167,7 @@ export class RequirementIndex extends React.Component {
         deleteRequirement={this.deleteRequirement}
         uploadProject={this.uploadProject}
         uploadIdea={this.showUploadIdea}
+        viewRequirementPdf={this.viewRequirementPdf}
         canEdit={this.props.canEdit}
       />
     );
@@ -169,6 +182,8 @@ const mapStateToProps = (state) => ({
   coautors: state.myProjectReducer.coautors,
   careers: state.myProjectReducer.careers,
   projectTypes: state.myProjectReducer.projectTypes,
+  similarStudents: state.myProjectReducer.similarStudents,
+  similarTutors: state.myProjectReducer.similarTutors,
   tutors: state.myProjectReducer.tutors,
   user: state.authReducer.user,
   isAuthenticated: state.authReducer.isAuthenticated

@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 export default class Title extends React.Component {
   static propTypes = {
     subtitle: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string.isRequired
   };
 
   render() {

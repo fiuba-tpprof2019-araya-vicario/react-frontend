@@ -10,15 +10,7 @@ export default class DocumentEditor extends Component {
     onDocumentChange: PropTypes.func
   };
 
-  constructor() {
-    super();
-    this.isEmpty = this.isEmpty.bind(this);
-    this.getToolbar = this.getToolbar.bind(this);
-  }
-
-  isEmpty() {
-    return this.summernote.isEmpty();
-  }
+  isEmpty = () => this.summernote.isEmpty();
 
   onImageUpload(images, insertImage) {
     /* FileList does not support ordinary array methods */
@@ -36,19 +28,15 @@ export default class DocumentEditor extends Component {
     }
   }
 
-  getToolbar() {
-    const toolbar = [
-      ['estilo', ['style']],
-      ['fuente', ['bold', 'underline', 'clear']],
-      ['indice', ['superscript', 'subscript']],
-      ['viñeta', ['ul', 'ol', 'paragraph']],
-      ['tabla', ['table']],
-      ['insertar', ['link', 'picture']],
-      ['vista', ['fullscreen']]
-    ];
-
-    return toolbar;
-  }
+  getToolbar = () => [
+    ['estilo', ['style']],
+    ['fuente', ['bold', 'underline', 'clear']],
+    ['indice', ['superscript', 'subscript']],
+    ['viñeta', ['ul', 'ol', 'paragraph']],
+    ['tabla', ['table']],
+    ['insertar', ['link', 'picture']],
+    ['vista', ['fullscreen']]
+  ];
 
   render() {
     return (

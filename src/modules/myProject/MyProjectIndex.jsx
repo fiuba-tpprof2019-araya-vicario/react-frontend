@@ -1,27 +1,33 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import Stepper from 'react-stepper-horizontal';
 import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
   uploadProposal,
+  editPresentationData,
+  uploadPresentation,
+  uploadDocumentation,
   uploadIdea,
   acceptRequest,
   rejectRequest,
   editIdea,
   acceptProposal,
   abandonIdea,
-  clearAlert,
   getInitialData
 } from './myProjectReducer';
+import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
+import ShowIdeaStepper from '../../utils/components/showIdea/ShowIdeaStepper';
 import UploadIdeaModal from '../../utils/components/uploadIdea/UploadIdeaModal';
 import { myProjectMessages } from '../../utils/messages';
 import CreateIdea from './CreateIdea';
 import ReviewIdea from './ReviewIdea';
 import PendingProposal from './PendingProposal';
 import ProposalUnderRevision from './ProposalUnderRevision';
+import PendingPresentation from './PendingPresentation';
+import ProposalPublicated from './ProposalPublicated';
+import PendingPublication from './PendingPublication';
 import AbandonProjectModal from './modals/AbandonProjectModal';
 
 export class MyProjectIndex extends React.Component {
@@ -34,46 +40,27 @@ export class MyProjectIndex extends React.Component {
     rejectRequest: PropTypes.func,
     abandonIdea: PropTypes.func,
     uploadProposal: PropTypes.func,
+    editPresentationData: PropTypes.func,
+    uploadPresentation: PropTypes.func,
+    uploadDocumentation: PropTypes.func,
     acceptProposal: PropTypes.func,
     user: PropTypes.object,
     project: PropTypes.object,
     isAuthenticated: PropTypes.bool,
     careers: PropTypes.array,
     coautors: PropTypes.array,
+    similarStudents: PropTypes.array,
+    similarTutors: PropTypes.array,
     tutors: PropTypes.array,
     projectTypes: PropTypes.array,
     requests: PropTypes.array
   };
 
-  constructor() {
-    super();
-    this.state = { activeStep: 0 };
-    this.uploadIdea = this.uploadIdea.bind(this);
-    this.editIdea = this.editIdea.bind(this);
-    this.showUploadIdeaModal = this.showUploadIdeaModal.bind(this);
-    this.showAbandonIdeaModal = this.showAbandonIdeaModal.bind(this);
-    this.uploadProposal = this.uploadProposal.bind(this);
-  }
+  state = { activeStep: 0 };
 
   componentDidMount() {
     this.props.clearAlert();
     this.props.getInitialData(this.props.user.id, this.props.user.projectId);
-  }
-
-  getActiveStep(user, project) {
-    let activeStep = 0;
-
-    if (user && user.projectId && project) {
-      activeStep = project.state_id;
-    }
-
-    return activeStep;
-  }
-
-  updateActiveStep(step) {
-    this.setState({
-      activeStep: step
-    });
   }
 
   componentDidUpdate() {
@@ -84,116 +71,157 @@ export class MyProjectIndex extends React.Component {
     }
   }
 
-  uploadIdea(form) {
+  getActiveStep = (user, project) => {
+    let activeStep = 0;
+
+    if (user && user.projectId && project) {
+      activeStep = project.state_id;
+    }
+
+    return activeStep;
+  };
+
+  updateActiveStep = (step) => {
+    this.setState({
+      activeStep: step
+    });
+  };
+
+  uploadIdea = (form) => {
     this.props.uploadIdea(form);
-  }
+  };
 
-  uploadProposal(proposal, url) {
-    this.props.uploadProposal(proposal, url);
-  }
+  uploadProposal = (projectId, url) => {
+    this.props.uploadProposal(projectId, url);
+  };
 
-  editIdea(id, form) {
+  uploadPresentation = (projectId, presentationId, url) => {
+    this.props.uploadPresentation(projectId, presentationId, url);
+  };
+
+  uploadDocumentation = (projectId, presentationId, url) => {
+    this.props.uploadDocumentation(projectId, presentationId, url);
+  };
+
+  editPresentationData = (projectId, presentationId, description) => {
+    this.props.editPresentationData(projectId, presentationId, description);
+  };
+
+  editIdea = (id, form) => {
     this.props.editIdea(id, form);
-  }
+  };
 
-  showAbandonIdeaModal(memberId) {
+  showAbandonIdeaModal = (memberId) => {
     this.AbandonModal.getRef().showModal(
       this.props.project.id,
       memberId,
       this.props.project.name,
       this.props.abandonIdea
     );
-  }
+  };
 
-  showUploadIdeaModal() {
+  showUploadIdeaModal = () => {
     this.UploadIdeaModal.showModal();
-  }
+  };
 
   render() {
-    const steps = [
-      { title: 'Crear idea' },
-      { title: 'Idea en revisión' },
-      { title: 'Pendiente de propuesta' },
-      { title: 'Propuesta en revisión' },
-      { title: 'Pendiente de presentación' },
-      { title: 'Pendiente de publicación' },
-      { title: 'Propuesta publicada' }
-    ];
     const isUserCreator =
       (this.props.project &&
         this.props.user.id === this.props.project.creator_id) ||
       !this.props.project;
+    const similiarStudentsIds = this.props.similarStudents.map(
+      ({ value }) => value
+    );
+    const similiarTutorsIds = this.props.similarTutors.map(
+      ({ value }) => value
+    );
 
     return (
       <Fragment>
-        <Title
-          title={myProjectMessages.TITLE}
-          subtitle={myProjectMessages.SUBTITLE}
-        />
         <Row>
-          <div className="step-progress">
-            <Stepper
-              steps={steps}
-              activeStep={this.state.activeStep}
-              defaultTitleOpacity="0.5"
-              completeTitleOpacity="0.75"
-              activeColor="#468847"
-            />
-          </div>
-        </Row>
-        <Row>
-          {this.state.activeStep === 0 ? (
-            <CreateIdea
-              acceptRequest={this.props.acceptRequest}
-              rejectRequest={this.props.rejectRequest}
-              requests={this.props.requests}
-              showUploadIdeaModal={this.showUploadIdeaModal}
-            />
-          ) : null}
-          {this.state.activeStep === 1 ? (
-            <ReviewIdea
-              isUserCreator={isUserCreator}
-              user={this.props.user}
-              project={this.props.project}
-              showUploadIdeaModal={this.showUploadIdeaModal}
-              showAbandonIdeaModal={this.showAbandonIdeaModal}
-            />
-          ) : null}
-          {this.state.activeStep === 2 ? (
-            <PendingProposal
-              isUserCreator={isUserCreator}
-              user={this.props.user}
-              project={this.props.project}
-              uploadProposal={this.uploadProposal}
-              acceptProposal={this.props.acceptProposal}
-              showUploadIdeaModal={this.showUploadIdeaModal}
-              showAbandonIdeaModal={this.showAbandonIdeaModal}
-            />
-          ) : null}
-          {this.state.activeStep === 3 ? (
-            <ProposalUnderRevision
-              isUserCreator={isUserCreator}
-              user={this.props.user}
-              project={this.props.project}
-            />
-          ) : null}
-        </Row>
-        {isUserCreator && (
-          <UploadIdeaModal
-            uploadIdea={this.uploadIdea}
-            editIdea={this.editIdea}
-            careers={this.props.careers}
-            coautors={this.props.coautors}
-            tutors={this.props.tutors}
-            projectTypes={this.props.projectTypes}
-            project={this.props.project}
-            editMode={this.state.activeStep}
-            ref={(modal) => {
-              this.UploadIdeaModal = modal;
-            }}
-            user={this.props.isAuthenticated && this.props.user}
+          <Title
+            title={myProjectMessages.TITLE}
+            subtitle={myProjectMessages.SUBTITLE}
           />
-        )}
+          <ShowIdeaStepper activeStep={this.state.activeStep} />
+        </Row>
+        <Row>
+          <CreateIdea
+            display-if={this.state.activeStep === 0}
+            acceptRequest={this.props.acceptRequest}
+            rejectRequest={this.props.rejectRequest}
+            requests={this.props.requests}
+            showUploadIdeaModal={this.showUploadIdeaModal}
+          />
+          <ReviewIdea
+            display-if={this.state.activeStep === 1}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+            showUploadIdeaModal={this.showUploadIdeaModal}
+            showAbandonIdeaModal={this.showAbandonIdeaModal}
+          />
+          <PendingProposal
+            display-if={this.state.activeStep === 2}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+            uploadProposal={this.uploadProposal}
+            acceptProposal={this.props.acceptProposal}
+            showUploadIdeaModal={this.showUploadIdeaModal}
+            showAbandonIdeaModal={this.showAbandonIdeaModal}
+          />
+          <ProposalUnderRevision
+            display-if={this.state.activeStep === 3}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+          />
+          <PendingPresentation
+            display-if={this.state.activeStep === 4}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+          />
+          <PendingPublication
+            display-if={this.state.activeStep === 5}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+            editPresentationData={this.editPresentationData}
+            uploadDocumentation={this.uploadDocumentation}
+            uploadPresentation={this.uploadPresentation}
+          />
+          <ProposalPublicated
+            display-if={this.state.activeStep === 6}
+            isUserCreator={isUserCreator}
+            user={this.props.user}
+            project={this.props.project}
+            uploadDocumentation={this.uploadDocumentation}
+            uploadPresentation={this.uploadPresentation}
+          />
+        </Row>
+        <UploadIdeaModal
+          display-if={isUserCreator}
+          uploadIdea={this.uploadIdea}
+          editIdea={this.editIdea}
+          similarStudents={this.props.similarStudents}
+          similarTutors={this.props.similarTutors}
+          coautors={this.props.coautors.filter(
+            ({ value }) => !similiarStudentsIds.includes(value)
+          )}
+          careers={this.props.careers}
+          tutors={this.props.tutors.filter(
+            ({ value }) => !similiarTutorsIds.includes(value)
+          )}
+          projectTypes={this.props.projectTypes}
+          project={this.props.project}
+          editMode={this.state.activeStep}
+          ref={(modal) => {
+            this.UploadIdeaModal = modal;
+          }}
+          user={this.props.isAuthenticated && this.props.user}
+        />
         <AbandonProjectModal
           ref={(modal) => {
             this.AbandonModal = modal;
@@ -217,8 +245,17 @@ const mapDispatch = (dispatch) => ({
   abandonIdea: (projectId, memberId) => {
     dispatch(abandonIdea(projectId, memberId));
   },
-  uploadProposal: (project, url) => {
-    dispatch(uploadProposal(project, url));
+  uploadProposal: (projectId, url) => {
+    dispatch(uploadProposal(projectId, url));
+  },
+  uploadPresentation: (projectId, presentationId, url) => {
+    dispatch(uploadPresentation(projectId, presentationId, url));
+  },
+  editPresentationData: (projectId, presentationId, description) => {
+    dispatch(editPresentationData(projectId, presentationId, description));
+  },
+  uploadDocumentation: (projectId, presentationId, url) => {
+    dispatch(uploadDocumentation(projectId, presentationId, url));
   },
   acceptRequest: (requestId, projectId) => {
     dispatch(acceptRequest(requestId, projectId));
@@ -239,6 +276,8 @@ const mapStateToProps = (state) => ({
   careers: state.myProjectReducer.careers,
   requests: state.myProjectReducer.requests,
   project: state.myProjectReducer.project,
+  similarStudents: state.myProjectReducer.similarStudents,
+  similarTutors: state.myProjectReducer.similarTutors,
   projectTypes: state.myProjectReducer.projectTypes,
   tutors: state.myProjectReducer.tutors,
   user: state.authReducer.user,

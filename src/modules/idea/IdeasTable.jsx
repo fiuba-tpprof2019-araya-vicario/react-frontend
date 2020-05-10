@@ -1,22 +1,18 @@
-/* eslint-disable guard-for-in */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { CustomTable } from '../../utils/CustomTable';
-// import { STATES } from '../../utils/services/references';
+import Table from '../../utils/Table';
 
 export default class IdeasTable extends React.Component {
   static propTypes = {
     data: PropTypes.array,
     show: PropTypes.func
-    // accept: PropTypes.func,
-    // reject: PropTypes.func
   };
 
   getHeaders() {
     return [
       'Título',
       'Descripción',
-      'Estudiandtes',
+      'Estudiantes',
       'Tutores',
       'Tipo',
       'Fecha de creación'
@@ -24,17 +20,12 @@ export default class IdeasTable extends React.Component {
   }
 
   render() {
-    // const disableButton = (request) =>
-    //   request.requestStatusId !== STATES.pending;
-
     return (
-      <CustomTable
+      <Table
         headers={this.getHeaders()}
         data={this.props.data}
         actions={{
           detailAction: { action: this.props.show }
-          // acceptAction: { action: this.props.accept, disabled: disableButton },
-          // rejectAction: { action: this.props.reject, disabled: disableButton }
         }}
       />
     );

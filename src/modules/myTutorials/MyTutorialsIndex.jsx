@@ -3,15 +3,15 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  clearAlert,
   getInitialData,
   acceptRequest,
   rejectRequest
 } from './myTutorialsReducer';
+import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
 import { myTutorialsMessages } from '../../utils/messages';
 import MyTutorialsTable from './MyTutorialsTable';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import { getById } from '../../utils/services/functions';
 import history from '../../redux/history';
 import AcceptRequestModal from './modals/AcceptRequestModal';
@@ -26,12 +26,6 @@ export class MyTutorialsIndex extends React.Component {
     myTutorials: PropTypes.array
   };
 
-  constructor() {
-    super();
-    this.acceptRequest = this.acceptRequest.bind(this);
-    this.rejectRequest = this.rejectRequest.bind(this);
-  }
-
   componentDidMount() {
     this.props.clearAlert();
     this.props.getInitialData();
@@ -41,7 +35,7 @@ export class MyTutorialsIndex extends React.Component {
     history.push(`/my_tutorials/${id}`);
   }
 
-  acceptRequest(id) {
+  acceptRequest = (id) => {
     const request = getById(this.props.myTutorials, id);
 
     this.AcceptModal.getRef().showModal(
@@ -50,9 +44,9 @@ export class MyTutorialsIndex extends React.Component {
       request.name,
       this.props.acceptRequest
     );
-  }
+  };
 
-  rejectRequest(id) {
+  rejectRequest = (id) => {
     const request = getById(this.props.myTutorials, id);
 
     this.RejectModal.getRef().showModal(
@@ -60,7 +54,7 @@ export class MyTutorialsIndex extends React.Component {
       request.name,
       this.props.rejectRequest
     );
-  }
+  };
 
   render() {
     return (
@@ -87,7 +81,7 @@ export class MyTutorialsIndex extends React.Component {
 
   renderTable() {
     if (this.props.myTutorials == null || this.props.myTutorials.length === 0) {
-      return <CustomAlert message={myTutorialsMessages.NO_RESULTS_MESSAGE} />;
+      return <Alert message={myTutorialsMessages.NO_RESULTS_MESSAGE} />;
     }
 
     return (

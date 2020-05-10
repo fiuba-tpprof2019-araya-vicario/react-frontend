@@ -8,8 +8,11 @@ import contactReducer from '../modules/contact/contactReducer';
 import myProjectReducer from '../modules/myProject/myProjectReducer';
 import userReducer from '../modules/user/userReducer';
 import ideasReducer from '../modules/idea/ideasReducer';
+import dashboardReducer from '../modules/dashboard/dashboardReducer';
 import commissionsReducer from '../modules/commission/commissionsReducer';
 import myTutorialsReducer from '../modules/myTutorials/myTutorialsReducer';
+import publicProjectsReducer from '../modules/publicProjects/publicProjectsReducer';
+import myUserReducer from '../modules/myUser/myUserReducer';
 import requestReducer from '../modules/request/requestReducer';
 import requirementReducer from '../modules/requirement/requirementReducer';
 
@@ -17,11 +20,14 @@ import requirementReducer from '../modules/requirement/requirementReducer';
 const appReducer = combineReducers({
   authReducer,
   contactReducer,
+  dashboardReducer,
   myProjectReducer,
   userReducer,
   ideasReducer,
   commissionsReducer,
   myTutorialsReducer,
+  publicProjectsReducer,
+  myUserReducer,
   requestReducer,
   requirementReducer,
   routerReducer

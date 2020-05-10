@@ -1,49 +1,31 @@
 import axios from 'axios';
 import Bluebird from 'bluebird';
-import { getConfig, api } from '../../api/apiInterfaceProvider';
+import {
+  getConfig,
+  getConfigMultipart,
+  api
+} from '../../api/apiInterfaceProvider';
 import {
   formatterDate,
   getDescriptionByRequirementStatus
 } from '../../utils/services/functions';
 import { getInitialData as loadCreateProjectData } from '../myProject/myProjectReducer';
+import { queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_REQUIREMENTS = 'HYDRATE_REQUIREMENTS';
 const EDIT_REQUIREMENT = 'EDIT_REQUIREMENT';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const UPLOAD_REQUIREMENT = 'UPLOAD_REQUIREMENT';
 
-const initialState = {
-  alert: null,
-  loading: false,
-  requirements: null
-};
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
-
-export const hydrateRequirements = (data) => ({
+const hydrateRequirements = (data) => ({
   type: HYDRATE_REQUIREMENTS,
   data
 });
 
-export const requirementsUploaded = () => ({
+const requirementsUploaded = () => ({
   type: UPLOAD_REQUIREMENT
 });
 
-export const requirementsEdited = () => ({
+const requirementsEdited = () => ({
   type: EDIT_REQUIREMENT
 });
 
@@ -58,9 +40,9 @@ export const getRequirements = (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateRequirements(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -82,9 +64,9 @@ export const editRequirement = (id, form) => (dispatch) => {
       dispatch(getRequirements(dispatch));
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -100,27 +82,32 @@ export const deleteRequirement = (id) => (dispatch) => {
       dispatch(getRequirements(dispatch));
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
 export const uploadRequirement = (form) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
+  const config = getConfigMultipart();
+  const formData = new FormData();
+
+  formData.append('file', form.file);
+  formData.append('name', form.name);
+  formData.append('description', form.description);
 
   axios
-    .post(api.requirements, form, config)
+    .post(api.requirements, formData, config)
     .then((res) => res.data.data)
     .then(() => {
       dispatch(requirementsUploaded());
       getRequirements(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -133,6 +120,7 @@ const fetchRequirementTable = (data) => {
       creator: `${rowObject.Creator.name} ${rowObject.Creator.surname}`,
       name: rowObject.name,
       description: rowObject.description,
+      file_url: rowObject.file_url,
       created_at: formatterDate(rowObject.createdAt),
       updated_at: formatterDate(rowObject.updatedAt),
       status: getDescriptionByRequirementStatus(rowObject.status)
@@ -142,7 +130,7 @@ const fetchRequirementTable = (data) => {
   return returnValue;
 };
 
-export default (state = initialState, action) => {
+export default (state = { requirements: [] }, action) => {
   switch (action.type) {
     case HYDRATE_REQUIREMENTS:
       return {

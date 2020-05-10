@@ -24,69 +24,58 @@ export default class ContactForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      file: null,
       form: {
-        email: { error: false, mensaje: '' },
-        name: { error: false, mensaje: '' },
-        description: { error: false, mensaje: '' }
+        email: { error: false, message: '' },
+        name: { error: false, message: '' },
+        description: { error: false, message: '' }
       }
     };
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
   resetForm() {
     const form = {
-      email: { error: false, mensaje: '' },
-      name: { error: false, mensaje: '' },
-      description: { error: false, mensaje: '' }
+      email: { error: false, message: '' },
+      name: { error: false, message: '' },
+      description: { error: false, message: '' }
     };
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
   }
 
   validateForm(email, name, description) {
     let formOk = true;
 
     const form = {
-      email: { error: false, mensaje: '' },
-      name: { error: false, mensaje: '' },
-      description: { error: false, mensaje: '' }
+      email: { error: false, message: '' },
+      name: { error: false, message: '' },
+      description: { error: false, message: '' }
     };
 
     if (email == null || email === '' || !isValidEmail(email)) {
       form.email.error = true;
-      form.email.mensaje = 'Tenés que ingresar un mail de contacto valido';
+      form.email.message = 'Tenés que ingresar un mail de contacto valido';
       formOk = false;
-    } else {
-      form.email.error = false;
-      form.email.mensaje = '';
     }
 
-    if (name == null || name === '') {
+    if (!name) {
       form.name.error = true;
-      form.name.mensaje = 'Tenés que ingresar un nombre de contacto';
+      form.name.message = 'Tenés que ingresar un nombre de contacto';
       formOk = false;
-    } else {
-      form.name.error = false;
-      form.name.mensaje = '';
     }
 
-    if (description == null || description === '') {
+    if (!description) {
       form.description.error = true;
-      form.description.mensaje =
+      form.description.message =
         'Tenés que ingresar la descripción del requerimiento';
       formOk = false;
-    } else {
-      form.description.error = false;
-      form.description.mensaje = '';
     }
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
 
     return formOk;
   }
 
-  onSubmit() {
+  onSubmit = () => {
     const email = ReactDOM.findDOMNode(this.emailInput).value.trim();
     const name = ReactDOM.findDOMNode(this.nameInput).value.trim();
     const description = ReactDOM.findDOMNode(
@@ -97,7 +86,7 @@ export default class ContactForm extends React.Component {
       this.props.uploadForm({ email, name, description });
       this.resetForm();
     }
-  }
+  };
 
   render() {
     return (
@@ -122,11 +111,12 @@ export default class ContactForm extends React.Component {
                   placeholder="Ingrese nombre de contacto"
                 />
               </FormGroup>
-              {this.state.form.email.error && (
-                <HelpBlock bsSize="small">
-                  {this.state.form.name.mensaje}
-                </HelpBlock>
-              )}
+              <HelpBlock
+                display-if={this.state.form.email.error}
+                bsSize="small"
+              >
+                {this.state.form.name.message}
+              </HelpBlock>
             </Col>
           </Row>
           <Row key="uploadFormRow1">
@@ -150,7 +140,7 @@ export default class ContactForm extends React.Component {
               </FormGroup>
               {this.state.form.email.error && (
                 <HelpBlock bsSize="small">
-                  {this.state.form.email.mensaje}
+                  {this.state.form.email.message}
                 </HelpBlock>
               )}
             </Col>
@@ -177,7 +167,7 @@ export default class ContactForm extends React.Component {
               </FormGroup>
               {this.state.form.email.error && (
                 <HelpBlock bsSize="small">
-                  {this.state.form.description.mensaje}
+                  {this.state.form.description.message}
                 </HelpBlock>
               )}
             </Col>

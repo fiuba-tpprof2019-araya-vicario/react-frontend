@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
 import Select from 'react-select';
-import { CustomTable } from '../../utils/CustomTable';
+import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
 
@@ -19,35 +19,25 @@ export default class EditUserCareers extends React.Component {
 
     this.state = {
       removeCareerClicked: -1,
-      selectedCareer: -1,
+      selectedCareer: null,
       formSelect: { error: false, message: '' },
       careers: props.activeUser.careers
     };
-    this.showAddCareerModal = this.showAddCareerModal.bind(this);
-    this.showRemoveCareerModal = this.showRemoveCareerModal.bind(this);
-    this.getDeleteCareerModalButtons = this.getDeleteCareerModalButtons.bind(
-      this
-    );
-    this.getAddCareerModalButtons = this.getAddCareerModalButtons.bind(this);
-    this.updateCareerSelect = this.updateCareerSelect.bind(this);
   }
 
-  showAddCareerModal() {
+  showAddCareerModal = () => {
     this.resetCareerForm();
     this.addCareerModal.showModal();
-  }
+  };
 
-  showRemoveCareerModal(id) {
+  showRemoveCareerModal = (id) => {
     this.setState({ removeCareerClicked: id });
     this.removeCareerModal.showModal();
-  }
+  };
 
-  updateCareerSelect(newValue) {
-    this.setState({
-      ...this.state,
-      selectedCareer: newValue != null ? newValue.value : -1
-    });
-  }
+  updateCareerSelect = (newValue) => {
+    this.setState({ selectedCareer: newValue });
+  };
 
   resetCareerForm() {
     const formSelect = {
@@ -55,7 +45,7 @@ export default class EditUserCareers extends React.Component {
       message: ''
     };
 
-    this.setState({ ...this.state, formSelect });
+    this.setState({ formSelect });
   }
 
   validarRolForm() {
@@ -66,16 +56,13 @@ export default class EditUserCareers extends React.Component {
       message: ''
     };
 
-    if (this.state.selectedCareer <= 0) {
+    if (!this.state.selectedCareer) {
       formSelect.error = true;
       formSelect.message = 'Este campo es obligatorio';
       formOk = false;
-    } else {
-      formSelect.error = false;
-      formSelect.message = '';
     }
 
-    this.setState({ ...this.state, formSelect });
+    this.setState({ formSelect });
 
     return formOk;
   }
@@ -90,7 +77,7 @@ export default class EditUserCareers extends React.Component {
     }, this);
     selectRender.push(
       <Field
-        validationState={this.state.formSelect.error ? 'error' : null}
+        validationState={this.state.formSelect.error}
         key="carreraField"
         bsSize="small"
         controlId="carreraSelect"
@@ -101,6 +88,7 @@ export default class EditUserCareers extends React.Component {
           <Select
             key="carreraSelect"
             name="carreraelect"
+            isClearable={false}
             value={this.state.selectedCareer}
             options={options}
             id="carreraSelect"
@@ -114,7 +102,7 @@ export default class EditUserCareers extends React.Component {
     return selectRender;
   }
 
-  getAddCareerModalButtons() {
+  getAddCareerModalButtons = () => {
     const buttons = [];
 
     buttons.push(
@@ -125,7 +113,7 @@ export default class EditUserCareers extends React.Component {
         onClick={() => {
           if (this.validarRolForm()) {
             this.state.careers.push(
-              this.getCareerById(this.state.selectedCareer)
+              this.getCareerById(this.state.selectedCareer.value)
             );
             this.addCareerModal.hideModal();
             this.props.refresh(this.state.careers);
@@ -137,7 +125,7 @@ export default class EditUserCareers extends React.Component {
     );
 
     return buttons;
-  }
+  };
 
   getDeleteCareerModalBody() {
     return (
@@ -148,7 +136,7 @@ export default class EditUserCareers extends React.Component {
     );
   }
 
-  getDeleteCareerModalButtons() {
+  getDeleteCareerModalButtons = () => {
     const buttons = [];
 
     buttons.push(
@@ -161,10 +149,7 @@ export default class EditUserCareers extends React.Component {
             (career) => career.id !== this.state.removeCareerClicked
           );
 
-          this.setState({
-            ...this.state,
-            careers: filteredCareers
-          });
+          this.setState({ careers: filteredCareers });
           this.removeCareerModal.hideModal();
           this.props.refresh(filteredCareers);
         }}
@@ -174,7 +159,7 @@ export default class EditUserCareers extends React.Component {
     );
 
     return buttons;
-  }
+  };
 
   getCareerNameById(id) {
     const career =
@@ -197,7 +182,7 @@ export default class EditUserCareers extends React.Component {
   getCareerTable() {
     if (this.state.careers.length !== 0) {
       return (
-        <CustomTable
+        <Table
           data={this.state.careers}
           headers={['Nombre', 'Descripción']}
           actions={{

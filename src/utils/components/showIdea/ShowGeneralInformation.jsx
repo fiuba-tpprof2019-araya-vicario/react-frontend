@@ -1,29 +1,28 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import {
-  formatterDate,
-  getFullNameWithEmail,
-  getOnlyField
-} from '../../../utils/services/functions';
+import { formatterDate, getOnlyField } from '../../../utils/services/functions';
 import FullRow from '../../../utils/styles/FullRow';
 import Itemized from '../../../utils/styles/Itemized';
 import { getStatusIcon } from '../../forms/StatusIcon';
 
-export default class ShowIdeaInfo extends React.Component {
+export default class ShowGeneralInformation extends React.Component {
   static propTypes = {
     project: PropTypes.object,
     showUsersStatus: PropTypes.bool
   };
 
-  getAutors() {
+  getFullNameWithEmail = (user) =>
+    user ? `${user.name} ${user.surname} (${user.email})` : '';
+
+  getAutors = () => {
     const { showUsersStatus } = this.props;
     const { Creator, Students, State } = this.props.project;
     const autors = [];
 
     if (Creator && Students) {
-      autors.push(`Creador: ${getFullNameWithEmail(Creator)}`);
+      autors.push(`Creador: ${this.getFullNameWithEmail(Creator)}`);
       Students.forEach((student) => {
-        const fullName = getFullNameWithEmail(student);
+        const fullName = this.getFullNameWithEmail(student);
 
         autors.push(
           <span key={student.id}>
@@ -50,9 +49,9 @@ export default class ShowIdeaInfo extends React.Component {
     }
 
     return autors;
-  }
+  };
 
-  getTutors() {
+  getTutors = () => {
     const { showUsersStatus } = this.props;
     const { Tutor, Cotutors, State } = this.props.project;
 
@@ -60,7 +59,7 @@ export default class ShowIdeaInfo extends React.Component {
     let fullName;
 
     if (Tutor && Cotutors) {
-      fullName = getFullNameWithEmail(Tutor);
+      fullName = this.getFullNameWithEmail(Tutor);
 
       tutors.push(
         <span key={Tutor.id}>
@@ -80,7 +79,7 @@ export default class ShowIdeaInfo extends React.Component {
         </span>
       );
       Cotutors.forEach((cotutor) => {
-        fullName = getFullNameWithEmail(cotutor);
+        fullName = this.getFullNameWithEmail(cotutor);
         tutors.push(
           <span key={cotutor.id}>
             Cotutor: {fullName}
@@ -105,7 +104,7 @@ export default class ShowIdeaInfo extends React.Component {
     }
 
     return tutors;
-  }
+  };
 
   render() {
     const { project } = this.props;

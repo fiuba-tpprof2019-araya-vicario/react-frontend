@@ -3,7 +3,8 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import { upload, clearAlert } from './contactReducer';
+import { upload } from './contactReducer';
+import { clearAlert } from '../login/authReducer';
 import ContactForm from './ContactForm';
 import Title from '../../utils/Title';
 import { contactMessages } from '../../utils/messages';
@@ -16,18 +17,13 @@ export class ContactIndex extends React.Component {
     user: PropTypes.object
   };
 
-  constructor() {
-    super();
-    this.uploadForm = this.uploadForm.bind(this);
-  }
-
   componentDidMount() {
     this.props.clearAlert();
   }
 
-  uploadForm(form) {
+  uploadForm = (form) => {
     this.props.upload(form);
-  }
+  };
 
   render() {
     return (

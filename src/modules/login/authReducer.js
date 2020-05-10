@@ -13,31 +13,36 @@ const TOGGLE_LOADING = 'TOGGLE_LOADING';
 const LOGIN_ERROR = 'LOGIN_ERROR';
 const CLEAR_ERRORS = 'CLEAR_ERRORS';
 const POST_IDEA = 'POST_IDEA';
-
-const initialState = {
-  token: {},
-  user: {},
-  error: { message: '' },
-  isAuthenticated: false
-};
+const MY_PROFILE = 'MY_PROFILE';
+const HYDRATE_ALERT = 'HYDRATE_ALERT';
 
 export const clearAlert = () => ({
   type: CLEAR_ALERT
 });
 
-export const queryError = (err) => ({
+export const toggleLoading = ({ loading }) => ({
+  type: TOGGLE_LOADING,
+  loading
+});
+
+export const queryError = (error) => ({
   type: QUERY_ERROR,
-  err
+  error
 });
 
-export const loginError = (err) => ({
+export const loginError = (error) => ({
   type: LOGIN_ERROR,
-  err
+  error
 });
 
-export const internalError = (err) => ({
+export const hydrateAlert = (alert) => ({
+  type: HYDRATE_ALERT,
+  alert
+});
+
+export const internalError = (error) => ({
   type: INTERNAL_ERROR,
-  err
+  error
 });
 
 export const successful = (text) => ({
@@ -58,6 +63,15 @@ export const logout = () => ({
   type: LOGOUT_USER
 });
 
+export const profile = () => () => ({
+  type: MY_PROFILE
+});
+
+export const myProfile = () => (dispatch) => {
+  dispatch(push('/my_user'));
+  dispatch(profile());
+};
+
 export const loginUser = (username, password) => (dispatch) => {
   const body = { username, password };
 
@@ -68,14 +82,14 @@ export const loginUser = (username, password) => (dispatch) => {
       dispatch(login({ token: data.token, user: { email: username } }));
       dispatch(push('/'));
     })
-    .catch((err) => {
-      dispatch(loginError(err));
+    .catch((error) => {
+      dispatch(loginError(error));
     });
 };
 
 export const loginWithGoogle = (response) => (dispatch) => {
   const body = {
-    id_token: response.Zi.id_token,
+    id_token: response.tokenId,
     email: response.profileObj.email,
     name: response.profileObj.name
   };
@@ -84,8 +98,6 @@ export const loginWithGoogle = (response) => (dispatch) => {
     .post(api.login, body)
     .then((res) => res.data)
     .then(({ data }) => {
-      console.log(data);
-      // window.gapi.auth.setToken({ access_token: response.accessToken });
       dispatch(
         login({
           token: data.token,
@@ -95,18 +107,45 @@ export const loginWithGoogle = (response) => (dispatch) => {
             name: body.name,
             credentials: data.credentials,
             careers: data.careers,
+            interests: data.interests,
             projectId: data.projectId
           }
         })
       );
       dispatch(push('/'));
     })
-    .catch((err) => {
-      dispatch(loginError(err));
+    .catch((error) => {
+      dispatch(loginError(error));
     });
 };
 
-export default (state = initialState, action) => {
+const getQueryErrorMessage = (error = {}) => {
+  const { response } = error;
+
+  if (!response || !response.data) {
+    return utilsMessages.QUERY_ERROR;
+  }
+
+  const { message } = response.data;
+
+  if (!message) {
+    return utilsMessages.QUERY_ERROR;
+  }
+
+  return message;
+};
+
+export default (
+  state = {
+    token: {},
+    user: {},
+    error: { message: '' },
+    alert: null,
+    loading: false,
+    isAuthenticated: false
+  },
+  action
+) => {
   switch (action.type) {
     case LOGIN_USER:
       return {
@@ -147,7 +186,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         alert: {
-          message: utilsMessages.QUERY_ERROR,
+          message: getQueryErrorMessage(action.error),
           style: 'danger',
           onDismiss: clearAlert
         }
@@ -167,6 +206,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         alert: { style: 'success', message: action.text, onDismiss: clearAlert }
+      };
+    case HYDRATE_ALERT:
+      return {
+        ...state,
+        alert: action.alert
       };
     case TOGGLE_LOADING:
       return { ...state, loading: action.loading };

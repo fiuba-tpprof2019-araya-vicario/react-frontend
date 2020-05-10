@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert, Col, Row } from 'react-bootstrap';
+import { Alert as BootstrapAlert, Col, Row } from 'react-bootstrap';
 import Center from 'react-center';
 
-export default class CustomAlert extends React.Component {
+export default class Alert extends React.Component {
   static propTypes = {
     rowKey: PropTypes.string,
     size: PropTypes.number,
@@ -12,6 +12,8 @@ export default class CustomAlert extends React.Component {
     message: PropTypes.string
   };
 
+  static defaultProps = { size: 10, rowKey: 'alert' };
+
   componentWillUnmount() {
     if (this.props.onDismiss) {
       this.props.onDismiss();
@@ -19,16 +21,15 @@ export default class CustomAlert extends React.Component {
   }
 
   render() {
+    const { rowKey, size, bsStyle, onDismiss, message } = this.props;
+
     return (
-      <Row key={this.props.rowKey}>
+      <Row key={rowKey}>
         <Center>
-          <Col lg={this.props.size ? this.props.size : 10}>
-            <Alert
-              onDismiss={this.props.onDismiss}
-              bsStyle={this.props.bsStyle}
-            >
-              <p>{this.props.message}</p>
-            </Alert>
+          <Col lg={size}>
+            <BootstrapAlert onDismiss={onDismiss} bsStyle={bsStyle}>
+              <p>{message}</p>
+            </BootstrapAlert>
           </Col>
         </Center>
       </Row>

@@ -2,11 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {
-  clearAlert,
-  // clearUsers,
-  getUsers
-} from './userReducer';
+import { getUsers } from './userReducer';
+import { clearAlert } from '../login/authReducer';
 import SearchUserForm from './SearchUserForm';
 import UserTable from './UserTable';
 import Title from '../../utils/Title';

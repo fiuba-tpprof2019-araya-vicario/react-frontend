@@ -30,16 +30,11 @@ export default class AcceptProposalModal extends React.Component {
   };
 
   updateCareerSelect = (value) => {
-    this.setState({
-      ...this.state,
-      option: value,
-      careerMessage: null
-    });
+    this.setState({ option: value, careerMessage: null });
   };
 
   updateReason = ({ target }) => {
     this.setState({
-      ...this.state,
       reason: target.value,
       reasonMessage: null
     });
@@ -47,7 +42,6 @@ export default class AcceptProposalModal extends React.Component {
 
   updateInvalidMessages = (option, reason) => {
     this.setState({
-      ...this.state,
       careerMessage: option
         ? null
         : 'Tenés que ingresar la carrera con la cúal aprobar la propuesta',
@@ -75,6 +69,7 @@ export default class AcceptProposalModal extends React.Component {
                 name="careerelect"
                 value={this.state.option}
                 options={options}
+                isClearable={false}
                 id="careerSelect"
                 onChange={this.updateCareerSelect}
                 placeholder="seleccioná un carrera para aprobar este proyecto"

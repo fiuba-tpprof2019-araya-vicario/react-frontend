@@ -16,84 +16,60 @@ import {
   formatterDate,
   getFullName
 } from '../../utils/services/functions';
+import { queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const GET_TUTORS = 'GET_TUTORS';
 const GET_COAUTORS = 'GET_COAUTORS';
 const GET_CAREERS = 'GET_CAREERS';
 const GET_ACTIVE_PROJECT = 'GET_ACTIVE_PROJECT';
 const GET_PROJECT_TYPES = 'GET_PROJECT_TYPES';
 const POST_IDEA = 'POST_IDEA';
-const ABANDON_IDEA = 'ABANDON_IDEA';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
+const HYDRATE_SIMILAR_STUDENT = 'HYDRATE_SIMILAR_STUDENT';
+const HYDRATE_SIMILAR_TUTOR = 'HYDRATE_SIMILAR_TUTOR';
 const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 const HYDRATE_REQUESTS_STUDENT = 'HYDRATE_REQUESTS_STUDENT';
 
-const initialState = {
-  alert: null,
-  loading: false,
-  project: null,
-  coautors: null,
-  projectTypes: null,
-  tutors: null
-};
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
-
-export const ideaAsigned = (data) => ({
+const ideaAsigned = (data) => ({
   type: POST_IDEA,
   data
 });
 
-export const hydrateRequests = (data) => ({
+const hydrateRequests = (data) => ({
   type: HYDRATE_REQUESTS_STUDENT,
   data
 });
 
-export const ideaAbandoned = (data) => ({
-  type: ABANDON_IDEA,
+const hydrateSimilarUsers = (data, type) => ({
+  type: `HYDRATE_SIMILAR_${type}`,
   data
 });
 
-export const acceptedProposal = () => ({
+const acceptedProposal = () => ({
   type: ACCEPTED_PROPOSAL
 });
 
-export const projectTypesLoaded = (data) => ({
+const projectTypesLoaded = (data) => ({
   type: GET_PROJECT_TYPES,
   data
 });
 
-export const careersLoaded = (data) => ({
+const careersLoaded = (data) => ({
   type: GET_CAREERS,
   data
 });
 
-export const activeProjectUploaded = (data) => ({
+const activeProjectUploaded = (data) => ({
   type: GET_ACTIVE_PROJECT,
   data
 });
 
-export const coautorsUploaded = (data, ignoreId) => ({
+const coautorsUploaded = (data, ignoreId) => ({
   type: GET_COAUTORS,
   data,
   ignoreId
 });
 
-export const tutorsUploaded = (data, ignoreId) => ({
+const tutorsUploaded = (data, ignoreId) => ({
   type: GET_TUTORS,
   data,
   ignoreId
@@ -185,8 +161,8 @@ const getActiveProject = (projectId, dispatch) => {
     .then((data) => {
       dispatch(activeProjectUploaded(data));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -199,8 +175,8 @@ const getTutors = (ignoreId, dispatch) => {
     .then((data) => {
       dispatch(tutorsUploaded(data, ignoreId));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -213,21 +189,20 @@ const getCoautors = (ignoreId, dispatch) => {
     .then((data) => {
       dispatch(coautorsUploaded(data, ignoreId));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
-export const uploadProposal = (projectId, form) => (dispatch) => {
+const uploadFile = (projectId, form, endpoint, dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfigMultipart();
-
   const formData = new FormData();
 
   formData.append('file', form.file);
 
   axios
-    .put(api.proposal(projectId), formData, config)
+    .put(endpoint, formData, config)
     .then((res) => res.data.data)
     .then(() => {
       getActiveProject(projectId, dispatch);
@@ -235,8 +210,61 @@ export const uploadProposal = (projectId, form) => (dispatch) => {
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
+export const uploadProposal = (projectId, form) => (dispatch) => {
+  uploadFile(projectId, form, api.proposal(projectId), dispatch);
+};
+
+export const uploadDocumentation = (projectId, presentationId, form) => (
+  dispatch
+) => {
+  uploadFile(
+    projectId,
+    form,
+    api.uploadDocumentation(presentationId),
+    dispatch
+  );
+};
+
+export const uploadPresentation = (projectId, presentationId, form) => (
+  dispatch
+) => {
+  uploadFile(projectId, form, api.uploadPresentation(presentationId), dispatch);
+};
+
+export const editPresentationData = (
+  projectId,
+  presentationId,
+  {
+    description,
+    documentation_visible: documentationVisible,
+    presentation_visible: presentationViisible
+  }
+) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    description,
+    documentation_visible: documentationVisible,
+    presentation_visible: presentationViisible
+  };
+
+  axios
+    .put(api.editPresentations(presentationId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      getActiveProject(projectId, dispatch);
+    })
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -270,8 +298,8 @@ export const uploadIdea = (
       dispatch(toggleLoading({ loading: false }));
       postAction();
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -285,8 +313,22 @@ export const getRequests = (dispatch) => {
     .then((data) => {
       dispatch(hydrateRequests(data));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
+    });
+};
+
+export const getSimilarUsers = (dispatch, type) => {
+  const config = getConfig();
+
+  axios
+    .get(api.similarUsers(type), config)
+    .then((res) => res.data.data)
+    .then((data) => {
+      dispatch(hydrateSimilarUsers(data, type.toUpperCase()));
+    })
+    .catch((error) => {
+      dispatch(queryError(error));
     });
 };
 
@@ -305,8 +347,8 @@ export const acceptProposal = (requestId, projectId) => (dispatch) => {
       dispatch(acceptedProposal());
       getActiveProject(projectId, dispatch);
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -326,9 +368,9 @@ export const acceptRequest = (requestId, projectId) => (dispatch) => {
       getActiveProject(projectId, dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -346,9 +388,9 @@ export const rejectRequest = (requestId) => (dispatch) => {
       getRequests(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -360,7 +402,9 @@ export const getInitialData = (ignoreId, projectId) => (dispatch) => {
     getProjectTypes(dispatch),
     getCareers(dispatch),
     getRequests(dispatch),
-    getCoautors(ignoreId, dispatch)
+    getCoautors(ignoreId, dispatch),
+    getSimilarUsers(dispatch, 'student'),
+    getSimilarUsers(dispatch, 'tutor')
   )
     .then(() => dispatch(toggleLoading({ loading: false })))
     .catch(() => {
@@ -396,8 +440,8 @@ export const editIdea = (
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -416,8 +460,8 @@ export const abandonIdea = (projectId, memberId) => (dispatch) => {
     .then(() => {
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -466,7 +510,17 @@ const fetchRequestTable = (data) => {
   return returnValue;
 };
 
-export default (state = initialState, action) => {
+export default (
+  state = {
+    project: null,
+    coautors: [],
+    projectTypes: [],
+    tutors: [],
+    similarStudents: [],
+    similarTutors: []
+  },
+  action
+) => {
   switch (action.type) {
     case GET_COAUTORS:
       return {
@@ -492,6 +546,20 @@ export default (state = initialState, action) => {
       return {
         ...state,
         careers: action.data
+      };
+    case HYDRATE_SIMILAR_STUDENT:
+      return {
+        ...state,
+        similarStudents: getSelectOptionsWithIgnore(action.data, null, {
+          color: '#0196dc'
+        })
+      };
+    case HYDRATE_SIMILAR_TUTOR:
+      return {
+        ...state,
+        similarTutors: getSelectOptionsWithIgnore(action.data, null, {
+          color: '#0196dc'
+        })
       };
     case GET_TUTORS:
       return {

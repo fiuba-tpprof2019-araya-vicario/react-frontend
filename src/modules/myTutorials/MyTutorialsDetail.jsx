@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import Stepper from 'react-stepper-horizontal';
 import { Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
   getMyTutorial,
   abandonIdea,
-  clearAlert,
+  enablePresentation,
+  submitPresentation,
   acceptProposal
 } from './myTutorialsReducer';
+import { clearAlert } from '../login/authReducer';
+import ShowIdeaStepper from '../../utils/components/showIdea/ShowIdeaStepper';
 import Title from '../../utils/Title';
 import { myTutorialsMessages } from '../../utils/messages';
 import AbandonProjectModal from './modals/AbandonProjectModal';
@@ -23,16 +25,15 @@ export class MyProjectDetail extends React.Component {
     accept: PropTypes.func,
     projectId: PropTypes.string,
     abandonIdea: PropTypes.func,
+    submitPresentation: PropTypes.func,
     user: PropTypes.object,
+    enablePresentation: PropTypes.func,
     project: PropTypes.object
   };
 
   constructor() {
     super();
     this.state = { activeStep: 0 };
-    this.showUploadIdeaModal = this.showUploadIdeaModal.bind(this);
-    this.showAbandonIdeaModal = this.showAbandonIdeaModal.bind(this);
-    this.abandonPostAction = this.abandonPostAction.bind(this);
   }
 
   componentDidMount() {
@@ -64,11 +65,11 @@ export class MyProjectDetail extends React.Component {
     }
   }
 
-  abandonPostAction() {
+  abandonPostAction = () => {
     history.push('/my_tutorials/');
-  }
+  };
 
-  showAbandonIdeaModal(memberId) {
+  showAbandonIdeaModal = (memberId) => {
     this.AbandonModal.getRef().showModal(
       this.props.project.id,
       memberId,
@@ -76,22 +77,21 @@ export class MyProjectDetail extends React.Component {
       this.props.abandonIdea,
       this.abandonPostAction
     );
-  }
+  };
 
-  showUploadIdeaModal() {
+  enablePresentation = (projectId) => {
+    this.props.enablePresentation(projectId);
+  };
+
+  submitPresentation = (projectId, presentationId) => {
+    this.props.submitPresentation(projectId, presentationId);
+  };
+
+  showUploadIdeaModal = () => {
     this.UploadIdeaModal.showModal();
-  }
+  };
 
   render() {
-    const steps = [
-      { title: 'Crear idea' },
-      { title: 'Idea en revisión' },
-      { title: 'Pendiente de propuesta' },
-      { title: 'Propuesta en revisión' },
-      { title: 'Pendiente de presentación' },
-      { title: 'Pendiente de publicación' },
-      { title: 'Propuesta publicada' }
-    ];
     const { user, project, accept } = this.props;
 
     return (
@@ -101,51 +101,86 @@ export class MyProjectDetail extends React.Component {
             title={myTutorialsMessages.TITLE}
             subtitle={myTutorialsMessages.SUBTITLE}
           />
-          <div className="step-progress">
-            <Stepper
-              steps={steps}
-              activeStep={this.state.activeStep}
-              defaultTitleOpacity="0.5"
-              completeTitleOpacity="0.75"
-              activeColor="#468847"
-            />
-          </div>
+          <ShowIdeaStepper activeStep={this.state.activeStep} />
         </Row>
-        {this.state.activeStep === 1 ? (
-          <ShowIdea
-            nextStepMessage={myTutorialsMessages.NEW_STEP_PROJECT_CREATED_INFO}
-            showBackButton
-            project={project}
-            user={user}
+        <Row>
+          {this.state.activeStep === 1 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROJECT_CREATED_INFO
+              }
+              showBackButton
+              project={project}
+              user={user}
+            />
+          ) : null}
+          {this.state.activeStep === 2 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROJECT_ACCEPTED_INFO
+              }
+              showBackButton
+              showProposal
+              acceptProposal={accept}
+              showAbandonButton
+              project={project}
+              user={user}
+              showAbandonIdeaModal={this.showAbandonIdeaModal}
+            />
+          ) : null}
+          {this.state.activeStep === 3 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
+              }
+              showBackButton
+              project={project}
+              user={user}
+              showProposal
+            />
+          ) : null}
+          {this.state.activeStep === 4 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROPOSAL_PENDING_PRESENTATION_INFO
+              }
+              showBackButton
+              project={project}
+              user={user}
+              showProposal
+              showEnablePresentationButton
+              enablePresentation={this.enablePresentation}
+            />
+          ) : null}
+          {this.state.activeStep === 5 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROPOSAL_PENDING_PUBLICATION_INFO
+              }
+              showBackButton
+              project={project}
+              user={user}
+              showProposal
+              submitPresentation={this.submitPresentation}
+            />
+          ) : null}
+          {this.state.activeStep === 6 ? (
+            <ShowIdea
+              nextStepMessage={
+                myTutorialsMessages.NEW_STEP_PROPOSAL_PROPOSAL_PUBLICATED_INFO
+              }
+              showBackButton
+              project={project}
+              user={user}
+              showProposal
+            />
+          ) : null}
+          <AbandonProjectModal
+            ref={(modal) => {
+              this.AbandonModal = modal;
+            }}
           />
-        ) : null}
-        {this.state.activeStep === 2 ? (
-          <ShowIdea
-            nextStepMessage={myTutorialsMessages.NEW_STEP_PROJECT_ACCEPTED_INFO}
-            showBackButton
-            showProposal
-            acceptProposal={accept}
-            showAbandonButton
-            project={project}
-            user={user}
-            showAbandonIdeaModal={this.showAbandonIdeaModal}
-          />
-        ) : null}
-        {this.state.activeStep === 3 ? (
-          <ShowIdea
-            nextStepMessage={
-              myTutorialsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
-            }
-            project={project}
-            user={user}
-            showProposal
-          />
-        ) : null}
-        <AbandonProjectModal
-          ref={(modal) => {
-            this.AbandonModal = modal;
-          }}
-        />
+        </Row>
       </Fragment>
     );
   }
@@ -163,6 +198,12 @@ const mapDispatch = (dispatch) => ({
   },
   abandonIdea: (projectId, memberId, postAction) => {
     dispatch(abandonIdea(projectId, memberId, postAction));
+  },
+  enablePresentation: (projectId) => {
+    dispatch(enablePresentation(projectId));
+  },
+  submitPresentation: (projectId, presentationId) => {
+    dispatch(submitPresentation(projectId, presentationId));
   }
 });
 

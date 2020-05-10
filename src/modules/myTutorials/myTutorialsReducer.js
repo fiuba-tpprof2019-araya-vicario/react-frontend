@@ -5,40 +5,23 @@ import {
   formatterDate,
   getDescriptionByRequestStatus
 } from '../../utils/services/functions';
+import {
+  clearAlert,
+  queryError,
+  toggleLoading,
+  hydrateAlert
+} from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_MY_TUTORIALS = 'HYDRATE_MY_TUTORIALS';
 const HYDRATE_MY_TUTORIAL = 'HYDRATE_MY_TUTORIAL';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
-const ABANDON_IDEA = 'ABANDON_IDEA';
 const ACCEPTED_PROPOSAL = 'ACCEPTED_PROPOSAL';
 
-const initialState = {
-  alert: null,
-  loading: false,
-  myTutorials: [],
-  myCoTutorials: [],
-  project: {}
-};
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
-
-export const abandonedIdea = () => ({
-  type: ABANDON_IDEA
-});
+export const abandonedIdea = () =>
+  hydrateAlert({
+    message: myTutorialsMessages.ABANDON_SUCCESS,
+    style: 'success',
+    onDismiss: clearAlert
+  });
 
 export const acceptedProposal = () => ({
   type: ACCEPTED_PROPOSAL
@@ -68,8 +51,8 @@ export const abandonIdea = (projectId, memberId, postAction = () => {}) => (
       dispatch(abandonedIdea());
       postAction();
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -85,9 +68,9 @@ const getActiveTutorial = (dispatch, projectId) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateMyTutorial(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -109,8 +92,43 @@ export const acceptProposal = (requestId, projectId) => (dispatch) => {
       dispatch(acceptedProposal());
       getActiveTutorial(dispatch, projectId);
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
+export const enablePresentation = (projectId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = { project_id: projectId };
+
+  axios
+    .post(api.presentations, body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+      getActiveTutorial(dispatch, projectId);
+    })
+    .catch((error) => {
+      dispatch(queryError(error));
+      dispatch(toggleLoading({ loading: false }));
+    });
+};
+
+export const submitPresentation = (projectId, presentationId) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+
+  axios
+    .put(api.submitPresentation(presentationId), {}, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+      getActiveTutorial(dispatch, projectId);
+    })
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -126,9 +144,9 @@ export const getMyTutorials = (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateMyTutorials(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -147,9 +165,9 @@ export const acceptRequest = (requestId) => (dispatch) => {
       getMyTutorials(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -168,9 +186,9 @@ export const rejectRequest = (requestId) => (dispatch) => {
       getMyTutorials(dispatch);
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -193,7 +211,14 @@ const fetchMyTutorialsTable = (data) =>
     )
   }));
 
-export default (state = initialState, action) => {
+export default (
+  state = {
+    myTutorials: [],
+    myCoTutorials: [],
+    project: {}
+  },
+  action
+) => {
   switch (action.type) {
     case HYDRATE_MY_TUTORIALS:
       return {
@@ -205,15 +230,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         project: action.data
-      };
-    case ABANDON_IDEA:
-      return {
-        ...state,
-        alert: {
-          message: myTutorialsMessages.ABANDON_SUCCESS,
-          style: 'success',
-          onDismiss: clearAlert
-        }
       };
     default:
       return state;

@@ -1,73 +1,24 @@
 import axios from 'axios';
 import { api, getConfig } from '../../api/apiInterfaceProvider';
-import { ideasMessages } from '../../utils/messages';
 import {
   formatterDate,
   getStudentsNames,
   getTutorsNames
 } from '../../utils/services/functions';
+import { queryError, toggleLoading } from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
 const HYDRATE_IDEAS = 'HYDRATE_IDEAS';
 const HYDRATE_IDEA = 'HYDRATE_IDEA';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
-const ABANDON_IDEA = 'ABANDON_IDEA';
 
-const initialState = {
-  alert: null,
-  loading: false,
-  projects: [],
-  project: {}
-};
-
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
-
-export const abandonedIdea = () => ({
-  type: ABANDON_IDEA
-});
-
-export const hydrateProject = (data) => ({
+const hydrateProject = (data) => ({
   type: HYDRATE_IDEA,
   data
 });
 
-export const hydrateProjects = (data) => ({
+const hydrateProjects = (data) => ({
   type: HYDRATE_IDEAS,
   data
 });
-
-export const abandonIdea = (projectId, memberId, postAction = () => {}) => (
-  dispatch
-) => {
-  dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
-
-  axios
-    .delete(api.abandonTutorProject(projectId, memberId), config)
-    .then((res) => res.data.data)
-    .then(() => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(abandonedIdea());
-      postAction();
-    })
-    .catch((err) => {
-      dispatch(queryError(err));
-      dispatch(toggleLoading({ loading: false }));
-    });
-};
 
 export const getProject = (projectId) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));
@@ -80,9 +31,9 @@ export const getProject = (projectId) => (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateProject(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -97,51 +48,9 @@ export const getProjects = (dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateProjects(data));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
-    });
-};
-
-export const acceptRequest = (requestId) => (dispatch) => {
-  dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
-  const body = {
-    type: 'tutor',
-    status: 'accepted'
-  };
-
-  axios
-    .put(api.acceptTutorRequest(requestId), body, config)
-    .then((res) => res.data.data)
-    .then(() => {
-      getProjects(dispatch);
-      dispatch(toggleLoading({ loading: false }));
-    })
-    .catch((err) => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
-    });
-};
-
-export const rejectRequest = (requestId) => (dispatch) => {
-  dispatch(toggleLoading({ loading: true }));
-  const config = getConfig();
-  const body = {
-    type: 'tutor',
-    status: 'rejected'
-  };
-
-  axios
-    .put(api.rejectTutorRequest(requestId), body, config)
-    .then((res) => res.data.data)
-    .then(() => {
-      getProjects(dispatch);
-      dispatch(toggleLoading({ loading: false }));
-    })
-    .catch((err) => {
-      dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
     });
 };
 
@@ -160,7 +69,7 @@ const fetchProjectsTable = (data) =>
     created_at: formatterDate(project.createdAt)
   }));
 
-export default (state = initialState, action) => {
+export default (state = { projects: [], project: {} }, action) => {
   switch (action.type) {
     case HYDRATE_IDEAS:
       return {
@@ -171,15 +80,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         project: action.data
-      };
-    case ABANDON_IDEA:
-      return {
-        ...state,
-        alert: {
-          message: ideasMessages.ABANDON_SUCCESS,
-          style: 'success',
-          onDismiss: clearAlert
-        }
       };
     default:
       return state;

@@ -5,11 +5,13 @@ import { Route, withRouter, Switch } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Home } from '../layout/Home';
+import { clearAlert } from '../modules/login/authReducer';
 import Log from '../modules/login/Login';
 import NavBar from '../layout/WebNavBar';
 import Private from '../utils/PrivateRoute';
 import MyProject from '../modules/myProject/MyProjectIndex';
 import MyTutorials from '../modules/myTutorials/MyTutorialsIndex';
+import MyUser from '../modules/myUser/MyUserIndex';
 import User from '../modules/user/UserIndex';
 import Idea from '../modules/idea/IdeasIndex';
 import IdeaView from '../modules/idea/IdeasDetail';
@@ -18,10 +20,11 @@ import MyTutorialsDetail from '../modules/myTutorials/MyTutorialsDetail';
 import Commission from '../modules/commission/CommissionsIndex';
 import CommissionDetail from '../modules/commission/CommissionsDetail';
 import Contact from '../modules/contact/ContactIndex';
-// import Request from '../modules/request/RequestIndex';
+import PublicProject from '../modules/publicProjects/PublicProjectsIndex';
 import Requirement from '../modules/requirement/RequirementIndex';
+import Dashboard from '../modules/dashboard/DashboardIndex';
 import { persistor } from '../redux/store';
-import CustomAlert from '../utils/CustomAlert';
+import Alert from '../utils/Alert';
 import LoadingModal from '../utils/LoadingModal';
 import './App.css';
 import Loading from '../utils/Loading';
@@ -45,12 +48,14 @@ class App extends React.Component {
         </Fragment>
       );
       render.push(
-        <CustomAlert
+        <Alert
           key="alert"
           rowKey="centralAlert"
           bsStyle={alert.style}
           message={alert.message}
-          onDismiss={() => alert.onDismiss && execute(alert.onDismiss)}
+          onDismiss={() =>
+            alert.onDismiss ? execute(alert.onDismiss) : execute(clearAlert)
+          }
         />
       );
     }
@@ -87,12 +92,6 @@ class App extends React.Component {
                 requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
                 component={MyTutorialsDetail}
               />
-              {/* <Private
-                exact
-                path="/requests"
-                requiredCredentials={CREDENTIALS.GET_PROJECTS}
-                component={Request}
-              /> */}
               <Private
                 exact
                 path="/commissions"
@@ -130,11 +129,24 @@ class App extends React.Component {
                 component={User}
               />
               <Private
+                exact
+                path="/my_user"
+                requiredCredentials={CREDENTIALS.GET_PROJECTS}
+                component={MyUser}
+              />
+              <Private
                 exact={false}
                 path="/users/:id"
                 requiredCredentials={CREDENTIALS.EDIT_USERS}
                 component={UserView}
               />
+              <Private
+                exact
+                path="/dashboard"
+                requiredCredentials={CREDENTIALS.EDIT_USERS}
+                component={Dashboard}
+              />
+              <Route exact path="/public" component={PublicProject} />
               <Route exact path="/contact" component={Contact} />
             </Switch>
           </Grid>

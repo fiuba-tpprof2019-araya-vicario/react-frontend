@@ -2,50 +2,46 @@ import axios from 'axios';
 import { api, getConfig } from '../../api/apiInterfaceProvider';
 import { commissionsMessages } from '../../utils/messages';
 import {
-  getStudentsNames,
   formatterDate,
+  getStudentsNames,
   getTutorsNames
 } from '../../utils/services/functions';
+import {
+  clearAlert,
+  queryError,
+  toggleLoading,
+  hydrateAlert
+} from '../login/authReducer';
 
-const CLEAR_ALERT = 'CLEAR_ALERT';
-const HYDRATE_COMMISSIONS = 'HYDRATE_COMMISSIONS';
+const HYDRATE_APPROVED_COMMISSIONS = 'HYDRATE_APPROVED_COMMISSIONS';
+const HYDRATE_TERMINATED_COMMISSIONS = 'HYDRATE_TERMINATED_COMMISSIONS';
+const HYDRATE_PENDING_COMMISSIONS = 'HYDRATE_PENDING_COMMISSIONS';
 const HYDRATE_COMMISSION = 'HYDRATE_COMMISSION';
-const QUERY_ERROR = 'QUERY_ERROR';
-const TOGGLE_LOADING = 'TOGGLE_LOADING';
-const ABANDON_COMMISSION = 'ABANDON_COMMISSION';
 
-const initialState = {
-  alert: null,
-  loading: false,
-  projects: [],
-  project: {}
-};
+const abandonedIdea = () =>
+  hydrateAlert({
+    message: commissionsMessages.ABANDON_SUCCESS,
+    style: 'success',
+    onDismiss: clearAlert
+  });
 
-const toggleLoading = ({ loading }) => ({
-  type: TOGGLE_LOADING,
-  loading
-});
-
-export const clearAlert = () => ({
-  type: CLEAR_ALERT
-});
-
-export const queryError = (err) => ({
-  type: QUERY_ERROR,
-  err
-});
-
-export const abandonedIdea = () => ({
-  type: ABANDON_COMMISSION
-});
-
-export const hydrateProject = (data) => ({
-  type: HYDRATE_COMMISSION,
+const hydratePendingProjects = (data) => ({
+  type: HYDRATE_PENDING_COMMISSIONS,
   data
 });
 
-export const hydrateProjects = (data) => ({
-  type: HYDRATE_COMMISSIONS,
+const hydrateApprovedProjects = (data) => ({
+  type: HYDRATE_APPROVED_COMMISSIONS,
+  data
+});
+
+const hydrateTerminatedProjects = (data) => ({
+  type: HYDRATE_TERMINATED_COMMISSIONS,
+  data
+});
+
+const hydrateProject = (data) => ({
+  type: HYDRATE_COMMISSION,
   data
 });
 
@@ -63,8 +59,8 @@ export const rejectIdea = (projectId, memberId, postAction = () => {}) => (
       dispatch(abandonedIdea());
       postAction();
     })
-    .catch((err) => {
-      dispatch(queryError(err));
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
     });
 };
@@ -80,9 +76,9 @@ export const getActiveProject = (projectId, dispatch) => {
       dispatch(toggleLoading({ loading: false }));
       dispatch(hydrateProject(data));
     })
-    .catch((err) => {
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
     });
 };
 
@@ -90,20 +86,61 @@ export const getProject = (projectId) => (dispatch) => {
   getActiveProject(projectId, dispatch);
 };
 
-export const getProjects = (dispatch) => {
+export const getProjects = (approved, terminated, career, dispatch) => {
   dispatch(toggleLoading({ loading: true }));
   const config = getConfig();
+  const projectUrl = `${api.projectsForCommissions}?1=1${
+    approved ? '&approved=1' : ''
+  }${terminated ? '&terminated=1' : ''}${career ? `&career=${career}` : ''}`;
 
   axios
-    .get(api.projectsInAppreciation, config)
+    .get(projectUrl, config)
     .then((res) => res.data.data)
     .then((data) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(hydrateProjects(data));
+      if (approved) {
+        dispatch(hydrateApprovedProjects(data));
+      } else if (terminated) {
+        dispatch(hydrateTerminatedProjects(data));
+      } else {
+        dispatch(hydratePendingProjects(data));
+      }
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
+      dispatch(queryError(error));
+    });
+};
+
+export const editPresentationData = (
+  projectId,
+  presentationId,
+  {
+    description,
+    documentation_visible: documentationVisible,
+    presentation_visible: presentationViisible
+  }
+) => (dispatch) => {
+  dispatch(toggleLoading({ loading: true }));
+  const config = getConfig();
+  const body = {
+    description,
+    documentation_visible: documentationVisible,
+    presentation_visible: presentationViisible
+  };
+
+  axios
+    .put(api.editPresentations(presentationId), body, config)
+    .then((res) => res.data.data)
+    .then(() => {
+      getActiveProject(projectId, dispatch);
+    })
+    .then(() => {
+      dispatch(toggleLoading({ loading: false }));
+    })
+    .catch((error) => {
+      dispatch(queryError(error));
+      dispatch(toggleLoading({ loading: false }));
     });
 };
 
@@ -123,9 +160,9 @@ export const approve = (projectId, careerId, postAction) => (dispatch) => {
       postAction();
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
     });
 };
 
@@ -148,14 +185,14 @@ export const reprobate = (projectId, careerId, rejectionReason, postAction) => (
       postAction();
       dispatch(toggleLoading({ loading: false }));
     })
-    .catch((err) => {
+    .catch((error) => {
+      dispatch(queryError(error));
       dispatch(toggleLoading({ loading: false }));
-      dispatch(queryError(err));
     });
 };
 
-export const getInitialData = () => (dispatch) => {
-  getProjects(dispatch);
+export const getInitialData = (approved, terminated, career) => (dispatch) => {
+  getProjects(approved, terminated, career, dispatch);
 };
 
 const fetchProjectsTable = (data) =>
@@ -165,30 +202,42 @@ const fetchProjectsTable = (data) =>
     description: project.description,
     students: getStudentsNames(project.Creator, project.Students),
     tutors: getTutorsNames(project.Tutor, project.Cotutors),
+    careers: project.ProjectCareers.map(
+      (projectCareer) => projectCareer.Career.name
+    ).join(', '),
     type: project.Type.name,
     created_at: formatterDate(project.createdAt)
   }));
 
-export default (state = initialState, action) => {
+export default (
+  state = {
+    approvedProjects: [],
+    pendingProjects: [],
+    terminatedProjects: [],
+    project: {}
+  },
+  action
+) => {
   switch (action.type) {
-    case HYDRATE_COMMISSIONS:
+    case HYDRATE_PENDING_COMMISSIONS:
       return {
         ...state,
-        projects: fetchProjectsTable(action.data)
+        pendingProjects: fetchProjectsTable(action.data)
+      };
+    case HYDRATE_APPROVED_COMMISSIONS:
+      return {
+        ...state,
+        approvedProjects: fetchProjectsTable(action.data)
+      };
+    case HYDRATE_TERMINATED_COMMISSIONS:
+      return {
+        ...state,
+        terminatedProjects: fetchProjectsTable(action.data)
       };
     case HYDRATE_COMMISSION:
       return {
         ...state,
         project: action.data
-      };
-    case ABANDON_COMMISSION:
-      return {
-        ...state,
-        alert: {
-          message: commissionsMessages.ABANDON_SUCCESS,
-          style: 'success',
-          onDismiss: clearAlert
-        }
       };
     default:
       return state;

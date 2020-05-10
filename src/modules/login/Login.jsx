@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 import Center from 'react-center';
 import { withRouter } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-import CustomAlert from '../../utils/CustomAlert';
+import Alert from '../../utils/Alert';
 import { loginWithGoogle, clearErrors } from './authReducer';
 import Title from '../../utils/Title';
 import { loginMessages } from '../../utils/messages';
@@ -18,14 +18,9 @@ export class Login extends React.Component {
     errorMessage: PropTypes.string
   };
 
-  constructor() {
-    super();
-    this.responseGoogle = this.responseGoogle.bind(this);
-  }
-
-  responseGoogle(response) {
+  responseGoogle = (response) => {
     this.props.loginWithGoogle(response);
-  }
+  };
 
   componentDidMount() {
     this.props.clearErrors();
@@ -36,7 +31,7 @@ export class Login extends React.Component {
 
     if (this.props.errorMessage) {
       render.push(
-        <CustomAlert
+        <Alert
           key="alert"
           rowKey="rowkey"
           bsStyle="danger"

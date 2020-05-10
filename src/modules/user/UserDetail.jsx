@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Row, Col, Grid, Panel, Button } from 'react-bootstrap';
 import history from '../../redux/history';
-import { getUserById, clearAlert, editUser } from './userReducer';
+import { getUserById, editUser } from './userReducer';
 import LoadingModal from '../../utils/LoadingModal';
 import Title from '../../utils/Title';
 import EditUserProfiles from './EditUserProfiles';
@@ -21,9 +21,6 @@ export class UserDetail extends React.Component {
       profiles: props.activeUser.profiles,
       careers: props.activeUser.careers
     };
-    this.submitEditForm = this.submitEditForm.bind(this);
-    this.refreshProfiles = this.refreshProfiles.bind(this);
-    this.refreshCareers = this.refreshCareers.bind(this);
   }
 
   static propTypes = {
@@ -45,33 +42,23 @@ export class UserDetail extends React.Component {
     const newProfiles = nextProps.activeUser.profiles;
     const newCareers = nextProps.activeUser.careers;
 
-    this.setState({
-      ...this.state,
-      profiles: newProfiles,
-      careers: newCareers
-    });
+    this.setState({ profiles: newProfiles, careers: newCareers });
   }
 
-  refreshProfiles(newProfiles) {
-    this.setState({
-      ...this.state,
-      profiles: newProfiles
-    });
-  }
+  refreshProfiles = (newProfiles) => {
+    this.setState({ profiles: newProfiles });
+  };
 
-  refreshCareers(newCareers) {
-    this.setState({
-      ...this.state,
-      careers: newCareers
-    });
-  }
+  refreshCareers = (newCareers) => {
+    this.setState({ careers: newCareers });
+  };
 
-  submitEditForm() {
+  submitEditForm = () => {
     const profiles = getOnlyField(this.state.profiles, (profile) => profile.id);
     const careers = getOnlyField(this.state.careers, (career) => career.id);
 
     this.props.editUser(this.props.userId, profiles, careers);
-  }
+  };
 
   render() {
     if (this.state.ready) {
@@ -136,16 +123,12 @@ const mapDispatch = (dispatch) => ({
   user: (userId) => {
     dispatch(getUserById(userId));
   },
-  clearAlert: () => {
-    dispatch(clearAlert());
-  },
   editUser: (userId, profiles, careers) => {
     dispatch(editUser(userId, profiles, careers));
   }
 });
 
 const mapStateToProps = (state, ownProps) => ({
-  alert: state.userReducer.alert,
   activeUser: state.userReducer.activeUser,
   userId: ownProps.match.params.id,
   profiles: state.userReducer.profiles,

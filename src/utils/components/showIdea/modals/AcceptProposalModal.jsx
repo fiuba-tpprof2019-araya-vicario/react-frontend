@@ -11,14 +11,10 @@ export default class AcceptProposalModal extends React.Component {
     projectId: PropTypes.number
   };
 
-  constructor() {
-    super();
-    this.showModal = this.showModal.bind(this);
-    this.state = {
-      valid: false,
-      error: null
-    };
-  }
+  state = {
+    valid: false,
+    error: null
+  };
 
   showModal = () => {
     this.modal.showModal();

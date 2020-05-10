@@ -1,48 +1,75 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Row } from 'react-bootstrap';
-// import GooglePicker from 'react-google-picker';
 import { myProjectMessages } from '../../../utils/messages';
 import UploadProposalModal from './modals/UploadProposalModal';
 import Itemized from '../../../utils/styles/Itemized';
 import FullRow from '../../../utils/styles/FullRow';
 import { getIconWithOverlay } from '../../../utils/forms/StatusIcon';
-// import { CLIENT_ID, DEVELOPER_KEY, SCOPE } from '../../api/api';
+import { formatterDate } from '../../../utils/services/functions';
 
-export default class ShowIdea extends React.Component {
+export default class ShowProposal extends React.Component {
   static propTypes = {
     project: PropTypes.object,
-    isUserCreator: PropTypes.bool,
+    canEditProposal: PropTypes.bool,
     uploadProposal: PropTypes.func
   };
 
-  // uploadProposal(data) {
-  //   if (data.action === 'picked') {
-  //     this.props.uploadProposal(this.props.project, data.docs[0].url);
-  //   }
-  // }
+  showApprobals = () => {
+    const { project } = this.props;
+    const acceptedProjects = project.ProjectCareers.filter(
+      ({ status }) => status === 'accepted'
+    );
+
+    if (acceptedProjects.length === 0) {
+      return null;
+    }
+
+    return (
+      <Itemized
+        title="Aprobaciónes de la propuesta:"
+        items={acceptedProjects.map((projectCareer) => (
+          <Fragment>
+            {getIconWithOverlay(
+              `Miembro de la comisión: ${projectCareer.Judge.name} ${
+                projectCareer.Judge.surname
+              } (${projectCareer.Judge.email})\n`,
+              <i className="fa fa-info-circle">&nbsp;</i>
+            )}
+            {projectCareer.Career.name}:{' '}
+            {formatterDate(projectCareer.updatedAt)}
+          </Fragment>
+        ))}
+      />
+    );
+  };
 
   showRejectionReasons = () => {
     const { project } = this.props;
+    const rejectedProjects = project.ProjectCareers.filter(
+      ({ status }) => status === 'rejected'
+    );
+
+    if (rejectedProjects.length === 0) {
+      return null;
+    }
 
     return (
-      project.ProjectCareers.some(({ status }) => status === 'rejected') && (
-        <Itemized
-          title="Motivos de rechazo de la propuesta:"
-          items={project.ProjectCareers.map((projectCareer) => (
-            <Fragment>
-              {getIconWithOverlay(
-                `Carrera: ${projectCareer.Career.name}\n
+      <Itemized
+        title="Motivos de rechazo de la propuesta:"
+        items={rejectedProjects.map((projectCareer) => (
+          <Fragment>
+            {getIconWithOverlay(
+              `Carrera: ${projectCareer.Career.name}\n
                 Miembro de la comisión: ${projectCareer.Judge.name} ${
-                  projectCareer.Judge.surname
-                } (${projectCareer.Judge.email})\n`,
-                <i className="fa fa-info-circle">&nbsp;</i>
-              )}
-              {projectCareer.reject_reason}
-            </Fragment>
-          ))}
-        />
-      )
+                projectCareer.Judge.surname
+              } (${projectCareer.Judge.email})\n`,
+              <i className="fa fa-info-circle">&nbsp;</i>
+            )}
+            {projectCareer.reject_reason}
+          </Fragment>
+        ))}
+      />
     );
   };
 
@@ -51,7 +78,7 @@ export default class ShowIdea extends React.Component {
   };
 
   render() {
-    const { project, isUserCreator, uploadProposal } = this.props;
+    const { project, canEditProposal, uploadProposal } = this.props;
     const proposal = project.proposal_url ? (
       <a
         className="fixMarginLeft"
@@ -70,45 +97,21 @@ export default class ShowIdea extends React.Component {
         <Fragment>
           <h4>Propuesta:</h4>
           <Row>
-            {isUserCreator ? (
-              <Fragment>
-                {/* <GooglePicker
-                  clientId={CLIENT_ID}
-                  developerKey={DEVELOPER_KEY}
-                  scope={SCOPE}
-                  onChange={this.uploadProposal}
-                  onAuthFailed={() => {}}
-                  multiselect={false}
-                  navHidden
-                  authImmediate={false}
-                  mimeTypes={['application/pdf']}
-                  viewId="DOCS"
-                >
-                  <Button
-                    bsStyle="success"
-                    className="fixMarginLeft"
-                    bsSize="small"
-                  >
-                    <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir propuesta
-                  </Button>
-                  &nbsp;
-                  {proposal}
-                </GooglePicker> */}
-                <Button
-                  bsStyle="success"
-                  className="fixMarginLeft"
-                  bsSize="xs"
-                  onClick={() => this.showUploadProposalModal()}
-                >
-                  <i className="fa fa-upload">&nbsp;</i>&nbsp;Subir propuesta
-                </Button>
-                &nbsp;
-                {proposal}
-                &nbsp;
-              </Fragment>
-            ) : (
-              <Fragment>{proposal}</Fragment>
-            )}
+            <Fragment display-if={canEditProposal}>
+              <Button
+                bsStyle="success"
+                className="fixMarginLeft"
+                bsSize="xs"
+                onClick={() => this.showUploadProposalModal()}
+              >
+                <i className="fa fa-upload">&nbsp;</i>&nbsp;
+                {project.proposal_url ? 'Editar propuesta' : 'Subir propuesta'}
+              </Button>
+              &nbsp;
+              {proposal}
+              &nbsp;
+            </Fragment>
+            <Fragment display-if={!canEditProposal}>{proposal}</Fragment>
           </Row>
           <UploadProposalModal
             uploadProposal={uploadProposal}
@@ -119,6 +122,7 @@ export default class ShowIdea extends React.Component {
           />
         </Fragment>
         {this.showRejectionReasons()}
+        {this.showApprobals()}
       </FullRow>
     );
   }

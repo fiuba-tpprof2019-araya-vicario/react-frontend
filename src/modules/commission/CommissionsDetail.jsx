@@ -6,10 +6,12 @@ import {
   getProject,
   approve,
   reprobate,
-  clearAlert
+  editPresentationData
 } from './commissionsReducer';
+import { clearAlert } from '../login/authReducer';
 import Title from '../../utils/Title';
 import { commissionsMessages } from '../../utils/messages';
+import { PROJECT_STEPS } from '../../utils/services/references';
 import ShowIdea from '../../utils/components/showIdea/ShowIdea';
 import history from '../../redux/history';
 
@@ -19,6 +21,7 @@ export class CommissionsDetail extends React.Component {
     getProject: PropTypes.func,
     approveProposal: PropTypes.func,
     reprobateProposal: PropTypes.func,
+    editPresentationData: PropTypes.func,
     projectId: PropTypes.string,
     user: PropTypes.object,
     project: PropTypes.object
@@ -30,7 +33,13 @@ export class CommissionsDetail extends React.Component {
   }
 
   render() {
-    const { user, project, approveProposal, reprobateProposal } = this.props;
+    const {
+      user,
+      project,
+      approveProposal,
+      reprobateProposal,
+      editPresentationData: $editPresentationData
+    } = this.props;
 
     return (
       <Fragment>
@@ -38,20 +47,26 @@ export class CommissionsDetail extends React.Component {
           title={commissionsMessages.TITLE}
           subtitle={commissionsMessages.SUBTITLE}
         />
-        {project.id && (
-          <ShowIdea
-            nextStepMessage={
-              commissionsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
-            }
-            showBackButton
-            showProposal
-            showApprovalButtons
-            approveProposal={approveProposal}
-            reprobateProposal={reprobateProposal}
-            project={project}
-            user={user}
-          />
-        )}
+        <ShowIdea
+          display-if={project.id}
+          isUserAdmin
+          nextStepMessage={
+            project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION
+              ? commissionsMessages.NEW_STEP_PROPOSAL_UNDER_REVISION_INFO
+              : null
+          }
+          showBackButton
+          showAcceptProposalButton={false}
+          showProposal
+          showApprovalButtons={
+            project.state_id === PROJECT_STEPS.PROPOSAL_UNDER_REVISION
+          }
+          editPresentationData={$editPresentationData}
+          approveProposal={approveProposal}
+          reprobateProposal={reprobateProposal}
+          project={project}
+          user={user}
+        />
       </Fragment>
     );
   }
@@ -66,6 +81,9 @@ const mapDispatch = (dispatch) => ({
   },
   approveProposal: (projectId, careerId) => {
     dispatch(approve(projectId, careerId, () => history.push('/commissions/')));
+  },
+  editPresentationData: (...params) => {
+    dispatch(editPresentationData(...params));
   },
   reprobateProposal: (projectId, careerId, rejectionReason) => {
     dispatch(

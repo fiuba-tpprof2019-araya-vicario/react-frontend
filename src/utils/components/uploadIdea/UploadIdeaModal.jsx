@@ -10,6 +10,8 @@ export default class UploadIdeaModal extends React.Component {
   static propTypes = {
     project: PropTypes.object,
     user: PropTypes.object,
+    similarStudents: PropTypes.array,
+    similarTutors: PropTypes.array,
     coautors: PropTypes.array,
     careers: PropTypes.array,
     tutors: PropTypes.array,
@@ -53,23 +55,10 @@ export default class UploadIdeaModal extends React.Component {
           value: project.students ? props.project.students : []
         }
       },
-      tutors: [],
-      projectType: project.type ? project.type : null,
+      tutor: null,
       autor: project.creator ? getFullName(project.creator) : user.name,
-      show: false,
-      selectedUsers: []
+      show: false
     };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.updateAutorsSelect = this.updateAutorsSelect.bind(this);
-    this.updateCareersSelect = this.updateCareersSelect.bind(this);
-    this.updateAutor = this.updateAutor.bind(this);
-    this.updateProjectTypeSelect = this.updateProjectTypeSelect.bind(this);
-    this.updateTutorSelect = this.updateTutorSelect.bind(this);
-    this.updateTitle = this.updateTitle.bind(this);
-    this.updateDescription = this.updateDescription.bind(this);
-    this.refreshSelectedUsers = this.refreshSelectedUsers.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -78,94 +67,66 @@ export default class UploadIdeaModal extends React.Component {
     }
   }
 
-  refreshSelectedUsers(tutor, coautors) {
+  refreshSelectedUsers = (tutor, coautors) => {
     const selectedUsers = [...getOnlyField(coautors), tutor];
 
     return selectedUsers;
-  }
+  };
 
-  updateProjectTypeSelect(newValue) {
+  updateProjectTypeSelect = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         projectType: { error: false, message: '', value: newValue }
       }
     });
-  }
+  };
 
-  updateAutorsSelect(newValue) {
-    const tutor = this.state.tutor ? this.state.tutor.value : null;
-    const selectedUsers = this.refreshSelectedUsers(tutor, newValue);
-
+  updateAutorsSelect = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         coautors: { error: false, message: '', value: newValue }
-      },
-      selectedUsers
+      }
     });
-  }
+  };
 
-  updateTutorSelect(newValue) {
-    const coautors = this.state.form.coautors.value;
-    const selectedUsers = this.refreshSelectedUsers(
-      newValue ? newValue.value : null,
-      coautors
-    );
+  updateTutorSelect = (newValue) => {
+    this.setState({ tutor: newValue });
+  };
 
+  updateTitle = (newValue) => {
     this.setState({
-      ...this.state,
-      tutor: newValue,
-      selectedUsers
-    });
-  }
-
-  updateTitle(newValue) {
-    this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         title: { error: false, message: '', value: newValue.target.value }
       }
     });
-  }
+  };
 
-  updateCareersSelect(newValue) {
+  updateCareersSelect = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         careers: { error: false, message: '', value: newValue }
       }
     });
-  }
+  };
 
-  updateDescription(newValue) {
+  updateDescription = (newValue) => {
     this.setState({
-      ...this.state,
       form: {
         ...this.state.form,
         description: { error: false, message: '', value: newValue.target.value }
       }
     });
-  }
+  };
 
-  updateAutor(newValue) {
-    this.setState({
-      ...this.state,
-      autor: newValue.target.value
-    });
-  }
-
-  resetForm(props) {
+  resetForm = (props) => {
     const project = props.project ? props.project : {};
     const user = props.user ? props.user : {};
 
     this.setState({
-      selectedUsers: [],
-      file: null,
       id: props.project.id,
       form: {
         description: {
@@ -195,58 +156,45 @@ export default class UploadIdeaModal extends React.Component {
           value: project.students ? props.project.students : null
         }
       },
-      tutors: [],
       tutor: project.tutor ? project.tutor : null,
       autor: project.creator ? getFullName(project.creator) : user.name
     });
-  }
+  };
 
-  validateForm(title, description, autor, careers, type) {
+  validateForm = (title, description, autor, careers, type) => {
     let formOk = true;
 
     const form = {
       description: { error: false, message: '', value: description },
       projectType: { error: false, message: '', value: type },
-      autor: { error: false, message: '' },
+      autor: { error: false, message: '', value: autor },
       title: { error: false, message: '', value: title },
       careers: { error: false, message: '', value: careers },
       coautors: this.state.form.coautors
     };
 
-    if (title == null || title === '') {
+    if (!title) {
       form.title.error = true;
       form.title.message = 'Tenés que ingresar el título de tu idea';
       formOk = false;
-    } else {
-      form.title.error = false;
-      form.title.message = '';
     }
 
-    if (description == null || description === '') {
+    if (!description) {
       form.description.error = true;
       form.description.message = 'Tenés que ingresar la descripción de tu idea';
       formOk = false;
-    } else {
-      form.description.error = false;
-      form.description.message = '';
     }
 
-    if (autor == null || autor === '') {
+    if (!autor) {
       form.autor.error = true;
       form.autor.message = 'Tenés que ingresar el autor de la idea';
       formOk = false;
-    } else {
-      form.autor.error = false;
-      form.autor.message = '';
     }
 
     if (!type) {
       form.projectType.error = true;
       form.projectType.message = 'Tenés que seleccionar el tipo de proyecto';
       formOk = false;
-    } else {
-      form.projectType.error = false;
-      form.projectType.message = '';
     }
 
     if (careers && careers.length === 0) {
@@ -254,35 +202,30 @@ export default class UploadIdeaModal extends React.Component {
       form.careers.message =
         'Tenés que ingresar al menos un departamento al que pertenece tu idea';
       formOk = false;
-    } else {
-      form.careers.error = false;
-      form.careers.message = '';
     }
 
-    this.setState({ ...this.state, form });
+    this.setState({ form });
 
     return formOk;
-  }
+  };
 
-  showModal(requirement) {
+  showModal = (requirement) => {
     this.setState({ show: true, requirement });
-  }
+  };
 
-  hideModal() {
+  hideModal = () => {
     this.setState({ show: false });
-  }
+  };
 
-  onSubmit() {
-    const { autor, id } = this.state;
-    const title = this.state.form.title.value;
-    const careers = this.state.form.careers.value;
-    const description = this.state.form.description.value;
-    const type = this.state.form.projectType.value;
-    const coautors = this.state.form.coautors.value;
-    const tutorId = this.state.tutor ? this.state.tutor.value : null;
-    const requirementId = this.state.requirement
-      ? this.state.requirement.id
-      : null;
+  onSubmit = () => {
+    const { autor, id, form, tutor, requirement } = this.state;
+    const title = form.title.value;
+    const careers = form.careers.value;
+    const description = form.description.value;
+    const type = form.projectType.value;
+    const coautors = form.coautors.value;
+    const tutorId = tutor ? tutor.value : null;
+    const requirementId = requirement ? requirement.id : null;
 
     if (this.validateForm(title, description, autor, careers, type)) {
       if (this.props.editMode) {
@@ -311,16 +254,64 @@ export default class UploadIdeaModal extends React.Component {
 
       this.hideModal();
     }
-  }
+  };
 
   render() {
+    const { show, requirement, form, autor } = this.state;
+    const { title, projectType, coautors, careers, description } = form;
+    const studentsOptions = [
+      { label: 'Recomendados', options: this.props.similarStudents },
+      { label: 'Alumnos', options: this.props.coautors }
+    ];
+    const tutorsOptions = [
+      { label: 'Recomendados', options: this.props.similarTutors },
+      { label: 'Tutores', options: this.props.tutors }
+    ];
+    const groupStyles = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between'
+    };
+    const groupBadgeStyles = {
+      backgroundColor: '#EBECF0',
+      borderRadius: '2em',
+      color: '#172B4D',
+      display: 'inline-block',
+      fontSize: 12,
+      fontWeight: 'normal',
+      lineHeight: '1',
+      minWidth: 1,
+      padding: '0.16666666666667em 0.5em',
+      textAlign: 'center'
+    };
+    const colourStyles = {
+      control: (styles) => ({ ...styles, backgroundColor: 'white' }),
+      option: (styles, { data, isDisabled }) => ({
+        ...styles,
+        color: isDisabled ? '#ccc' : data.color,
+        cursor: isDisabled ? 'not-allowed' : 'default'
+      }),
+      multiValueLabel: (styles, { data }) => ({
+        ...styles,
+        color: data.color
+      })
+    };
+    const formatGroupLabel = (data) => (
+      <div style={groupStyles}>
+        <span>{data.label}</span>
+        <span style={groupBadgeStyles}>{data.options.length}</span>
+      </div>
+    );
+
     return (
       <Modal
-        show={this.state.show}
+        show={show}
         onHide={this.hideModal}
         backdrop="static"
         dialogClassName="custom-modal"
         bsSize="lg"
+        autoFocus
+        keyboard={false}
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-lg">
@@ -328,25 +319,23 @@ export default class UploadIdeaModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {this.state.requirement && (
-            <FullRow key="form0">
-              <p>
-                <b>Requerimiento:</b>
-                {` ${this.state.requirement.name}`}
-              </p>
-            </FullRow>
-          )}
+          <FullRow display-if={requirement} key="form0">
+            <p>
+              <b>Requerimiento:</b>
+              {` ${requirement.name}`}
+            </p>
+          </FullRow>
           <FullRow key="form1">
             <Field
               controlId="titleInput"
               label="Título"
               required
-              validationState={this.state.form.title.error}
-              validationMessage={this.state.form.title.message}
+              validationState={title.error}
+              validationMessage={title.message}
               inputComponent={
                 <FormControl
                   type="text"
-                  value={this.state.form.title.value}
+                  value={title.value}
                   placeholder="Ingrese un título para tu requerimiento"
                   onChange={this.updateTitle}
                 />
@@ -361,7 +350,7 @@ export default class UploadIdeaModal extends React.Component {
               inputComponent={
                 <FormControl
                   type="text"
-                  value={this.state.autor}
+                  value={autor}
                   disabled={this.props.user && this.props.user.name}
                   placeholder="Ingrese un título para tu requerimiento"
                   onChange={this.updateTitle}
@@ -373,12 +362,12 @@ export default class UploadIdeaModal extends React.Component {
               controlId="projectTypeSelect"
               label="Tipo"
               required
-              validationState={this.state.form.projectType.error}
-              validationMessage={this.state.form.projectType.message}
+              validationState={projectType.error}
+              validationMessage={projectType.message}
               inputComponent={
                 <Select
                   key="projectTypeSelect"
-                  value={this.state.form.projectType.value}
+                  value={projectType.value}
                   onChange={this.updateProjectTypeSelect}
                   options={this.props.projectTypes}
                   isSearchable
@@ -386,7 +375,7 @@ export default class UploadIdeaModal extends React.Component {
                   id="projectTypeSelect"
                   placeholder="Seleccione un tipo de proyecto"
                   name="projectTypeSelect"
-                  multi={false}
+                  isMulti={false}
                 />
               }
             />
@@ -396,22 +385,23 @@ export default class UploadIdeaModal extends React.Component {
               bsSize="small"
               controlId="coautorsSelect"
               label="Coautores"
+              information={
+                !this.props.editMode &&
+                'Los estudiantes pueden ser agregado en el siguiente paso'
+              }
               inputComponent={
                 <Select
                   key="coautorsSelect"
-                  value={this.state.form.coautors.value}
+                  value={coautors.value}
                   onChange={this.updateAutorsSelect}
-                  isClearable={this.state.form.coautors.value.some(
-                    (element) => !element.isFixed
-                  )}
-                  options={this.props.coautors}
-                  // options={this.props.coautors.filter(
-                  //   (x) => this.state.selectedUsers.indexOf(x) < 0
-                  // )}
+                  options={studentsOptions}
+                  formatGroupLabel={formatGroupLabel}
+                  styles={colourStyles}
+                  isClearable={false}
                   id="coautorsSelect"
                   placeholder="Seleccione coautores"
                   name="coautorsSelect"
-                  multi
+                  isMulti
                 />
               }
             />
@@ -421,21 +411,25 @@ export default class UploadIdeaModal extends React.Component {
               bsSize="small"
               controlId="tutorSelect"
               label="Tutor"
+              information={
+                !this.props.editMode &&
+                'El tutor puede ser agregado en el siguiente paso'
+              }
               required={this.props.editMode}
               inputComponent={
                 <Select
                   key="tutorSelect"
                   value={this.state.tutor}
                   onChange={this.updateTutorSelect}
-                  options={this.props.tutors}
-                  // options={this.props.tutors.filter(
-                  //   (x) => this.state.selectedUsers.indexOf(x) < 0
-                  // )}
+                  options={tutorsOptions}
+                  formatGroupLabel={formatGroupLabel}
+                  styles={colourStyles}
                   isSearchable
+                  isClearable={false}
                   id="tutorSelect"
                   placeholder="Seleccione un tutor"
                   name="tutorSelect"
-                  multi={false}
+                  isMulti={false}
                 />
               }
             />
@@ -446,19 +440,20 @@ export default class UploadIdeaModal extends React.Component {
               required
               controlId="careersSelect"
               label="Carreras"
-              validationState={this.state.form.careers.error}
-              validationMessage={this.state.form.careers.message}
+              validationState={careers.error}
+              validationMessage={careers.message}
               inputComponent={
                 <Select
                   key="careersSelect"
-                  value={this.state.form.careers.value}
+                  value={careers.value}
                   onChange={this.updateCareersSelect}
                   options={this.props.careers}
                   isSearchable
+                  isClearable={false}
                   id="careersSelect"
                   placeholder="Seleccione los carreras a los que pertence la idea"
                   name="careersSelect"
-                  multi
+                  isMulti
                 />
               }
             />
@@ -468,11 +463,11 @@ export default class UploadIdeaModal extends React.Component {
               controlId="descriptionInput"
               label="Descripción de la idea"
               required
-              validationState={this.state.form.description.error}
-              validationMessage={this.state.form.description.message}
+              validationState={description.error}
+              validationMessage={description.message}
               inputComponent={
                 <textarea
-                  value={this.state.form.description.value}
+                  value={description.value}
                   onChange={this.updateDescription}
                   className="form-control"
                   style={{ resize: 'vertical' }}

@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import Select from 'react-select';
-import Dialogue from '../../../Dialogue';
 import Field from '../../../forms/Field';
+import Dialogue from '../../../Dialogue';
 import { myProjectMessages } from '../../../messages.js';
 
 export default class ApproveProposalModal extends React.Component {
@@ -21,39 +21,34 @@ export default class ApproveProposalModal extends React.Component {
       option: options && options.length === 1 ? options[0] : null,
       message: null
     };
-    this.showModal = this.showModal.bind(this);
-    this.updateCareerSelect = this.updateCareerSelect.bind(this);
   }
 
-  showModal() {
+  showModal = () => {
     this.modal.showModal();
-  }
+  };
 
-  updateCareerSelect(value) {
-    this.setState({
-      ...this.state,
-      option: value,
-      message: null
-    });
-  }
+  updateCareerSelect = (value) => {
+    this.setState({ option: value, message: null });
+  };
 
   getModalBody(options) {
     return (
       <Row key="body">
         <Col md={12} lg={12}>
           <Field
-            validationState={this.state.message ? 'error' : null}
             key="careerField"
             bsSize="small"
             controlId="careerSelect"
             label="Carrera"
             required
+            validationState={this.state.message ? 'error' : null}
             validationMessage={this.state.message}
             inputComponent={
               <Select
                 key="careerSelect"
                 name="careerelect"
                 value={this.state.option}
+                isClearable={false}
                 options={options}
                 id="careerSelect"
                 onChange={this.updateCareerSelect}
@@ -81,9 +76,7 @@ export default class ApproveProposalModal extends React.Component {
 
           if (!this.state.option) {
             this.setState({
-              ...this.state,
-              message:
-                'Tenés que ingresar la carrera con la cúal aprobar la propuesta'
+              message: myProjectMessages.SELECT_ONE_CAREER_INFO
             });
           } else {
             this.props.approveProposal(projectId, option.value);
