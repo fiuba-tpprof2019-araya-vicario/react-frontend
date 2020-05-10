@@ -30,11 +30,6 @@ export const queryError = (error) => ({
   error
 });
 
-export const loginError = (error) => ({
-  type: LOGIN_ERROR,
-  error
-});
-
 export const hydrateAlert = (alert) => ({
   type: HYDRATE_ALERT,
   alert
@@ -67,6 +62,11 @@ const profile = () => () => ({
   type: MY_PROFILE
 });
 
+const loginError = (error) => ({
+  type: LOGIN_ERROR,
+  error
+});
+
 export const myProfile = () => (dispatch) => {
   dispatch(push('/my_user'));
   dispatch(profile());
@@ -75,10 +75,9 @@ export const myProfile = () => (dispatch) => {
 export const loginUser = (username, password) => (dispatch) => {
   const body = { username, password };
 
-  axios
+  return axios
     .post(api.login, body)
-    .then((res) => res.data)
-    .then((data) => {
+    .then(({ data }) => {
       dispatch(login({ token: data.token, user: { email: username } }));
       dispatch(push('/'));
     })
@@ -94,10 +93,9 @@ export const loginWithGoogle = (response) => (dispatch) => {
     name: response.profileObj.name
   };
 
-  axios
+  return axios
     .post(api.login, body)
-    .then((res) => res.data)
-    .then(({ data }) => {
+    .then(({ data: { data } }) => {
       dispatch(
         login({
           token: data.token,
