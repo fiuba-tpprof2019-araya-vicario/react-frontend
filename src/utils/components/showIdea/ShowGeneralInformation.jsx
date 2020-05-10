@@ -14,17 +14,17 @@ export default class ShowGeneralInformation extends React.Component {
   getFullNameWithEmail = (user) =>
     user ? `${user.name} ${user.surname} (${user.email})` : '';
 
-  getAutors = () => {
+  getAuthors = () => {
     const { showUsersStatus } = this.props;
     const { Creator, Students, State } = this.props.project;
-    const autors = [];
+    const authors = [];
 
     if (Creator && Students) {
-      autors.push(`Creador: ${this.getFullNameWithEmail(Creator)}`);
+      authors.push(`Creador: ${this.getFullNameWithEmail(Creator)}`);
       Students.forEach((student) => {
         const fullName = this.getFullNameWithEmail(student);
 
-        autors.push(
+        authors.push(
           <span key={student.id}>
             Participante: {fullName}
             &nbsp;
@@ -48,7 +48,7 @@ export default class ShowGeneralInformation extends React.Component {
       });
     }
 
-    return autors;
+    return authors;
   };
 
   getTutors = () => {
@@ -111,7 +111,7 @@ export default class ShowGeneralInformation extends React.Component {
 
     return (
       <FullRow>
-        <Itemized title="Autores:" items={this.getAutors()} />
+        <Itemized title="Autores:" items={this.getAuthors()} />
         <Itemized title="Tutores:" items={this.getTutors()} />
         <Fragment>
           <Itemized

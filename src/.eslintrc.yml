@@ -1,0 +1,9 @@
+overrides:
+  - files:
+      - '*.spec.js'
+    env:
+      mocha: true
+
+globals:
+  monaco: true
+  sinon: true

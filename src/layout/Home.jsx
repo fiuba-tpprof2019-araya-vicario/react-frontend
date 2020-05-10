@@ -14,7 +14,7 @@ import {
 import history from '../redux/history';
 import imagenPortada from '../images/imagen_portada.png';
 import { CREDENTIALS } from '../utils/services/references';
-import WithAuthorization from '../utils/WithAuthorization';
+import WithAuth from '../utils/WithAuthorization';
 
 export const Home = () => {
   const access = (url) => history.push(url);
@@ -27,7 +27,7 @@ export const Home = () => {
       <br />
       <Row className="text-center">
         <Center>
-          <WithAuthorization requiredCredentials={CREDENTIALS.EDIT_USERS}>
+          <WithAuth requiredCredentials={CREDENTIALS.EDIT_USERS}>
             <Col md={2} lg={2}>
               <Row>
                 <Center>
@@ -44,8 +44,8 @@ export const Home = () => {
               </Row>
               <Row>Edita los perfiles de los usuarios de la plataforma</Row>
             </Col>
-          </WithAuthorization>
-          <WithAuthorization requiredCredentials={CREDENTIALS.CREATE_PROJECTS}>
+          </WithAuth>
+          <WithAuth requiredCredentials={CREDENTIALS.CREATE_PROJECTS}>
             <Col md={2} lg={2}>
               <Row>
                 <Center>
@@ -64,8 +64,8 @@ export const Home = () => {
                 Crea o acepta una invitación para trabajar en un proyecto
               </Row>
             </Col>
-          </WithAuthorization>
-          <WithAuthorization requiredCredentials={CREDENTIALS.GET_PROJECTS}>
+          </WithAuth>
+          <WithAuth requiredCredentials={CREDENTIALS.GET_PROJECTS}>
             <Col md={2} lg={2}>
               <Row>
                 <Center>
@@ -84,8 +84,8 @@ export const Home = () => {
                 Explora y sumate a las ideas propuestas por otros estudiantes
               </Row>
             </Col>
-          </WithAuthorization>
-          <WithAuthorization requiredCredentials={CREDENTIALS.GET_PROJECTS}>
+          </WithAuth>
+          <WithAuth requiredCredentials={CREDENTIALS.GET_PROJECTS}>
             <Col md={2} lg={2}>
               <Row>
                 <Center>
@@ -102,8 +102,8 @@ export const Home = () => {
               </Row>
               <Row>Colabora con los distintos requerimientos solicitados</Row>
             </Col>
-          </WithAuthorization>
-          <WithAuthorization requiredCredentials={CREDENTIALS.APPROVE_PROJECTS}>
+          </WithAuth>
+          <WithAuth requiredCredentials={CREDENTIALS.APPROVE_PROJECTS}>
             <Col md={2} lg={2}>
               <Row>
                 <Center>
@@ -122,7 +122,7 @@ export const Home = () => {
                 Administrá los distintos proyectos creados según tus carreras
               </Row>
             </Col>
-          </WithAuthorization>
+          </WithAuth>
           <Col md={2} lg={2}>
             <Row>
               <Center>

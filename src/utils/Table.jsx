@@ -1,4 +1,3 @@
-/* eslint-disable guard-for-in */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Table as BootstrapTable } from 'react-bootstrap';

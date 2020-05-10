@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
@@ -6,6 +5,7 @@ import Select from 'react-select';
 import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
+import { getDifferenceById, getById } from '../../utils/services/functions';
 
 export default class EditUserProfiles extends React.Component {
   static propTypes = {
@@ -45,7 +45,7 @@ export default class EditUserProfiles extends React.Component {
       }
     });
 
-  validarRolForm = () => {
+  isValidForm = () => {
     let formOk = true;
 
     const formSelect = {
@@ -64,7 +64,7 @@ export default class EditUserProfiles extends React.Component {
     return formOk;
   };
 
-  getAgregarRolModalBody = () => (
+  getAddModalBody = () => (
     <Field
       validationState={this.state.formSelect.error}
       key="perfilField"
@@ -93,11 +93,11 @@ export default class EditUserProfiles extends React.Component {
 
   getAddProfileModalButtons = () => (
     <Button
-      key="agregarButton"
+      key="addButton"
       bsStyle="primary"
       bsSize="small"
       onClick={() => {
-        if (this.validarRolForm()) {
+        if (this.isValidForm()) {
           this.state.profiles.push(
             this.getProfileById(this.state.selectedProfile.value)
           );
@@ -144,11 +144,10 @@ export default class EditUserProfiles extends React.Component {
     return profile ? profile.name : '';
   };
 
-  getProfileById = (id) =>
-    this.props.profiles.find((element) => element.id === id);
+  getProfileById = (id) => getById(this.props.profiles, id);
 
   getProfilesList = () =>
-    _.differenceBy(this.props.profiles, this.state.profiles, 'id');
+    getDifferenceById(this.props.profiles, this.state.profiles);
 
   getProfileTable = () => {
     if (this.state.profiles.length !== 0) {
@@ -191,7 +190,7 @@ export default class EditUserProfiles extends React.Component {
         </Row>
         {this.getProfileTable()}
         <Dialogue
-          key="borrarRolModal"
+          key="deleteModal"
           title="Borrar perfil"
           body={this.getDeleteProfileModalBody()}
           buttons={this.getDeleteProfileModalButtons()}
@@ -202,7 +201,7 @@ export default class EditUserProfiles extends React.Component {
         <Dialogue
           key="addProfileModal"
           title="Agregar perfil"
-          body={this.getAgregarRolModalBody()}
+          body={this.getAddModalBody()}
           buttons={this.getAddProfileModalButtons()}
           ref={(addProfileModal) => {
             this.addProfileModal = addProfileModal;

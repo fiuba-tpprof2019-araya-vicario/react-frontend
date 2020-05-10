@@ -29,29 +29,27 @@ export default class Field extends React.Component {
       validationMessage,
       inputComponent
     } = this.props;
-    const key = controlId || `${label}input`;
+    const key = controlId || `${label}-input`;
 
     return (
       <FormGroup
-        key={`${key}group`}
         validationState={validationState ? 'error' : null}
         controlId={key}
         bsSize={bsSize}
         className={className}
       >
-        <ControlLabel display-if={!!label} key={`${key}label`}>
+        <ControlLabel display-if={!!label} key={`${key}-label`}>
           {label}{' '}
-          <MandatoryField key={`mandatory${key}`} display-if={required} />
-          {information &&
-            getIconWithOverlay(
-              information,
-              <i className="fa fa-info-circle">&nbsp;</i>
-            )}
+          <MandatoryField key={`mandatory-${key}`} display-if={required} />
+          {getIconWithOverlay(
+            information,
+            <i className="fa fa-info-circle">&nbsp;</i>
+          )}
         </ControlLabel>
         {inputComponent}
         <HelpBlock
           display-if={!!validationState}
-          key={`${key}help`}
+          key={`${key}-help`}
           bsSize="small"
         >
           {validationMessage}

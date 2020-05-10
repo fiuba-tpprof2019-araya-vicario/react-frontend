@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Bluebird from 'bluebird';
 import {
   getConfig,
   getConfigMultipart,
@@ -47,10 +46,10 @@ export const getRequirements = (dispatch) => {
 };
 
 export const getInitialData = (userId) => (dispatch) =>
-  Bluebird.join(
+  Promise.all([
     dispatch(loadCreateProjectData(userId)),
     getRequirements(dispatch)
-  );
+  ]);
 
 export const editRequirement = (id, form) => (dispatch) => {
   dispatch(toggleLoading({ loading: true }));

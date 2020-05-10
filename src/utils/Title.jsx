@@ -12,13 +12,13 @@ export default class Title extends React.Component {
     let subtitle;
 
     if (this.props.subtitle) {
-      subtitle = <h4>{this.props.subtitle}</h4>;
+      subtitle = <h4 data-test-id="subtitle">{this.props.subtitle}</h4>;
     }
 
     return (
       <Row>
         <Col lg={12} md={12} sm={12} xs={12}>
-          <h1>{this.props.title}</h1>
+          <h1 data-test-id="title">{this.props.title}</h1>
           {subtitle}
           <br />
         </Col>

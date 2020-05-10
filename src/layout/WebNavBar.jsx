@@ -9,7 +9,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { logout, myProfile } from '../modules/login/authReducer';
 // import { CLIENT_ID } from '../api/api';
 import { CREDENTIALS } from '../utils/services/references';
-import WithAuthorization from '../utils/WithAuthorization';
+import WithAuth from '../utils/WithAuthorization';
 
 export class WebNavBar extends React.Component {
   static propTypes = {
@@ -35,34 +35,28 @@ export class WebNavBar extends React.Component {
           {this.props.isAuthenticated
             ? [
                 <Nav key="1" navbar>
-                  <WithAuthorization
-                    requiredCredentials={CREDENTIALS.CREATE_PROJECTS}
-                  >
+                  <WithAuth requiredCredentials={CREDENTIALS.CREATE_PROJECTS}>
                     <LinkContainer to="/my_projects">
                       <NavItem eventKey={1}>Mi proyecto</NavItem>
                     </LinkContainer>
-                  </WithAuthorization>
-                  <WithAuthorization
+                  </WithAuth>
+                  <WithAuth
                     requiredCredentials={CREDENTIALS.EDIT_TUTOR_REQUESTS}
                   >
                     <LinkContainer to="/my_tutorials">
                       <NavItem eventKey={2}>Mis tutorías</NavItem>
                     </LinkContainer>
-                  </WithAuthorization>
-                  <WithAuthorization
-                    requiredCredentials={CREDENTIALS.GET_PROJECTS}
-                  >
+                  </WithAuth>
+                  <WithAuth requiredCredentials={CREDENTIALS.GET_PROJECTS}>
                     <LinkContainer to="/ideas">
                       <NavItem eventKey={3}>Ideas</NavItem>
                     </LinkContainer>
-                  </WithAuthorization>
-                  <WithAuthorization
-                    requiredCredentials={CREDENTIALS.APPROVE_PROJECTS}
-                  >
+                  </WithAuth>
+                  <WithAuth requiredCredentials={CREDENTIALS.APPROVE_PROJECTS}>
                     <LinkContainer to="/commissions">
                       <NavItem eventKey={3}>Comisión Curricular</NavItem>
                     </LinkContainer>
-                  </WithAuthorization>
+                  </WithAuth>
                   {/* <WithAuthorization
                     requiredCredentials={CREDENTIALS.GET_PROJECTS}
                   >
@@ -70,27 +64,21 @@ export class WebNavBar extends React.Component {
                       <NavItem eventKey={3}>Mis Solicitudes</NavItem>
                     </LinkContainer>
                   </WithAuthorization> */}
-                  <WithAuthorization
-                    requiredCredentials={CREDENTIALS.GET_PROJECTS}
-                  >
+                  <WithAuth requiredCredentials={CREDENTIALS.GET_PROJECTS}>
                     <LinkContainer to="/requirements">
                       <NavItem eventKey={4}>Requerimientos</NavItem>
                     </LinkContainer>
-                  </WithAuthorization>
-                  <WithAuthorization
-                    requiredCredentials={CREDENTIALS.EDIT_USERS}
-                  >
+                  </WithAuth>
+                  <WithAuth requiredCredentials={CREDENTIALS.EDIT_USERS}>
                     <LinkContainer to="/users">
                       <NavItem eventKey={5}>Usuarios</NavItem>
                     </LinkContainer>
-                  </WithAuthorization>
-                  <WithAuthorization
-                    requiredCredentials={CREDENTIALS.EDIT_USERS}
-                  >
+                  </WithAuth>
+                  <WithAuth requiredCredentials={CREDENTIALS.EDIT_USERS}>
                     <LinkContainer to="/dashboard">
                       <NavItem eventKey={6}>Tablero de control</NavItem>
                     </LinkContainer>
-                  </WithAuthorization>
+                  </WithAuth>
                   <LinkContainer to="/public">
                     <NavItem eventKey={8}>Portal público</NavItem>
                   </LinkContainer>

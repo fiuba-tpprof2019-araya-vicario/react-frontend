@@ -30,11 +30,6 @@ export const queryError = (error) => ({
   error
 });
 
-export const loginError = (error) => ({
-  type: LOGIN_ERROR,
-  error
-});
-
 export const hydrateAlert = (alert) => ({
   type: HYDRATE_ALERT,
   alert
@@ -54,17 +49,22 @@ export const clearErrors = () => ({
   type: CLEAR_ERRORS
 });
 
-export const login = (data) => ({
-  type: LOGIN_USER,
-  data
-});
-
 export const logout = () => ({
   type: LOGOUT_USER
 });
 
-export const profile = () => () => ({
+const login = (data) => ({
+  type: LOGIN_USER,
+  data
+});
+
+const profile = () => () => ({
   type: MY_PROFILE
+});
+
+const loginError = (error) => ({
+  type: LOGIN_ERROR,
+  error
 });
 
 export const myProfile = () => (dispatch) => {
@@ -75,10 +75,9 @@ export const myProfile = () => (dispatch) => {
 export const loginUser = (username, password) => (dispatch) => {
   const body = { username, password };
 
-  axios
+  return axios
     .post(api.login, body)
-    .then((res) => res.data)
-    .then((data) => {
+    .then(({ data }) => {
       dispatch(login({ token: data.token, user: { email: username } }));
       dispatch(push('/'));
     })
@@ -94,10 +93,9 @@ export const loginWithGoogle = (response) => (dispatch) => {
     name: response.profileObj.name
   };
 
-  axios
+  return axios
     .post(api.login, body)
-    .then((res) => res.data)
-    .then(({ data }) => {
+    .then(({ data: { data } }) => {
       dispatch(
         login({
           token: data.token,

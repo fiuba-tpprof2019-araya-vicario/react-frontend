@@ -21,7 +21,7 @@ import UploadIdeaModal from '../../utils/components/uploadIdea/UploadIdeaModal';
 import CreateRequirementModal from './modals/CreateRequirementModal';
 import EditRequirementModal from './modals/EditRequirementModal';
 import DeleteRequirementModal from './modals/DeleteRequirementModal';
-import WithAuthorization from '../../utils/WithAuthorization';
+import WithAuth from '../../utils/WithAuthorization';
 import history from '../../redux/history';
 
 export class RequirementIndex extends React.Component {
@@ -94,9 +94,7 @@ export class RequirementIndex extends React.Component {
           subtitle={requirementMessages.SUBTITLE}
         />
         <Row>
-          <WithAuthorization
-            requiredCredentials={CREDENTIALS.EDIT_REQUIREMENTS}
-          >
+          <WithAuth requiredCredentials={CREDENTIALS.EDIT_REQUIREMENTS}>
             <Button
               bsStyle="success"
               bsSize="small"
@@ -108,7 +106,7 @@ export class RequirementIndex extends React.Component {
               </i>
               Crear Requerimiento
             </Button>
-          </WithAuthorization>
+          </WithAuth>
         </Row>
         <br />
         {this.renderTable()}

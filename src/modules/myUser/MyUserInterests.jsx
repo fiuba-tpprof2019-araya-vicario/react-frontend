@@ -1,5 +1,4 @@
 import 'rc-slider/assets/index.css';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
@@ -8,6 +7,7 @@ import ScoreSlider from '../../utils/forms/ScoreSlider';
 import Table from '../../utils/Table';
 import Dialogue from '../../utils/Dialogue';
 import Field from '../../utils/forms/Field';
+import { getDifferenceById, getById } from '../../utils/services/functions';
 
 export default class EditMyUserInterests extends React.Component {
   static propTypes = {
@@ -55,7 +55,7 @@ export default class EditMyUserInterests extends React.Component {
     });
   };
 
-  validarRolForm = () => {
+  isValidForm = () => {
     let formOk = true;
 
     const formSelect = {
@@ -74,7 +74,7 @@ export default class EditMyUserInterests extends React.Component {
     return formOk;
   };
 
-  getAgregarInterestModalBody = () => {
+  getAddInterestModalBody = () => {
     const { selectedInterest, selectedScore, formSelect } = this.state;
 
     return [
@@ -125,11 +125,11 @@ export default class EditMyUserInterests extends React.Component {
 
   getAddInterestModalButtons = () => (
     <Button
-      key="agregarButton"
+      key="addButton"
       bsStyle="primary"
       bsSize="small"
       onClick={() => {
-        if (this.validarRolForm()) {
+        if (this.isValidForm()) {
           this.state.interests.push({
             ...this.getInterestById(this.state.selectedInterest.value),
             original_score: this.state.selectedScore
@@ -177,11 +177,10 @@ export default class EditMyUserInterests extends React.Component {
     return interest ? interest.name : '';
   };
 
-  getInterestById = (id) =>
-    this.props.interests.find((element) => element.id === id);
+  getInterestById = (id) => getById(this.props.interests, id);
 
   getInterestsList = () =>
-    _.differenceBy(this.props.interests, this.state.interests, 'id');
+    getDifferenceById(this.props.interests, this.state.interests);
 
   getInterestTable = () => {
     if (this.state.interests.length !== 0) {
@@ -236,7 +235,7 @@ export default class EditMyUserInterests extends React.Component {
         <Dialogue
           key="addInterestModal"
           title="Agregar interes"
-          body={this.getAgregarInterestModalBody()}
+          body={this.getAddInterestModalBody()}
           buttons={this.getAddInterestModalButtons()}
           ref={(addInterestModal) => {
             this.addInterestModal = addInterestModal;

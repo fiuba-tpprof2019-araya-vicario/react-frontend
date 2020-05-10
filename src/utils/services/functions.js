@@ -1,20 +1,30 @@
-import _ from 'lodash';
-import moment from 'moment';
 import { REQUEST_STATES, REQUIREMENT_STATES } from './references';
 
 export function getById(objects, id) {
-  return _.find(objects, (object) => object.id === id);
+  if (!objects) {
+    return null;
+  }
+
+  return objects.find((object) => object.id === id) || null;
+}
+
+export function getDifferenceById(values, excludedValues) {
+  if (!values) {
+    return null;
+  }
+
+  if (!excludedValues) {
+    return values;
+  }
+
+  return values.filter(
+    (value) => !excludedValues.find(({ id }) => id === value.id)
+  );
 }
 
 export function isValidEmail(email) {
   // eslint-disable-next-line no-useless-escape
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-}
-
-export function hasDuplicates(array) {
-  const set = new Set(array);
-
-  return set.size !== array.length;
 }
 
 export const formatterDate = (data) => {
@@ -161,21 +171,6 @@ export function getTutorsNames(Tutor, Cotutors) {
     ...Cotutors.map((cotutor) => `, ${getFullName(cotutor)}`)
   ];
 }
-
-export const getLast30Days = () => {
-  const days = [];
-
-  for (let i = 29; i >= 0; i -= 1) {
-    days.push({
-      x: moment()
-        .add(-i, 'days')
-        .valueOf(),
-      y: 0
-    });
-  }
-
-  return days;
-};
 
 export const getMonthTextFromNumber = (monthNumber) => {
   switch (monthNumber) {
