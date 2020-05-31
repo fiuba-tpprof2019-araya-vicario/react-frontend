@@ -4,7 +4,7 @@ import Stepper from 'react-stepper-horizontal';
 
 export default class ShowIdeaStepper extends React.Component {
   static propTypes = {
-    activeStep: PropTypes.number
+    activeStep: PropTypes.number.isRequired
   };
 
   render() {
@@ -19,15 +19,13 @@ export default class ShowIdeaStepper extends React.Component {
     ];
 
     return (
-      <div className="step-progress">
-        <Stepper
-          steps={steps}
-          activeStep={this.props.activeStep}
-          defaultTitleOpacity="0.5"
-          completeTitleOpacity="0.75"
-          activeColor="#468847"
-        />
-      </div>
+      <Stepper
+        steps={steps}
+        activeStep={this.props.activeStep}
+        defaultTitleOpacity="0.5"
+        completeTitleOpacity="0.75"
+        activeColor="#468847"
+      />
     );
   }
 }

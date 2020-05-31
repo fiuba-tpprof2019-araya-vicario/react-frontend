@@ -4,6 +4,8 @@ import {
   getById,
   getDifferenceById,
   formatterDate,
+  getYearFromDate,
+  getListBySingleField,
   getMonthTextFromNumber
 } from './functions';
 
@@ -44,9 +46,12 @@ describe('functions', () => {
   });
 
   context('getDifferenceById', () => {
+    let objects;
+    let exclude;
+
     it('when have correct params', () => {
-      const objects = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
-      const exclude = [{ id: 'c' }, { id: 'd' }, { id: 'e' }];
+      objects = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+      exclude = [{ id: 'c' }, { id: 'd' }, { id: 'e' }];
 
       getDifferenceById(objects, exclude).should.deep.equals([
         { id: 'a' },
@@ -55,39 +60,87 @@ describe('functions', () => {
     });
 
     it('when not have objects values', () => {
-      const objects = null;
-      const exclude = [{ id: 'c' }, { id: 'd' }, { id: 'e' }];
+      objects = null;
+      exclude = [{ id: 'c' }, { id: 'd' }, { id: 'e' }];
 
       expect(getDifferenceById(objects, exclude)).to.equals(null);
     });
 
     it('when not have exclude values', () => {
-      const objects = [{ id: 'c' }, { id: 'd' }, { id: 'e' }];
-      const exclude = null;
+      objects = [{ id: 'c' }, { id: 'd' }, { id: 'e' }];
+      exclude = null;
 
       getDifferenceById(objects, exclude).should.equals(objects);
     });
   });
 
   context('formatterDate', () => {
-    it('when have correct params', () => {
-      const data = '2020-05-01T01:34:32.195Z';
-      const expectedData = '01/05/2020 01:34:32';
+    let date;
+    let formattedDate;
 
-      formatterDate(data).should.equals(expectedData);
+    it('when have correct params', () => {
+      date = '2020-05-01T01:34:32.195Z';
+      formattedDate = '01/05/2020 01:34:32';
+
+      formatterDate(date).should.equals(formattedDate);
     });
 
     it('when have no data', () => {
-      const data = null;
-      const expectedData = '';
+      date = null;
+      formattedDate = '';
 
-      formatterDate(data).should.equals(expectedData);
+      formatterDate(date).should.equals(formattedDate);
+    });
+  });
+
+  context('getYearFromDate', () => {
+    it('when have correct params', () => {
+      const date = '2020-05-01T01:34:32.195Z';
+      const year = '2020';
+
+      getYearFromDate(date).should.equals(year);
+    });
+  });
+
+  context('getListBySingleField', () => {
+    let list;
+    let getField;
+    let expectedList;
+
+    it('when have correct params', () => {
+      list = [{ id: '1', a: '2' }, { id: '2', b: '3' }, { id: '3', c: '4' }];
+      getField = ({ id }) => id;
+      expectedList = ['1', '2', '3'];
+
+      getListBySingleField(list, getField).should.deep.equals(expectedList);
+    });
+
+    it('when have default getField', () => {
+      list = [
+        { value: 'a', a: '2' },
+        { value: 'b', b: '3' },
+        { value: 'c', c: '4' }
+      ];
+      getField = undefined;
+      expectedList = ['a', 'b', 'c'];
+
+      getListBySingleField(list, getField).should.deep.equal(expectedList);
+    });
+
+    it('when have list its empty', () => {
+      list = null;
+      getField = undefined;
+      expectedList = null;
+
+      expect(getListBySingleField(list, getField)).to.equals(expectedList);
     });
   });
 
   context('getMonthTextFromNumber', () => {
+    let months;
+
     it('should return all correct months', () => {
-      const months = [
+      months = [
         'Enero',
         'Febrero',
         'Marzo',

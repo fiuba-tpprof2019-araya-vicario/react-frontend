@@ -27,7 +27,6 @@ import { persistor } from '../redux/store';
 import Alert from '../utils/Alert';
 import LoadingModal from '../utils/LoadingModal';
 import './App.css';
-import Loading from '../utils/Loading';
 import { CREDENTIALS } from '../utils/services/references';
 
 class App extends React.Component {
@@ -69,7 +68,7 @@ class App extends React.Component {
         <NavBar />
         {this.alertRender()}
         <LoadingModal show={this.props.loading} />
-        <PersistGate loading={<Loading />} persistor={persistor}>
+        <PersistGate loading={<LoadingModal show />} persistor={persistor}>
           <Grid fluid style={{ width: '95%' }}>
             <Switch>
               <Route path="/login" component={Log} />

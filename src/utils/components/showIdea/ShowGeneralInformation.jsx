@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { formatterDate, getOnlyField } from '../../../utils/services/functions';
+import {
+  formatterDate,
+  getListBySingleField
+} from '../../../utils/services/functions';
 import FullRow from '../../../utils/styles/FullRow';
 import Itemized from '../../../utils/styles/Itemized';
 import { getStatusIcon } from '../../forms/StatusIcon';
@@ -122,7 +125,7 @@ export default class ShowGeneralInformation extends React.Component {
             title="Carreras:"
             items={
               project.ProjectCareers &&
-              getOnlyField(
+              getListBySingleField(
                 project.ProjectCareers,
                 (projectCareer) => projectCareer.Career.name
               )

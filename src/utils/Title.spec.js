@@ -8,7 +8,7 @@ describe('Title', () => {
   let subtitle;
 
   context('when have all props', () => {
-    beforeEach(() => {
+    before(() => {
       title = 'my spectacular title';
       subtitle = 'my  not so spectacular subtitle';
 
