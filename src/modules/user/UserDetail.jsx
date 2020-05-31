@@ -11,7 +11,7 @@ import EditUserProfiles from './EditUserProfiles';
 import EditUserCareers from './EditUserCareers';
 import EditUserForm from './EditUserForm';
 import { userMessages } from '../../utils/messages';
-import { getOnlyField } from '../../utils/services/functions';
+import { getListBySingleField } from '../../utils/services/functions';
 
 export class UserDetail extends React.Component {
   constructor(props) {
@@ -54,8 +54,14 @@ export class UserDetail extends React.Component {
   };
 
   submitEditForm = () => {
-    const profiles = getOnlyField(this.state.profiles, (profile) => profile.id);
-    const careers = getOnlyField(this.state.careers, (career) => career.id);
+    const profiles = getListBySingleField(
+      this.state.profiles,
+      (profile) => profile.id
+    );
+    const careers = getListBySingleField(
+      this.state.careers,
+      (career) => career.id
+    );
 
     this.props.editUser(this.props.userId, profiles, careers);
   };

@@ -41,10 +41,12 @@ export const formatterDate = (data) => {
 
 export const getYearFromDate = (date) => date.split('-')[0];
 
-export function getOnlyField(values, getValue = (element) => element.value) {
-  return values && values.length > 0
-    ? values.map((elem) => getValue(elem))
-    : [];
+export function getListBySingleField(list, getField = ({ value }) => value) {
+  if (!list) {
+    return null;
+  }
+
+  return list.map((elem) => getField(elem));
 }
 
 export function getSelectOptionsWithIgnore(
