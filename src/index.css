@@ -94,6 +94,7 @@ body {
 
 .onlyIcon {
   border-width: 0px;
+  background-color: transparent;
 }
 
 .fixMargin {
