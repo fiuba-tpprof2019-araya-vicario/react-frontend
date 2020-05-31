@@ -10,7 +10,7 @@ import {
   getSelectOptions,
   getSelectOptionsWithIgnore,
   getStudentIsApproved,
-  getOnlyField,
+  getListBySingleField,
   getDescriptionByRequestStatus,
   formatterDate,
   getFullName
@@ -276,11 +276,11 @@ export const uploadIdea = (
   const config = getConfig();
   const body = {
     name: title,
-    careers: getOnlyField(careers),
+    careers: getListBySingleField(careers),
     description,
     tutor_id: tutorId,
     cotutors: [],
-    students: getOnlyField(coautors),
+    students: getListBySingleField(coautors),
     type_id: type.value,
     proposalUrl: null,
     requirement_id: requirementId
@@ -419,12 +419,12 @@ export const editIdea = (
   const config = getConfig();
   const body = {
     name: title,
-    careers: getOnlyField(careers),
+    careers: getListBySingleField(careers),
     description,
     autor,
     tutor_id: tutorId,
     cotutors: [],
-    students: getOnlyField(coautors),
+    students: getListBySingleField(coautors),
     type_id: type.value,
     proposal_url: null
   };

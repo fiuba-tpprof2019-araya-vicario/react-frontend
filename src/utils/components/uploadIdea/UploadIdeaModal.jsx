@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, FormControl, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import Field from '../../forms/Field';
-import { getFullName, getOnlyField } from '../../services/functions';
+import { getFullName, getListBySingleField } from '../../services/functions';
 import FullRow from '../../styles/FullRow';
 
 export default class UploadIdeaModal extends React.Component {
@@ -68,7 +68,7 @@ export default class UploadIdeaModal extends React.Component {
   }
 
   refreshSelectedUsers = (tutor, coautors) => {
-    const selectedUsers = [...getOnlyField(coautors), tutor];
+    const selectedUsers = [...getListBySingleField(coautors), tutor];
 
     return selectedUsers;
   };

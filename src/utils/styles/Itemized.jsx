@@ -5,19 +5,23 @@ import { Row } from 'react-bootstrap';
 export default class Itemized extends React.Component {
   static propTypes = {
     items: PropTypes.array,
-    title: PropTypes.string
+    title: PropTypes.string.isRequired
   };
 
   renderItems(items) {
-    return items.map((item, index) => <li key={`item${index}`}>{item}</li>);
+    return items.map((item, index) => <li key={`item-${index}`}>{item}</li>);
   }
 
   render() {
+    const itemsList = this.props.items
+      ? this.renderItems(this.props.items)
+      : null;
+
     return (
       <Row>
-        <h4>{this.props.title}</h4>
-        <ul style={{ listStyleType: 'disc' }}>
-          {this.props.items && this.renderItems(this.props.items)}
+        <h4 data-test-id="items-title">{this.props.title}</h4>
+        <ul data-test-id="items-list" style={{ listStyleType: 'disc' }}>
+          {itemsList}
         </ul>
       </Row>
     );
