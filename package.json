@@ -6,6 +6,22 @@
     "npm": "6.4.1"
   },
   "private": true,
+  "scripts": {
+    "lint": "npm run format:check && eslint src *.js",
+    "format": "prettier --write 'src/**/*.js' 'src/**/*.jsx'",
+    "format:check": "prettier --list-different 'src/**/*.js' 'src/**/*.jsx'",
+    "start": "node scripts/start.js",
+    "start-prod": "npm install && node ./scripts/build.js && npm install -g serve && serve -s ./build/",
+    "start-heroku": "npm install && node scripts/start.js",
+    "start-dock": "npm install && node scripts/start.js",
+    "build": "node ./scripts/build.js",
+    "build:webpack": "NODE_ENV=production webpack --config config/production.js -p",
+    "test": "npm run lint && nyc mocha --require @babel/register --recursive \"./test/config.js\" \"./src/**/*.spec.js\"",
+    "tdd": "mocha --require @babel/register  --watch-extensions js,jsx --recursive \"./test/config.js\" \"./src/**/*.spec.js\" --watch"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "dependencies": {
     "@babel/runtime": "^7.9.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
@@ -29,7 +45,7 @@
     "prop-types": "^15.6.0",
     "rc-slider": "^9.2.4",
     "react": "16.3.1",
-    "react-bootstrap": "0.32.1",
+    "react-bootstrap": "^0.32.4",
     "react-center": "^1.1.1",
     "react-dev-utils": "^5.0.2",
     "react-dom": "^16.3.3",
@@ -49,22 +65,6 @@
     "redux-logger": "3.0.6",
     "redux-persist": "5.9.1",
     "redux-thunk": "2.2.0"
-  },
-  "scripts": {
-    "lint": "npm run format:check && eslint src *.js",
-    "format": "prettier --write 'src/**/*.js' 'src/**/*.jsx'",
-    "format:check": "prettier --list-different 'src/**/*.js' 'src/**/*.jsx'",
-    "start": "node scripts/start.js",
-    "start-prod": "npm install && node ./scripts/build.js && npm install -g serve && serve -s ./build/",
-    "start-heroku": "npm install && node scripts/start.js",
-    "start-dock": "npm install && node scripts/start.js",
-    "build": "node ./scripts/build.js",
-    "build:webpack": "NODE_ENV=production webpack --config config/production.js -p",
-    "test": "npm run lint && nyc mocha --require @babel/register --recursive \"./test/config.js\" \"./src/**/*.spec.js\"",
-    "tdd": "mocha --require @babel/register  --watch-extensions js,jsx --recursive \"./test/config.js\" \"./src/**/*.spec.js\" --watch"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
