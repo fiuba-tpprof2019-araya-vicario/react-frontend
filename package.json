@@ -30,7 +30,7 @@
     "axios": "^0.19.2",
     "babel-plugin-jsx-display-if": "^3.0.0",
     "babel-preset-react-app": "3.1.1",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "bootstrap-loader": "^2.2.0",
     "bootstrap-sass": "^3.3.7",
     "css-loader": "0.28.7",
