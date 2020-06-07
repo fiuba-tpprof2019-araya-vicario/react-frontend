@@ -3,7 +3,7 @@ import React from 'react';
 import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import FullRow from './styles/FullRow';
+import FullRow from '../styles/FullRow';
 import './Accordion.css';
 
 export default class Accordion extends React.Component {
