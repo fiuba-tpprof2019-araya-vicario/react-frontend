@@ -214,10 +214,7 @@ export default class EditMyUserInterests extends React.Component {
                 className="pull-right"
                 onClick={this.showAddInterestModal}
               >
-                <i className="fa fa-plus" aria-hidden="true">
-                  &nbsp;
-                </i>
-                Agregar interés
+                <i className="fa fa-plus" aria-hidden="true" /> Agregar interés
               </Button>
             )}
           </Col>

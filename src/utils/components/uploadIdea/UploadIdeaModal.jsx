@@ -387,7 +387,7 @@ export default class UploadIdeaModal extends React.Component {
               label="Coautores"
               information={
                 !this.props.editMode &&
-                'Los estudiantes pueden ser agregado en el siguiente paso'
+                'Los estudiantes pueden ser agregados en el siguiente paso'
               }
               inputComponent={
                 <Select
@@ -481,8 +481,7 @@ export default class UploadIdeaModal extends React.Component {
         <Modal.Footer>
           <Button bsSize="small" onClick={this.hideModal}>
             Cancelar
-          </Button>
-          &nbsp;
+          </Button>{' '}
           <Button
             key="createFileButton"
             bsSize="small"

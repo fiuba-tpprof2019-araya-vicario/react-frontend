@@ -15,7 +15,7 @@ export default class LoadingModal extends React.Component {
           <Row className="expandedRow">
             <Center>
               <h1 data-test-id="loading-icon">
-                <i className="fa fa-spinner fa-lg fa-spin">&nbsp;</i>
+                <i className="fa fa-spinner fa-lg fa-spin" />{' '}
               </h1>
               <h3 data-test-id="loading-text">Cargando</h3>
             </Center>

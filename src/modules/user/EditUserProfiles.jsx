@@ -180,10 +180,7 @@ export default class EditUserProfiles extends React.Component {
                 className="pull-right"
                 onClick={this.showAddProfileModal}
               >
-                <i className="fa fa-plus" aria-hidden="true">
-                  &nbsp;
-                </i>
-                Agregar perfil
+                <i className="fa fa-plus" aria-hidden="true" /> Agregar perfil
               </Button>
             )}
           </Col>

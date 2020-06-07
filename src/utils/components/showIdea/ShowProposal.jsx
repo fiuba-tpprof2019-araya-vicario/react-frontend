@@ -34,7 +34,7 @@ export default class ShowProposal extends React.Component {
               `Miembro de la comisión: ${projectCareer.Judge.name} ${
                 projectCareer.Judge.surname
               } (${projectCareer.Judge.email})\n`,
-              <i className="fa fa-info-circle">&nbsp;</i>
+              <i className="fa fa-info-circle" />
             )}
             {projectCareer.Career.name}:{' '}
             {formatterDate(projectCareer.updatedAt)}
@@ -64,7 +64,7 @@ export default class ShowProposal extends React.Component {
                 Miembro de la comisión: ${projectCareer.Judge.name} ${
                 projectCareer.Judge.surname
               } (${projectCareer.Judge.email})\n`,
-              <i className="fa fa-info-circle">&nbsp;</i>
+              <i className="fa fa-info-circle" />
             )}
             {projectCareer.reject_reason}
           </Fragment>
@@ -104,12 +104,10 @@ export default class ShowProposal extends React.Component {
                 bsSize="xs"
                 onClick={() => this.showUploadProposalModal()}
               >
-                <i className="fa fa-upload">&nbsp;</i>&nbsp;
+                <i className="fa fa-upload" />{' '}
                 {project.proposal_url ? 'Editar propuesta' : 'Subir propuesta'}
-              </Button>
-              &nbsp;
-              {proposal}
-              &nbsp;
+              </Button>{' '}
+              {proposal}{' '}
             </Fragment>
             <Fragment display-if={!canEditProposal}>{proposal}</Fragment>
           </Row>

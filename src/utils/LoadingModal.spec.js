@@ -55,9 +55,10 @@ describe('LoadingModal', () => {
       modalLoading
         .find('[data-test-id="loading-icon"]')
         .prop('children')
-        .should.deep.equals(
-          <i className="fa fa-spinner fa-lg fa-spin">&nbsp;</i>
-        );
+        .should.deep.equals([
+          <i className="fa fa-spinner fa-lg fa-spin" />,
+          ' '
+        ]);
     });
 
     it('should render the loading text', () => {
