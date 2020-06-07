@@ -103,11 +103,8 @@ export default class CreateIdea extends React.Component {
         <br />
         <Center>
           <h3>
-            <i className="fa fa-inbox" aria-hidden="true">
-              &nbsp;
-            </i>
-            Mis solicitudes para participar en proyectos creados por otros
-            estudiantes
+            <i className="fa fa-inbox" aria-hidden="true" /> Mis solicitudes
+            para participar en proyectos creados por otros estudiantes
           </h3>
         </Center>
         {this.renderTable(

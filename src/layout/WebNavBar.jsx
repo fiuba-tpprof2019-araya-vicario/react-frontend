@@ -93,20 +93,17 @@ export class WebNavBar extends React.Component {
                     id="logged-user-dropdown"
                   >
                     <MenuItem eventKey={10.1} onClick={this.props.myProfile}>
-                      <i className="fa fa-user-circle" />
-                      &nbsp; Mi perfil
+                      <i className="fa fa-user-circle" /> Mi perfil
                     </MenuItem>
                     {/* <MenuItem eventKey={9.1}> */}
                     {/* <GoogleLogout
                         clientId={CLIENT_ID}
                         onLogoutSuccess={this.props.logout}
                       >
-                        <i className="fa fa-sign-out" />
-                        &nbsp; Cerrar sesión
+                        <i className="fa fa-sign-out" /> Cerrar sesión
                       </GoogleLogout> */}
                     <MenuItem eventKey={10.2} onClick={this.props.logout}>
-                      <i className="fa fa-sign-out" />
-                      &nbsp; Cerrar sesión
+                      <i className="fa fa-sign-out" /> Cerrar sesión
                     </MenuItem>
                     {/* </MenuItem> */}
                   </NavDropdown>
@@ -123,7 +120,7 @@ export class WebNavBar extends React.Component {
                 </Nav>,
                 <Nav key="2" pullRight>
                   <NavItem eventKey={10} href="http://www.fi.uba.ar/">
-                    Página oficial FIUBA&nbsp;
+                    {'Página oficial FIUBA '}
                     <i className="fa fa-arrow-circle-right" />
                   </NavItem>
                 </Nav>

@@ -110,8 +110,7 @@ export class UserDetail extends React.Component {
                 onClick={this.submitEditForm}
               >
                 Guardar
-              </Button>
-              &nbsp;
+              </Button>{' '}
               <Button bsStyle="default" bsSize="small" onClick={history.goBack}>
                 Volver
               </Button>

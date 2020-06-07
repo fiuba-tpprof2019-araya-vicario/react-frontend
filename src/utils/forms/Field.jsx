@@ -10,7 +10,7 @@ export default class Field extends React.Component {
     validationState: PropTypes.bool,
     bsSize: PropTypes.string,
     label: PropTypes.string,
-    information: PropTypes.string,
+    information: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     required: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
     inputComponent: PropTypes.element,
     className: PropTypes.string,
@@ -41,10 +41,7 @@ export default class Field extends React.Component {
         <ControlLabel display-if={!!label} key={`${key}-label`}>
           {label}{' '}
           <MandatoryField key={`mandatory-${key}`} display-if={required} />
-          {getIconWithOverlay(
-            information,
-            <i className="fa fa-info-circle">&nbsp;</i>
-          )}
+          {getIconWithOverlay(information, <i className="fa fa-info-circle" />)}
         </ControlLabel>
         {inputComponent}
         <HelpBlock
