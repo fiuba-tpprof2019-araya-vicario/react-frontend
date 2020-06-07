@@ -101,10 +101,8 @@ export class RequirementIndex extends React.Component {
               className="pull-right"
               onClick={() => this.createRequirement()}
             >
-              <i className="fa fa-plus" aria-hidden="true">
-                &nbsp;
-              </i>
-              Crear Requerimiento
+              <i className="fa fa-plus" aria-hidden="true" /> Crear
+              Requerimiento
             </Button>
           </WithAuth>
         </Row>

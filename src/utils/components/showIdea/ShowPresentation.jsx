@@ -96,10 +96,8 @@ export default class ShowPresentation extends React.Component {
                 >
                   <i className="fa fa-upload" />
                   {` Subir ${lowerCaseName}`}
-                </Button>
-                &nbsp;
-                {presentation}
-                &nbsp;
+                </Button>{' '}
+                {presentation}{' '}
               </Fragment>
             ) : (
               presentation

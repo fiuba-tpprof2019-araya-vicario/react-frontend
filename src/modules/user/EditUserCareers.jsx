@@ -205,10 +205,7 @@ export default class EditUserCareers extends React.Component {
                 className="pull-right"
                 onClick={this.showAddCareerModal}
               >
-                <i className="fa fa-plus" aria-hidden="true">
-                  &nbsp;
-                </i>
-                Agregar carrera
+                <i className="fa fa-plus" aria-hidden="true" /> Agregar carrera
               </Button>
             )}
           </Col>

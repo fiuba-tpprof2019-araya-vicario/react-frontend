@@ -272,25 +272,22 @@ export default class ShowIdea extends React.Component {
               onClick={history.goBack}
             >
               Volver
-            </Button>
-            &nbsp;
+            </Button>{' '}
             <Button
               display-if={showAbandonButton}
               bsStyle="danger"
               onClick={() => showAbandonIdeaModal(user.id)}
               bsSize="small"
             >
-              <Glyphicon glyph="log-out">&nbsp;</Glyphicon>
-              Abandonar idea
-            </Button>
-            &nbsp;
+              <Glyphicon glyph="log-out" /> Abandonar idea
+            </Button>{' '}
             <Button
               display-if={isUserCreator && isEditableProposal}
               bsStyle="primary"
               onClick={showUploadIdeaModal}
               bsSize="small"
             >
-              <i className="fa fa-pencil">&nbsp;</i>&nbsp;Editar idea
+              <i className="fa fa-pencil" /> Editar idea
             </Button>
             <Button
               display-if={
@@ -304,7 +301,7 @@ export default class ShowIdea extends React.Component {
               onClick={() => this.showAcceptProposalModal()}
               bsSize="small"
             >
-              <i className="fa fa-check">&nbsp;</i>&nbsp; Aceptar propuesta
+              <i className="fa fa-check" /> Aceptar propuesta
             </Button>
             <Button
               display-if={showEnablePresentationButton}
@@ -312,7 +309,7 @@ export default class ShowIdea extends React.Component {
               onClick={() => this.showEnablePresentationModal()}
               bsSize="small"
             >
-              <i className="fa fa-check">&nbsp;</i>&nbsp; Habilitar presentación
+              <i className="fa fa-check" /> Habilitar presentación
             </Button>
             <Button
               display-if={
@@ -324,8 +321,7 @@ export default class ShowIdea extends React.Component {
               onClick={() => this.showSubmitPresentationModal()}
               bsSize="small"
             >
-              <i className="fa fa-upload">&nbsp;</i>&nbsp; Subir archivos de
-              presentación
+              <i className="fa fa-upload" /> Subir archivos de presentación
             </Button>
             <Fragment display-if={showApprovalButtons}>
               <Button
@@ -333,15 +329,14 @@ export default class ShowIdea extends React.Component {
                 onClick={() => this.showReprobateProposalModal()}
                 bsSize="small"
               >
-                <i className="fa fa-remove">&nbsp;</i>&nbsp; Reprobar propuesta
-              </Button>
-              &nbsp;&nbsp;
+                <i className="fa fa-remove" /> Reprobar propuesta
+              </Button>{' '}
               <Button
                 bsStyle="success"
                 onClick={() => this.showApproveProposalModal()}
                 bsSize="small"
               >
-                <i className="fa fa-check">&nbsp;</i>&nbsp; Aprobar propuesta
+                <i className="fa fa-check" /> Aprobar propuesta
               </Button>
             </Fragment>
           </Col>

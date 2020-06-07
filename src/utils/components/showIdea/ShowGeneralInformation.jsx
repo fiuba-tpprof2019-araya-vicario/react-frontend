@@ -29,8 +29,7 @@ export default class ShowGeneralInformation extends React.Component {
 
         authors.push(
           <span key={student.id}>
-            Participante: {fullName}
-            &nbsp;
+            Participante: {fullName}{' '}
             {showUsersStatus &&
               State.id <= 2 &&
               getStatusIcon(
@@ -66,8 +65,7 @@ export default class ShowGeneralInformation extends React.Component {
 
       tutors.push(
         <span key={Tutor.id}>
-          Tutor: {fullName}
-          &nbsp;
+          Tutor: {fullName}{' '}
           {showUsersStatus &&
             State.id <= 2 &&
             getStatusIcon('tutor', Tutor.TutorRequests[0].status, 'solicitud')}

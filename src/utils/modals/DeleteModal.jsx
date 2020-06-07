@@ -50,8 +50,7 @@ export default class DeleteModal extends React.Component {
         <Modal.Footer>
           <Button bsSize="small" onClick={this.hideModal}>
             Cancelar
-          </Button>
-          &nbsp;
+          </Button>{' '}
           <Button
             key="editButton"
             bsSize="small"

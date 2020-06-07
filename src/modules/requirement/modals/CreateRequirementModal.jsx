@@ -178,8 +178,7 @@ export default class CreateRequirementModal extends React.Component {
         <Modal.Footer>
           <Button bsSize="small" onClick={this.hideModal}>
             Cancelar
-          </Button>
-          &nbsp;
+          </Button>{' '}
           <Button
             key="createButton"
             bsSize="small"
