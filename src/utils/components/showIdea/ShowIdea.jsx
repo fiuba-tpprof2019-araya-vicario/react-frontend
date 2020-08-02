@@ -73,7 +73,11 @@ export default class ShowIdea extends React.Component {
             </Col>
             <Col md={11}>
               <p className="panelText">
-                <a href={project.Requirement.file_url} target="_blank">
+                <a
+                  href={project.Requirement.file_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {project.Requirement.file_name}
                 </a>
               </p>

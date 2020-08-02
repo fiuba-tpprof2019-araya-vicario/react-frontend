@@ -44,7 +44,8 @@ const fetchProjectsTable = (data) =>
       Tutor,
       Cotutors,
       Type,
-      name
+      name,
+      tx_id: transactionId
     } = project;
     const {
       description,
@@ -60,6 +61,7 @@ const fetchProjectsTable = (data) =>
     return {
       id: index,
       name,
+      transactionId,
       description,
       year: getYearFromDate(createdAt),
       students: getStudentsNames(Creator, Students),
