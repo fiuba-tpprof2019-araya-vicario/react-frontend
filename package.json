@@ -24,9 +24,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.9.2",
-    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
-    "@fortawesome/react-fontawesome": "^0.1.5",
+    "@fortawesome/react-fontawesome": "^0.1.10",
     "axios": "^0.19.2",
     "babel-plugin-jsx-display-if": "^3.0.0",
     "babel-preset-react-app": "3.1.1",
