@@ -67,7 +67,7 @@ export default class ShowPresentation extends React.Component {
       <a
         className="fixMarginLeft"
         onClick={(event) => event.stopPropagation()}
-        href={project.presentation_url}
+        href={url}
         target="_blank"
       >
         {filename}

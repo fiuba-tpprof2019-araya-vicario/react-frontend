@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import Table from '../../utils/Table';
 import FileIcon from '../../utils/forms/FileIcon';
+import { getIconWithOverlay } from '../../utils/forms/StatusIcon';
 
 export default class PublicProjectsTable extends React.Component {
   static propTypes = { data: PropTypes.array };
@@ -9,7 +12,30 @@ export default class PublicProjectsTable extends React.Component {
   getHeaders = () => ['Archivos', '', 'Detalle'];
 
   getPublicProjectDetail = (restOfProject) => {
-    const { name, year, description, students, tutors } = restOfProject;
+    const {
+      name,
+      year,
+      description,
+      students,
+      tutors,
+      transactionId
+    } = restOfProject;
+
+    let transactionIcon = null;
+
+    if (transactionId) {
+      transactionIcon = getIconWithOverlay(
+        'Este trabajo profesional esta confirmado por Ethereum',
+        <a
+          href={`https://etherscan.io/tx/${transactionId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ alignSelf: 'flex-end' }}
+        >
+          <FontAwesomeIcon size="2x" color="#5cb85c" icon={faShieldAlt} />
+        </a>
+      );
+    }
 
     return (
       <Fragment>
@@ -18,14 +44,19 @@ export default class PublicProjectsTable extends React.Component {
         </h5>
         <h4 className="title">{name}</h4>
         <p>{description}</p>
-        <p>
-          <b>Estudiantes: </b>
-          {students}
-        </p>
-        <p>
-          <b>Tutores: </b>
-          {tutors}
-        </p>
+        <div style={{ display: 'flex' }}>
+          <div style={{ flexGrow: 1 }}>
+            <p>
+              <b>Estudiantes: </b>
+              {students}
+            </p>
+            <p>
+              <b>Tutores: </b>
+              {tutors}
+            </p>
+          </div>
+          {transactionIcon}
+        </div>
       </Fragment>
     );
   };
