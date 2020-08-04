@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { Button, Col, Glyphicon, Row } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShieldAlt } from '@fortawesome/free-solid-svg-icons';
+import { getIconWithOverlay } from '../../forms/StatusIcon';
 import history from '../../../redux/history';
 import Alert from '../../Alert';
 import { getRequestFromUser, getSelectOptions } from '../../services/functions';
@@ -73,11 +76,7 @@ export default class ShowIdea extends React.Component {
             </Col>
             <Col md={11}>
               <p className="panelText">
-                <a
-                  href={project.Requirement.file_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={project.Requirement.file_url} target="_blank">
                   {project.Requirement.file_name}
                 </a>
               </p>
@@ -133,45 +132,64 @@ export default class ShowIdea extends React.Component {
     uploadPresentation,
     uploadDocumentation,
     editPresentationData
-  ) => (
-    <Accordion
-      title="Archivos de la presentación final"
-      annexes={[
-        <ShowPresentation
-          name="Presentación"
-          element="presentation"
-          project={project}
-          required
-          isUserCreator={isUserCreator}
-          saveVisibility={editPresentationData}
-          canEdit={isEditablePresentation}
-          upload={uploadPresentation}
-        />,
-        <ShowPresentation
-          name="Documentación"
-          element="documentation"
-          project={project}
-          required
-          isUserCreator={isUserCreator}
-          saveVisibility={editPresentationData}
-          canEdit={isEditablePresentation}
-          upload={uploadDocumentation}
-        />
-      ]}
-    >
-      <Row>
-        <Col md={2}>
-          <h4 className="panelText">Sinopsis del proyecto:</h4>
-        </Col>
-        <Col md={10}>
-          <ShowDescription
+  ) => {
+    let transactionIcon;
+
+    if (project.tx_id) {
+      transactionIcon = getIconWithOverlay(
+        'Este trabajo profesional esta confirmado por Ethereum',
+        <a
+          href={`https://etherscan.io/tx/${project.tx_id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ alignSelf: 'flex-end' }}
+        >
+          <FontAwesomeIcon size="2x" color="#5cb85c" icon={faShieldAlt} />
+        </a>
+      );
+    }
+
+    return (
+      <Accordion
+        title="Archivos de la presentación final"
+        annexes={[
+          <ShowPresentation
+            name="Presentación"
+            element="presentation"
             project={project}
-            saveDescription={editPresentationData}
+            required
+            isUserCreator={isUserCreator}
+            saveVisibility={editPresentationData}
+            canEdit={isEditablePresentation}
+            upload={uploadPresentation}
+          />,
+          <ShowPresentation
+            name="Documentación"
+            element="documentation"
+            project={project}
+            required
+            isUserCreator={isUserCreator}
+            saveVisibility={editPresentationData}
+            canEdit={isEditablePresentation}
+            upload={uploadDocumentation}
           />
-        </Col>
-      </Row>
-    </Accordion>
-  );
+        ]}
+      >
+        <Row>
+          <Col md={2}>
+            <h4 className="panelText">Sinopsis del proyecto:</h4>
+          </Col>
+          <Col md={9}>
+            <ShowDescription
+              project={project}
+              saveDescription={editPresentationData}
+            />
+          </Col>
+          <Col md={1}>{transactionIcon}</Col>
+        </Row>
+      </Accordion>
+    );
+  };
 
   getGeneralInfo = (project, showUsersStatus) => (
     <Accordion title="Información general">
