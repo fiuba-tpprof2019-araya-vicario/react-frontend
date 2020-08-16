@@ -27,7 +27,7 @@ export default class PublicProjectsTable extends React.Component {
       transactionIcon = getIconWithOverlay(
         'Este trabajo profesional esta confirmado por Ethereum',
         <a
-          href={`https://etherscan.io/tx/${transactionId}`}
+          href={`https://ropsten.etherscan.io/tx/${transactionId}`}
           target="_blank"
           rel="noopener noreferrer"
           style={{ alignSelf: 'flex-end' }}
