@@ -139,7 +139,7 @@ export default class ShowIdea extends React.Component {
       transactionIcon = getIconWithOverlay(
         'Este trabajo profesional esta confirmado por Ethereum',
         <a
-          href={`https://etherscan.io/tx/${project.tx_id}`}
+          href={`https://ropsten.etherscan.io/tx/${project.tx_id}`}
           target="_blank"
           rel="noopener noreferrer"
           style={{ alignSelf: 'flex-end' }}
