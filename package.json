@@ -43,7 +43,7 @@
     "postcss-loader": "2.0.8",
     "prettier": "^1.16.4",
     "prop-types": "^15.6.0",
-    "rc-slider": "^9.2.4",
+    "rc-slider": "^9.7.1",
     "react": "16.3.1",
     "react-bootstrap": "^0.32.4",
     "react-center": "^1.1.1",
