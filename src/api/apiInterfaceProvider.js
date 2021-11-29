@@ -63,7 +63,10 @@ const getStoredToken = () => localStorage.getItem('token');
 
 export const getConfig = () => ({
   headers: {
-    Authorization: getStoredToken()
+    Authorization: getStoredToken(),
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': '*',
+    'Access-Control-Allow-Headers': '*'
   }
 });
 
